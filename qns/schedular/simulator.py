@@ -1,31 +1,43 @@
 from .event import Event
 
 default_start_time = 0.0
-default_end_time = 600.0  # UINT64_MAX
-default_time_accuracy = 1000
+default_end_time = 600.0  # seconds
+default_time_accuracy = 1000 # 
 
 class SimulatorError(Exception):
     pass
 
+
 class Simulator():
     def __init__(self, start_time: float=default_start_time, end_time: float=default_end_time, time_accuracy: int=default_time_accuracy, events_list = []):
-        self.start_time = start_time
-        self.end_time = end_time
         self.time_accuracy = time_accuracy
 
+        self.start_time = start_time
         self.start_time_slice = self.to_time_slice(self.start_time)
+
+        self.current_time = self.start_time
         self.current_time_slice = self.start_time_slice
+
+        self.end_time = end_time
         self.end_time_slice = self.to_time_slice(self.end_time)
+
+        self.next_event_time_slice = self.start_time_slice
+
         self.states = {} # Used to store state
         self.events_pool = {}
         self.setup(events_list)
 
     def run(self):
         while self.current_time_slice <= self.end_time_slice:
+            self.current_time = self.to_time(self.current_time_slice)
             events = self.get_events(self.current_time_slice)
             for event in events:
                 event.start(self, self.to_time(self.current_time_slice))
-            self.current_time_slice += 1
+            
+            if self.next_event_time_slice > self.current_time_slice:
+                self.current_time_slice = self.next_event_time_slice
+            else:
+                self.current_time_slice += 1
 
     def setup(self, events_list):
         try:
@@ -47,6 +59,8 @@ class Simulator():
         if self.events_pool.get(time_slice) is None:
             self.events_pool[time_slice] = []
         self.events_pool[time_slice].append(event)
+        if time_slice > self.current_time_slice and time_slice < self.next_event_time_slice:
+            self.next_event_time_slice = time_slice
 
     def remote_event(self, event: Event, time_slice: int = None):
         if time_slice is not None:

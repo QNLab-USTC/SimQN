@@ -1,9 +1,12 @@
 from .event import Event
 from .simulator import Simulator
 
+# The super object of every entities in qns including nodes, channels and others.
+# Must implement `handle` function
 class Entity():
     def __init__(self):
-        pass
+        self.inbox = []
+        self.outbox = []
 
     def install(_self, simulator: Simulator):
         class EntityHandleEvent(Event):

@@ -1,3 +1,4 @@
+# This is the Event object that is dispatched by the simulator
 class Event():
     def __init__(self, init_time: float = None):
         self.done: bool = False

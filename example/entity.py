@@ -7,5 +7,4 @@ class TestClockEntity(Entity):
 s = Simulator(0, 1, 1000)
 clock = TestClockEntity()
 clock.install(s)
-print(s.events_pool)
 s.run()
