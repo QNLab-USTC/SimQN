@@ -18,5 +18,5 @@ events_list = [
     (30.0, TestEvent())
 ]
 
-s = Simulator(0, 100.0, 10, events_list= events_list)
+s = Simulator(0, 100.0, 1000000, events_list= events_list)
 s.run()

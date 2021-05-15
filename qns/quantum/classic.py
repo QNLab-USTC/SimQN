@@ -1,15 +1,7 @@
+from qns.schedular.entity import Entity
 import random
-from qns.schedular import Entity, Simulator, Event
+from qns.schedular import Simulator, Event, simulator
 from .basic import Node, Channel
-
-class ClassicSendEvent(Event):
-    def __init__(self, init_time, node, msg):
-        self.init_time = init_time
-        self.node = node
-        self.msg = msg
-    
-    def run(self, simulator:Simulator):
-        self.node.inbox.append(self.msg)
 
 class ClassicP2PChannel(Channel):
     def __init__(self, node1, node2, delay: float = 0, drop_rate = 0):
@@ -18,28 +10,40 @@ class ClassicP2PChannel(Channel):
         self.node1 = node1
         self.node2 = node2
 
-        self.inbox1 = []
-        self.inbox2 = []
-        
     def install(self, simulator: Simulator):
-        super().install(simulator)
-        self.node1.link = self.inbox1
-        self.node2.link = self.inbox2
         self.delay_time_slice = simulator.to_time_slice(self.delay)
+        self.node1.links.append(self)
+        self.node2.links.append(self)
 
-    def handle(self, simulator: Simulator):
-        for msg in self.inbox1:
+    def handle(self, simulator: Simulator, msg: object, source = None , event: Event = None):
+
+        class RecvEvent(Event):
+            def __init__(self, from_node, to_node,link, msg):
+                self.link = link
+                self.from_node = from_node
+                self.to_node = to_node
+                self.msg = msg
+
+            def run(self, simulator):
+                self.to_node.handle(simulator,self.msg, self.link, self)
+
+        if source == self.node1:
+            # handle drop 
             if random.random() < self.drop_rate:
-                pass
-            se = ClassicSendEvent(simulator.to_time(simulator.current_time_slice), self.node2, msg)
-            simulator.add_event(simulator.current_time_slice + self.delay_time_slice, se)
-            self.inbox1.clear()
-        for msg in self.inbox2:
+                print("link drop")
+                return
+            # handle delay
+            re = RecvEvent(self.node1, self.node2, self, msg)
+            simulator.add_event(simulator.current_time_slice + self.delay_time_slice, re)
+
+        if source == self.node2:
+            # handle drop 
             if random.random() < self.drop_rate:
-                pass
-            se = ClassicSendEvent(simulator.to_time(simulator.current_time_slice), self.node1, msg)
-            simulator.add_event(simulator.current_time_slice + self.delay_time_slice, se)
-            self.inbox2.clear()
+                print("link drop")
+                return
+            # handle delay
+            re = RecvEvent(self.node2, self.node1, self, msg)
+            simulator.add_event(simulator.current_time_slice + self.delay_time_slice, re)
 
 
 class ClassicSender(Node):
@@ -49,42 +53,36 @@ class ClassicSender(Node):
         self.end_time = end_time
         self.step_time = step_time
         self.message = message
-        self.link = None
+        self.links = []
 
         self.start_time_slice = None
 
-    def handle(self, simulator: Simulator):
-        super().handle(simulator)
-        if self.link is None:
-            raise Exception("no class link attached")
+    def install(self, simulator: Simulator):
+        self.start_time_slice = simulator.to_time_slice(self.start_time)
+        self.end_time_slice = simulator.to_time_slice(self.end_time)
+        self.step_time_slice = simulator.to_time_slice(self.step_time)
 
-        if self.start_time_slice is None:
-            self.start_time_slice = simulator.to_time_slice(self.start_time)
-            if self.end_time is not None:
-                self.end_time_slice = simulator.to_time_slice(self.end_time)
-            if self.step_time is not None:
-                self.step_time_slice = simulator.to_time_slice(self.step_time)
+        class SendEvent(Event):
+            def __init__(self, node ,link: Entity, msg):
+                self.link = link
+                self.node = node
+                self.msg = msg
 
-        if self.end_time is None or self.step_time is None:
-            if simulator.current_time_slice == self.start_time_slice:
-                print("Sender: time", simulator.current_time, "send", self.message)
-                self.link.append(self.message)
-        else:
-            if simulator.current_time_slice >= self.start_time_slice and \
-                simulator.current_time_slice <= self.end_time_slice and \
-                (simulator.current_time_slice - self.start_time_slice) % self.step_time_slice == 0:
-                print("Sender: time", simulator.current_time, "send", self.message)
-                self.link.append(self.message)
+            def run(self, simulator: Simulator):
+                print("Send: [", simulator.current_time, "]", self.msg)
+                self.link.handle(simulator,self.msg, self.node, self)
+
+        for i in range(self.start_time_slice, self.end_time_slice, self.step_time_slice):
+            for link in self.links:
+                se = SendEvent(self, link, self.message+str(i))
+                simulator.add_event(i, se)
 
 class ClassicReceiver(Node):
     def __init__(self):
-        super().__init__()
-        self.link = None
+        self.links = []
     
-    def handle(self, simulator: Simulator):
-        for msg in self.inbox:
-            print("receiver: time ", simulator.current_time, "recv", msg)
-        self.inbox.clear()
+    def handle(self, simulator: Simulator, msg: object, source = None , event: Event = None):
+        print("Recv: [", simulator.current_time, "]", msg)
 
 class ClassicRepeaterEvent(Event):
     def __init__(self, init_time, outbox, msg):
@@ -99,17 +97,29 @@ class ClassicRepeaterEvent(Event):
 class ClassicRepeater(Node):
     def __init__(self, delay: float = 0):
         super().__init__()
-        self.link = None
+        self.links = []
         self.buffer = []
         self.delay = delay
         self.delay_time_slice = -1
-    
-    def handle(self, simulator: Simulator):
-        if self.delay_time_slice == -1:
-            self.delay_time_slice = simulator.to_time_slice(self.delay)
 
-        for msg in self.inbox:
-            print("repeater: time ", simulator.current_time, "recv", msg)
-            cre = ClassicRepeaterEvent(simulator.current_time, self.link, msg)
-            simulator.add_event(simulator.current_time_slice + self.delay_time_slice, cre)
-        self.inbox.clear()
+    def install(self, simulator: Simulator):
+        self.delay_time_slice = simulator.to_time_slice(self.delay)
+    
+    def handle(self, simulator: Simulator, msg: object, source = None , event: Event = None):
+        print("RepR: [", simulator.current_time, "]", msg)
+
+        class SendEvent(Event):
+            def __init__(self, node ,link: Entity, msg):
+                self.link = link
+                self.node = node
+                self.msg = msg
+
+            def run(self, simulator: Simulator):
+                print("RepS: [", simulator.current_time, "]", self.msg)
+                self.link.handle(simulator,self.msg, self.node, self)
+        
+        for link in self.links:
+            if link == source:
+                continue
+            se = SendEvent(self, link, msg)
+            simulator.add_event(simulator.current_time_slice + self.delay_time_slice, se)

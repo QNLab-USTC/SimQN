@@ -1,9 +1,15 @@
-from qns.schedular import Entity, Simulator
+from qns.schedular import Entity, Simulator, Event
 
 class Node(Entity):
-    def handle(self, simulator: Simulator):
+    def install(self, simulator: Simulator):
+        pass
+
+    def handle(self, simulator: Simulator, msg: object, source = None , event: Event = None):
         pass
 
 class Channel(Entity):
-    def handle(self, simulator: Simulator):
+    def install(self, simulator: Simulator):
+        pass
+
+    def handle(self, simulator: Simulator, msg: object, source = None , event: Event = None):
         pass
