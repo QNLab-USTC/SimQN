@@ -1,2 +1,4 @@
-from .basic import Node, Channel
-from .classic import ClassicP2PChannel, ClassicReceiver, ClassicSender, ClassicRepeater
+from .network import QuantumNetwork
+from .node import QuantumNode
+from .link import QuantumChannel
+from .entanglement import Entanglement
