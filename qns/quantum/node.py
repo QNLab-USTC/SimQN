@@ -14,6 +14,7 @@ class QuantumNode(Node):
 
         self.registers_number = registers_number
         self.registers: list(Entanglement) = []
+        self.route = None
 
         if swapping_func is None:
             self.swapping_func = self.default_swapping_func
@@ -31,15 +32,31 @@ class QuantumNode(Node):
     def handle(self, simulator: Simulator, msg: object, source=None, event: Event = None):
         if isinstance(event, GenerationEntanglementAfterEvent):
             e = msg
+            print("add generation entanglement", e)
             self.add_entanglement(e)
 
         # handle swapping
-        if isinstance(event, NodeSwappingEvent):
-            (e1, e2) = msg
-            self.swapping(simulator, e1, e2)
         if isinstance(event, NodeSwappingAfterEvent):
             e = msg
+            print("add swapping entanglement", e)
             self.add_entanglement(e)
+        
+        if self.route is None or len(self.route) < 2:
+            return
+        nodes1, nodes2 = self.route[0], self.route[1]
+        e_set1, e_set2 = [],[]
+        for e in self.registers:
+            for n in e.nodes:
+                if n == self:
+                    continue
+                if n in nodes1:
+                    e_set1.append(e)
+                if n in nodes2:
+                    e_set2.append(e)
+
+        map = zip(e_set1, e_set2)
+        for e1, e2 in map:
+            self.swapping(simulator, e1, e2)
 
     def is_full(self):
         if self.registers_number != -1 and len(self.registers) >= self.registers_number:
@@ -52,7 +69,7 @@ class QuantumNode(Node):
             raise QuantumNodeError("out of quantum memory")
         self.registers.append(e)
 
-    def remote_entanglement(self, e: Entanglement):
+    def remove_entanglement(self, e: Entanglement):
         self.registers.remove(e)
 
     def swapping(self, simulator: Simulator, e1: Entanglement, e2: Entanglement):
@@ -76,10 +93,15 @@ class QuantumNode(Node):
                 node2 = n
                 break
         if node1 is not None and node2 is not None:
-            node1.remove_entanglement(e1)
-            node2.remove_entanglement(e2)
-            self.remove_entanglement(e1)
-            self.remove_entanglement(e2)
+            try:
+                if e1 not in node1.registers and e2 not in node2.registers:
+                    return
+                node1.remove_entanglement(e1)
+                node2.remove_entanglement(e2)
+                self.remove_entanglement(e1)
+                self.remove_entanglement(e2)
+            except ValueError:
+                return
 
             if random.random() > swap_possible:
                 return
@@ -96,5 +118,4 @@ class QuantumController(Node):
         self.nodes = nodes
 
     def install(self, simulator: Simulator):
-        self.simulator = simulator
-        
+        self.simulator = simulator                                    

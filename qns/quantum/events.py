@@ -39,7 +39,7 @@ class NodeSwappingEvent(Event):
 class NodeSwappingAfterEvent(Event):
     def __init__(self, e: Entanglement, swap_node,target_nodes, init_time: float = None):
         super().__init__(init_time)
-        self.target_node = target_nodes
+        self.target_nodes = target_nodes
         self.swap_node = swap_node
         self.e = e
 
@@ -48,6 +48,6 @@ class NodeSwappingAfterEvent(Event):
             if n.is_full():
                 print("generation failed due to memory limit")
                 return
-        for n in self.target_node:
+        for n in self.target_nodes:
             n.handle(simulator, self.e, source=self.swap_node, event=self)
-        print(simulator.current_time,"generation successful")
+        print(simulator.current_time,"swapping successful")
