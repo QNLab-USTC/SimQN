@@ -3,7 +3,7 @@ from qns.quantum.link import QuantumChannel
 from qns.quantum import QuantumNode
 from qns.quantum import QuantumNetwork
 
-s = Simulator(0,10,100000)
+s = Simulator(0,10,10000)
 
 n1 = QuantumNode()
 n2 = QuantumNode(10)
@@ -14,10 +14,10 @@ n1.install(s)
 n2.install(s)
 n3.install(s)
 
-c1 = QuantumChannel(nodes = [n1, n2], rate = 2, possible= 0.8, delay = 0.03)
+c1 = QuantumChannel(nodes = [n1, n2], rate = 5, possible= 0.8, delay = 0.65)
 c1.install(s)
 
-c2 = QuantumChannel(nodes = [n2, n3], rate = 2, possible= 0.8, delay = 0.03)
+c2 = QuantumChannel(nodes = [n2, n3], rate = 5, possible= 0.8, delay = 0.64)
 c2.install(s)
 
 s.run()

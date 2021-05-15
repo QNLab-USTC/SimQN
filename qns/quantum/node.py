@@ -54,6 +54,7 @@ class QuantumNode(Node):
                 if n in nodes2:
                     e_set2.append(e)
 
+
         map = zip(e_set1, e_set2)
         for e1, e2 in map:
             self.swapping(simulator, e1, e2)
@@ -79,8 +80,8 @@ class QuantumNode(Node):
         self.distillation_func(simulator, e1, e2)
 
     def default_swapping_func(self, simulator: Simulator, e1: Entanglement, e2: Entanglement):
-        swap_possible = 0.5
-        swap_delay = 0.02
+        swap_possible = 0.7
+        swap_delay = 0.3
         swap_delay_time_slice = simulator.to_time_slice(swap_delay)
         node1 = None
         node2 = None
