@@ -1,3 +1,4 @@
+from typing import Protocol
 from .event import Event
 from .simulator import Simulator
 
@@ -7,19 +8,17 @@ from .simulator import Simulator
 
 class Entity():
     def __init__(self):
-        pass
+        self.protocols = []
 
     def install(self, simulator: Simulator):
-        # class EntityHandleEvent(Event):
-        #     def run(self, simulator):
-        #         _self.handle(simulator)
-
-        # handleEvent = EntityHandleEvent()
-        # i = simulator.start_time_slice
-        # while i <= simulator.end_time_slice:
-        #     simulator.add_event(i, handleEvent)
-        #     i += 1
-        raise NotImplemented
+        for p in self.protocols:
+            p.install(simulator)
 
     def handle(self, simulator: Simulator, msg: object, source=None, event: Event = None):
-        raise NotImplemented
+        for p in self.protocols:
+            p.handle(simulator, msg, source, event)
+
+    def inject_protocol(self, protocal):
+        if not hasattr(self, "protocols"):
+            self.protocols = []
+        self.protocols.append(Protocol)
