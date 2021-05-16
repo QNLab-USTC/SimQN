@@ -6,11 +6,8 @@ class Log():
     def __init__(self, filename = None, debug = False):
         self.simulator = None
         self.filename = filename
-        self.is_debug = debug
-        if filename is None:
-            self.file = sys.stdout
-        else:
-            self.file = open(filename,'w')
+        self.set_debug(debug)
+        self.set_file(filename)
 
     def __del__(self):
         self.file.close()
@@ -20,9 +17,9 @@ class Log():
 
     def current_time(self):
         if self.simulator.status == "run":
-            return "[ {:12.8f} ]\t".format(self.simulator.current_time)
+            return "[ {:10.8f} ]\t".format(self.simulator.current_time)
         else:
-            return self.simulator.status
+            return "[ {:12}]\t".format(self.simulator.status)
 
     def exp_time(self):
         if self.simulator.status == "run":
@@ -32,6 +29,12 @@ class Log():
 
     def set_debug(self, debug: bool):
         self.is_debug = debug
+
+    def set_file(self, filename= None):
+        if filename is None:
+            self.file = sys.stdout
+        else:
+            self.file = open(filename,'w')
 
     def info(self,fmt: str, *args):
         self.file.write(self.current_time())

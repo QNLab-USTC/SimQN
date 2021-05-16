@@ -1,15 +1,17 @@
+from qns.schedular.entity import Entity
 from typing import SupportsRound
 from qns.schedular import Event, Simulator
 from .entanglement import Entanglement
+from qns.log import log
 
 
 class GenerationEvent(Event):
-    def __init__(self, link, init_time: float = None):
+    def __init__(self, protocol, init_time: float = None):
         super().__init__(init_time)
-        self.link = link
+        self.protocol = protocol
 
     def run(self, simulator: Simulator):
-        self.link.generation(simulator)
+        self.protocol.generation(simulator)
 
 
 class GenerationEntanglementAfterEvent(Event):
@@ -22,39 +24,44 @@ class GenerationEntanglementAfterEvent(Event):
     def run(self, simulator: Simulator):
         for n in self.nodes:
             if n.is_full():
-                # print("generation failed due to memory limit")
+                log.debug("generate {} failed due to memory limit", self.e)
                 return
         for n in self.nodes:
             # e as message
-            n.handle(simulator, self.e, source=self.link, event=self)
+            n.add_entanglement(self.e)
+            n.call(simulator, self.e, self.link, self)
+        log.debug("generate {} successful", self.e)
         # print(simulator.current_time,"generation successful")
 
 
 class NodeSwappingEvent(Event):
-    def __init__(self, e1: Entanglement, e2: Entanglement, node, source=None, init_time: float = None):
+    def __init__(self,protocol,  e1: Entanglement, e2: Entanglement, source=None, init_time: float = None):
         super().__init__(init_time)
-        self.node = node
+        self.protocol = protocol
         self.e1 = e1
         self.e2 = e2
         self.source = source
 
     def run(self, simulator: Simulator):
-        self.node.handle(simulator, (self.e1, self.e2),
-                         self.source, event=self)
+        # self.node.call(simulator, (self.e1, self.e2),
+                        #  self.source, event=self)
+        self.protocol.swapping(simulator, self.e1, self.e2)
 
 
 class NodeSwappingAfterEvent(Event):
-    def __init__(self, e: Entanglement, swap_node, target_nodes, init_time: float = None):
+    def __init__(self, node, init_time: float = None):
         super().__init__(init_time)
-        self.target_nodes = target_nodes
-        self.swap_node = swap_node
-        self.e = e
+        self.node = node
 
     def run(self, simulator: Simulator):
-        for n in self.target_nodes:
-            if n.is_full():
-                # print("generation failed due to memory limit")
-                return
-        for n in self.target_nodes:
-            n.handle(simulator, self.e, source=self.swap_node, event=self)
-        # print(simulator.current_time,"swapping successful")
+        pass
+    
+class NodeDistillationAfterEvent(Event):
+    def __init__(self, protocol, e1: Entanglement, e2: Entanglement, init_time: float = None):
+        super().__init__(init_time)
+        self.protocol = protocol
+        self.e1 = e1
+        self.e2 = e2
+    
+    def run(self, simulator: Simulator):
+        self.protocol.distillation(simulator, self.e1, self.e2)

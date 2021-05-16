@@ -26,7 +26,7 @@ class ClassicP2PChannel(Channel):
                 self.msg = msg
 
             def run(self, simulator):
-                self.to_node.handle(simulator, self.msg, self.link, self)
+                self.to_node.call(simulator, self.msg, self.link, self)
 
         if source == self.node1:
             # handle drop
@@ -73,7 +73,7 @@ class ClassicSender(Node):
 
             def run(self, simulator: Simulator):
                 print("Send: [", simulator.current_time, "]", self.msg)
-                self.link.handle(simulator, self.msg, self.node, self)
+                self.link.call(simulator, self.msg, self.node, self)
 
         for i in range(self.start_time_slice, self.end_time_slice, self.step_time_slice):
             for link in self.links:
@@ -83,6 +83,7 @@ class ClassicSender(Node):
 
 class ClassicReceiver(Node):
     def __init__(self):
+        super().__init__()
         self.links = []
 
     def handle(self, simulator: Simulator, msg: object, source=None, event: Event = None):
@@ -122,7 +123,7 @@ class ClassicRepeater(Node):
 
             def run(self, simulator: Simulator):
                 print("RepS: [", simulator.current_time, "]", self.msg)
-                self.link.handle(simulator, self.msg, self.node, self)
+                self.link.call(simulator, self.msg, self.node, self)
 
         for link in self.links:
             if link == source:

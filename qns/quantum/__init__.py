@@ -1,4 +1,4 @@
 from .network import QuantumNetwork
-from .node import QuantumNode, QuantumNodeGenerationProtocol, QuantumNodeSwappingProtocol
+from .node import QuantumNode, QuantumNodeGenerationProtocol, QuantumNodeSwappingProtocol, QuantumNodeDistillationProtocol
 from .link import QuantumChannel, GenerationProtocal
 from .entanglement import Entanglement
