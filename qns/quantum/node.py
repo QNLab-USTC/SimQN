@@ -1,3 +1,4 @@
+from qns.schedular import Protocol
 from qns.schedular.simulator import Simulator, Event
 from qns.topo import Node
 from .entanglement import Entanglement
@@ -7,38 +8,25 @@ import random
 class QuantumNodeError(Exception):
     pass
 
+class QuantumNodeGenerationProtocol(Protocol):
+    def install(_self, simulator: Simulator):
+        pass
 
-class QuantumNode(Node):
-    def __init__(self, registers_number: int = -1, swapping_func=None, distillation_func=None):
-        self.links = []
-
-        self.registers_number = registers_number
-        self.registers: list(Entanglement) = []
-        self.route = None
-
-        if swapping_func is None:
-            self.swapping_func = self.default_swapping_func
-        else:
-            self.swapping_func = swapping_func
-
-        if distillation_func is None:
-            self.distillation_func = self.default_distillation_func
-        else:
-            self.distillation_func = distillation_func
-
-    def install(self, simulator: Simulator):
-        self.simulator = simulator
-
-    def handle(self, simulator: Simulator, msg: object, source=None, event: Event = None):
+    def handle(_self, simulator: Simulator, msg: object, source=None, event: Event = None):
+        self = _self.entity
         if isinstance(event, GenerationEntanglementAfterEvent):
             e = msg
-            print("add generation entanglement", e)
             self.add_entanglement(e)
 
+class QuantumNodeSwappingProtocol(Protocol):
+    def install(_self, simulator: Simulator):
+        pass
+
+    def handle(_self, simulator: Simulator, msg: object, source=None, event: Event = None):
+        self = _self.entity
         # handle swapping
         if isinstance(event, NodeSwappingAfterEvent):
             e = msg
-            print("add swapping entanglement", e)
             self.add_entanglement(e)
         
         if self.route is None or len(self.route) < 2:
@@ -58,6 +46,57 @@ class QuantumNode(Node):
         map = zip(e_set1, e_set2)
         for e1, e2 in map:
             self.swapping(simulator, e1, e2)
+
+class QuantumNode(Node):
+    def __init__(self, registers_number: int = -1, swapping_func=None, distillation_func=None):
+        self.links = []
+
+        self.registers_number = registers_number
+        self.registers: list(Entanglement) = []
+        self.route = None
+
+        if swapping_func is None:
+            self.swapping_func = self.default_swapping_func
+        else:
+            self.swapping_func = swapping_func
+
+        if distillation_func is None:
+            self.distillation_func = self.default_distillation_func
+        else:
+            self.distillation_func = distillation_func
+
+    # def install(self, simulator: Simulator):
+    #     self.simulator = simulator
+
+    # def handle(self, simulator: Simulator, msg: object, source=None, event: Event = None):
+    #     if isinstance(event, GenerationEntanglementAfterEvent):
+    #         e = msg
+    #         print("add generation entanglement", e)
+    #         self.add_entanglement(e)
+
+    #     # handle swapping
+    #     if isinstance(event, NodeSwappingAfterEvent):
+    #         e = msg
+    #         print("add swapping entanglement", e)
+    #         self.add_entanglement(e)
+        
+    #     if self.route is None or len(self.route) < 2:
+    #         return
+    #     nodes1, nodes2 = self.route[0], self.route[1]
+    #     e_set1, e_set2 = [],[]
+    #     for e in self.registers:
+    #         for n in e.nodes:
+    #             if n == self:
+    #                 continue
+    #             if n in nodes1:
+    #                 e_set1.append(e)
+    #             if n in nodes2:
+    #                 e_set2.append(e)
+
+
+    #     map = zip(e_set1, e_set2)
+    #     for e1, e2 in map:
+    #         self.swapping(simulator, e1, e2)
 
     def is_full(self):
         if self.registers_number != -1 and len(self.registers) >= self.registers_number:

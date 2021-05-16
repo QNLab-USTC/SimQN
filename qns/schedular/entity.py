@@ -1,4 +1,4 @@
-from typing import Protocol
+from .protocol import Protocol
 from .event import Event
 from .simulator import Simulator
 
@@ -11,6 +11,7 @@ class Entity():
         self.protocols = []
 
     def install(self, simulator: Simulator):
+        self.simulator = simulator
         for p in self.protocols:
             p.install(simulator)
 
@@ -18,7 +19,11 @@ class Entity():
         for p in self.protocols:
             p.handle(simulator, msg, source, event)
 
-    def inject_protocol(self, protocal):
+    def inject_protocol(self, protocol):
         if not hasattr(self, "protocols"):
             self.protocols = []
-        self.protocols.append(Protocol)
+        if isinstance(protocol, list):
+            for p in protocol:
+                self.protocols.append(p)
+        else:
+            self.protocols.append(protocol)

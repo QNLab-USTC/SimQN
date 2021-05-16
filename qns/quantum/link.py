@@ -1,8 +1,26 @@
 import random
 from qns.quantum.entanglement import Entanglement
 from qns.topo import Channel
-from qns.schedular import Simulator, Event
+from qns.schedular import Simulator, Event, Protocol
 from .events import GenerationEntanglementAfterEvent, GenerationEvent
+
+class GenerationProtocal(Protocol):
+    def install(_self, simulator: Simulator):
+        self = _self.entity
+        self.delay_time_slice = simulator.to_time_slice(self.delay)
+
+        for n in self.nodes:
+            n.links.append(self)
+
+        ge = GenerationEvent(self, simulator.current_time)
+        start_time_slice = simulator.start_time_slice
+        end_time_slice = simulator.end_time_slice
+        step_time_slice = int(simulator.time_accuracy / self.rate)
+        for t in range(start_time_slice, end_time_slice, step_time_slice):
+            simulator.add_event(t, ge)
+
+    def handle(_self, simulator: Simulator, msg: object, source=None, event: Event = None):
+        pass
 
 # An EPR generator
 
@@ -17,22 +35,22 @@ class QuantumChannel(Channel):
         else:
             self.generation_func = generation_func
 
-    def install(self, simulator: Simulator):
-        self.simulator = simulator
-        self.delay_time_slice = simulator.to_time_slice(self.delay)
+    # def install(self, simulator: Simulator):
+    #     self.simulator = simulator
+    #     self.delay_time_slice = simulator.to_time_slice(self.delay)
 
-        for n in self.nodes:
-            n.links.append(self)
+    #     for n in self.nodes:
+    #         n.links.append(self)
 
-        ge = GenerationEvent(self, simulator.current_time)
-        start_time_slice = simulator.start_time_slice
-        end_time_slice = simulator.end_time_slice
-        step_time_slice = int(simulator.time_accuracy / self.rate)
-        for t in range(start_time_slice, end_time_slice, step_time_slice):
-            simulator.add_event(t, ge)
+    #     ge = GenerationEvent(self, simulator.current_time)
+    #     start_time_slice = simulator.start_time_slice
+    #     end_time_slice = simulator.end_time_slice
+    #     step_time_slice = int(simulator.time_accuracy / self.rate)
+    #     for t in range(start_time_slice, end_time_slice, step_time_slice):
+    #         simulator.add_event(t, ge)
 
-    def handle(self, simulator: Simulator, msg: object, source=None, event: Event = None):
-        pass
+    # def handle(self, simulator: Simulator, msg: object, source=None, event: Event = None):
+    #     pass
 
     def default_generation_func(self, simulator: Simulator):
         '''generation one EPR'''

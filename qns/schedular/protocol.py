@@ -1,13 +1,11 @@
 from .simulator import Simulator
-from .event import Event
-from .entity import Entity
 
 class Protocol():
-    def __init__(self, entity: Entity):
-        self.entity = entity
+    def __init__(_self, entity):
+        _self.entity = entity
 
-    def install(self, simulator: Simulator):
+    def install(_self, simulator: Simulator):
         pass
 
-    def handle(self, simulator: Simulator, msg: object, source=None, event: Event = None):
+    def handle(_self, simulator: Simulator, msg: object, source=None, event = None):
         pass
