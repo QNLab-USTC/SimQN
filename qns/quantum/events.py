@@ -55,8 +55,8 @@ class NodeSwappingAfterEvent(Event):
 
     def run(self, simulator: Simulator):
         pass
-    
-class NodeDistillationAfterEvent(Event):
+
+class NodeDistillationEvent(Event):
     def __init__(self, protocol, e1: Entanglement, e2: Entanglement, init_time: float = None):
         super().__init__(init_time)
         self.protocol = protocol
@@ -65,3 +65,11 @@ class NodeDistillationAfterEvent(Event):
     
     def run(self, simulator: Simulator):
         self.protocol.distillation(simulator, self.e1, self.e2)
+
+class NodeDistillationAfterEvent(Event):
+    def __init__(self, node, init_time: float = None):
+        super().__init__(init_time)
+        self.node = node
+
+    def run(self, simulator: Simulator):
+        pass

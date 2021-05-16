@@ -2,7 +2,7 @@ from qns.schedular import Protocol
 from qns.schedular.simulator import Simulator, Event
 from qns.topo import Node
 from .entanglement import Entanglement
-from .events import NodeDistillationAfterEvent, NodeSwappingAfterEvent,  NodeSwappingEvent
+from .events import NodeDistillationAfterEvent, NodeDistillationEvent, NodeSwappingAfterEvent,  NodeSwappingEvent
 from qns.log import log
 import random
 
@@ -59,7 +59,7 @@ class QuantumNodeGenerationProtocol(Protocol):
 
 
 class QuantumNodeSwappingProtocol(Protocol):
-    def __init__(_self, entity, possible = 1, delay = 0, fidelity_func = None):
+    def __init__(_self, entity, possible=1, delay=0, fidelity_func=None):
         _self.entity = entity
         _self.entity.router = []
         _self.possible = possible
@@ -88,9 +88,10 @@ class QuantumNodeSwappingProtocol(Protocol):
 
         map = zip(e_set1, e_set2)
         for e1, e2 in map:
-            log.debug("swap start using {} and {}",e1, e2 )
+            log.debug("swap start using {} and {}", e1, e2)
             swapevent = NodeSwappingEvent(_self, e1, e2)
-            simulator.add_event(simulator.current_time_slice + _self.delay_time_slice, swapevent)
+            simulator.add_event(simulator.current_time_slice +
+                                _self.delay_time_slice, swapevent)
 
     def swapping(_self, simulator: Simulator, e1: Entanglement, e2: Entanglement):
         self = _self.entity
@@ -104,7 +105,7 @@ class QuantumNodeSwappingProtocol(Protocol):
             if n is not self:
                 node1 = n
                 break
-        for n in e2.nodes :
+        for n in e2.nodes:
             if e2 in n.registers:
                 n.remove_entanglement(e2)
             if n is not self:
@@ -112,7 +113,7 @@ class QuantumNodeSwappingProtocol(Protocol):
                 break
 
         if node1 is None or node2 is None:
-            log.debug("break swapping between {} and {}", e1, e2 )
+            log.debug("break swapping between {} and {}", e1, e2)
 
         if random.random() > _self.possible:
             log.debug("swapping between {} and {} failed", e1, e2)
@@ -121,7 +122,7 @@ class QuantumNodeSwappingProtocol(Protocol):
         f = _self.fidelity(e1, e2)
         nodes = [node1, node2]
         ne = Entanglement(nodes, simulator.current_time_slice, f)
-        
+
         for n in nodes:
             if n.is_full():
                 log.debug("swapping break between {} and {}", e1, e2)
@@ -130,16 +131,18 @@ class QuantumNodeSwappingProtocol(Protocol):
             n.add_entanglement(ne)
             nsae = NodeSwappingAfterEvent(simulator.current_time)
             n.call(simulator, ne, self, nsae)
-        
+
         log.debug("swap success to generate {} using {} and {} ", ne, e1, e2)
 
-    def fidelity(_self,e1, e2):
+    def fidelity(_self, e1, e2):
         if _self.fidelity_func is not None:
             return _self.fidelity_func(e1, e2)
-        return 1/4 + 3/4 * (4 * e1.fidelity - 2) / 3 * (4 * e2.fidelity - 2) / 3
+        return e1.fidelity * e2.fidelity
+        # return 1/4 + 3/4 * (4 * e1.fidelity - 2) / 3 * (4 * e2.fidelity - 2) / 3
+
 
 class QuantumNodeDistillationProtocol(Protocol):
-    def __init__(_self, entity: QuantumNode, threshold:float = 0, delay: float = 0):
+    def __init__(_self, entity: QuantumNode, threshold: float = 0, delay: float = 0):
         super().__init__(entity)
         _self.threshold = threshold
         _self.delay = delay
@@ -147,9 +150,9 @@ class QuantumNodeDistillationProtocol(Protocol):
     def install(_self, simulator: Simulator):
         _self.delay_time_slice = simulator.to_time_slice(_self.delay)
         _self.entity.allow_distillation = []
-    
+
     def handle(_self, simulator: Simulator, msg: object, source=None, event: Event = None):
-        self = _self.entity # self is a QuantumNode
+        self = _self.entity  # self is a QuantumNode
         need_distillation = {}
 
         for e in self.registers:
@@ -164,14 +167,16 @@ class QuantumNodeDistillationProtocol(Protocol):
         map = []
         for es in need_distillation.values():
             ll = len(es) // 2
-            map += [ (es[2*i], es[2*i + 1]) for i in range(ll)]
+            map += [(es[2*i], es[2*i + 1]) for i in range(ll)]
 
         for (e1, e2) in map:
-            log.debug("distillation start on {} using {} and {}", self,e1, e2)
-            ede = NodeDistillationAfterEvent(_self, e1, e2)
-            simulator.add_event(simulator.current_time_slice + _self.delay_time_slice,ede)
+            log.debug("distillation start on {} using {} and {}", self, e1, e2)
+            ede = NodeDistillationEvent(_self, e1, e2)
+            simulator.add_event(
+                simulator.current_time_slice + _self.delay_time_slice, ede)
 
     def distillation(self, simulator: Simulator, e1, e2):
+
         for n in e1.nodes:
             if n not in e2.nodes:
                 log.warn("{} and {} can not used for distillation", e1, e2)
@@ -190,14 +195,16 @@ class QuantumNodeDistillationProtocol(Protocol):
 
         if random.random() > poss:
             log.warn("{} and {} distillation failure: {}", e1, e2, poss)
-            return        
+            return
 
-        ne = Entanglement(e1.nodes, simulator.current_time, fidelity= f)
-        for n in e1.nodes:
-            if n.is_full:
-                log.warn("{} and {} distillation failure due to {} is full", e1, e2, n)
+        ne = Entanglement(e1.nodes, simulator.current_time, fidelity=f)
+        for n in ne.nodes:
+            if n.is_full():
+                log.warn(
+                    "{} and {} distillation failure due to {} is full", e1, e2, n)
                 return
-        for n in e1.nodes:
+        for n in ne.nodes:
             n.add_entanglement(ne)
-            log.debug("add {} to {}", ne, n)
+            ndae = NodeDistillationAfterEvent(simulator.current_time)
+            n.call(simulator, ne, self, ndae)
         log.debug("{} distillation successfully", ne)
