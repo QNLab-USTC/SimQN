@@ -48,12 +48,16 @@ class QuantumNodeSwappingProtocol(Protocol):
             self.swapping(simulator, e1, e2)
 
 class QuantumNode(Node):
-    def __init__(self, registers_number: int = -1, swapping_func=None, distillation_func=None):
+    def __init__(self, registers_number: int = -1, swapping_func=None, distillation_func=None, name = None):
         self.links = []
 
         self.registers_number = registers_number
         self.registers: list(Entanglement) = []
         self.route = None
+        if name is None:
+            self.name = str(id(self))
+        else:
+            self.name = name
 
         if swapping_func is None:
             self.swapping_func = self.default_swapping_func
@@ -107,7 +111,7 @@ class QuantumNode(Node):
     def add_entanglement(self, e: Entanglement):
         if self.is_full():
             raise QuantumNodeError("out of quantum memory")
-        self.registers.append(e)
+        self.registers.insert(0,e)
 
     def remove_entanglement(self, e: Entanglement):
         self.registers.remove(e)
@@ -152,6 +156,9 @@ class QuantumNode(Node):
 
     def default_distillation_func(self, simulator: Simulator, e1: Entanglement, e2: Entanglement):
         pass
+
+    def __repr__(self):
+        return "<quantum node " + self.name+">"
 
 class QuantumController(Node):
     def __init__(self, nodes):

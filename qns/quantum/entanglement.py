@@ -20,3 +20,9 @@ class Entanglement():
     # immoral
     def default_life_func(self):
         return True
+
+    def __str__(self):
+        return "<entanglement between" + self.nodes+">"
+
+    def __repr__(self):
+        return "<entanglement between" + str(self.nodes)+">"

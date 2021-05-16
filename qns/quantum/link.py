@@ -25,7 +25,7 @@ class GenerationProtocal(Protocol):
 # An EPR generator
 
 class QuantumChannel(Channel):
-    def __init__(self, nodes=[],  rate=1, possible=1, delay=0, generation_func=None):
+    def __init__(self, nodes=[],  rate=1, possible=1, delay=0, generation_func=None, name = None):
         self.nodes = nodes
         self.rate = rate
         self.possible = possible
@@ -34,6 +34,11 @@ class QuantumChannel(Channel):
             self.generation_func = self.default_generation_func
         else:
             self.generation_func = generation_func
+
+        if name is None:
+            self.name = str(id(self))
+        else:
+            self.name = name
 
     # def install(self, simulator: Simulator):
     #     self.simulator = simulator
@@ -55,7 +60,7 @@ class QuantumChannel(Channel):
     def default_generation_func(self, simulator: Simulator):
         '''generation one EPR'''
         if random.random() > self.possible:
-            print("generation failed due to failure")
+            # print("generation failed due to failure")
             return
 
         e = Entanglement(self.nodes, simulator.current_time_slice)
@@ -66,3 +71,6 @@ class QuantumChannel(Channel):
 
     def generation(self, simulator: Simulator):
         self.generation_func(simulator)
+
+    def __repr__(self):
+        return "<quantum link " + self.name+">"

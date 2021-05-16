@@ -18,12 +18,12 @@ class GenerationEntanglementAfterEvent(Event):
     def run(self, simulator: Simulator):
         for n in self.nodes:
             if n.is_full():
-                print("generation failed due to memory limit")
+                # print("generation failed due to memory limit")
                 return
         for n in self.nodes:
             # e as message
             n.handle(simulator, self.e, source=self.link, event=self)
-        print(simulator.current_time,"generation successful")
+        # print(simulator.current_time,"generation successful")
 
 class NodeSwappingEvent(Event):
     def __init__(self, e1: Entanglement, e2: Entanglement, node, source = None ,init_time: float = None):
@@ -46,8 +46,8 @@ class NodeSwappingAfterEvent(Event):
     def run(self, simulator: Simulator):
         for n in self.target_nodes:
             if n.is_full():
-                print("generation failed due to memory limit")
+                # print("generation failed due to memory limit")
                 return
         for n in self.target_nodes:
             n.handle(simulator, self.e, source=self.swap_node, event=self)
-        print(simulator.current_time,"swapping successful")
+        # print(simulator.current_time,"swapping successful")
