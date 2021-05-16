@@ -1,9 +1,10 @@
 from qns.schedular import Entity, Event, Simulator
 
+
 class Timer(Entity):
     def __init__(self, start_time, end_time, step_time):
         self.step_time = step_time
-        self.start_time =start_time
+        self.start_time = start_time
         self.end_time = end_time
 
     def install(self, simulator: Simulator):
@@ -25,6 +26,6 @@ class Timer(Entity):
                 simulator.add_event(i, TimerEvent(self))
         else:
             simulator.add_event(self.start_time_slice, TimerEvent(self))
-    
+
     def run(self, simulator: Simulator):
         raise NotImplemented

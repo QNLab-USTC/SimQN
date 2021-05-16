@@ -4,6 +4,7 @@ from qns.topo import Channel
 from qns.schedular import Simulator, Event, Protocol
 from .events import GenerationEntanglementAfterEvent, GenerationEvent
 
+
 class GenerationProtocal(Protocol):
     def install(_self, simulator: Simulator):
         self = _self.entity
@@ -24,8 +25,9 @@ class GenerationProtocal(Protocol):
 
 # An EPR generator
 
+
 class QuantumChannel(Channel):
-    def __init__(self, nodes=[],  rate=1, possible=1, delay=0, generation_func=None, name = None):
+    def __init__(self, nodes=[],  rate=1, possible=1, delay=0, generation_func=None, name=None):
         self.nodes = nodes
         self.rate = rate
         self.possible = possible

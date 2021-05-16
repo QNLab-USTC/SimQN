@@ -5,8 +5,10 @@ from .entanglement import Entanglement
 from .events import GenerationEntanglementAfterEvent, NodeSwappingAfterEvent, NodeSwappingEvent
 import random
 
+
 class QuantumNodeError(Exception):
     pass
+
 
 class QuantumNodeGenerationProtocol(Protocol):
     def install(_self, simulator: Simulator):
@@ -18,6 +20,7 @@ class QuantumNodeGenerationProtocol(Protocol):
             e = msg
             self.add_entanglement(e)
 
+
 class QuantumNodeSwappingProtocol(Protocol):
     def install(_self, simulator: Simulator):
         pass
@@ -28,11 +31,11 @@ class QuantumNodeSwappingProtocol(Protocol):
         if isinstance(event, NodeSwappingAfterEvent):
             e = msg
             self.add_entanglement(e)
-        
+
         if self.route is None or len(self.route) < 2:
             return
         nodes1, nodes2 = self.route[0], self.route[1]
-        e_set1, e_set2 = [],[]
+        e_set1, e_set2 = [], []
         for e in self.registers:
             for n in e.nodes:
                 if n == self:
@@ -42,13 +45,13 @@ class QuantumNodeSwappingProtocol(Protocol):
                 if n in nodes2:
                     e_set2.append(e)
 
-
         map = zip(e_set1, e_set2)
         for e1, e2 in map:
             self.swapping(simulator, e1, e2)
 
+
 class QuantumNode(Node):
-    def __init__(self, registers_number: int = -1, swapping_func=None, distillation_func=None, name = None):
+    def __init__(self, registers_number: int = -1, swapping_func=None, distillation_func=None, name=None):
         self.links = []
 
         self.registers_number = registers_number
@@ -83,7 +86,7 @@ class QuantumNode(Node):
     #         e = msg
     #         print("add swapping entanglement", e)
     #         self.add_entanglement(e)
-        
+
     #     if self.route is None or len(self.route) < 2:
     #         return
     #     nodes1, nodes2 = self.route[0], self.route[1]
@@ -96,7 +99,6 @@ class QuantumNode(Node):
     #                 e_set1.append(e)
     #             if n in nodes2:
     #                 e_set2.append(e)
-
 
     #     map = zip(e_set1, e_set2)
     #     for e1, e2 in map:
@@ -111,7 +113,7 @@ class QuantumNode(Node):
     def add_entanglement(self, e: Entanglement):
         if self.is_full():
             raise QuantumNodeError("out of quantum memory")
-        self.registers.insert(0,e)
+        self.registers.insert(0, e)
 
     def remove_entanglement(self, e: Entanglement):
         self.registers.remove(e)
@@ -149,10 +151,13 @@ class QuantumNode(Node):
 
             if random.random() > swap_possible:
                 return
-            f = 1/4 + 3/4 * (4 * e1.fidelity - 2) / 3 *  (4 * e2.fidelity - 2) / 3 
+            f = 1/4 + 3/4 * (4 * e1.fidelity - 2) / 3 * \
+                (4 * e2.fidelity - 2) / 3
             ne = Entanglement([node1, node2], simulator.current_time_slice, f)
-            nsae = NodeSwappingAfterEvent(ne, self, [node1, node2], simulator.current_time_slice)
-            simulator.add_event(simulator.current_time_slice + swap_delay_time_slice, nsae)
+            nsae = NodeSwappingAfterEvent(
+                ne, self, [node1, node2], simulator.current_time_slice)
+            simulator.add_event(
+                simulator.current_time_slice + swap_delay_time_slice, nsae)
 
     def default_distillation_func(self, simulator: Simulator, e1: Entanglement, e2: Entanglement):
         pass
@@ -160,9 +165,10 @@ class QuantumNode(Node):
     def __repr__(self):
         return "<quantum node " + self.name+">"
 
+
 class QuantumController(Node):
     def __init__(self, nodes):
         self.nodes = nodes
 
     def install(self, simulator: Simulator):
-        self.simulator = simulator                                    
+        self.simulator = simulator

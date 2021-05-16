@@ -3,14 +3,22 @@ from qns.schedular import Simulator, Protocol
 from qns.quantum.link import QuantumChannel, GenerationProtocal
 from qns.quantum import QuantumNode
 from qns.quantum import QuantumNetwork
+from qns.log import log
 
 class PrintProtocol(Protocol):
     def handle(_self, simulator: Simulator, msg: object, source=None, event = None):
         self = _self.entity
-        print(2333, self.registers)
+        count = 0
+        for e in self.registers:
+            if n1 in e.nodes:
+                count += 1
+        log.debug("Distributed: {} {}", self, count)
+        log.exp("Distributed: {} {}", self, count)
 
 
 s = Simulator(0,10,10000)
+log.set_debug(True)
+log.install(s)
 
 n1 = QuantumNode(name="n1")
 ngp1 = QuantumNodeGenerationProtocol(n1)
@@ -31,7 +39,7 @@ n4 = QuantumNode(name="n4")
 ngp4 = QuantumNodeGenerationProtocol(n4)
 nsp4 = QuantumNodeSwappingProtocol(n4)
 npp4 = PrintProtocol(n4)
-n4.inject_protocol([ngp4, nsp4])
+n4.inject_protocol([ngp4, nsp4, npp4])
 
 n2.route = [[n1], [n3,n4]]
 n3.route = [[n1,n2], [n4]]

@@ -12,6 +12,7 @@ class SimulatorError(Exception):
 
 class Simulator():
     def __init__(self, start_time: float = default_start_time, end_time: float = default_end_time, time_accuracy: int = default_time_accuracy, events_list=[]):
+        self.status = "init"
         self.time_accuracy = time_accuracy
 
         self.start_time = start_time
@@ -29,6 +30,7 @@ class Simulator():
         self.setup(events_list)
 
     def run(self):
+        self.status = "run"
         while self.current_time_slice <= self.end_time_slice:
             time_slice, event = self.events_pool.get_event()
             if time_slice is None or event is None:
@@ -36,6 +38,7 @@ class Simulator():
             self.current_time_slice = time_slice
             self.current_time = self.to_time(self.current_time_slice)
             event.start(self, self.to_time(self.current_time_slice))
+        self.status = "exit"
 
     def setup(self, events_list):
         try:
