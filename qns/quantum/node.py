@@ -40,15 +40,6 @@ class QuantumNode(Node):
     def __repr__(self):
         return "<node " + self.name+">"
 
-
-class QuantumController(Node):
-    def __init__(self, nodes):
-        self.nodes = nodes
-
-    def install(self, simulator: Simulator):
-        self.simulator = simulator
-
-
 class QuantumNodeGenerationProtocol(Protocol):
     def install(_self, simulator: Simulator):
         pass
@@ -59,12 +50,13 @@ class QuantumNodeGenerationProtocol(Protocol):
 
 
 class QuantumNodeSwappingProtocol(Protocol):
-    def __init__(_self, entity, possible=1, delay=0, fidelity_func=None):
+    def __init__(_self, entity, possible=1, delay=0, fidelity_func=None, under_controlled = False):
         _self.entity = entity
         _self.entity.router = []
         _self.possible = possible
         _self.delay = delay
         _self.fidelity_func = fidelity_func
+        _self.under_controlled = under_controlled
 
     def install(_self, simulator: Simulator):
         _self.entity.router = []
@@ -72,6 +64,8 @@ class QuantumNodeSwappingProtocol(Protocol):
 
     def handle(_self, simulator: Simulator, msg: object, source=None, event: Event = None):
         self = _self.entity
+        if _self.under_controlled:
+            return
 
         if self.route is None or len(self.route) < 2:
             return
@@ -142,10 +136,11 @@ class QuantumNodeSwappingProtocol(Protocol):
 
 
 class QuantumNodeDistillationProtocol(Protocol):
-    def __init__(_self, entity: QuantumNode, threshold: float = 0, delay: float = 0):
+    def __init__(_self, entity: QuantumNode, threshold: float = 0, delay: float = 0, under_controlled = False):
         super().__init__(entity)
         _self.threshold = threshold
         _self.delay = delay
+        _self.under_controlled = under_controlled
 
     def install(_self, simulator: Simulator):
         _self.delay_time_slice = simulator.to_time_slice(_self.delay)
@@ -153,6 +148,10 @@ class QuantumNodeDistillationProtocol(Protocol):
 
     def handle(_self, simulator: Simulator, msg: object, source=None, event: Event = None):
         self = _self.entity  # self is a QuantumNode
+
+        if _self.under_controlled:
+            return
+
         need_distillation = {}
 
         for e in self.registers:
