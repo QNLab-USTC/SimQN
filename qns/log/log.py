@@ -19,7 +19,7 @@ class Log():
         if self.simulator.status == "run":
             return "[ {:10.8f} ]\t".format(self.simulator.current_time)
         else:
-            return "[ {:12}]\t".format(self.simulator.status)
+            return "[ {:10} ]\t".format(self.simulator.status)
 
     def exp_time(self):
         if self.simulator.status == "run":
