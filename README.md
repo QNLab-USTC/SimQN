@@ -1,6 +1,6 @@
 # QuantNetSim
 
-A discrete time scheduler designed for Quantum Network. QuantNetSim is writen in python3 with out any 3th-party libraries.
+A discrete time scheduler designed for Quantum Network. QuantNetSim is writen in python3 with out any 3th-party libraries. Some examples are in `example`.
 
 **Still in heavy development, api may change**
 
