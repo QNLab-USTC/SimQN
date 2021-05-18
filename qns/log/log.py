@@ -14,6 +14,7 @@ class Log():
 
     def install(self, simulator: Simulator):
         self.simulator = simulator
+        self.simulator.log = self
 
     def current_time(self):
         if self.simulator.status == "run":

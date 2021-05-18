@@ -1,3 +1,4 @@
+from qns.bb84 import fiber
 from qns.schedular import Protocol
 from qns.schedular.simulator import Simulator, Event
 from qns.topo import Node
@@ -136,15 +137,23 @@ class QuantumNodeSwappingProtocol(Protocol):
 
 
 class QuantumNodeDistillationProtocol(Protocol):
-    def __init__(_self, entity: QuantumNode, threshold: float = 0, delay: float = 0, under_controlled = False):
+    def __init__(_self, entity: QuantumNode, threshold: float = 0, delay: float = 0, lazy_run_step = None, under_controlled = False):
         super().__init__(entity)
         _self.threshold = threshold
         _self.delay = delay
         _self.under_controlled = under_controlled
+        _self.lazy_run_step = lazy_run_step
 
     def install(_self, simulator: Simulator):
+        self = _self.entity
         _self.delay_time_slice = simulator.to_time_slice(_self.delay)
         _self.entity.allow_distillation = []
+        if _self.lazy_run_step is None:
+            return
+        
+        lazy_step_time_slice = simulator.to_time_slice(_self.lazy_run_step)
+        for i in range(simulator.start_time_slice, simulator.end_time_slice, lazy_step_time_slice):
+            self.call(simulator, None, _self, None, i )
 
     def handle(_self, simulator: Simulator, msg: object, source=None, event: Event = None):
         self = _self.entity  # self is a QuantumNode
@@ -178,7 +187,7 @@ class QuantumNodeDistillationProtocol(Protocol):
 
         for n in e1.nodes:
             if n not in e2.nodes:
-                log.warn("{} and {} can not used for distillation", e1, e2)
+                log.debug("{} and {} can not used for distillation", e1, e2)
                 return
 
         f_min = min(e1.fidelity, e2.fidelity)
@@ -187,19 +196,21 @@ class QuantumNodeDistillationProtocol(Protocol):
 
         for n in e1.nodes:
             if e1 not in n.registers or e2 not in n.registers:
-                log.warn("{} or {} is not in {}", e1, e2, n)
+                log.debug("{} or {} is not in {}", e1, e2, n)
                 return
+
+        for n in e1.nodes:
             n.remove_entanglement(e1)
             n.remove_entanglement(e2)
 
         if random.random() > poss:
-            log.warn("{} and {} distillation failure: {}", e1, e2, poss)
+            log.debug("{} and {} distillation failure: {}", e1, e2, poss)
             return
 
         ne = Entanglement(e1.nodes, simulator.current_time, fidelity=f)
         for n in ne.nodes:
             if n.is_full():
-                log.warn(
+                log.debug(
                     "{} and {} distillation failure due to {} is full", e1, e2, n)
                 return
         for n in ne.nodes:
@@ -207,3 +218,33 @@ class QuantumNodeDistillationProtocol(Protocol):
             ndae = NodeDistillationAfterEvent(simulator.current_time)
             n.call(simulator, ne, self, ndae)
         log.debug("{} distillation successfully", ne)
+
+class KeepUseSoonProtocol():
+    def __init__(_self, entity, dest, fidelity = 0):
+        _self.entity = entity
+        _self.fidelity = fidelity
+        _self.dest = dest
+        _self.used = 0
+        _self.used_e = []
+
+    def install(_self, simulator: Simulator):
+        pass
+
+    def handle(_self, simulator: Simulator, msg: object, source=None, event=None):
+        self = _self.entity
+
+        el = [e  for e in self.registers if _self.dest in e.nodes and e in _self.dest.registers and e.fidelity >= _self.fidelity]
+        
+        for e in el:
+            self.remove_entanglement(e)
+            _self.dest.remove_entanglement(e)
+            # log.debug(f"node {self} used {e}, total used {_self.used}")
+            log.exp("{}",_self.used)
+            _self.used += 1
+            _self.used_e.append(e)
+
+    def total_used_count(_self):
+        return _self.used
+        
+    def total_used_entanglements(_self):
+        return _self.used_e

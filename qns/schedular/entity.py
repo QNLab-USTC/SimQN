@@ -21,9 +21,12 @@ class Entity():
         for p in self.protocols:
             p.handle(simulator, msg, source, event)
 
-    def call(self, simulator: Simulator, msg: object, source=None, event: Event = None):
+    def call(self, simulator: Simulator, msg: object, source=None, event: Event = None, time_slice = None):
         callevent = CallEvent(self, simulator, msg, source, event)
-        simulator.add_event(simulator.current_time_slice, callevent)
+        if time_slice is None:
+            simulator.add_event(simulator.current_time_slice, callevent)
+        else:
+            simulator.add_event(time_slice, callevent)
 
     def inject_protocol(self, protocol):
         if not hasattr(self, "protocols"):

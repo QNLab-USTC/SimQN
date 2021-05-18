@@ -1,4 +1,5 @@
 from os import name
+from qns.quantum.node import KeepUseSoonProtocol
 from qns.schedular import Simulator, Protocol
 from qns.quantum import QuantumNode, QuantumController, QuantumChannel, GenerationProtocal, QuantumNodeSwappingProtocol, QuantumNodeDistillationProtocol, ControllerProtocol
 from qns.log import log
@@ -11,7 +12,7 @@ class PrintProtocol(Protocol):
         log.info("check {}: {}", self, self.registers)
 
 
-s = Simulator(0, 5, 100000)
+s = Simulator(0, 3600, 100000)
 log.set_debug(True)
 log.install(s)
 
@@ -41,7 +42,8 @@ nsp4 = QuantumNodeSwappingProtocol(n4, under_controlled=True)
 ndp4 = QuantumNodeDistillationProtocol(
     n4, threshold=0.9, under_controlled=True)
 npp4 = PrintProtocol(n4)
-n4.inject_protocol([ndp4, nsp4])
+kns4 = KeepUseSoonProtocol(n4, n1, 0.85)
+n4.inject_protocol([ndp4, nsp4, kns4])
 
 n1.install(s)
 n2.install(s)
@@ -85,9 +87,4 @@ controller.install(s)
 
 s.run()
 
-de = []
-for e in n4.registers:
-    if n1 in e.nodes:
-        de.append(e)
-
-log.info("final distributed: {}: {}", len(de), de)
+log.info(f"final distributed: {kns4.total_used_count()}")
