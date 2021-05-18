@@ -7,7 +7,7 @@ A discrete time scheduler designed for Quantum Network. QuantNetSim is writen in
 ## Features
 * Easy: easy to use and develop quantum protocols
 * Multifunctional: multiply models enabled, including Classic Model, BB84 Model and EPR Model
-* High performance: in a benchmark, it is possible to deal 30000 events per seconds
+* High performance: in a benchmark, it is possible to deal 30000 events per second
 
 Todo List:
 - [x] Schedular, Topo, Timer and log
