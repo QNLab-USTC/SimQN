@@ -1,8 +1,9 @@
+
 import random
 from qns.quantum.entanglement import Entanglement
 from qns.topo import Channel
 from qns.schedular import Simulator, Event, Protocol
-from .events import GenerationEntanglementAfterEvent, GenerationEvent
+from .events import GenerationAllocateEvent, GenerationEntanglementAfterEvent, GenerationEvent
 from qns.log import log
 
 
@@ -20,12 +21,13 @@ class QuantumChannel(Channel):
 
 class GenerationProtocal(Protocol):
 
-    def __init__(_self, entity, possible = 1, rate = 10, delay = 0.02, fidelity = 1):
+    def __init__(_self, entity, possible = 1, rate = 10, delay = 0.02, fidelity = 1, allocate_step = 1):
         super().__init__(entity)
         _self.possible = possible
         _self.delay = delay
         _self.fidelity = fidelity
         _self.rate = rate
+        _self.step = allocate_step
 
     def install(_self, simulator: Simulator):
         self = _self.entity
@@ -34,9 +36,23 @@ class GenerationProtocal(Protocol):
         for n in self.nodes:
             n.links.append(self)
 
-        ge = GenerationEvent(_self, simulator.current_time)
+        # ge = GenerationEvent(_self, simulator.current_time)
+        gae = GenerationAllocateEvent(_self, simulator.current_time)
         start_time_slice = simulator.start_time_slice
         end_time_slice = simulator.end_time_slice
+        # step_time_slice = int(simulator.time_accuracy / _self.rate)
+        _self.allocate_step_time_slice = simulator.to_time_slice(_self.step)
+        for t in range(start_time_slice, end_time_slice, _self.allocate_step_time_slice):
+            simulator.add_event(t, gae)
+
+    def allocate(_self, simulator: Simulator):
+        self = _self.entity
+        log.debug(f"link {self} begin allocate")
+
+        ge = GenerationEvent(_self, simulator.current_time)
+
+        start_time_slice = simulator.current_time_slice
+        end_time_slice = simulator.current_time_slice + _self.allocate_step_time_slice
         step_time_slice = int(simulator.time_accuracy / _self.rate)
         for t in range(start_time_slice, end_time_slice, step_time_slice):
             simulator.add_event(t, ge)

@@ -4,6 +4,14 @@ from qns.schedular import Event, Simulator
 from .entanglement import Entanglement
 from qns.log import log
 
+class GenerationAllocateEvent(Event):
+    def __init__(self, protocol, init_time: float = None):
+        super().__init__(init_time)
+        self.protocol = protocol
+
+    def run(self, simulator: Simulator):
+        self.protocol.allocate(simulator)
+
 
 class GenerationEvent(Event):
     def __init__(self, protocol, init_time: float = None):

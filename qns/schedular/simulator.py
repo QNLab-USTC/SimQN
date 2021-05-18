@@ -27,6 +27,7 @@ class Simulator():
         self.states = {}  # Used to store state
         self.events_pool = EventsPool(
             self.start_time_slice, self.end_time_slice)
+        self.total_events = 0
         self.setup(events_list)
 
     def run(self):
@@ -50,6 +51,7 @@ class Simulator():
 
     def add_event(self, time_slice: int, event: Event):
         self.events_pool.add_event(time_slice, event)
+        self.total_events += 1
 
     def remote_event(self, event: Event):
         self.events_pool.remote_event(event)
