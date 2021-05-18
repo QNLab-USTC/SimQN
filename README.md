@@ -41,4 +41,7 @@ TBD
 TBD
 
 ## License
-See `LICENSE` file
+
+> Copyright (C) 2021 Elliot Chen <elliot.98@outlook.com>
+
+This repo is under MIT License, please refer to `LICENSE` file
