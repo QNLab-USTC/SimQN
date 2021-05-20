@@ -5,6 +5,7 @@ from qns.topo import Channel
 from qns.schedular import Simulator, Event, Protocol
 from .events import GenerationAllocateEvent, GenerationEntanglementAfterEvent, GenerationEvent
 from qns.log import log
+import uuid
 
 
 class QuantumChannel(Channel):
@@ -12,16 +13,17 @@ class QuantumChannel(Channel):
         self.nodes = nodes
 
         if name is None:
-            self.name = str(id(self))
+            self.name = uuid.uuid4()
         else:
             self.name = name
 
     def __repr__(self):
         return "<link " + self.name+">"
 
+
 class GenerationProtocal(Protocol):
 
-    def __init__(_self, entity, possible = 1, rate = 10, delay = 0.02, fidelity = 1, allocate_step = 1):
+    def __init__(_self, entity, possible=1, rate=10, delay=0.02, fidelity=1, allocate_step=1):
         super().__init__(entity)
         _self.possible = possible
         _self.delay = delay
@@ -59,7 +61,7 @@ class GenerationProtocal(Protocol):
 
     def handle(_self, simulator: Simulator, msg: object, source=None, event: Event = None):
         pass
-    
+
     def generation(_self, simulator: Simulator):
         self = _self.entity
 
@@ -67,7 +69,8 @@ class GenerationProtocal(Protocol):
             log.debug("{} generation failed".format(self))
             return
 
-        e = Entanglement(self.nodes, simulator.current_time_slice, fidelity= _self.fidelity)
+        e = Entanglement(
+            self.nodes, simulator.current_time_slice, fidelity=_self.fidelity)
         geae = GenerationEntanglementAfterEvent(
             e, self, self.nodes, simulator.current_time)
         simulator.add_event(simulator.current_time_slice +

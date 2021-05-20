@@ -45,7 +45,8 @@ class Simulator():
         et = time.time()
         self.status = "exit"
         if self.log is not None:
-            self.log.info(f"runtime {et - st}, {self.total_events} events, sim_time {self.end_time - self.start_time}, x{(self.end_time - self.start_time)/(et-st)}")
+            self.log.info(
+                f"runtime {et - st}, {self.total_events} events, sim_time {self.end_time - self.start_time}, x{(self.end_time - self.start_time)/(et-st)}")
 
     def setup(self, events_list):
         try:

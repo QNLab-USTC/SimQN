@@ -5,8 +5,9 @@ from qns.quantum import QuantumNode
 from qns.quantum import QuantumNetwork
 from qns.log import log
 
+
 class PrintProtocol(Protocol):
-    def handle(_self, simulator: Simulator, msg: object, source=None, event = None):
+    def handle(_self, simulator: Simulator, msg: object, source=None, event=None):
         self = _self.entity
         count = 0
         for e in self.registers:
@@ -15,7 +16,7 @@ class PrintProtocol(Protocol):
         log.exp("Distributed: {} {}", self, count)
 
 
-s = Simulator(0,20,10000)
+s = Simulator(0, 20, 10000)
 log.set_debug(True)
 log.install(s)
 
@@ -45,21 +46,21 @@ n2.install(s)
 n3.install(s)
 n4.install(s)
 
-n2.route = [[n1], [n3,n4]]
-n3.route = [[n1,n2], [n4]]
+n2.route = [[n1], [n3, n4]]
+n3.route = [[n1, n2], [n4]]
 
 
-c1 = QuantumChannel(nodes = [n1, n2], name="c1")
+c1 = QuantumChannel(nodes=[n1, n2], name="c1")
 cgp1 = GenerationProtocal(c1)
 c1.inject_protocol(cgp1)
 c1.install(s)
 
-c2 = QuantumChannel(nodes = [n2, n3], name="n2")
+c2 = QuantumChannel(nodes=[n2, n3], name="n2")
 cgp2 = GenerationProtocal(c2)
 c2.inject_protocol(cgp2)
 c2.install(s)
 
-c3 = QuantumChannel(nodes = [n3, n4], name="n3")
+c3 = QuantumChannel(nodes=[n3, n4], name="n3")
 cgp3 = GenerationProtocal(c3)
 c3.inject_protocol(cgp3)
 c3.install(s)

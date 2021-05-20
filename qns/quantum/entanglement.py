@@ -1,11 +1,11 @@
-
+import uuid
 
 # entanglement between node1 and node2
 
 
 class Entanglement():
     def __init__(self, nodes, birth_time_slice: int,
-                 fidelity: int = 1, life_func=None, name = None):
+                 fidelity: int = 1, life_func=None, name=None):
         self.nodes = nodes
         self.birth_time_slice = birth_time_slice
         self.fidelity = fidelity
@@ -16,7 +16,7 @@ class Entanglement():
         if name is not None:
             self.name = name
         else:
-            self.name = str(self.__hash__())
+            self.name = uuid.uuid4()
 
     def is_alive(self):
         return self.life_func()
@@ -26,7 +26,7 @@ class Entanglement():
         return True
 
     def __str__(self):
-        return "<ent {} {}, fidelity: {}>".format(self.name,self.nodes, self.fidelity)
+        return "<ent {} {}, fidelity: {}>".format(self.name, self.nodes, self.fidelity)
 
     def __repr__(self):
-        return "<ent {} {}, fidelity: {}>".format(self.name,self.nodes, self.fidelity)
+        return "<ent {} {}, fidelity: {}>".format(self.name, self.nodes, self.fidelity)

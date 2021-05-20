@@ -18,21 +18,21 @@ Todo List:
 - [ ] Physical Simulation on entanglement
 - [ ] Documents 
 
-## Requirements and installation
-Python version > 3.7 is reiqured. To build QuantNetSim, setuptools is needed:
+## Requirements and compile
+Python version > 3.7 is reiqured. To build QuantNetSim, `setuptools` and `wheel` is needed:
 ```
-pip3 install
+pip3 install setuptools wheel
 ```
 
 Run the following command to build QuantNetSim:
 ```
-python3 setup.py build
+python3 setup.py bdist_wheel # build wheel format package
 ```
-Or
+
+The following command will install a distribute in system:
 ```
-python3 setup.py install
+pip3 install dist/qns-<version>-none-any.whl
 ```
-to install a copy into system library
 
 ## Usage
 TBD

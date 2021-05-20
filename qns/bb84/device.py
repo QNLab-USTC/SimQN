@@ -20,8 +20,9 @@ class PhotonNode(Node):
     def __repr__(self):
         return "<bb84 node " + self.name+">"
 
+
 class PhotonRandomSendProtocol(Protocol):
-    def __init__(_self, entity, rate = 1, start_time = None, end_time = None):
+    def __init__(_self, entity, rate=1, start_time=None, end_time=None):
         super().__init__(entity)
         _self.rate = rate
         _self.start_time = start_time
@@ -37,26 +38,27 @@ class PhotonRandomSendProtocol(Protocol):
         if _self.end_time is None:
             _self.end_time_slice = simulator.end_time_slice
         else:
-            _self.end_time_slice = simulator.to_time_slice(_self.end_time)  
-        _self.step_time_slice = int( simulator.time_accuracy / _self.rate)
+            _self.end_time_slice = simulator.to_time_slice(_self.end_time)
+        _self.step_time_slice = int(simulator.time_accuracy / _self.rate)
 
         for i in range(_self.start_time_slice, _self.end_time_slice, _self.step_time_slice):
-            gse = GenerationAndSendEvent(_self, _self.entity, simulator.current_time)
+            gse = GenerationAndSendEvent(
+                _self, _self.entity, simulator.current_time)
             simulator.add_event(i, gse)
 
     def run(_self, simulator: Simulator, event: Event):
         self = _self.entity
-        new_photon =  Photon()
+        new_photon = Photon()
         new_photon.random_preparation()
         if len(self.links) <= 0:
             log.debug("no link attached on {}", self)
             return
         log.debug("{} send {} on {}", self, new_photon, self.links[0])
-        self.links[0].call(simulator, new_photon, source=self, event = event)
-
+        self.links[0].call(simulator, new_photon, source=self, event=event)
 
     def handle(_self, simulator: Simulator, msg: object, source=None, event=None):
         pass
+
 
 class PhotonReceiveAndMeasureProtocol(Protocol):
     def __init__(_self, entity):
@@ -72,5 +74,5 @@ class PhotonReceiveAndMeasureProtocol(Protocol):
         new_photon = msg
         source = source
         basis, polar = new_photon.random_measure()
-        log.debug("{} recv photon from {}.Use {} measure: {}", self, source, basis, polar)
-
+        log.debug("{} recv photon from {}.Use {} measure: {}",
+                  self, source, basis, polar)

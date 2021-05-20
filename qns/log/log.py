@@ -1,9 +1,11 @@
-import os, sys
+import os
+import sys
 from typing import Any, Optional
 from qns.schedular.simulator import Simulator
 
+
 class Log():
-    def __init__(self, filename = None, debug = False):
+    def __init__(self, filename=None, debug=False):
         self.simulator = None
         self.filename = filename
         self.set_debug(debug)
@@ -31,39 +33,39 @@ class Log():
     def set_debug(self, debug: bool):
         self.is_debug = debug
 
-    def set_file(self, filename= None):
+    def set_file(self, filename=None):
         if filename is None:
             self.file = sys.stdout
         else:
-            self.file = open(filename,'w')
+            self.file = open(filename, 'w')
 
-    def info(self,fmt: str, *args):
+    def info(self, fmt: str, *args):
         self.file.write(self.current_time())
         self.file.write("[info]\t")
         self.file.write(fmt.format(*args))
         self.file.write("\n")
 
-    def warn(self,fmt: str, *args):
+    def warn(self, fmt: str, *args):
         self.file.write(self.current_time())
         self.file.write("[warn]\t")
         self.file.write(fmt.format(*args))
         self.file.write("\n")
-    
-    def error(self,fmt: str, *args):
+
+    def error(self, fmt: str, *args):
         self.file.write(self.current_time())
         self.file.write("[error]\t")
         self.file.write(fmt.format(*args))
         self.file.write("\n")
 
-    def debug(self,fmt: str, *args):
+    def debug(self, fmt: str, *args):
         if self.is_debug:
             self.file.write(self.current_time())
             self.file.write("[debug]\t")
             self.file.write(fmt.format(*args))
             self.file.write("\n")
 
-    # used for experiment output 
-    def exp(self,fmt: str, *args):
+    # used for experiment output
+    def exp(self, fmt: str, *args):
         self.file.write(self.exp_time())
         self.file.write(fmt.format(*args))
         self.file.write("\n")

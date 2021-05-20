@@ -1,5 +1,6 @@
 from qns.schedular import Entity, Event, Simulator
 from qns.log import log
+import uuid
 
 
 class TimerEvent(Event):
@@ -19,13 +20,13 @@ class TimerAllocEvent(Event):
 
 
 class Timer(Entity):
-    def __init__(self, start_time, end_time, step_time, alloc_time = None, name = None):
+    def __init__(self, start_time, end_time, step_time, alloc_time=None, name=None):
         self.step_time = step_time
         self.start_time = start_time
         self.end_time = end_time
         self.alloc_time = alloc_time
         if name is None:
-            self.name = id(self)
+            self.name = uuid.uuid4()
         else:
             self.name = name
 
@@ -41,7 +42,8 @@ class Timer(Entity):
                 for i in range(self.start_time_slice, self.end_time_slice, self.step_time_slice):
                     simulator.add_event(i, TimerEvent(self))
             else:
-                self.alloc_time_slice = simulator.to_time_slice(self.alloc_time)
+                self.alloc_time_slice = simulator.to_time_slice(
+                    self.alloc_time)
                 for i in range(self.start_time_slice, self.end_time_slice, self.alloc_time_slice):
                     simulator.add_event(i, TimerAllocEvent(self))
         else:
@@ -53,6 +55,7 @@ class Timer(Entity):
     def alloc(self, simulator: Simulator):
         start_time_slice = simulator.current_time_slice
         end_time_slice = simulator.current_time_slice + self.alloc_time_slice
-        log.debug(f"timer {self} allocate for [{start_time_slice},{end_time_slice}] {self.step_time_slice}")
+        log.debug(
+            f"timer {self} allocate for [{start_time_slice},{end_time_slice}] {self.step_time_slice}")
         for i in range(start_time_slice, end_time_slice, self.step_time_slice):
             simulator.add_event(i, TimerEvent(self))

@@ -3,7 +3,7 @@ from qns.topo import ClassicSender, ClassicReceiver, ClassicP2PChannel, ClassicR
 
 s = Simulator(0, 10, 100000)
 
-n1 = ClassicSender(5,8,1,"hello")
+n1 = ClassicSender(5, 8, 1, "hello")
 n2 = ClassicRepeater(0.4)
 n3 = ClassicReceiver()
 

@@ -6,6 +6,7 @@ from .entanglement import Entanglement
 from .events import NodeDistillationAfterEvent, NodeDistillationEvent, NodeSwappingAfterEvent,  NodeSwappingEvent
 from qns.log import log
 import random
+import uuid
 
 
 class QuantumNodeError(Exception):
@@ -20,7 +21,7 @@ class QuantumNode(Node):
         self.registers: list(Entanglement) = []
         self.route = None
         if name is None:
-            self.name = str(id(self))
+            self.name = uuid.uudi4()
         else:
             self.name = name
 
@@ -41,6 +42,7 @@ class QuantumNode(Node):
     def __repr__(self):
         return "<node " + self.name+">"
 
+
 class QuantumNodeGenerationProtocol(Protocol):
     def install(_self, simulator: Simulator):
         pass
@@ -51,7 +53,7 @@ class QuantumNodeGenerationProtocol(Protocol):
 
 
 class QuantumNodeSwappingProtocol(Protocol):
-    def __init__(_self, entity, possible=1, delay=0, fidelity_func=None, under_controlled = False):
+    def __init__(_self, entity, possible=1, delay=0, fidelity_func=None, under_controlled=False):
         _self.entity = entity
         _self.entity.router = []
         _self.possible = possible
@@ -137,7 +139,7 @@ class QuantumNodeSwappingProtocol(Protocol):
 
 
 class QuantumNodeDistillationProtocol(Protocol):
-    def __init__(_self, entity: QuantumNode, threshold: float = 0, delay: float = 0, lazy_run_step = None, under_controlled = False):
+    def __init__(_self, entity: QuantumNode, threshold: float = 0, delay: float = 0, lazy_run_step=None, under_controlled=False):
         super().__init__(entity)
         _self.threshold = threshold
         _self.delay = delay
@@ -150,10 +152,10 @@ class QuantumNodeDistillationProtocol(Protocol):
         _self.entity.allow_distillation = []
         if _self.lazy_run_step is None:
             return
-        
+
         lazy_step_time_slice = simulator.to_time_slice(_self.lazy_run_step)
         for i in range(simulator.start_time_slice, simulator.end_time_slice, lazy_step_time_slice):
-            self.call(simulator, None, _self, None, i )
+            self.call(simulator, None, _self, None, i)
 
     def handle(_self, simulator: Simulator, msg: object, source=None, event: Event = None):
         self = _self.entity  # self is a QuantumNode
@@ -219,8 +221,9 @@ class QuantumNodeDistillationProtocol(Protocol):
             n.call(simulator, ne, self, ndae)
         log.debug("{} distillation successfully", ne)
 
+
 class KeepUseSoonProtocol():
-    def __init__(_self, entity, dest, fidelity = 0):
+    def __init__(_self, entity, dest, fidelity=0):
         _self.entity = entity
         _self.fidelity = fidelity
         _self.dest = dest
@@ -233,18 +236,18 @@ class KeepUseSoonProtocol():
     def handle(_self, simulator: Simulator, msg: object, source=None, event=None):
         self = _self.entity
 
-        el = [e  for e in self.registers if _self.dest in e.nodes and e in _self.dest.registers and e.fidelity >= _self.fidelity]
-        
+        el = [e for e in self.registers if _self.dest in e.nodes and e in _self.dest.registers and e.fidelity >= _self.fidelity]
+
         for e in el:
             self.remove_entanglement(e)
             _self.dest.remove_entanglement(e)
             # log.debug(f"node {self} used {e}, total used {_self.used}")
-            log.exp("{}",_self.used)
+            log.exp("{}", _self.used)
             _self.used += 1
             _self.used_e.append(e)
 
     def total_used_count(_self):
         return _self.used
-        
+
     def total_used_entanglements(_self):
         return _self.used_e

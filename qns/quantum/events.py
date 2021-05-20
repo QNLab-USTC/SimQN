@@ -4,6 +4,7 @@ from qns.schedular import Event, Simulator
 from .entanglement import Entanglement
 from qns.log import log
 
+
 class GenerationAllocateEvent(Event):
     def __init__(self, protocol, init_time: float = None):
         super().__init__(init_time)
@@ -43,7 +44,7 @@ class GenerationEntanglementAfterEvent(Event):
 
 
 class NodeSwappingEvent(Event):
-    def __init__(self,protocol,  e1: Entanglement, e2: Entanglement, source=None, init_time: float = None):
+    def __init__(self, protocol,  e1: Entanglement, e2: Entanglement, source=None, init_time: float = None):
         super().__init__(init_time)
         self.protocol = protocol
         self.e1 = e1
@@ -52,7 +53,7 @@ class NodeSwappingEvent(Event):
 
     def run(self, simulator: Simulator):
         # self.node.call(simulator, (self.e1, self.e2),
-                        #  self.source, event=self)
+        #  self.source, event=self)
         self.protocol.swapping(simulator, self.e1, self.e2)
 
 
@@ -64,15 +65,17 @@ class NodeSwappingAfterEvent(Event):
     def run(self, simulator: Simulator):
         pass
 
+
 class NodeDistillationEvent(Event):
     def __init__(self, protocol, e1: Entanglement, e2: Entanglement, init_time: float = None):
         super().__init__(init_time)
         self.protocol = protocol
         self.e1 = e1
         self.e2 = e2
-    
+
     def run(self, simulator: Simulator):
         self.protocol.distillation(simulator, self.e1, self.e2)
+
 
 class NodeDistillationAfterEvent(Event):
     def __init__(self, node, init_time: float = None):
