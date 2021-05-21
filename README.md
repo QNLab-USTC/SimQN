@@ -14,9 +14,10 @@ Todo List:
 - [x] BB84 photon Sender and Receiver
 - [x] Entanglement Network, Node, Link and Controller
 - [x] Simple swapping, distillation and generation
-- [ ] Refact classic Sender, Receiver and repeator
-- [ ] Physical Simulation on entanglement
-- [ ] Documents 
+- [x] Refact classic Sender, Receiver and repeator
+- [ ] Physical Simulation on entanglement (Bell State, GHZ State)
+- [ ] Performance enhancement
+- [ ] Documents, Unit Testing
 
 ## Requirements and compile
 Python version > 3.7 is reiqured. To build QuantNetSim, `setuptools` and `wheel` is needed:
