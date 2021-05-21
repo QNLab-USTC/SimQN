@@ -14,7 +14,7 @@ class PrintProtocol(Protocol):
         log.info("check {}: {}", self, self.registers)
 
 
-s = Simulator(0, 3600, 100000)
+s = Simulator(0, 300, 1000000)
 log.set_debug(True)
 log.install(s)
 
@@ -27,14 +27,14 @@ n1.inject_protocol([ngp1, ndp1, nsp1])
 
 n2 = QuantumNode(name="n2", registers_number=50)
 ngp2 = QuantumNodeGenerationProtocol(n2)
-nsp2 = QuantumNodeSwappingProtocol(n2)
+nsp2 = QuantumNodeSwappingProtocol(n2, possible= 0.9, delay = 0.3)
 ndp2 = QuantumNodeDistillationProtocol(n2, threshold=0.9, lazy_run_step=10)
 npp2 = PrintProtocol(n2)
 n2.inject_protocol([ngp2, ndp2, nsp2])
 
 n3 = QuantumNode(name="n3", registers_number=50)
 ngp3 = QuantumNodeGenerationProtocol(n3)
-nsp3 = QuantumNodeSwappingProtocol(n3)
+nsp3 = QuantumNodeSwappingProtocol(n3, possible= 0.9, delay = 0.3)
 npp3 = PrintProtocol(n3)
 n3.inject_protocol([ngp3, nsp3])
 
@@ -51,8 +51,8 @@ n2.install(s)
 n3.install(s)
 n4.install(s)
 
-n2.route = [[n1], [n3]]
-n3.route = [[n1], [n4]]
+n2.route = [[n1], [n3, n4]]
+n3.route = [[n1, n2], [n4]]
 n1.allow_distillation = [n3, n2, n4]
 n2.allow_distillation = [n3, n4, n1]
 n4.allow_distillation = [n1, n2, n3]

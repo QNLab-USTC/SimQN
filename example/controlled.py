@@ -12,33 +12,33 @@ class PrintProtocol(Protocol):
         log.info("check {}: {}", self, self.registers)
 
 
-s = Simulator(0, 3600, 100000)
+s = Simulator(0, 3600, 1000000)
 log.set_debug(True)
 log.install(s)
 
-n1 = QuantumNode(name="n1", registers_number=40)
-nsp1 = QuantumNodeSwappingProtocol(n1, under_controlled=True)
+n1 = QuantumNode(name="n1", registers_number=50)
+nsp1 = QuantumNodeSwappingProtocol(n1, under_controlled=True, possible= 0.9, delay = 0.3)
 ndp1 = QuantumNodeDistillationProtocol(
     n1, threshold=0.9, under_controlled=True)
 npp1 = PrintProtocol(n1)
 n1.inject_protocol([ndp1, nsp1])
 
-n2 = QuantumNode(name="n2", registers_number=40)
-nsp2 = QuantumNodeSwappingProtocol(n2, under_controlled=True)
+n2 = QuantumNode(name="n2", registers_number=50)
+nsp2 = QuantumNodeSwappingProtocol(n2, under_controlled=True, possible= 0.9, delay = 0.3)
 ndp2 = QuantumNodeDistillationProtocol(
     n2, threshold=0.9, under_controlled=True)
 npp2 = PrintProtocol(n2)
 n2.inject_protocol([ndp2, nsp2])
 
-n3 = QuantumNode(name="n3", registers_number=40)
-nsp3 = QuantumNodeSwappingProtocol(n3, under_controlled=True)
+n3 = QuantumNode(name="n3", registers_number=50)
+nsp3 = QuantumNodeSwappingProtocol(n3, under_controlled=True, possible= 0.9, delay = 0.3)
 ndp3 = QuantumNodeDistillationProtocol(
     n3, threshold=0.9, under_controlled=True)
 npp3 = PrintProtocol(n3)
 n3.inject_protocol([ndp3, nsp3])
 
-n4 = QuantumNode(name="n4", registers_number=40)
-nsp4 = QuantumNodeSwappingProtocol(n4, under_controlled=True)
+n4 = QuantumNode(name="n4", registers_number=50)
+nsp4 = QuantumNodeSwappingProtocol(n4, under_controlled=True, possible= 0.9, delay = 0.3)
 ndp4 = QuantumNodeDistillationProtocol(
     n4, threshold=0.9, under_controlled=True)
 npp4 = PrintProtocol(n4)
@@ -58,17 +58,17 @@ n4.install(s)
 
 
 c1 = QuantumChannel(nodes=[n1, n2], name="c1")
-cgp1 = GenerationProtocal(c1, rate=50, possible=0.8, fidelity=0.93)
+cgp1 = GenerationProtocal(c1, rate=30, possible=0.8, fidelity=0.93)
 c1.inject_protocol(cgp1)
 c1.install(s)
 
 c2 = QuantumChannel(nodes=[n2, n3], name="c2")
-cgp2 = GenerationProtocal(c2, rate=50, possible=0.8, fidelity=0.93)
+cgp2 = GenerationProtocal(c2, rate=30, possible=0.8, fidelity=0.93)
 c2.inject_protocol(cgp2)
 c2.install(s)
 
 c3 = QuantumChannel(nodes=[n3, n4], name="c3")
-cgp3 = GenerationProtocal(c3, rate=50, possible=0.8, fidelity=0.93)
+cgp3 = GenerationProtocal(c3, rate=30, possible=0.8, fidelity=0.93)
 c3.inject_protocol(cgp3)
 c3.install(s)
 
@@ -80,7 +80,7 @@ swapping_schema = {
     n2: ([n1], [n3]),
     n3: ([n1], [n4]),
 }
-ccp = ControllerProtocol(controller, delay=0.25, distillation_schema=distillation_schema,
+ccp = ControllerProtocol(controller, delay=0.3, distillation_schema=distillation_schema,
                          distillation_threshold=0.9, swapping_schema=swapping_schema)
 controller.inject_protocol(ccp)
 controller.install(s)
