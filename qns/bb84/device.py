@@ -3,6 +3,7 @@ from qns.schedular import Protocol, Simulator, Event
 from .event import GenerationAndSendEvent, PhotonReceiveEvent
 from .photon import Photon, Basis, Polar
 from qns.log import log
+import uuid
 
 
 class PhotonNode(Node):
@@ -13,7 +14,7 @@ class PhotonNode(Node):
         self.registers = []
 
         if name is None:
-            self.name = str(id(self))
+            self.name = uuid.uuid4()
         else:
             self.name = name
 
