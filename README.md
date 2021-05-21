@@ -29,7 +29,7 @@ Run the following command to build QuantNetSim:
 python3 setup.py bdist_wheel # build wheel format package
 ```
 
-The following command will install a distribute in system:
+The following command will install QuantNetSim in system:
 ```
 pip3 install dist/qns-<version>-none-any.whl
 ```
