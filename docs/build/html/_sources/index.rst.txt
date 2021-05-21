@@ -18,3 +18,17 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+.. automodule::src
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule::models
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+...
+
+* :ref:`modindex`
