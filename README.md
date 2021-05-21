@@ -2,6 +2,8 @@
 
 A discrete time scheduler designed for Quantum Network. QuantNetSim is writen in python3 with out any 3th-party libraries. Some examples are in `example`.
 
+> **进行开发请务必阅读[开发手册](https://github.com/ertuil/QuantNetSim/blob/dev/doc/%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C.md)**
+
 **Still in heavy development, api may change**
 
 ## Features
