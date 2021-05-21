@@ -23,9 +23,9 @@ class SendTimeProtocol(Protocol):
         _self.end_time_slice = simulator.to_time_slice(_self.end_time)
         _self.step_time_slice = simulator.to_time_slice(_self.step_time)
 
-        # for i in range(_self.start_time_slice, _self.end_time_slice, _self.step_time_slice):
-        msg = Message(_self.message, _self.from_node, _self.to_node, _self.link)
-        self.call(simulator, msg, source = self, event = None, time_slice = _self.start_time_slice)
+        for i in range(_self.start_time_slice, _self.end_time_slice, _self.step_time_slice):
+            msg = Message(_self.message, _self.from_node, _self.to_node, _self.link)
+            self.call(simulator, msg, source = self, event = None, time_slice = i)
 
 s = Simulator(0, 10, 100000)
 log.install(s)
