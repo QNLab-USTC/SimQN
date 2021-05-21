@@ -2,6 +2,7 @@ import uuid
 from qns.schedular import Simulator, Protocol, Event
 from qns.topo import Node
 from qns.log import log
+from .message import Message
 
 class ClassicNode(Node):
     def __init__(self, name=None):
@@ -16,7 +17,6 @@ class ClassicNode(Node):
         return "<classic node " + self.name+">"
 
 
-# call msg = (link, data) to send
 class ClassicSendProtocol(Protocol):
     def __init__(_self, entity):
         super().__init__(entity)
@@ -24,14 +24,15 @@ class ClassicSendProtocol(Protocol):
     def install(_self, simulator: Simulator):
         _self.simulator = simulator
 
-    def handle(_self, simulator: Simulator, msg: object, source=None, event=None):
+    def handle(_self, simulator: Simulator, msg: Message, source=None, event=None):
         self = _self.entity
-        (link, data) = msg
+        link = msg.link
+
         if link not in self.classic_links:
             log.debug("link {} is not attached on {}", link, self)
 
-        log.debug("{} send {} on {}", self, data, link)
-        link.call(simulator, data, source=self, event=event)
+        log.debug("{} send {} on {}", self, msg, link)
+        link.call(simulator, msg, source=self, event=event)
 
 
 class ClassicRecvProtocol(Protocol):
@@ -43,8 +44,31 @@ class ClassicRecvProtocol(Protocol):
 
     def handle(_self, simulator: Simulator, msg: object, source=None, event=None):
         self = _self.entity
-        data = msg
-        source = source
 
         log.debug("{} recv {} from {}",
-                  self, data, source)
+                  self, msg, source)
+
+# ClassicSwitchProtocol
+# forwarding table = {outnode1: outlink1, outnode2: outlink2}
+# buffer_size maximun buffer size
+# delay delay time in seconde
+class ClassicSwitchProtocol(Protocol):
+    def __init__(_self, entity,forwarding = {}, delay = 0 ,buffer_size = None):
+        super().__init__(entity)
+        _self.delay = delay
+        _self.forwarding = forwarding
+        _self.buffer_size = buffer_size
+
+    def install(_self, simulator: Simulator):
+        _self.simulator = simulator
+        _self.delay_time_slice = simulator.to_time_slice(_self.delay)
+
+    def handle(_self, simulator: Simulator, msg: Message, source=None, event=None):
+        self = _self.entity
+        try: 
+            link = _self.forwarding[msg.to_node]
+        except KeyError:
+            log.debug("{} can not forward to node {} ", self, source)
+            return
+        log.debug("{} send {} on {}", self, msg, link)
+        link.call(simulator, msg, source=self, event=event, time_slice = simulator.current_time_slice + _self.delay_time_slice)  
