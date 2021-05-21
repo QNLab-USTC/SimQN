@@ -12,6 +12,10 @@ class SimulatorError(Exception):
 
 
 class Simulator():
+    '''
+    Simulator: The simulator for quantum network
+    '''
+    
     def __init__(self, start_time: float = default_start_time, end_time: float = default_end_time, time_accuracy: int = default_time_accuracy, events_list=[]):
         self.status = "init"
         self.log = None

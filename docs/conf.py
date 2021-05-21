@@ -23,6 +23,8 @@ author = 'Elliot Chen'
 
 # The full version, including alpha/beta/rc tags
 release = '0.0.2'
+html_baseurl = "/QuantNetSim"
+
 
 
 # -- General configuration ---------------------------------------------------
