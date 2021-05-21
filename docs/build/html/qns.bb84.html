@@ -36,20 +36,187 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="qns-bb84-device-module">
-<h2>qns.bb84.device module<a class="headerlink" href="#qns-bb84-device-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-qns.bb84.device">
+<span id="qns-bb84-device-module"></span><h2>qns.bb84.device module<a class="headerlink" href="#module-qns.bb84.device" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.bb84.device.PhotonNode">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.bb84.device.</span></span><span class="sig-name descname"><span class="pre">PhotonNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">registers_number</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.device.PhotonNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.topo.html#qns.topo.basic.Node" title="qns.topo.basic.Node"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.topo.basic.Node</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.bb84.device.PhotonRandomSendProtocol">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.bb84.device.</span></span><span class="sig-name descname"><span class="pre">PhotonRandomSendProtocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.device.PhotonRandomSendProtocol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol" title="qns.schedular.protocol.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.bb84.device.PhotonRandomSendProtocol.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.device.PhotonRandomSendProtocol.handle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.bb84.device.PhotonRandomSendProtocol.install">
+<span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.device.PhotonRandomSendProtocol.install" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.bb84.device.PhotonRandomSendProtocol.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><span class="pre">qns.schedular.event.Event</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.device.PhotonRandomSendProtocol.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.bb84.device.PhotonReceiveAndMeasureProtocol">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.bb84.device.</span></span><span class="sig-name descname"><span class="pre">PhotonReceiveAndMeasureProtocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.device.PhotonReceiveAndMeasureProtocol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol" title="qns.schedular.protocol.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.bb84.device.PhotonReceiveAndMeasureProtocol.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.device.PhotonReceiveAndMeasureProtocol.handle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.bb84.device.PhotonReceiveAndMeasureProtocol.install">
+<span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.device.PhotonReceiveAndMeasureProtocol.install" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="qns-bb84-event-module">
-<h2>qns.bb84.event module<a class="headerlink" href="#qns-bb84-event-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-qns.bb84.event">
+<span id="qns-bb84-event-module"></span><h2>qns.bb84.event module<a class="headerlink" href="#module-qns.bb84.event" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.bb84.event.GenerationAndSendEvent">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.bb84.event.</span></span><span class="sig-name descname"><span class="pre">GenerationAndSendEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.event.GenerationAndSendEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.bb84.event.GenerationAndSendEvent.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.event.GenerationAndSendEvent.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.bb84.event.PhotonReceiveEvent">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.bb84.event.</span></span><span class="sig-name descname"><span class="pre">PhotonReceiveEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_photon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.event.PhotonReceiveEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.bb84.event.PhotonReceiveEvent.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.event.PhotonReceiveEvent.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="qns-bb84-fiber-module">
-<h2>qns.bb84.fiber module<a class="headerlink" href="#qns-bb84-fiber-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-qns.bb84.fiber">
+<span id="qns-bb84-fiber-module"></span><h2>qns.bb84.fiber module<a class="headerlink" href="#module-qns.bb84.fiber" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.bb84.fiber.OpticalFiber">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.bb84.fiber.</span></span><span class="sig-name descname"><span class="pre">OpticalFiber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.fiber.OpticalFiber" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.topo.html#qns.topo.basic.Channel" title="qns.topo.basic.Channel"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.topo.basic.Channel</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.bb84.fiber.OpticalFiberProtocol">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.bb84.fiber.</span></span><span class="sig-name descname"><span class="pre">OpticalFiberProtocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">possible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_onfly</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.fiber.OpticalFiberProtocol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol" title="qns.schedular.protocol.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.bb84.fiber.OpticalFiberProtocol.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.fiber.OpticalFiberProtocol.handle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.bb84.fiber.OpticalFiberProtocol.install">
+<span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.fiber.OpticalFiberProtocol.install" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="qns-bb84-photon-module">
-<h2>qns.bb84.photon module<a class="headerlink" href="#qns-bb84-photon-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-qns.bb84.photon">
+<span id="qns-bb84-photon-module"></span><h2>qns.bb84.photon module<a class="headerlink" href="#module-qns.bb84.photon" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.bb84.photon.Basis">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.bb84.photon.</span></span><span class="sig-name descname"><span class="pre">Basis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.photon.Basis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qns.bb84.photon.Basis.X">
+<span class="sig-name descname"><span class="pre">X</span></span><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#qns.bb84.photon.Basis.X" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qns.bb84.photon.Basis.Z">
+<span class="sig-name descname"><span class="pre">Z</span></span><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#qns.bb84.photon.Basis.Z" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.bb84.photon.Photon">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.bb84.photon.</span></span><span class="sig-name descname"><span class="pre">Photon</span></span><a class="headerlink" href="#qns.bb84.photon.Photon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.bb84.photon.Photon.measure">
+<span class="sig-name descname"><span class="pre">measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basis</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.bb84.photon.Basis" title="qns.bb84.photon.Basis"><span class="pre">qns.bb84.photon.Basis</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.photon.Photon.measure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.bb84.photon.Photon.preparation">
+<span class="sig-name descname"><span class="pre">preparation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">polar</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.bb84.photon.Polar" title="qns.bb84.photon.Polar"><span class="pre">qns.bb84.photon.Polar</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.photon.Photon.preparation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.bb84.photon.Photon.random_measure">
+<span class="sig-name descname"><span class="pre">random_measure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.photon.Photon.random_measure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.bb84.photon.Photon.random_preparation">
+<span class="sig-name descname"><span class="pre">random_preparation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.photon.Photon.random_preparation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.bb84.photon.Polar">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.bb84.photon.</span></span><span class="sig-name descname"><span class="pre">Polar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.photon.Polar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qns.bb84.photon.Polar.A">
+<span class="sig-name descname"><span class="pre">A</span></span><em class="property"> <span class="pre">=</span> <span class="pre">-2</span></em><a class="headerlink" href="#qns.bb84.photon.Polar.A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qns.bb84.photon.Polar.H">
+<span class="sig-name descname"><span class="pre">H</span></span><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#qns.bb84.photon.Polar.H" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qns.bb84.photon.Polar.N">
+<span class="sig-name descname"><span class="pre">N</span></span><em class="property"> <span class="pre">=</span> <span class="pre">-1</span></em><a class="headerlink" href="#qns.bb84.photon.Polar.N" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qns.bb84.photon.Polar.P">
+<span class="sig-name descname"><span class="pre">P</span></span><em class="property"> <span class="pre">=</span> <span class="pre">3</span></em><a class="headerlink" href="#qns.bb84.photon.Polar.P" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qns.bb84.photon.Polar.Q">
+<span class="sig-name descname"><span class="pre">Q</span></span><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#qns.bb84.photon.Polar.Q" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qns.bb84.photon.Polar.V">
+<span class="sig-name descname"><span class="pre">V</span></span><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#qns.bb84.photon.Polar.V" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-qns.bb84">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qns.bb84" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

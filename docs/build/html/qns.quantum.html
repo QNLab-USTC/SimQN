@@ -36,26 +36,346 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="qns-quantum-controller-module">
-<h2>qns.quantum.controller module<a class="headerlink" href="#qns-quantum-controller-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-qns.quantum.controller">
+<span id="qns-quantum-controller-module"></span><h2>qns.quantum.controller module<a class="headerlink" href="#module-qns.quantum.controller" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.quantum.controller.ControllerEvent">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.controller.</span></span><span class="sig-name descname"><span class="pre">ControllerEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.controller.ControllerEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.controller.ControllerEvent.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.controller.ControllerEvent.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.quantum.controller.ControllerProtocol">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.controller.</span></span><span class="sig-name descname"><span class="pre">ControllerProtocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.controller.QuantumController" title="qns.quantum.controller.QuantumController"><span class="pre">qns.quantum.controller.QuantumController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distillation_schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distillation_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">swapping_schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">swapping_possible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.controller.ControllerProtocol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol" title="qns.schedular.protocol.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.controller.ControllerProtocol.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><span class="pre">qns.schedular.event.Event</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.controller.ControllerProtocol.handle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.controller.ControllerProtocol.install">
+<span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.controller.ControllerProtocol.install" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.controller.ControllerProtocol.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.controller.ControllerProtocol.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.quantum.controller.QuantumController">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.controller.</span></span><span class="sig-name descname"><span class="pre">QuantumController</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">links</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.controller.QuantumController" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.topo.html#qns.topo.basic.Node" title="qns.topo.basic.Node"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.topo.basic.Node</span></code></a></p>
+</dd></dl>
+
 </div>
-<div class="section" id="qns-quantum-entanglement-module">
-<h2>qns.quantum.entanglement module<a class="headerlink" href="#qns-quantum-entanglement-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-qns.quantum.entanglement">
+<span id="qns-quantum-entanglement-module"></span><h2>qns.quantum.entanglement module<a class="headerlink" href="#module-qns.quantum.entanglement" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.quantum.entanglement.Entanglement">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.entanglement.</span></span><span class="sig-name descname"><span class="pre">Entanglement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">birth_time_slice</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fidelity</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">life_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.entanglement.Entanglement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.entanglement.Entanglement.default_life_func">
+<span class="sig-name descname"><span class="pre">default_life_func</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.entanglement.Entanglement.default_life_func" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.entanglement.Entanglement.is_alive">
+<span class="sig-name descname"><span class="pre">is_alive</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.entanglement.Entanglement.is_alive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="qns-quantum-events-module">
-<h2>qns.quantum.events module<a class="headerlink" href="#qns-quantum-events-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-qns.quantum.events">
+<span id="qns-quantum-events-module"></span><h2>qns.quantum.events module<a class="headerlink" href="#module-qns.quantum.events" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.quantum.events.GenerationAllocateEvent">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.events.</span></span><span class="sig-name descname"><span class="pre">GenerationAllocateEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.GenerationAllocateEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.events.GenerationAllocateEvent.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.GenerationAllocateEvent.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.quantum.events.GenerationEntanglementAfterEvent">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.events.</span></span><span class="sig-name descname"><span class="pre">GenerationEntanglementAfterEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><span class="pre">qns.quantum.entanglement.Entanglement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">link</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.GenerationEntanglementAfterEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.events.GenerationEntanglementAfterEvent.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.GenerationEntanglementAfterEvent.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.quantum.events.GenerationEvent">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.events.</span></span><span class="sig-name descname"><span class="pre">GenerationEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.GenerationEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.events.GenerationEvent.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.GenerationEvent.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.quantum.events.NodeDistillationAfterEvent">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.events.</span></span><span class="sig-name descname"><span class="pre">NodeDistillationAfterEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.NodeDistillationAfterEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.events.NodeDistillationAfterEvent.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.NodeDistillationAfterEvent.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.quantum.events.NodeDistillationEvent">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.events.</span></span><span class="sig-name descname"><span class="pre">NodeDistillationEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><span class="pre">qns.quantum.entanglement.Entanglement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">e2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><span class="pre">qns.quantum.entanglement.Entanglement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.NodeDistillationEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.events.NodeDistillationEvent.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.NodeDistillationEvent.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.quantum.events.NodeSwappingAfterEvent">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.events.</span></span><span class="sig-name descname"><span class="pre">NodeSwappingAfterEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.NodeSwappingAfterEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.events.NodeSwappingAfterEvent.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.NodeSwappingAfterEvent.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.quantum.events.NodeSwappingEvent">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.events.</span></span><span class="sig-name descname"><span class="pre">NodeSwappingEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><span class="pre">qns.quantum.entanglement.Entanglement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">e2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><span class="pre">qns.quantum.entanglement.Entanglement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.NodeSwappingEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.events.NodeSwappingEvent.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.NodeSwappingEvent.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="qns-quantum-link-module">
-<h2>qns.quantum.link module<a class="headerlink" href="#qns-quantum-link-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-qns.quantum.link">
+<span id="qns-quantum-link-module"></span><h2>qns.quantum.link module<a class="headerlink" href="#module-qns.quantum.link" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.quantum.link.GenerationProtocal">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.link.</span></span><span class="sig-name descname"><span class="pre">GenerationProtocal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">possible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.02</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fidelity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allocate_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.link.GenerationProtocal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol" title="qns.schedular.protocol.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.link.GenerationProtocal.allocate">
+<span class="sig-name descname"><span class="pre">allocate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.link.GenerationProtocal.allocate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.link.GenerationProtocal.generation">
+<span class="sig-name descname"><span class="pre">generation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.link.GenerationProtocal.generation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.link.GenerationProtocal.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><span class="pre">qns.schedular.event.Event</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.link.GenerationProtocal.handle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.link.GenerationProtocal.install">
+<span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.link.GenerationProtocal.install" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.quantum.link.QuantumChannel">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.link.</span></span><span class="sig-name descname"><span class="pre">QuantumChannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.link.QuantumChannel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.topo.html#qns.topo.basic.Channel" title="qns.topo.basic.Channel"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.topo.basic.Channel</span></code></a></p>
+</dd></dl>
+
 </div>
-<div class="section" id="qns-quantum-network-module">
-<h2>qns.quantum.network module<a class="headerlink" href="#qns-quantum-network-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-qns.quantum.network">
+<span id="qns-quantum-network-module"></span><h2>qns.quantum.network module<a class="headerlink" href="#module-qns.quantum.network" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.quantum.network.QuantumNetwork">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.network.</span></span><span class="sig-name descname"><span class="pre">QuantumNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quantum_nodes</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.network.QuantumNetwork" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.entity.Entity" title="qns.schedular.entity.Entity"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.entity.Entity</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.network.QuantumNetwork.add_link">
+<span class="sig-name descname"><span class="pre">add_link</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">link</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.link.QuantumChannel" title="qns.quantum.link.QuantumChannel"><span class="pre">qns.quantum.link.QuantumChannel</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.network.QuantumNetwork.add_link" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.network.QuantumNetwork.add_node">
+<span class="sig-name descname"><span class="pre">add_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.node.QuantumNode" title="qns.quantum.node.QuantumNode"><span class="pre">qns.quantum.node.QuantumNode</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.network.QuantumNetwork.add_node" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.network.QuantumNetwork.del_link">
+<span class="sig-name descname"><span class="pre">del_link</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">link</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.link.QuantumChannel" title="qns.quantum.link.QuantumChannel"><span class="pre">qns.quantum.link.QuantumChannel</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.network.QuantumNetwork.del_link" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.network.QuantumNetwork.del_node">
+<span class="sig-name descname"><span class="pre">del_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.network.QuantumNetwork.del_node" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.network.QuantumNetwork.get_node">
+<span class="sig-name descname"><span class="pre">get_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.network.QuantumNetwork.get_node" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.network.QuantumNetwork.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><span class="pre">qns.schedular.event.Event</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.network.QuantumNetwork.handle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.network.QuantumNetwork.install">
+<span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.network.QuantumNetwork.install" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="qns-quantum-node-module">
-<h2>qns.quantum.node module<a class="headerlink" href="#qns-quantum-node-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-qns.quantum.node">
+<span id="qns-quantum-node-module"></span><h2>qns.quantum.node module<a class="headerlink" href="#module-qns.quantum.node" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.quantum.node.KeepUseSoonProtocol">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.node.</span></span><span class="sig-name descname"><span class="pre">KeepUseSoonProtocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fidelity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.KeepUseSoonProtocol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.node.KeepUseSoonProtocol.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.KeepUseSoonProtocol.handle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.node.KeepUseSoonProtocol.install">
+<span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.KeepUseSoonProtocol.install" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.node.KeepUseSoonProtocol.total_used_count">
+<span class="sig-name descname"><span class="pre">total_used_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.KeepUseSoonProtocol.total_used_count" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.node.KeepUseSoonProtocol.total_used_entanglements">
+<span class="sig-name descname"><span class="pre">total_used_entanglements</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.KeepUseSoonProtocol.total_used_entanglements" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.quantum.node.QuantumNode">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.node.</span></span><span class="sig-name descname"><span class="pre">QuantumNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">registers_number</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.topo.html#qns.topo.basic.Node" title="qns.topo.basic.Node"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.topo.basic.Node</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.node.QuantumNode.add_entanglement">
+<span class="sig-name descname"><span class="pre">add_entanglement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><span class="pre">qns.quantum.entanglement.Entanglement</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNode.add_entanglement" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.node.QuantumNode.is_full">
+<span class="sig-name descname"><span class="pre">is_full</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNode.is_full" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.node.QuantumNode.remove_entanglement">
+<span class="sig-name descname"><span class="pre">remove_entanglement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><span class="pre">qns.quantum.entanglement.Entanglement</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNode.remove_entanglement" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.quantum.node.QuantumNodeDistillationProtocol">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.node.</span></span><span class="sig-name descname"><span class="pre">QuantumNodeDistillationProtocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.node.QuantumNode" title="qns.quantum.node.QuantumNode"><span class="pre">qns.quantum.node.QuantumNode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lazy_run_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">under_controlled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNodeDistillationProtocol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol" title="qns.schedular.protocol.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.node.QuantumNodeDistillationProtocol.distillation">
+<span class="sig-name descname"><span class="pre">distillation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">e1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNodeDistillationProtocol.distillation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.node.QuantumNodeDistillationProtocol.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><span class="pre">qns.schedular.event.Event</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNodeDistillationProtocol.handle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.node.QuantumNodeDistillationProtocol.install">
+<span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNodeDistillationProtocol.install" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="qns.quantum.node.QuantumNodeError">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.node.</span></span><span class="sig-name descname"><span class="pre">QuantumNodeError</span></span><a class="headerlink" href="#qns.quantum.node.QuantumNodeError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.quantum.node.QuantumNodeGenerationProtocol">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.node.</span></span><span class="sig-name descname"><span class="pre">QuantumNodeGenerationProtocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNodeGenerationProtocol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol" title="qns.schedular.protocol.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.node.QuantumNodeGenerationProtocol.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><span class="pre">qns.schedular.event.Event</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNodeGenerationProtocol.handle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.node.QuantumNodeGenerationProtocol.install">
+<span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNodeGenerationProtocol.install" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.quantum.node.QuantumNodeSwappingProtocol">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.node.</span></span><span class="sig-name descname"><span class="pre">QuantumNodeSwappingProtocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">possible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fidelity_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">under_controlled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNodeSwappingProtocol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol" title="qns.schedular.protocol.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.node.QuantumNodeSwappingProtocol.fidelity">
+<span class="sig-name descname"><span class="pre">fidelity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNodeSwappingProtocol.fidelity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.node.QuantumNodeSwappingProtocol.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><span class="pre">qns.schedular.event.Event</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNodeSwappingProtocol.handle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.node.QuantumNodeSwappingProtocol.install">
+<span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNodeSwappingProtocol.install" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.node.QuantumNodeSwappingProtocol.swapping">
+<span class="sig-name descname"><span class="pre">swapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">e1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><span class="pre">qns.quantum.entanglement.Entanglement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">e2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><span class="pre">qns.quantum.entanglement.Entanglement</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNodeSwappingProtocol.swapping" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-qns.quantum">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qns.quantum" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

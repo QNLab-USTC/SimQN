@@ -36,23 +36,187 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="qns-schedular-entity-module">
-<h2>qns.schedular.entity module<a class="headerlink" href="#qns-schedular-entity-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-qns.schedular.entity">
+<span id="qns-schedular-entity-module"></span><h2>qns.schedular.entity module<a class="headerlink" href="#module-qns.schedular.entity" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.schedular.entity.CallEvent">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.schedular.entity.</span></span><span class="sig-name descname"><span class="pre">CallEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callee</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#qns.schedular.event.Event" title="qns.schedular.event.Event"><span class="pre">qns.schedular.event.Event</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.entity.CallEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.schedular.entity.CallEvent.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.entity.CallEvent.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.schedular.entity.Entity">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.schedular.entity.</span></span><span class="sig-name descname"><span class="pre">Entity</span></span><a class="headerlink" href="#qns.schedular.entity.Entity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.schedular.entity.Entity.call">
+<span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#qns.schedular.event.Event" title="qns.schedular.event.Event"><span class="pre">qns.schedular.event.Event</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_slice</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.entity.Entity.call" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.schedular.entity.Entity.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#qns.schedular.event.Event" title="qns.schedular.event.Event"><span class="pre">qns.schedular.event.Event</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.entity.Entity.handle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.schedular.entity.Entity.inject_protocol">
+<span class="sig-name descname"><span class="pre">inject_protocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.entity.Entity.inject_protocol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.schedular.entity.Entity.install">
+<span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.entity.Entity.install" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="qns-schedular-event-module">
-<h2>qns.schedular.event module<a class="headerlink" href="#qns-schedular-event-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-qns.schedular.event">
+<span id="qns-schedular-event-module"></span><h2>qns.schedular.event module<a class="headerlink" href="#module-qns.schedular.event" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.schedular.event.Event">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.schedular.event.</span></span><span class="sig-name descname"><span class="pre">Event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.event.Event" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.schedular.event.Event.cancel">
+<span class="sig-name descname"><span class="pre">cancel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.event.Event.cancel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.schedular.event.Event.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.event.Event.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.schedular.event.Event.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.event.Event.start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="qns-schedular-pool-module">
-<h2>qns.schedular.pool module<a class="headerlink" href="#qns-schedular-pool-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-qns.schedular.pool">
+<span id="qns-schedular-pool-module"></span><h2>qns.schedular.pool module<a class="headerlink" href="#module-qns.schedular.pool" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.schedular.pool.EventsPool">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.schedular.pool.</span></span><span class="sig-name descname"><span class="pre">EventsPool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_time_slice</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time_slice</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.pool.EventsPool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.schedular.pool.EventsPool.add_event">
+<span class="sig-name descname"><span class="pre">add_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_slice</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.schedular.event.Event" title="qns.schedular.event.Event"><span class="pre">qns.schedular.event.Event</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.pool.EventsPool.add_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.schedular.pool.EventsPool.get_current_time_slice">
+<span class="sig-name descname"><span class="pre">get_current_time_slice</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.pool.EventsPool.get_current_time_slice" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.schedular.pool.EventsPool.get_event">
+<span class="sig-name descname"><span class="pre">get_event</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.pool.EventsPool.get_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.schedular.pool.EventsPool.remote_event">
+<span class="sig-name descname"><span class="pre">remote_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.pool.EventsPool.remote_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.schedular.pool.EventsPool.set_current_time_slice">
+<span class="sig-name descname"><span class="pre">set_current_time_slice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current_time_slice</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.pool.EventsPool.set_current_time_slice" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.schedular.pool.EventsPool.show_events">
+<span class="sig-name descname"><span class="pre">show_events</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.pool.EventsPool.show_events" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.schedular.pool.EventsPoolNode">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.schedular.pool.</span></span><span class="sig-name descname"><span class="pre">EventsPoolNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_slice</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.schedular.event.Event" title="qns.schedular.event.Event"><span class="pre">qns.schedular.event.Event</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.pool.EventsPoolNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.schedular.pool.EventsPoolNode.cancel">
+<span class="sig-name descname"><span class="pre">cancel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.pool.EventsPoolNode.cancel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="qns-schedular-protocol-module">
-<h2>qns.schedular.protocol module<a class="headerlink" href="#qns-schedular-protocol-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-qns.schedular.protocol">
+<span id="qns-schedular-protocol-module"></span><h2>qns.schedular.protocol module<a class="headerlink" href="#module-qns.schedular.protocol" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.schedular.protocol.Protocol">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.schedular.protocol.</span></span><span class="sig-name descname"><span class="pre">Protocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.protocol.Protocol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.schedular.protocol.Protocol.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.protocol.Protocol.handle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.schedular.protocol.Protocol.install">
+<span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.protocol.Protocol.install" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="qns-schedular-simulator-module">
-<h2>qns.schedular.simulator module<a class="headerlink" href="#qns-schedular-simulator-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-qns.schedular.simulator">
+<span id="qns-schedular-simulator-module"></span><h2>qns.schedular.simulator module<a class="headerlink" href="#module-qns.schedular.simulator" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.schedular.simulator.Simulator">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.schedular.simulator.</span></span><span class="sig-name descname"><span class="pre">Simulator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">600.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_accuracy</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">events_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.simulator.Simulator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Simulator: The simulator for quantum network</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.schedular.simulator.Simulator.add_event">
+<span class="sig-name descname"><span class="pre">add_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_slice</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.schedular.event.Event" title="qns.schedular.event.Event"><span class="pre">qns.schedular.event.Event</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.simulator.Simulator.add_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.schedular.simulator.Simulator.remote_event">
+<span class="sig-name descname"><span class="pre">remote_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.schedular.event.Event" title="qns.schedular.event.Event"><span class="pre">qns.schedular.event.Event</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.simulator.Simulator.remote_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.schedular.simulator.Simulator.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.simulator.Simulator.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.schedular.simulator.Simulator.setup">
+<span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">events_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.simulator.Simulator.setup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.schedular.simulator.Simulator.to_time">
+<span class="sig-name descname"><span class="pre">to_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_slice</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">float</span><a class="headerlink" href="#qns.schedular.simulator.Simulator.to_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.schedular.simulator.Simulator.to_time_slice">
+<span class="sig-name descname"><span class="pre">to_time_slice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.simulator.Simulator.to_time_slice" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="qns.schedular.simulator.SimulatorError">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">qns.schedular.simulator.</span></span><span class="sig-name descname"><span class="pre">SimulatorError</span></span><a class="headerlink" href="#qns.schedular.simulator.SimulatorError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
 </div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-qns.schedular">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qns.schedular" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

@@ -36,11 +36,54 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="qns-timer-timer-module">
-<h2>qns.timer.timer module<a class="headerlink" href="#qns-timer-timer-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-qns.timer.timer">
+<span id="qns-timer-timer-module"></span><h2>qns.timer.timer module<a class="headerlink" href="#module-qns.timer.timer" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.timer.timer.Timer">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.timer.timer.</span></span><span class="sig-name descname"><span class="pre">Timer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alloc_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.timer.timer.Timer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.entity.Entity" title="qns.schedular.entity.Entity"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.entity.Entity</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.timer.timer.Timer.alloc">
+<span class="sig-name descname"><span class="pre">alloc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.timer.timer.Timer.alloc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.timer.timer.Timer.install">
+<span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.timer.timer.Timer.install" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.timer.timer.Timer.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.timer.timer.Timer.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.timer.timer.TimerAllocEvent">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.timer.timer.</span></span><span class="sig-name descname"><span class="pre">TimerAllocEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timer</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.timer.timer.TimerAllocEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.timer.timer.TimerAllocEvent.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.timer.timer.TimerAllocEvent.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.timer.timer.TimerEvent">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.timer.timer.</span></span><span class="sig-name descname"><span class="pre">TimerEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timer</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.timer.timer.TimerEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.timer.timer.TimerEvent.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.timer.timer.TimerEvent.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-qns.timer">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qns.timer" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
