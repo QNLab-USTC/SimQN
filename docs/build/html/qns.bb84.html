@@ -192,12 +192,38 @@
 <dt class="sig sig-object py" id="qns.bb84.device.PhotonNode">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.bb84.device.</span></span><span class="sig-name descname"><span class="pre">PhotonNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">registers_number</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.device.PhotonNode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.topo.html#qns.topo.basic.Node" title="qns.topo.basic.Node"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.topo.basic.Node</span></code></a></p>
+<p>This is a quantum node that can send or receive a single photon</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>registers_number</strong> – the size of its quantum registers. Not used now.</p></li>
+<li><p><strong>name</strong> – its name</p></li>
+</ul>
+</dd>
+<dt class="field-even">Variables</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>registers</strong> – its quantum memory</p></li>
+<li><p><strong>links</strong> – attached quantum channels (optical fiber).</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qns.bb84.device.PhotonRandomSendProtocol">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.bb84.device.</span></span><span class="sig-name descname"><span class="pre">PhotonRandomSendProtocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.device.PhotonRandomSendProtocol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol" title="qns.schedular.protocol.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol</span></code></a></p>
+<p>It is a protocol for <code class="docutils literal notranslate"><span class="pre">PhotonNode</span></code>. It will generate new photon and send it periodly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entity</strong> – the <code class="docutils literal notranslate"><span class="pre">PhotonNode</span></code>.</p></li>
+<li><p><strong>rate</strong> – the photon generation rate.</p></li>
+<li><p><strong>start_time</strong> – the photon generation will start at <code class="docutils literal notranslate"><span class="pre">start_time</span></code>.</p></li>
+<li><p><strong>end_time</strong> – the photon generation will stop at <code class="docutils literal notranslate"><span class="pre">end_time</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.bb84.device.PhotonRandomSendProtocol.handle">
 <span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.device.PhotonRandomSendProtocol.handle" title="Permalink to this definition">¶</a></dt>
@@ -229,7 +255,16 @@ It can be used to initialize or insert initial events.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.bb84.device.PhotonRandomSendProtocol.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><span class="pre">qns.schedular.event.Event</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.device.PhotonRandomSendProtocol.run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Generate a new photon and send it on its channel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>simulator</strong> – the simulator</p></li>
+<li><p><strong>event</strong> – the event that calls this devices to generate and send new photon.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -237,17 +272,24 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.bb84.device.PhotonReceiveAndMeasureProtocol">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.bb84.device.</span></span><span class="sig-name descname"><span class="pre">PhotonReceiveAndMeasureProtocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.device.PhotonReceiveAndMeasureProtocol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol" title="qns.schedular.protocol.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol</span></code></a></p>
+<p>It is a protocol for <code class="docutils literal notranslate"><span class="pre">PhotonNode</span></code>. It will receive the coming photon and measure it.
+Then, it will print its polarization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>entity</strong> – the <code class="docutils literal notranslate"><span class="pre">PhotonNode</span></code>.</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.bb84.device.PhotonReceiveAndMeasureProtocol.handle">
 <span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.device.PhotonReceiveAndMeasureProtocol.handle" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">handle</span></code> is one of the callback functions that can be used to handle the triggered event.</p>
+<dd><p>The handle function will receive new photon and print its polarization</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>simulator</strong> – the simulator</p></li>
-<li><p><strong>msg</strong> – anything, can be considered as the <code class="docutils literal notranslate"><span class="pre">event</span></code>’s parameters</p></li>
-<li><p><strong>source</strong> – the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
-<li><p><strong>event</strong> – the event</p></li>
+<li><p><strong>msg</strong> – the coming photon</p></li>
+<li><p><strong>source</strong> – the photon sender</p></li>
+<li><p><strong>event</strong> – the event that calls this function</p></li>
 </ul>
 </dd>
 </dl>
@@ -274,15 +316,20 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.bb84.event.GenerationAndSendEvent">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.bb84.event.</span></span><span class="sig-name descname"><span class="pre">GenerationAndSendEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.event.GenerationAndSendEvent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<p>This event is generated by <code class="docutils literal notranslate"><span class="pre">PhotonRandomSendProtocol</span></code>. It is used to periodly generate new photon and send it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>protocol</strong> – a <code class="docutils literal notranslate"><span class="pre">PhotonRandomSendProtocol</span></code></p></li>
+<li><p><strong>source</strong> – the sender quantum node</p></li>
+<li><p><strong>init_time</strong> – the event’s generation time.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.bb84.event.GenerationAndSendEvent.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.event.GenerationAndSendEvent.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>It is the real event’s handle functions. <code class="docutils literal notranslate"><span class="pre">run</span></code> should be overrided.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator.</p>
-</dd>
-</dl>
+<dd><p>This event will call <code class="docutils literal notranslate"><span class="pre">PhotonRandomSendProtocol</span></code>’s <code class="docutils literal notranslate"><span class="pre">run</span></code> function to generate and send new photon.</p>
 </dd></dl>
 
 </dd></dl>
@@ -291,15 +338,21 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.bb84.event.PhotonReceiveEvent">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.bb84.event.</span></span><span class="sig-name descname"><span class="pre">PhotonReceiveEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_photon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.event.PhotonReceiveEvent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<p>This event is generated by a <code class="docutils literal notranslate"><span class="pre">PhotonReceiveEvent</span></code>. The fiber generate this event to notify the receiver to receive the coming photon.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>to</strong> – the photon receiver</p></li>
+<li><p><strong>new_photon</strong> – the sender photon</p></li>
+<li><p><strong>source</strong> – the photon sender</p></li>
+<li><p><strong>init_time</strong> – the event’s generation time.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.bb84.event.PhotonReceiveEvent.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.event.PhotonReceiveEvent.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>It is the real event’s handle functions. <code class="docutils literal notranslate"><span class="pre">run</span></code> should be overrided.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator.</p>
-</dd>
-</dl>
+<dd><p>This event will call <code class="docutils literal notranslate"><span class="pre">PhotonReceiveAndMeasureProtocol</span></code>’s <code class="docutils literal notranslate"><span class="pre">handle</span></code> function to receive the photon and measure it</p>
 </dd></dl>
 
 </dd></dl>
@@ -311,21 +364,42 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.bb84.fiber.OpticalFiber">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.bb84.fiber.</span></span><span class="sig-name descname"><span class="pre">OpticalFiber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.fiber.OpticalFiber" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.topo.html#qns.topo.basic.Channel" title="qns.topo.basic.Channel"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.topo.basic.Channel</span></code></a></p>
+<p>The quantum optical fiber to tranfer a photon.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> – quantum nodes that it is attached to</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – its name</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qns.bb84.fiber.OpticalFiberProtocol">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.bb84.fiber.</span></span><span class="sig-name descname"><span class="pre">OpticalFiberProtocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">possible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_onfly</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.fiber.OpticalFiberProtocol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol" title="qns.schedular.protocol.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol</span></code></a></p>
+<p>The protocol for optical fiber. It transfer a photon from one side to another.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entity</strong> – a quantum optical fiber</p></li>
+<li><p><strong>delay</strong> – its delay time in second</p></li>
+<li><p><strong>possible</strong> – its transmission success rate</p></li>
+<li><p><strong>rate</strong> – how many photon it can transfer per second</p></li>
+<li><p><strong>max_onfly</strong> – how many photon it can cached for sending. Over this bound, the new coming photon will be dropped.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.bb84.fiber.OpticalFiberProtocol.handle">
 <span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.fiber.OpticalFiberProtocol.handle" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">handle</span></code> is one of the callback functions that can be used to handle the triggered event.</p>
+<dd><p>Transmit a photon in <cite>msg</cite> and send it to another node.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>simulator</strong> – the simulator</p></li>
-<li><p><strong>msg</strong> – anything, can be considered as the <code class="docutils literal notranslate"><span class="pre">event</span></code>’s parameters</p></li>
+<li><p><strong>msg</strong> – the sending photon</p></li>
 <li><p><strong>source</strong> – the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
 <li><p><strong>event</strong> – the event</p></li>
 </ul>
@@ -354,7 +428,15 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.bb84.photon.Basis">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.bb84.photon.</span></span><span class="sig-name descname"><span class="pre">Basis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.photon.Basis" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
-<p>An enumeration.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Basis</span></code> is the quantum basis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> – X basis</p></li>
+<li><p><strong>Z</strong> – Z basis</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qns.bb84.photon.Basis.X">
 <span class="sig-name descname"><span class="pre">X</span></span><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#qns.bb84.photon.Basis.X" title="Permalink to this definition">¶</a></dt>
@@ -371,25 +453,62 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.bb84.photon.Photon">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.bb84.photon.</span></span><span class="sig-name descname"><span class="pre">Photon</span></span><a class="headerlink" href="#qns.bb84.photon.Photon" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This is a single photon</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>is_superposition_state</strong> (<em>bool</em>) – whether this photon is in super position state</p></li>
+<li><p><strong>polar</strong> (<a class="reference internal" href="#qns.bb84.photon.Polar" title="qns.bb84.photon.Polar"><em>Polar</em></a>) – its polar state</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – its name</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.bb84.photon.Photon.measure">
 <span class="sig-name descname"><span class="pre">measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basis</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.bb84.photon.Basis" title="qns.bb84.photon.Basis"><span class="pre">qns.bb84.photon.Basis</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.photon.Photon.measure" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Measure its polarization using selected basis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>basis</strong> (<a class="reference internal" href="#qns.bb84.photon.Basis" title="qns.bb84.photon.Basis"><em>Basis</em></a>) – the selected basis</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>1 or 0 to present its polarization. -2 means not been measured.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.bb84.photon.Photon.preparation">
 <span class="sig-name descname"><span class="pre">preparation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">polar</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.bb84.photon.Polar" title="qns.bb84.photon.Polar"><span class="pre">qns.bb84.photon.Polar</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.photon.Photon.preparation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Set this photon into certain polarization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>polar</strong> (<a class="reference internal" href="#qns.bb84.photon.Polar" title="qns.bb84.photon.Polar"><em>Polar</em></a>) – its polarizaion</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.bb84.photon.Photon.random_measure">
-<span class="sig-name descname"><span class="pre">random_measure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.photon.Photon.random_measure" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">random_measure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#qns.bb84.photon.Basis" title="qns.bb84.photon.Basis"><span class="pre">qns.bb84.photon.Basis</span></a><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#qns.bb84.photon.Polar" title="qns.bb84.photon.Polar"><span class="pre">qns.bb84.photon.Polar</span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#qns.bb84.photon.Photon.random_measure" title="Permalink to this definition">¶</a></dt>
+<dd><p>randomly use a basis measure its linear polarization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the basis and the polar</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.bb84.photon.Photon.random_preparation">
-<span class="sig-name descname"><span class="pre">random_preparation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.photon.Photon.random_preparation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">random_preparation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#qns.bb84.photon.Basis" title="qns.bb84.photon.Basis"><span class="pre">qns.bb84.photon.Basis</span></a><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#qns.bb84.photon.Polar" title="qns.bb84.photon.Polar"><span class="pre">qns.bb84.photon.Polar</span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#qns.bb84.photon.Photon.random_preparation" title="Permalink to this definition">¶</a></dt>
+<dd><p>randomly use a basis and generate the transmit its linear polarization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the basis and the polar</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -397,7 +516,19 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.bb84.photon.Polar">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.bb84.photon.</span></span><span class="sig-name descname"><span class="pre">Polar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.photon.Polar" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
-<p>An enumeration.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Polar</span></code> is the quantum state of a single photon</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>H</strong> – |1&gt; state</p></li>
+<li><p><strong>V</strong> – |0&gt; state</p></li>
+<li><p><strong>P</strong> – |+&gt; state</p></li>
+<li><p><strong>Q</strong> – |-&gt; state</p></li>
+<li><p><strong>A</strong> – Any state</p></li>
+<li><p><strong>N</strong> – Not be measured</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qns.bb84.photon.Polar.A">
 <span class="sig-name descname"><span class="pre">A</span></span><em class="property"> <span class="pre">=</span> <span class="pre">-2</span></em><a class="headerlink" href="#qns.bb84.photon.Polar.A" title="Permalink to this definition">¶</a></dt>

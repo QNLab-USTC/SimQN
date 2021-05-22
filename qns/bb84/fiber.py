@@ -7,6 +7,12 @@ import uuid
 
 
 class OpticalFiber(Channel):
+    '''
+    The quantum optical fiber to tranfer a photon.
+
+    :param nodes: quantum nodes that it is attached to
+    :param str name: its name
+    '''
     def __init__(self, nodes=[],  name=None):
         self.nodes = nodes
 
@@ -20,6 +26,15 @@ class OpticalFiber(Channel):
 
 
 class OpticalFiberProtocol(Protocol):
+    '''
+    The protocol for optical fiber. It transfer a photon from one side to another.
+
+    :param entity: a quantum optical fiber
+    :param delay: its delay time in second
+    :param possible: its transmission success rate
+    :param rate: how many photon it can transfer per second
+    :param max_onfly: how many photon it can cached for sending. Over this bound, the new coming photon will be dropped.
+    '''
     def __init__(_self, entity, delay=0, possible=1, rate=None, max_onfly=None):
         super().__init__(entity)
         _self.delay = delay
@@ -41,6 +56,14 @@ class OpticalFiberProtocol(Protocol):
             n.links.append(self)
 
     def handle(_self, simulator: Simulator, msg: object, source=None, event=None):
+        '''
+        Transmit a photon in `msg` and send it to another node.
+
+        :param simulator: the simulator
+        :param msg: the sending photon
+        :param source: the entity that generated the ``event``
+        :param event: the event 
+        '''
         self = _self.entity
         new_photon = msg
         if random.random() > _self.possible:

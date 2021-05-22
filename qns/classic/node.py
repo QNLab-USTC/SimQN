@@ -10,6 +10,7 @@ class ClassicNode(Node):
     This is a Classic Node class
 
     :param str name: the name of this network node.
+    :param classic_links: attached classic link (ClassicLink)
     '''
 
     def __init__(self, name=None):

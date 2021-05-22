@@ -251,6 +251,16 @@
 <dt class="sig sig-object py" id="qns.classic.link.ClassicLinkProtocol.handle">
 <span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.classic.link.ClassicLinkProtocol.handle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Receive the message and then transfer it to another side</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>simulator</strong> – the simulator</p></li>
+<li><p><strong>msg</strong> – the classic message</p></li>
+<li><p><strong>source</strong> – the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
+<li><p><strong>event</strong> – the event</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -299,7 +309,10 @@ Otherwise, the package size will be set to <code class="docutils literal notrans
 <p>This is a Classic Node class</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – the name of this network node.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – the name of this network node.</p></li>
+<li><p><strong>classic_links</strong> – attached classic link (ClassicLink)</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>

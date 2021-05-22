@@ -63,6 +63,11 @@ class ClassicLinkProtocol(Protocol):
     def handle(_self, simulator: Simulator, msg: object, source=None, event=None):
         '''
         Receive the message and then transfer it to another side
+
+        :param simulator: the simulator
+        :param msg: the classic message
+        :param source: the entity that generated the ``event``
+        :param event: the event 
         '''
         self = _self.entity
 

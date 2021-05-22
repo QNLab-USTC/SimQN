@@ -7,6 +7,16 @@ import uuid
 
 
 class PhotonNode(Node):
+    '''
+    This is a quantum node that can send or receive a single photon
+
+    :param registers_number: the size of its quantum registers. Not used now.
+    :param name: its name
+    :var registers: its quantum memory
+    :var links: attached quantum channels (optical fiber).
+
+    '''
+
     def __init__(self, registers_number: int = -1, name=None):
         self.links = []
 
@@ -23,6 +33,14 @@ class PhotonNode(Node):
 
 
 class PhotonRandomSendProtocol(Protocol):
+    '''
+    It is a protocol for ``PhotonNode``. It will generate new photon and send it periodly.
+
+    :param entity: the ``PhotonNode``.
+    :param rate: the photon generation rate.
+    :param start_time: the photon generation will start at ``start_time``.
+    :param end_time: the photon generation will stop at ``end_time``.
+    '''
     def __init__(_self, entity, rate=1, start_time=None, end_time=None):
         super().__init__(entity)
         _self.rate = rate
@@ -48,6 +66,12 @@ class PhotonRandomSendProtocol(Protocol):
             simulator.add_event(i, gse)
 
     def run(_self, simulator: Simulator, event: Event):
+        '''
+        Generate a new photon and send it on its channel.
+
+        :param simulator: the simulator
+        :param event: the event that calls this devices to generate and send new photon.
+        '''
         self = _self.entity
         new_photon = Photon()
         new_photon.random_preparation()
@@ -62,6 +86,12 @@ class PhotonRandomSendProtocol(Protocol):
 
 
 class PhotonReceiveAndMeasureProtocol(Protocol):
+    '''
+    It is a protocol for ``PhotonNode``. It will receive the coming photon and measure it.
+    Then, it will print its polarization
+
+    :param entity: the ``PhotonNode``.
+    '''
     def __init__(_self, entity):
         super().__init__(entity)
 
@@ -69,6 +99,14 @@ class PhotonReceiveAndMeasureProtocol(Protocol):
         pass
 
     def handle(_self, simulator: Simulator, msg: object, source=None, event=None):
+        '''
+        The handle function will receive new photon and print its polarization
+
+        :param simulator: the simulator
+        :param msg: the coming photon
+        :param source: the photon sender
+        :param event: the event that calls this function
+        '''
         self = _self.entity
         if not isinstance(event, PhotonReceiveEvent):
             return
