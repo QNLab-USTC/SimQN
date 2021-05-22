@@ -42,7 +42,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="API Manual" href="modules.html" />
+    <link rel="next" title="项目架构-CN" href="structure.html" />
     <link rel="prev" title="Welcome to QuantNetSim’s documentation!" href="index.html" /> 
 </head>
 
@@ -98,6 +98,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#api">构建API文档</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="structure.html">项目架构-CN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model-dev.html">模型构建和开发指南-CN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">API Manual</a></li>
 </ul>
 
@@ -203,8 +205,10 @@
 <div class="section" id="id3">
 <h2>代码开发和合作规范<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>我们代码和其他资料存放在 <a class="reference external" href="https://github.com/ertuil/QuantNetSim">Github</a> 上。
-我们开发时候，请将代码上传到 <cite>dev</cite> 分支（非 <cite>master</cite> 分支）。
-Python代码的编码规范和变量命名请参考 <a class="reference external" href="https://www.python.org/dev/peps/pep-0008/">PEP 8</a> 标准。</p>
+我们开发时候，请将代码上传到 <code class="docutils literal notranslate"><span class="pre">dev</span></code> 分支（非 <cite>master</cite> 分支）。</p>
+<p>Python代码的编码规范和变量命名请参考 <a class="reference external" href="https://www.python.org/dev/peps/pep-0008/">PEP 8</a> 标准。
+项目中每一个类、方法都需要存在注释（docstrings)，以便于文档自动生成工具可以快速生成API文档。
+具体格式可以参考 <code class="docutils literal notranslate"><span class="pre">scheduar</span></code> 模块下的注释的语法。</p>
 </div>
 <div class="section" id="id4">
 <h2>代码运行和编译方法<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
@@ -249,7 +253,7 @@ make html
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="modules.html" class="btn btn-neutral float-right" title="API Manual" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="structure.html" class="btn btn-neutral float-right" title="项目架构-CN" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
         <a href="index.html" class="btn btn-neutral float-left" title="Welcome to QuantNetSim’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
