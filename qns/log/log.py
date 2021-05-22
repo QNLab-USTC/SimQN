@@ -11,6 +11,7 @@ class Log():
     :param str filename: the log will be output to ``filename`` file.
     :param bool debug: the initial ``debug`` mode. 
     '''
+
     def __init__(self, filename=None, debug=False):
         self.simulator = None
         self.filename = filename

@@ -41,7 +41,8 @@ class Timer(Entity):
     :param float alloc_time: The next ``TimerEvent`` will be generated and inserted into simulator every ``alloc_time``
     :param str name: timer's name
     '''
-    def __init__(self, start_time, end_time = None , step_time = None, alloc_time=1, name=None):
+
+    def __init__(self, start_time, end_time=None, step_time=None, alloc_time=1, name=None):
         self.step_time = step_time
         self.start_time = start_time
         self.end_time = end_time

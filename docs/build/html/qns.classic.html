@@ -192,6 +192,15 @@
 <dt class="sig sig-object py" id="qns.classic.event.ClassicReceiveEvent">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.classic.event.</span></span><span class="sig-name descname"><span class="pre">ClassicReceiveEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.classic.event.ClassicReceiveEvent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<p>The event that calls the receiver to receive the classic message</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>to</strong> – the receiver node</p></li>
+<li><p><strong>msg</strong> – the classic message</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.classic.event.ClassicReceiveEvent.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.classic.event.ClassicReceiveEvent.run" title="Permalink to this definition">¶</a></dt>
@@ -212,26 +221,36 @@
 <dt class="sig sig-object py" id="qns.classic.link.ClassicLink">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.classic.link.</span></span><span class="sig-name descname"><span class="pre">ClassicLink</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.classic.link.ClassicLink" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.topo.html#qns.topo.basic.Channel" title="qns.topo.basic.Channel"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.topo.basic.Channel</span></code></a></p>
+<p>This is a classic link that can be used to transfer classic message</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> – a node list. Those nodes are connected on this link.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – the link’s name</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qns.classic.link.ClassicLinkProtocol">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.classic.link.</span></span><span class="sig-name descname"><span class="pre">ClassicLinkProtocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">possible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.classic.link.ClassicLinkProtocol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol" title="qns.schedular.protocol.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol</span></code></a></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="qns.classic.link.ClassicLinkProtocol.handle">
-<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.classic.link.ClassicLinkProtocol.handle" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">handle</span></code> is one of the callback functions that can be used to handle the triggered event.</p>
+<p>The protocol for classic link. It will transfer classic message from one side to another.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>simulator</strong> – the simulator</p></li>
-<li><p><strong>msg</strong> – anything, can be considered as the <code class="docutils literal notranslate"><span class="pre">event</span></code>’s parameters</p></li>
-<li><p><strong>source</strong> – the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
-<li><p><strong>event</strong> – the event</p></li>
+<li><p><strong>entity</strong> – a classic or quantum node</p></li>
+<li><p><strong>delay</strong> – the delay time to transfer a message in second</p></li>
+<li><p><strong>rate</strong> – the bandwidth of this channel.</p></li>
+<li><p><strong>precision</strong> – cycle time of bandwidth check. If <code class="docutils literal notranslate"><span class="pre">precision</span></code> is larger, the bandwidth checking will be rough.</p></li>
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.classic.link.ClassicLinkProtocol.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.classic.link.ClassicLinkProtocol.handle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receive the message and then transfer it to another side</p>
 </dd></dl>
 
 <dl class="py method">
@@ -255,6 +274,19 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.classic.message.Message">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.classic.message.</span></span><span class="sig-name descname"><span class="pre">Message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.classic.message.Message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class presents a classic message.</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">content</span></code> is a string or a list, its <code class="docutils literal notranslate"><span class="pre">length</span></code> will be used to present the package size.
+Otherwise, the package size will be set to <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>content</strong> – the real message content</p></li>
+<li><p><strong>from_node</strong> – the message sender</p></li>
+<li><p><strong>to_node</strong> – the message recevier</p></li>
+<li><p><strong>link</strong> – the first link which the <code class="docutils literal notranslate"><span class="pre">from_node</span></code> will put this message into</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -264,21 +296,35 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.classic.node.ClassicNode">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.classic.node.</span></span><span class="sig-name descname"><span class="pre">ClassicNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.classic.node.ClassicNode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.topo.html#qns.topo.basic.Node" title="qns.topo.basic.Node"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.topo.basic.Node</span></code></a></p>
+<p>This is a Classic Node class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – the name of this network node.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qns.classic.node.ClassicRecvProtocol">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.classic.node.</span></span><span class="sig-name descname"><span class="pre">ClassicRecvProtocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.classic.node.ClassicRecvProtocol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol" title="qns.schedular.protocol.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol</span></code></a></p>
+<p>This is a Protocol that enables a classic node or a quantum node to receive a classic message.
+Then, the <code class="docutils literal notranslate"><span class="pre">entity</span></code> will print this message.</p>
+<p>This Protocol can be overrided to implement other functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>entity</strong> (<a class="reference internal" href="qns.topo.html#qns.topo.basic.Node" title="qns.topo.basic.Node"><em>qns.topo.basic.Node</em></a>) – the entity that will inject this protocol</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.classic.node.ClassicRecvProtocol.handle">
 <span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.classic.node.ClassicRecvProtocol.handle" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">handle</span></code> is one of the callback functions that can be used to handle the triggered event.</p>
+<dd><p>When this handle function is called, the <code class="docutils literal notranslate"><span class="pre">entity</span></code> will print the received <code class="docutils literal notranslate"><span class="pre">msg</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>simulator</strong> – the simulator</p></li>
-<li><p><strong>msg</strong> – anything, can be considered as the <code class="docutils literal notranslate"><span class="pre">event</span></code>’s parameters</p></li>
+<li><p><strong>msg</strong> (<a class="reference internal" href="#qns.classic.message.Message" title="qns.classic.message.Message"><em>Message</em></a>) – The classic message to be sent</p></li>
 <li><p><strong>source</strong> – the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
 <li><p><strong>event</strong> – the event</p></li>
 </ul>
@@ -304,15 +350,21 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.classic.node.ClassicSendProtocol">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.classic.node.</span></span><span class="sig-name descname"><span class="pre">ClassicSendProtocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.classic.node.ClassicSendProtocol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol" title="qns.schedular.protocol.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol</span></code></a></p>
+<p>This is a Protocol that enables a classic node or a quantum node to send a classic <code class="docutils literal notranslate"><span class="pre">Message</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>entity</strong> (<a class="reference internal" href="qns.topo.html#qns.topo.basic.Node" title="qns.topo.basic.Node"><em>qns.topo.basic.Node</em></a>) – the entity that will inject this protocol</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.classic.node.ClassicSendProtocol.handle">
 <span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.classic.message.Message" title="qns.classic.message.Message"><span class="pre">qns.classic.message.Message</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.classic.node.ClassicSendProtocol.handle" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">handle</span></code> is one of the callback functions that can be used to handle the triggered event.</p>
+<dd><p>When this handle function is called, the <code class="docutils literal notranslate"><span class="pre">msg</span></code> will be send on the link <code class="docutils literal notranslate"><span class="pre">msg.link</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>simulator</strong> – the simulator</p></li>
-<li><p><strong>msg</strong> – anything, can be considered as the <code class="docutils literal notranslate"><span class="pre">event</span></code>’s parameters</p></li>
+<li><p><strong>msg</strong> (<a class="reference internal" href="#qns.classic.message.Message" title="qns.classic.message.Message"><em>Message</em></a>) – The classic message to be sent</p></li>
 <li><p><strong>source</strong> – the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
 <li><p><strong>event</strong> – the event</p></li>
 </ul>
@@ -338,15 +390,30 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.classic.node.ClassicSwitchProtocol">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.classic.node.</span></span><span class="sig-name descname"><span class="pre">ClassicSwitchProtocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forwarding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffer_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.classic.node.ClassicSwitchProtocol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol" title="qns.schedular.protocol.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol</span></code></a></p>
+<p>This protocol enables a node to be a classic switcher.
+When the node receive a message, it will look up the <code class="docutils literal notranslate"><span class="pre">forwarding</span></code> table and decide which link will be used to forward this message.
+The <code class="docutils literal notranslate"><span class="pre">forwarding</span></code> table has the following format:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">{outnode1:</span> <span class="pre">outlink1,</span> <span class="pre">outnode2:</span> <span class="pre">outlink2</span> <span class="pre">...}</span></code></p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entity</strong> (<a class="reference internal" href="qns.topo.html#qns.topo.basic.Node" title="qns.topo.basic.Node"><em>qns.topo.basic.Node</em></a>) – the entity that will inject this protocol</p></li>
+<li><p><strong>forwarding</strong> – a <code class="docutils literal notranslate"><span class="pre">dict</span></code> that indicates the target node and its next hop link.</p></li>
+<li><p><strong>delay</strong> – the delay time of handling each message in second.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.classic.node.ClassicSwitchProtocol.handle">
 <span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.classic.message.Message" title="qns.classic.message.Message"><span class="pre">qns.classic.message.Message</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.classic.node.ClassicSwitchProtocol.handle" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">handle</span></code> is one of the callback functions that can be used to handle the triggered event.</p>
+<dd><p>When this handle function is called, the <code class="docutils literal notranslate"><span class="pre">msg</span></code> will be forwarded by the <code class="docutils literal notranslate"><span class="pre">forwarding</span></code> table.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>simulator</strong> – the simulator</p></li>
-<li><p><strong>msg</strong> – anything, can be considered as the <code class="docutils literal notranslate"><span class="pre">event</span></code>’s parameters</p></li>
+<li><p><strong>msg</strong> (<a class="reference internal" href="#qns.classic.message.Message" title="qns.classic.message.Message"><em>Message</em></a>) – The classic message to be sent</p></li>
 <li><p><strong>source</strong> – the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
 <li><p><strong>event</strong> – the event</p></li>
 </ul>
