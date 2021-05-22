@@ -51,8 +51,8 @@ n2.install(s)
 n3.install(s)
 n4.install(s)
 
-n2.route = [[n1], [n3, n4]]
-n3.route = [[n1, n2], [n4]]
+n2.swapping_schema = [[n1], [n3, n4]]
+n3.swapping_schema = [[n1, n2], [n4]]
 n1.allow_distillation = [n3, n2, n4]
 n2.allow_distillation = [n3, n4, n1]
 n4.allow_distillation = [n1, n2, n3]

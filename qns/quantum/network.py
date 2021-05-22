@@ -5,6 +5,13 @@ from qns.schedular import Entity, Simulator, Event
 
 
 class QuantumNetwork(Entity):
+    '''
+    An entity that represents a quantum network.
+
+    .. warning::
+        It is deprecated.
+
+    '''
     def __init__(self, quantum_nodes: int or QuantumNode = 10):
         if isinstance(quantum_nodes, int):
             self.quantum_nodes = [[QuantumNode()] * quantum_nodes]

@@ -6,6 +6,13 @@ from qns.log import log
 
 
 class GenerationAllocateEvent(Event):
+    '''
+    This event will call ``GenerationProtocal``'s ``allocate`` function to 
+    arrange ``GenerationEvent`` in the following step time.
+
+    :param protocol: the ``GenerationProtocal``
+    :param init_time: the event's generation time in second
+    '''
     def __init__(self, protocol, init_time: float = None):
         super().__init__(init_time)
         self.protocol = protocol
@@ -15,6 +22,13 @@ class GenerationAllocateEvent(Event):
 
 
 class GenerationEvent(Event):
+    '''
+    This event will call ``GenerationProtocal``'s ``generation`` function to 
+    generate new entanglement
+
+    :param protocol: the ``GenerationProtocal``
+    :param init_time: the event's generation time in second
+    '''
     def __init__(self, protocol, init_time: float = None):
         super().__init__(init_time)
         self.protocol = protocol
@@ -24,6 +38,15 @@ class GenerationEvent(Event):
 
 
 class GenerationEntanglementAfterEvent(Event):
+    '''
+    This event is called after an entangment is generated. 
+    It will store entanglement into ``nodes``'s registers.
+
+    :param e: the generated entanglement
+    :param link: the ``QuantumChannel`` EPR Generator
+    :param nodes: ``e`` is shared between ``nodes``
+    :param init_time: the event's generation time in second
+    '''
     def __init__(self, e: Entanglement, link, nodes, init_time: float = None):
         super().__init__(init_time)
         self.link = link
@@ -31,6 +54,11 @@ class GenerationEntanglementAfterEvent(Event):
         self.e = e
 
     def run(self, simulator: Simulator):
+        '''
+        This function will add ``e`` in ``nodes``'s registers and notify them the new coming entanglement.
+
+        :param simulator: the simulator
+        '''
         for n in self.nodes:
             if n.is_full():
                 log.debug("generate {} failed due to memory limit", self.e)
@@ -44,6 +72,16 @@ class GenerationEntanglementAfterEvent(Event):
 
 
 class NodeSwappingEvent(Event):
+    '''
+    This event will call ``QuantumNodeSwappingProtocol``'s ``swapping`` function for
+    entanglement swapping.
+
+    :param protocol: the ``QuantumNodeSwappingProtocol``
+    :param e1: the material entanglement
+    :param e2: the material entanglement
+    :param source: the ``QuantumNode`` that perfrom swapping
+    :param init_time: the event's generation time in second
+    '''
     def __init__(self, protocol,  e1: Entanglement, e2: Entanglement, source=None, init_time: float = None):
         super().__init__(init_time)
         self.protocol = protocol
@@ -58,6 +96,12 @@ class NodeSwappingEvent(Event):
 
 
 class NodeSwappingAfterEvent(Event):
+    '''
+    This event is used to notify ``node`` about the swapping.
+
+    :param node: the ``QuantumNode`` that should receive the new entanglement
+    :param init_time: the event's generation time in second
+    '''
     def __init__(self, node, init_time: float = None):
         super().__init__(init_time)
         self.node = node
@@ -67,6 +111,15 @@ class NodeSwappingAfterEvent(Event):
 
 
 class NodeDistillationEvent(Event):
+    '''
+    This event will call ``QuantumNodeDistillationProtocol``'s ``distillation`` function for
+    entanglement distillation.
+
+    :param protocol: the ``QuantumNodeDistillationProtocol``
+    :param e1: the material entanglement
+    :param e2: the material entanglement
+    :param init_time: the event's generation time in second
+    '''
     def __init__(self, protocol, e1: Entanglement, e2: Entanglement, init_time: float = None):
         super().__init__(init_time)
         self.protocol = protocol
@@ -78,6 +131,12 @@ class NodeDistillationEvent(Event):
 
 
 class NodeDistillationAfterEvent(Event):
+    '''
+    This event is used to notify ``node`` about the distillation.
+
+    :param node: the ``QuantumNode`` that should receive the new entanglement
+    :param init_time: the event's generation time in second
+    '''
     def __init__(self, node, init_time: float = None):
         super().__init__(init_time)
         self.node = node

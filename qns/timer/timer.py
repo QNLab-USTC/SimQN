@@ -54,7 +54,7 @@ class Timer(Entity):
 
     def install(self, simulator: Simulator):
         '''
-        This function runs before simulator is started. It is used to inject initial ``TimerEvent``s.
+        This function runs before simulator is started. It is used to inject initial ``TimerEvent``'s.
         '''
         if self.step_time is not None:
             self.step_time_slice = simulator.to_time_slice(self.step_time)

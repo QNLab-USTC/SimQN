@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en,zh-CN" >
 <head>
   <meta charset="utf-8" />
   
@@ -168,8 +168,6 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/qns.classic.rst.txt" rel="nofollow"> View page source</a>
-          
         
       </li>
     
@@ -196,18 +194,18 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>to</strong> – the receiver node</p></li>
-<li><p><strong>msg</strong> – the classic message</p></li>
+<li><p><strong>to</strong> -- the receiver node</p></li>
+<li><p><strong>msg</strong> -- the classic message</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.classic.event.ClassicReceiveEvent.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.classic.event.ClassicReceiveEvent.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>It is the real event’s handle functions. <code class="docutils literal notranslate"><span class="pre">run</span></code> should be overrided.</p>
+<dd><p>It is the real event's handle functions. <code class="docutils literal notranslate"><span class="pre">run</span></code> should be overrided.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator.</p>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -225,8 +223,8 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>nodes</strong> – a node list. Those nodes are connected on this link.</p></li>
-<li><p><strong>name</strong> (<em>str</em>) – the link’s name</p></li>
+<li><p><strong>nodes</strong> -- a node list. Those nodes are connected on this link.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) -- the link's name</p></li>
 </ul>
 </dd>
 </dl>
@@ -240,10 +238,10 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>entity</strong> – a classic or quantum node</p></li>
-<li><p><strong>delay</strong> – the delay time to transfer a message in second</p></li>
-<li><p><strong>rate</strong> – the bandwidth of this channel.</p></li>
-<li><p><strong>precision</strong> – cycle time of bandwidth check. If <code class="docutils literal notranslate"><span class="pre">precision</span></code> is larger, the bandwidth checking will be rough.</p></li>
+<li><p><strong>entity</strong> -- a classic or quantum node</p></li>
+<li><p><strong>delay</strong> -- the delay time to transfer a message in second</p></li>
+<li><p><strong>rate</strong> -- the bandwidth of this channel.</p></li>
+<li><p><strong>precision</strong> -- cycle time of bandwidth check. If <code class="docutils literal notranslate"><span class="pre">precision</span></code> is larger, the bandwidth checking will be rough.</p></li>
 </ul>
 </dd>
 </dl>
@@ -254,10 +252,10 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>simulator</strong> – the simulator</p></li>
-<li><p><strong>msg</strong> – the classic message</p></li>
-<li><p><strong>source</strong> – the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
-<li><p><strong>event</strong> – the event</p></li>
+<li><p><strong>simulator</strong> -- the simulator</p></li>
+<li><p><strong>msg</strong> -- the classic message</p></li>
+<li><p><strong>source</strong> -- the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
+<li><p><strong>event</strong> -- the event</p></li>
 </ul>
 </dd>
 </dl>
@@ -270,7 +268,7 @@
 It can be used to initialize or insert initial events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator</p>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator</p>
 </dd>
 </dl>
 </dd></dl>
@@ -290,10 +288,10 @@ Otherwise, the package size will be set to <code class="docutils literal notrans
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>content</strong> – the real message content</p></li>
-<li><p><strong>from_node</strong> – the message sender</p></li>
-<li><p><strong>to_node</strong> – the message recevier</p></li>
-<li><p><strong>link</strong> – the first link which the <code class="docutils literal notranslate"><span class="pre">from_node</span></code> will put this message into</p></li>
+<li><p><strong>content</strong> -- the real message content</p></li>
+<li><p><strong>from_node</strong> -- the message sender</p></li>
+<li><p><strong>to_node</strong> -- the message recevier</p></li>
+<li><p><strong>link</strong> -- the first link which the <code class="docutils literal notranslate"><span class="pre">from_node</span></code> will put this message into</p></li>
 </ul>
 </dd>
 </dl>
@@ -310,8 +308,8 @@ Otherwise, the package size will be set to <code class="docutils literal notrans
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>str</em>) – the name of this network node.</p></li>
-<li><p><strong>classic_links</strong> – attached classic link (ClassicLink)</p></li>
+<li><p><strong>name</strong> (<em>str</em>) -- the name of this network node.</p></li>
+<li><p><strong>classic_links</strong> -- attached classic link (ClassicLink)</p></li>
 </ul>
 </dd>
 </dl>
@@ -326,7 +324,7 @@ Then, the <code class="docutils literal notranslate"><span class="pre">entity</s
 <p>This Protocol can be overrided to implement other functions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>entity</strong> (<a class="reference internal" href="qns.topo.html#qns.topo.basic.Node" title="qns.topo.basic.Node"><em>qns.topo.basic.Node</em></a>) – the entity that will inject this protocol</p>
+<dd class="field-odd"><p><strong>entity</strong> (<a class="reference internal" href="qns.topo.html#qns.topo.basic.Node" title="qns.topo.basic.Node"><em>qns.topo.basic.Node</em></a>) -- the entity that will inject this protocol</p>
 </dd>
 </dl>
 <dl class="py method">
@@ -336,10 +334,10 @@ Then, the <code class="docutils literal notranslate"><span class="pre">entity</s
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>simulator</strong> – the simulator</p></li>
-<li><p><strong>msg</strong> (<a class="reference internal" href="#qns.classic.message.Message" title="qns.classic.message.Message"><em>Message</em></a>) – The classic message to be sent</p></li>
-<li><p><strong>source</strong> – the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
-<li><p><strong>event</strong> – the event</p></li>
+<li><p><strong>simulator</strong> -- the simulator</p></li>
+<li><p><strong>msg</strong> (<a class="reference internal" href="#qns.classic.message.Message" title="qns.classic.message.Message"><em>Message</em></a>) -- The classic message to be sent</p></li>
+<li><p><strong>source</strong> -- the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
+<li><p><strong>event</strong> -- the event</p></li>
 </ul>
 </dd>
 </dl>
@@ -352,7 +350,7 @@ Then, the <code class="docutils literal notranslate"><span class="pre">entity</s
 It can be used to initialize or insert initial events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator</p>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator</p>
 </dd>
 </dl>
 </dd></dl>
@@ -366,7 +364,7 @@ It can be used to initialize or insert initial events.</p>
 <p>This is a Protocol that enables a classic node or a quantum node to send a classic <code class="docutils literal notranslate"><span class="pre">Message</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>entity</strong> (<a class="reference internal" href="qns.topo.html#qns.topo.basic.Node" title="qns.topo.basic.Node"><em>qns.topo.basic.Node</em></a>) – the entity that will inject this protocol</p>
+<dd class="field-odd"><p><strong>entity</strong> (<a class="reference internal" href="qns.topo.html#qns.topo.basic.Node" title="qns.topo.basic.Node"><em>qns.topo.basic.Node</em></a>) -- the entity that will inject this protocol</p>
 </dd>
 </dl>
 <dl class="py method">
@@ -376,10 +374,10 @@ It can be used to initialize or insert initial events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>simulator</strong> – the simulator</p></li>
-<li><p><strong>msg</strong> (<a class="reference internal" href="#qns.classic.message.Message" title="qns.classic.message.Message"><em>Message</em></a>) – The classic message to be sent</p></li>
-<li><p><strong>source</strong> – the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
-<li><p><strong>event</strong> – the event</p></li>
+<li><p><strong>simulator</strong> -- the simulator</p></li>
+<li><p><strong>msg</strong> (<a class="reference internal" href="#qns.classic.message.Message" title="qns.classic.message.Message"><em>Message</em></a>) -- The classic message to be sent</p></li>
+<li><p><strong>source</strong> -- the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
+<li><p><strong>event</strong> -- the event</p></li>
 </ul>
 </dd>
 </dl>
@@ -392,7 +390,7 @@ It can be used to initialize or insert initial events.</p>
 It can be used to initialize or insert initial events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator</p>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator</p>
 </dd>
 </dl>
 </dd></dl>
@@ -412,9 +410,9 @@ The <code class="docutils literal notranslate"><span class="pre">forwarding</spa
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>entity</strong> (<a class="reference internal" href="qns.topo.html#qns.topo.basic.Node" title="qns.topo.basic.Node"><em>qns.topo.basic.Node</em></a>) – the entity that will inject this protocol</p></li>
-<li><p><strong>forwarding</strong> – a <code class="docutils literal notranslate"><span class="pre">dict</span></code> that indicates the target node and its next hop link.</p></li>
-<li><p><strong>delay</strong> – the delay time of handling each message in second.</p></li>
+<li><p><strong>entity</strong> (<a class="reference internal" href="qns.topo.html#qns.topo.basic.Node" title="qns.topo.basic.Node"><em>qns.topo.basic.Node</em></a>) -- the entity that will inject this protocol</p></li>
+<li><p><strong>forwarding</strong> -- a <code class="docutils literal notranslate"><span class="pre">dict</span></code> that indicates the target node and its next hop link.</p></li>
+<li><p><strong>delay</strong> -- the delay time of handling each message in second.</p></li>
 </ul>
 </dd>
 </dl>
@@ -425,10 +423,10 @@ The <code class="docutils literal notranslate"><span class="pre">forwarding</spa
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>simulator</strong> – the simulator</p></li>
-<li><p><strong>msg</strong> (<a class="reference internal" href="#qns.classic.message.Message" title="qns.classic.message.Message"><em>Message</em></a>) – The classic message to be sent</p></li>
-<li><p><strong>source</strong> – the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
-<li><p><strong>event</strong> – the event</p></li>
+<li><p><strong>simulator</strong> -- the simulator</p></li>
+<li><p><strong>msg</strong> (<a class="reference internal" href="#qns.classic.message.Message" title="qns.classic.message.Message"><em>Message</em></a>) -- The classic message to be sent</p></li>
+<li><p><strong>source</strong> -- the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
+<li><p><strong>event</strong> -- the event</p></li>
 </ul>
 </dd>
 </dl>
@@ -441,7 +439,7 @@ The <code class="docutils literal notranslate"><span class="pre">forwarding</spa
 It can be used to initialize or insert initial events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator</p>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator</p>
 </dd>
 </dl>
 </dd></dl>
@@ -451,6 +449,7 @@ It can be used to initialize or insert initial events.</p>
 </div>
 <div class="section" id="module-qns.classic">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qns.classic" title="Permalink to this headline">¶</a></h2>
+<p>The classic network model for sending and receiving classic message.</p>
 </div>
 </div>
 

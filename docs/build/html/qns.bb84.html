@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en,zh-CN" >
 <head>
   <meta charset="utf-8" />
   
@@ -168,8 +168,6 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/qns.bb84.rst.txt" rel="nofollow"> View page source</a>
-          
         
       </li>
     
@@ -196,14 +194,14 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>registers_number</strong> – the size of its quantum registers. Not used now.</p></li>
-<li><p><strong>name</strong> – its name</p></li>
+<li><p><strong>registers_number</strong> -- the size of its quantum registers. Not used now.</p></li>
+<li><p><strong>name</strong> -- its name</p></li>
 </ul>
 </dd>
 <dt class="field-even">Variables</dt>
 <dd class="field-even"><ul class="simple">
-<li><p><strong>registers</strong> – its quantum memory</p></li>
-<li><p><strong>links</strong> – attached quantum channels (optical fiber).</p></li>
+<li><p><strong>registers</strong> -- its quantum memory</p></li>
+<li><p><strong>links</strong> -- attached quantum channels (optical fiber).</p></li>
 </ul>
 </dd>
 </dl>
@@ -217,10 +215,10 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>entity</strong> – the <code class="docutils literal notranslate"><span class="pre">PhotonNode</span></code>.</p></li>
-<li><p><strong>rate</strong> – the photon generation rate.</p></li>
-<li><p><strong>start_time</strong> – the photon generation will start at <code class="docutils literal notranslate"><span class="pre">start_time</span></code>.</p></li>
-<li><p><strong>end_time</strong> – the photon generation will stop at <code class="docutils literal notranslate"><span class="pre">end_time</span></code>.</p></li>
+<li><p><strong>entity</strong> -- the <code class="docutils literal notranslate"><span class="pre">PhotonNode</span></code>.</p></li>
+<li><p><strong>rate</strong> -- the photon generation rate.</p></li>
+<li><p><strong>start_time</strong> -- the photon generation will start at <code class="docutils literal notranslate"><span class="pre">start_time</span></code>.</p></li>
+<li><p><strong>end_time</strong> -- the photon generation will stop at <code class="docutils literal notranslate"><span class="pre">end_time</span></code>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -231,10 +229,10 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>simulator</strong> – the simulator</p></li>
-<li><p><strong>msg</strong> – anything, can be considered as the <code class="docutils literal notranslate"><span class="pre">event</span></code>’s parameters</p></li>
-<li><p><strong>source</strong> – the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
-<li><p><strong>event</strong> – the event</p></li>
+<li><p><strong>simulator</strong> -- the simulator</p></li>
+<li><p><strong>msg</strong> -- anything, can be considered as the <code class="docutils literal notranslate"><span class="pre">event</span></code>'s parameters</p></li>
+<li><p><strong>source</strong> -- the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
+<li><p><strong>event</strong> -- the event</p></li>
 </ul>
 </dd>
 </dl>
@@ -247,7 +245,7 @@
 It can be used to initialize or insert initial events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator</p>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator</p>
 </dd>
 </dl>
 </dd></dl>
@@ -259,8 +257,8 @@ It can be used to initialize or insert initial events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>simulator</strong> – the simulator</p></li>
-<li><p><strong>event</strong> – the event that calls this devices to generate and send new photon.</p></li>
+<li><p><strong>simulator</strong> -- the simulator</p></li>
+<li><p><strong>event</strong> -- the event that calls this devices to generate and send new photon.</p></li>
 </ul>
 </dd>
 </dl>
@@ -276,7 +274,7 @@ It can be used to initialize or insert initial events.</p>
 Then, it will print its polarization</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>entity</strong> – the <code class="docutils literal notranslate"><span class="pre">PhotonNode</span></code>.</p>
+<dd class="field-odd"><p><strong>entity</strong> -- the <code class="docutils literal notranslate"><span class="pre">PhotonNode</span></code>.</p>
 </dd>
 </dl>
 <dl class="py method">
@@ -286,10 +284,10 @@ Then, it will print its polarization</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>simulator</strong> – the simulator</p></li>
-<li><p><strong>msg</strong> – the coming photon</p></li>
-<li><p><strong>source</strong> – the photon sender</p></li>
-<li><p><strong>event</strong> – the event that calls this function</p></li>
+<li><p><strong>simulator</strong> -- the simulator</p></li>
+<li><p><strong>msg</strong> -- the coming photon</p></li>
+<li><p><strong>source</strong> -- the photon sender</p></li>
+<li><p><strong>event</strong> -- the event that calls this function</p></li>
 </ul>
 </dd>
 </dl>
@@ -302,7 +300,7 @@ Then, it will print its polarization</p>
 It can be used to initialize or insert initial events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator</p>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator</p>
 </dd>
 </dl>
 </dd></dl>
@@ -320,16 +318,16 @@ It can be used to initialize or insert initial events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>protocol</strong> – a <code class="docutils literal notranslate"><span class="pre">PhotonRandomSendProtocol</span></code></p></li>
-<li><p><strong>source</strong> – the sender quantum node</p></li>
-<li><p><strong>init_time</strong> – the event’s generation time.</p></li>
+<li><p><strong>protocol</strong> -- a <code class="docutils literal notranslate"><span class="pre">PhotonRandomSendProtocol</span></code></p></li>
+<li><p><strong>source</strong> -- the sender quantum node</p></li>
+<li><p><strong>init_time</strong> -- the event's generation time.</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.bb84.event.GenerationAndSendEvent.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.event.GenerationAndSendEvent.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>This event will call <code class="docutils literal notranslate"><span class="pre">PhotonRandomSendProtocol</span></code>’s <code class="docutils literal notranslate"><span class="pre">run</span></code> function to generate and send new photon.</p>
+<dd><p>This event will call <code class="docutils literal notranslate"><span class="pre">PhotonRandomSendProtocol</span></code>'s <code class="docutils literal notranslate"><span class="pre">run</span></code> function to generate and send new photon.</p>
 </dd></dl>
 
 </dd></dl>
@@ -342,17 +340,17 @@ It can be used to initialize or insert initial events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>to</strong> – the photon receiver</p></li>
-<li><p><strong>new_photon</strong> – the sender photon</p></li>
-<li><p><strong>source</strong> – the photon sender</p></li>
-<li><p><strong>init_time</strong> – the event’s generation time.</p></li>
+<li><p><strong>to</strong> -- the photon receiver</p></li>
+<li><p><strong>new_photon</strong> -- the sender photon</p></li>
+<li><p><strong>source</strong> -- the photon sender</p></li>
+<li><p><strong>init_time</strong> -- the event's generation time.</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.bb84.event.PhotonReceiveEvent.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.bb84.event.PhotonReceiveEvent.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>This event will call <code class="docutils literal notranslate"><span class="pre">PhotonReceiveAndMeasureProtocol</span></code>’s <code class="docutils literal notranslate"><span class="pre">handle</span></code> function to receive the photon and measure it</p>
+<dd><p>This event will call <code class="docutils literal notranslate"><span class="pre">PhotonReceiveAndMeasureProtocol</span></code>'s <code class="docutils literal notranslate"><span class="pre">handle</span></code> function to receive the photon and measure it</p>
 </dd></dl>
 
 </dd></dl>
@@ -368,8 +366,8 @@ It can be used to initialize or insert initial events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>nodes</strong> – quantum nodes that it is attached to</p></li>
-<li><p><strong>name</strong> (<em>str</em>) – its name</p></li>
+<li><p><strong>nodes</strong> -- quantum nodes that it is attached to</p></li>
+<li><p><strong>name</strong> (<em>str</em>) -- its name</p></li>
 </ul>
 </dd>
 </dl>
@@ -383,11 +381,11 @@ It can be used to initialize or insert initial events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>entity</strong> – a quantum optical fiber</p></li>
-<li><p><strong>delay</strong> – its delay time in second</p></li>
-<li><p><strong>possible</strong> – its transmission success rate</p></li>
-<li><p><strong>rate</strong> – how many photon it can transfer per second</p></li>
-<li><p><strong>max_onfly</strong> – how many photon it can cached for sending. Over this bound, the new coming photon will be dropped.</p></li>
+<li><p><strong>entity</strong> -- a quantum optical fiber</p></li>
+<li><p><strong>delay</strong> -- its delay time in second</p></li>
+<li><p><strong>possible</strong> -- its transmission success rate</p></li>
+<li><p><strong>rate</strong> -- how many photon it can transfer per second</p></li>
+<li><p><strong>max_onfly</strong> -- how many photon it can cached for sending. Over this bound, the new coming photon will be dropped.</p></li>
 </ul>
 </dd>
 </dl>
@@ -398,10 +396,10 @@ It can be used to initialize or insert initial events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>simulator</strong> – the simulator</p></li>
-<li><p><strong>msg</strong> – the sending photon</p></li>
-<li><p><strong>source</strong> – the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
-<li><p><strong>event</strong> – the event</p></li>
+<li><p><strong>simulator</strong> -- the simulator</p></li>
+<li><p><strong>msg</strong> -- the sending photon</p></li>
+<li><p><strong>source</strong> -- the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
+<li><p><strong>event</strong> -- the event</p></li>
 </ul>
 </dd>
 </dl>
@@ -414,7 +412,7 @@ It can be used to initialize or insert initial events.</p>
 It can be used to initialize or insert initial events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator</p>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator</p>
 </dd>
 </dl>
 </dd></dl>
@@ -432,8 +430,8 @@ It can be used to initialize or insert initial events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> – X basis</p></li>
-<li><p><strong>Z</strong> – Z basis</p></li>
+<li><p><strong>X</strong> -- X basis</p></li>
+<li><p><strong>Z</strong> -- Z basis</p></li>
 </ul>
 </dd>
 </dl>
@@ -457,9 +455,9 @@ It can be used to initialize or insert initial events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>is_superposition_state</strong> (<em>bool</em>) – whether this photon is in super position state</p></li>
-<li><p><strong>polar</strong> (<a class="reference internal" href="#qns.bb84.photon.Polar" title="qns.bb84.photon.Polar"><em>Polar</em></a>) – its polar state</p></li>
-<li><p><strong>name</strong> (<em>str</em>) – its name</p></li>
+<li><p><strong>is_superposition_state</strong> (<em>bool</em>) -- whether this photon is in super position state</p></li>
+<li><p><strong>polar</strong> (<a class="reference internal" href="#qns.bb84.photon.Polar" title="qns.bb84.photon.Polar"><em>Polar</em></a>) -- its polar state</p></li>
+<li><p><strong>name</strong> (<em>str</em>) -- its name</p></li>
 </ul>
 </dd>
 </dl>
@@ -469,7 +467,7 @@ It can be used to initialize or insert initial events.</p>
 <dd><p>Measure its polarization using selected basis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>basis</strong> (<a class="reference internal" href="#qns.bb84.photon.Basis" title="qns.bb84.photon.Basis"><em>Basis</em></a>) – the selected basis</p>
+<dd class="field-odd"><p><strong>basis</strong> (<a class="reference internal" href="#qns.bb84.photon.Basis" title="qns.bb84.photon.Basis"><em>Basis</em></a>) -- the selected basis</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>1 or 0 to present its polarization. -2 means not been measured.</p>
@@ -483,7 +481,7 @@ It can be used to initialize or insert initial events.</p>
 <dd><p>Set this photon into certain polarization</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>polar</strong> (<a class="reference internal" href="#qns.bb84.photon.Polar" title="qns.bb84.photon.Polar"><em>Polar</em></a>) – its polarizaion</p>
+<dd class="field-odd"><p><strong>polar</strong> (<a class="reference internal" href="#qns.bb84.photon.Polar" title="qns.bb84.photon.Polar"><em>Polar</em></a>) -- its polarizaion</p>
 </dd>
 </dl>
 </dd></dl>
@@ -520,12 +518,12 @@ It can be used to initialize or insert initial events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>H</strong> – |1&gt; state</p></li>
-<li><p><strong>V</strong> – |0&gt; state</p></li>
-<li><p><strong>P</strong> – |+&gt; state</p></li>
-<li><p><strong>Q</strong> – |-&gt; state</p></li>
-<li><p><strong>A</strong> – Any state</p></li>
-<li><p><strong>N</strong> – Not be measured</p></li>
+<li><p><strong>H</strong> -- |1&gt; state</p></li>
+<li><p><strong>V</strong> -- |0&gt; state</p></li>
+<li><p><strong>P</strong> -- |+&gt; state</p></li>
+<li><p><strong>Q</strong> -- |-&gt; state</p></li>
+<li><p><strong>A</strong> -- Any state</p></li>
+<li><p><strong>N</strong> -- Not be measured</p></li>
 </ul>
 </dd>
 </dl>
@@ -564,6 +562,7 @@ It can be used to initialize or insert initial events.</p>
 </div>
 <div class="section" id="module-qns.bb84">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qns.bb84" title="Permalink to this headline">¶</a></h2>
+<p>A single photon network model for BB84 and other QKD protocols.</p>
 </div>
 </div>
 

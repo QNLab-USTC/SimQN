@@ -9,6 +9,12 @@ import uuid
 
 
 class QuantumChannel(Channel):
+    '''
+    This is a quantum channel. It is used to modeling a EPR generator.
+
+    :param nodes: a list of nodes that attached on this EPR generator.
+    :param str name: its name
+    '''
     def __init__(self, nodes=[],  name=None):
         self.nodes = nodes
 
@@ -22,7 +28,20 @@ class QuantumChannel(Channel):
 
 
 class GenerationProtocal(Protocol):
+    '''
+    This is the entanglement generation protocol for ``QuantumChannel``.
+    This protocol will generate new entanglements continuously.
 
+    There will be a great overhead if every ``GenerationEvent`` is produced before the simulator runs.
+    Setting an appropriate ``allocate_step`` can effectively reduce the initialization time.
+
+    :param entity: a ``QuantumChannel``.
+    :param possible: the success possibility of generate an entanglement.
+    :param rate: generate ``rate`` new entanglements per second.
+    :param delay: the delay time for each generation.
+    :param fidelity: the initial fidelity of generated entanglement.
+    :param allocate_step: the step time to schedule the next several ``GenerationEvent``. The default value is ``1`` second.
+    '''
     def __init__(_self, entity, possible=1, rate=10, delay=0.02, fidelity=1, allocate_step=1):
         super().__init__(entity)
         _self.possible = possible
@@ -32,6 +51,11 @@ class GenerationProtocal(Protocol):
         _self.step = allocate_step
 
     def install(_self, simulator: Simulator):
+        '''
+        Install ``GenerationAllocateEvent`` events into ``simulator`` before it runs.
+
+        :param simulator: the simulator
+        '''
         self = _self.entity
         _self.delay_time_slice = simulator.to_time_slice(_self.delay)
 
@@ -48,6 +72,12 @@ class GenerationProtocal(Protocol):
             simulator.add_event(t, gae)
 
     def allocate(_self, simulator: Simulator):
+        '''
+        The functions is called by ``GenerationAllocateEvent``
+        It will arrange the ``GenerationEvent`` in the following ``allocate_step`` second.
+
+        :param simulator: the simulator
+        '''
         self = _self.entity
         log.debug(f"link {self} begin allocate")
 
@@ -63,6 +93,12 @@ class GenerationProtocal(Protocol):
         pass
 
     def generation(_self, simulator: Simulator):
+        '''
+        This is the real generation function, it generat new entanglement ``e`` 
+        and use ``GenerationEntanglementAfterEvent`` event to notify ``nodes`` to store new entanglemnt.
+
+        :param simulator: the simulator
+        '''
         self = _self.entity
 
         if random.random() > _self.possible:

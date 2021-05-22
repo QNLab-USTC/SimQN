@@ -46,8 +46,8 @@ n2.install(s)
 n3.install(s)
 n4.install(s)
 
-n2.route = [[n1], [n3, n4]]
-n3.route = [[n1, n2], [n4]]
+n2.swapping_schema = [[n1], [n3, n4]]
+n3.swapping_schema = [[n1, n2], [n4]]
 
 
 c1 = QuantumChannel(nodes=[n1, n2], name="c1")

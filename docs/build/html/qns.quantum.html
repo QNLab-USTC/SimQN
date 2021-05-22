@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en,zh-CN" >
 <head>
   <meta charset="utf-8" />
   
@@ -168,8 +168,6 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/qns.quantum.rst.txt" rel="nofollow"> View page source</a>
-          
         
       </li>
     
@@ -192,13 +190,23 @@
 <dt class="sig sig-object py" id="qns.quantum.controller.ControllerEvent">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.controller.</span></span><span class="sig-name descname"><span class="pre">ControllerEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.controller.ControllerEvent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<p>This event will call <code class="docutils literal notranslate"><span class="pre">ControllerProtocol</span></code>'s <code class="docutils literal notranslate"><span class="pre">run</span></code> function for
+centralized decision.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>protocol</strong> -- the <code class="docutils literal notranslate"><span class="pre">ControllerProtocol</span></code></p></li>
+<li><p><strong>init_time</strong> -- the event's generation time in second</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.controller.ControllerEvent.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.controller.ControllerEvent.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>It is the real event’s handle functions. <code class="docutils literal notranslate"><span class="pre">run</span></code> should be overrided.</p>
+<dd><p>It is the real event's handle functions. <code class="docutils literal notranslate"><span class="pre">run</span></code> should be overrided.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator.</p>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -209,6 +217,37 @@
 <dt class="sig sig-object py" id="qns.quantum.controller.ControllerProtocol">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.controller.</span></span><span class="sig-name descname"><span class="pre">ControllerProtocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.controller.QuantumController" title="qns.quantum.controller.QuantumController"><span class="pre">qns.quantum.controller.QuantumController</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distillation_schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distillation_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">swapping_schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">swapping_possible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.controller.ControllerProtocol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol" title="qns.schedular.protocol.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol</span></code></a></p>
+<p>This protocol is used as a simple controller application.
+It will first perfrom distillation on those entanglements that satisfies <code class="docutils literal notranslate"><span class="pre">distillation_schema</span></code>.
+Then, it will perfrom swapping on those who satisfies <code class="docutils literal notranslate"><span class="pre">swapping_schema</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entity</strong> -- the <code class="docutils literal notranslate"><span class="pre">QuantumController</span></code></p></li>
+<li><p><strong>period</strong> -- the period time that the controller makes a decision</p></li>
+<li><p><strong>delay</strong> -- the delay time it used to make a decision</p></li>
+<li><p><strong>distillation_schema</strong> -- the distillation schema is a list of <code class="docutils literal notranslate"><span class="pre">(u,v)</span></code>,
+where entanglements between (u,v) will check distillation</p></li>
+<li><p><strong>distillation_threshold</strong> -- if an entanglement's fidelity is lower than <code class="docutils literal notranslate"><span class="pre">distillation_threshold</span></code>, 
+it will be used in distillation</p></li>
+<li><p><strong>swapping_schema</strong> -- the swapping schema is a set of <code class="docutils literal notranslate"><span class="pre">{swapping_node:</span> <span class="pre">(start_nodes,</span> <span class="pre">end_nodes)}</span></code>, 
+where <code class="docutils literal notranslate"><span class="pre">start_nodes</span></code> and <code class="docutils literal notranslate"><span class="pre">end_nodes</span></code> is a list of quantum nodes.</p></li>
+<li><p><strong>swapping_possible</strong> -- the success possibility of swapping.</p></li>
+</ul>
+</dd>
+</dl>
+<p>An example of <code class="docutils literal notranslate"><span class="pre">distillation_schema</span></code> is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distillation_schema</span> <span class="o">=</span> <span class="p">[(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">),</span> <span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n3</span><span class="p">),</span> <span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n4</span><span class="p">),</span> 
+    <span class="p">(</span><span class="n">n2</span><span class="p">,</span> <span class="n">n3</span><span class="p">),</span> <span class="p">(</span><span class="n">n2</span><span class="p">,</span> <span class="n">n4</span><span class="p">),</span> <span class="p">(</span><span class="n">n3</span><span class="p">,</span> <span class="n">n4</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>An example of <code class="docutils literal notranslate"><span class="pre">swapping_schema</span></code> is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">swapping_schema</span> <span class="o">=</span> <span class="p">{</span> 
+    <span class="n">n2</span><span class="p">:</span> <span class="p">([</span><span class="n">n1</span><span class="p">],</span> <span class="p">[</span><span class="n">n3</span><span class="p">]),</span> 
+    <span class="n">n3</span><span class="p">:</span> <span class="p">([</span><span class="n">n1</span><span class="p">],</span> <span class="p">[</span><span class="n">n4</span><span class="p">])</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.controller.ControllerProtocol.handle">
 <span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><span class="pre">qns.schedular.event.Event</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.controller.ControllerProtocol.handle" title="Permalink to this definition">¶</a></dt>
@@ -216,10 +255,10 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>simulator</strong> – the simulator</p></li>
-<li><p><strong>msg</strong> – anything, can be considered as the <code class="docutils literal notranslate"><span class="pre">event</span></code>’s parameters</p></li>
-<li><p><strong>source</strong> – the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
-<li><p><strong>event</strong> – the event</p></li>
+<li><p><strong>simulator</strong> -- the simulator</p></li>
+<li><p><strong>msg</strong> -- anything, can be considered as the <code class="docutils literal notranslate"><span class="pre">event</span></code>'s parameters</p></li>
+<li><p><strong>source</strong> -- the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
+<li><p><strong>event</strong> -- the event</p></li>
 </ul>
 </dd>
 </dl>
@@ -228,11 +267,10 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.controller.ControllerProtocol.install">
 <span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.controller.ControllerProtocol.install" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">install</span></code> will be called before the simulator starts.
-It can be used to initialize or insert initial events.</p>
+<dd><p>Insert <code class="docutils literal notranslate"><span class="pre">ControllerEvent</span></code> into <code class="docutils literal notranslate"><span class="pre">simulator</span></code>. Those events will be called periodly.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator</p>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator</p>
 </dd>
 </dl>
 </dd></dl>
@@ -240,7 +278,14 @@ It can be used to initialize or insert initial events.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.controller.ControllerProtocol.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.controller.ControllerProtocol.run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The real decision function. Those entangled qubits will be check for distillation frist and than swapping.
+Then, <code class="docutils literal notranslate"><span class="pre">NodeDistillationEvent</span></code> and <code class="docutils literal notranslate"><span class="pre">NodeSwappingEvent</span></code> will be generate to process swapping or distillation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -248,6 +293,17 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.quantum.controller.QuantumController">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.controller.</span></span><span class="sig-name descname"><span class="pre">QuantumController</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">links</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.controller.QuantumController" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.topo.html#qns.topo.basic.Node" title="qns.topo.basic.Node"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.topo.basic.Node</span></code></a></p>
+<p>This is a controller in quantum network. It could be an SDN controller.
+It is used to arrange swapping and distillation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> -- the list of <code class="docutils literal notranslate"><span class="pre">QuantumNode</span></code> that it controlled.</p></li>
+<li><p><strong>links</strong> -- the list of <code class="docutils literal notranslate"><span class="pre">QuantumChannel</span></code> that it controlled.</p></li>
+<li><p><strong>name</strong> -- its name</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -257,15 +313,28 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.quantum.entanglement.Entanglement">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.entanglement.</span></span><span class="sig-name descname"><span class="pre">Entanglement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">birth_time_slice</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fidelity</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">life_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.entanglement.Entanglement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="qns.quantum.entanglement.Entanglement.default_life_func">
-<span class="sig-name descname"><span class="pre">default_life_func</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.entanglement.Entanglement.default_life_func" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<p>This class represents a Bell State Entangled qubits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> -- two <code class="docutils literal notranslate"><span class="pre">QuantumNode</span></code> that share this entangled qubit.</p></li>
+<li><p><strong>birth_time_slice</strong> -- its birthday</p></li>
+<li><p><strong>fidelity</strong> -- its fidelity</p></li>
+<li><p><strong>life_func</strong> -- a function that decide whether it is decohered. If it is <code class="docutils literal notranslate"><span class="pre">None</span></code>, the entanglement will be immortal.</p></li>
+<li><p><strong>name</strong> -- its name</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.entanglement.Entanglement.is_alive">
 <span class="sig-name descname"><span class="pre">is_alive</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.entanglement.Entanglement.is_alive" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Check whether it is still alive</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns bool</dt>
+<dd class="field-odd"><p>is alive or not</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -276,13 +345,23 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.quantum.events.GenerationAllocateEvent">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.events.</span></span><span class="sig-name descname"><span class="pre">GenerationAllocateEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.GenerationAllocateEvent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<p>This event will call <code class="docutils literal notranslate"><span class="pre">GenerationProtocal</span></code>'s <code class="docutils literal notranslate"><span class="pre">allocate</span></code> function to 
+arrange <code class="docutils literal notranslate"><span class="pre">GenerationEvent</span></code> in the following step time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>protocol</strong> -- the <code class="docutils literal notranslate"><span class="pre">GenerationProtocal</span></code></p></li>
+<li><p><strong>init_time</strong> -- the event's generation time in second</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.events.GenerationAllocateEvent.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.GenerationAllocateEvent.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>It is the real event’s handle functions. <code class="docutils literal notranslate"><span class="pre">run</span></code> should be overrided.</p>
+<dd><p>It is the real event's handle functions. <code class="docutils literal notranslate"><span class="pre">run</span></code> should be overrided.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator.</p>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -293,13 +372,25 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.quantum.events.GenerationEntanglementAfterEvent">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.events.</span></span><span class="sig-name descname"><span class="pre">GenerationEntanglementAfterEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><span class="pre">qns.quantum.entanglement.Entanglement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">link</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.GenerationEntanglementAfterEvent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<p>This event is called after an entangment is generated. 
+It will store entanglement into <code class="docutils literal notranslate"><span class="pre">nodes</span></code>'s registers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>e</strong> -- the generated entanglement</p></li>
+<li><p><strong>link</strong> -- the <code class="docutils literal notranslate"><span class="pre">QuantumChannel</span></code> EPR Generator</p></li>
+<li><p><strong>nodes</strong> -- <code class="docutils literal notranslate"><span class="pre">e</span></code> is shared between <code class="docutils literal notranslate"><span class="pre">nodes</span></code></p></li>
+<li><p><strong>init_time</strong> -- the event's generation time in second</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.events.GenerationEntanglementAfterEvent.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.GenerationEntanglementAfterEvent.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>It is the real event’s handle functions. <code class="docutils literal notranslate"><span class="pre">run</span></code> should be overrided.</p>
+<dd><p>This function will add <code class="docutils literal notranslate"><span class="pre">e</span></code> in <code class="docutils literal notranslate"><span class="pre">nodes</span></code>'s registers and notify them the new coming entanglement.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator.</p>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator</p>
 </dd>
 </dl>
 </dd></dl>
@@ -310,13 +401,23 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.quantum.events.GenerationEvent">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.events.</span></span><span class="sig-name descname"><span class="pre">GenerationEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.GenerationEvent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<p>This event will call <code class="docutils literal notranslate"><span class="pre">GenerationProtocal</span></code>'s <code class="docutils literal notranslate"><span class="pre">generation</span></code> function to 
+generate new entanglement</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>protocol</strong> -- the <code class="docutils literal notranslate"><span class="pre">GenerationProtocal</span></code></p></li>
+<li><p><strong>init_time</strong> -- the event's generation time in second</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.events.GenerationEvent.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.GenerationEvent.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>It is the real event’s handle functions. <code class="docutils literal notranslate"><span class="pre">run</span></code> should be overrided.</p>
+<dd><p>It is the real event's handle functions. <code class="docutils literal notranslate"><span class="pre">run</span></code> should be overrided.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator.</p>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -327,13 +428,22 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.quantum.events.NodeDistillationAfterEvent">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.events.</span></span><span class="sig-name descname"><span class="pre">NodeDistillationAfterEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.NodeDistillationAfterEvent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<p>This event is used to notify <code class="docutils literal notranslate"><span class="pre">node</span></code> about the distillation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> -- the <code class="docutils literal notranslate"><span class="pre">QuantumNode</span></code> that should receive the new entanglement</p></li>
+<li><p><strong>init_time</strong> -- the event's generation time in second</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.events.NodeDistillationAfterEvent.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.NodeDistillationAfterEvent.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>It is the real event’s handle functions. <code class="docutils literal notranslate"><span class="pre">run</span></code> should be overrided.</p>
+<dd><p>It is the real event's handle functions. <code class="docutils literal notranslate"><span class="pre">run</span></code> should be overrided.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator.</p>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -344,13 +454,25 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.quantum.events.NodeDistillationEvent">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.events.</span></span><span class="sig-name descname"><span class="pre">NodeDistillationEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><span class="pre">qns.quantum.entanglement.Entanglement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">e2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><span class="pre">qns.quantum.entanglement.Entanglement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.NodeDistillationEvent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<p>This event will call <code class="docutils literal notranslate"><span class="pre">QuantumNodeDistillationProtocol</span></code>'s <code class="docutils literal notranslate"><span class="pre">distillation</span></code> function for
+entanglement distillation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>protocol</strong> -- the <code class="docutils literal notranslate"><span class="pre">QuantumNodeDistillationProtocol</span></code></p></li>
+<li><p><strong>e1</strong> -- the material entanglement</p></li>
+<li><p><strong>e2</strong> -- the material entanglement</p></li>
+<li><p><strong>init_time</strong> -- the event's generation time in second</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.events.NodeDistillationEvent.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.NodeDistillationEvent.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>It is the real event’s handle functions. <code class="docutils literal notranslate"><span class="pre">run</span></code> should be overrided.</p>
+<dd><p>It is the real event's handle functions. <code class="docutils literal notranslate"><span class="pre">run</span></code> should be overrided.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator.</p>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -361,13 +483,22 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.quantum.events.NodeSwappingAfterEvent">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.events.</span></span><span class="sig-name descname"><span class="pre">NodeSwappingAfterEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.NodeSwappingAfterEvent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<p>This event is used to notify <code class="docutils literal notranslate"><span class="pre">node</span></code> about the swapping.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> -- the <code class="docutils literal notranslate"><span class="pre">QuantumNode</span></code> that should receive the new entanglement</p></li>
+<li><p><strong>init_time</strong> -- the event's generation time in second</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.events.NodeSwappingAfterEvent.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.NodeSwappingAfterEvent.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>It is the real event’s handle functions. <code class="docutils literal notranslate"><span class="pre">run</span></code> should be overrided.</p>
+<dd><p>It is the real event's handle functions. <code class="docutils literal notranslate"><span class="pre">run</span></code> should be overrided.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator.</p>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -378,13 +509,26 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.quantum.events.NodeSwappingEvent">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.events.</span></span><span class="sig-name descname"><span class="pre">NodeSwappingEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><span class="pre">qns.quantum.entanglement.Entanglement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">e2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><span class="pre">qns.quantum.entanglement.Entanglement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.NodeSwappingEvent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a></p>
+<p>This event will call <code class="docutils literal notranslate"><span class="pre">QuantumNodeSwappingProtocol</span></code>'s <code class="docutils literal notranslate"><span class="pre">swapping</span></code> function for
+entanglement swapping.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>protocol</strong> -- the <code class="docutils literal notranslate"><span class="pre">QuantumNodeSwappingProtocol</span></code></p></li>
+<li><p><strong>e1</strong> -- the material entanglement</p></li>
+<li><p><strong>e2</strong> -- the material entanglement</p></li>
+<li><p><strong>source</strong> -- the <code class="docutils literal notranslate"><span class="pre">QuantumNode</span></code> that perfrom swapping</p></li>
+<li><p><strong>init_time</strong> -- the event's generation time in second</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.events.NodeSwappingEvent.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.events.NodeSwappingEvent.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>It is the real event’s handle functions. <code class="docutils literal notranslate"><span class="pre">run</span></code> should be overrided.</p>
+<dd><p>It is the real event's handle functions. <code class="docutils literal notranslate"><span class="pre">run</span></code> should be overrided.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator.</p>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -398,15 +542,45 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.quantum.link.GenerationProtocal">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.link.</span></span><span class="sig-name descname"><span class="pre">GenerationProtocal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">possible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.02</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fidelity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allocate_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.link.GenerationProtocal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol" title="qns.schedular.protocol.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol</span></code></a></p>
+<p>This is the entanglement generation protocol for <code class="docutils literal notranslate"><span class="pre">QuantumChannel</span></code>.
+This protocol will generate new entanglements continuously.</p>
+<p>There will be a great overhead if every <code class="docutils literal notranslate"><span class="pre">GenerationEvent</span></code> is produced before the simulator runs.
+Setting an appropriate <code class="docutils literal notranslate"><span class="pre">allocate_step</span></code> can effectively reduce the initialization time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entity</strong> -- a <code class="docutils literal notranslate"><span class="pre">QuantumChannel</span></code>.</p></li>
+<li><p><strong>possible</strong> -- the success possibility of generate an entanglement.</p></li>
+<li><p><strong>rate</strong> -- generate <code class="docutils literal notranslate"><span class="pre">rate</span></code> new entanglements per second.</p></li>
+<li><p><strong>delay</strong> -- the delay time for each generation.</p></li>
+<li><p><strong>fidelity</strong> -- the initial fidelity of generated entanglement.</p></li>
+<li><p><strong>allocate_step</strong> -- the step time to schedule the next several <code class="docutils literal notranslate"><span class="pre">GenerationEvent</span></code>. The default value is <code class="docutils literal notranslate"><span class="pre">1</span></code> second.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.link.GenerationProtocal.allocate">
 <span class="sig-name descname"><span class="pre">allocate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.link.GenerationProtocal.allocate" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The functions is called by <code class="docutils literal notranslate"><span class="pre">GenerationAllocateEvent</span></code>
+It will arrange the <code class="docutils literal notranslate"><span class="pre">GenerationEvent</span></code> in the following <code class="docutils literal notranslate"><span class="pre">allocate_step</span></code> second.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.link.GenerationProtocal.generation">
 <span class="sig-name descname"><span class="pre">generation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.link.GenerationProtocal.generation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>This is the real generation function, it generat new entanglement <code class="docutils literal notranslate"><span class="pre">e</span></code> 
+and use <code class="docutils literal notranslate"><span class="pre">GenerationEntanglementAfterEvent</span></code> event to notify <code class="docutils literal notranslate"><span class="pre">nodes</span></code> to store new entanglemnt.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.link.GenerationProtocal.handle">
@@ -415,10 +589,10 @@ It can be used to initialize or insert initial events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>simulator</strong> – the simulator</p></li>
-<li><p><strong>msg</strong> – anything, can be considered as the <code class="docutils literal notranslate"><span class="pre">event</span></code>’s parameters</p></li>
-<li><p><strong>source</strong> – the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
-<li><p><strong>event</strong> – the event</p></li>
+<li><p><strong>simulator</strong> -- the simulator</p></li>
+<li><p><strong>msg</strong> -- anything, can be considered as the <code class="docutils literal notranslate"><span class="pre">event</span></code>'s parameters</p></li>
+<li><p><strong>source</strong> -- the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
+<li><p><strong>event</strong> -- the event</p></li>
 </ul>
 </dd>
 </dl>
@@ -427,11 +601,10 @@ It can be used to initialize or insert initial events.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.link.GenerationProtocal.install">
 <span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.link.GenerationProtocal.install" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">install</span></code> will be called before the simulator starts.
-It can be used to initialize or insert initial events.</p>
+<dd><p>Install <code class="docutils literal notranslate"><span class="pre">GenerationAllocateEvent</span></code> events into <code class="docutils literal notranslate"><span class="pre">simulator</span></code> before it runs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator</p>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator</p>
 </dd>
 </dl>
 </dd></dl>
@@ -442,6 +615,15 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.quantum.link.QuantumChannel">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.link.</span></span><span class="sig-name descname"><span class="pre">QuantumChannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.link.QuantumChannel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.topo.html#qns.topo.basic.Channel" title="qns.topo.basic.Channel"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.topo.basic.Channel</span></code></a></p>
+<p>This is a quantum channel. It is used to modeling a EPR generator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> -- a list of nodes that attached on this EPR generator.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) -- its name</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -451,6 +633,11 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.quantum.network.QuantumNetwork">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.network.</span></span><span class="sig-name descname"><span class="pre">QuantumNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quantum_nodes</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.network.QuantumNetwork" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.entity.Entity" title="qns.schedular.entity.Entity"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.entity.Entity</span></code></a></p>
+<p>An entity that represents a quantum network.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It is deprecated.</p>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.network.QuantumNetwork.add_link">
 <span class="sig-name descname"><span class="pre">add_link</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">link</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.link.QuantumChannel" title="qns.quantum.link.QuantumChannel"><span class="pre">qns.quantum.link.QuantumChannel</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.network.QuantumNetwork.add_link" title="Permalink to this definition">¶</a></dt>
@@ -483,10 +670,10 @@ It can be used to initialize or insert initial events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>simulator</strong> – the simulator</p></li>
-<li><p><strong>msg</strong> – anything, can be considered as the <code class="docutils literal notranslate"><span class="pre">event</span></code>’s parameters</p></li>
-<li><p><strong>source</strong> – the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
-<li><p><strong>event</strong> – the event</p></li>
+<li><p><strong>simulator</strong> -- the simulator</p></li>
+<li><p><strong>msg</strong> -- anything, can be considered as the <code class="docutils literal notranslate"><span class="pre">event</span></code>'s parameters</p></li>
+<li><p><strong>source</strong> -- the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
+<li><p><strong>event</strong> -- the event</p></li>
 </ul>
 </dd>
 </dl>
@@ -495,10 +682,10 @@ It can be used to initialize or insert initial events.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.network.QuantumNetwork.install">
 <span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.network.QuantumNetwork.install" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">install</span></code> is called before <code class="docutils literal notranslate"><span class="pre">simulator</span></code> runs, it initial injected <code class="docutils literal notranslate"><span class="pre">Protocol</span></code>’s.</p>
+<dd><p><code class="docutils literal notranslate"><span class="pre">install</span></code> is called before <code class="docutils literal notranslate"><span class="pre">simulator</span></code> runs, it initial injected <code class="docutils literal notranslate"><span class="pre">Protocol</span></code>'s.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator</p>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator</p>
 </dd>
 </dl>
 </dd></dl>
@@ -512,10 +699,39 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.quantum.node.KeepUseSoonProtocol">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.node.</span></span><span class="sig-name descname"><span class="pre">KeepUseSoonProtocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fidelity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.KeepUseSoonProtocol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This protocol should be loaded on <code class="docutils literal notranslate"><span class="pre">QuantumNode</span></code>. It is used to simulate upper-level applications using entanglement.
+It keeps checking whether there is any distributed target entanglement and its fidelity is larger than <code class="docutils literal notranslate"><span class="pre">fidelity</span></code>.
+If so, it will move that entnaglement into <cite>used_e</cite> and increase the counter <cite>used</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entity</strong> -- a <code class="docutils literal notranslate"><span class="pre">QuantumNode</span></code></p></li>
+<li><p><strong>dest</strong> -- the target destination. The target entanglement should be shared between <code class="docutils literal notranslate"><span class="pre">self</span></code> and <code class="docutils literal notranslate"><span class="pre">dest</span></code></p></li>
+<li><p><strong>fidelity</strong> -- the low bound of fidelity. The entanglement's fidelity must be larger than <code class="docutils literal notranslate"><span class="pre">fidelity</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Variables</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>used</strong> -- the counter of used entanglements.</p></li>
+<li><p><strong>used_e</strong> -- the storaged for used entanglements.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.node.KeepUseSoonProtocol.handle">
 <span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.KeepUseSoonProtocol.handle" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>This funcion is called every time when a new entanglement is restored in the <cite>registers</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>simulator</strong> -- the simulator</p></li>
+<li><p><strong>msg</strong> -- anything, can be considered as the <code class="docutils literal notranslate"><span class="pre">event</span></code>'s parameters</p></li>
+<li><p><strong>source</strong> -- the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
+<li><p><strong>event</strong> -- the event</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.node.KeepUseSoonProtocol.install">
@@ -525,12 +741,16 @@ It can be used to initialize or insert initial events.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.node.KeepUseSoonProtocol.total_used_count">
 <span class="sig-name descname"><span class="pre">total_used_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.KeepUseSoonProtocol.total_used_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>This function returns the number in couter <code class="docutils literal notranslate"><span class="pre">used</span></code>
+:returns int: the number of used entanglements</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.node.KeepUseSoonProtocol.total_used_entanglements">
 <span class="sig-name descname"><span class="pre">total_used_entanglements</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.KeepUseSoonProtocol.total_used_entanglements" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>This function returns the used entanglements
+:returns: the used entanglements</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -538,20 +758,53 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.quantum.node.QuantumNode">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.node.</span></span><span class="sig-name descname"><span class="pre">QuantumNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">registers_number</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.topo.html#qns.topo.basic.Node" title="qns.topo.basic.Node"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.topo.basic.Node</span></code></a></p>
+<p>A quantum node in entanglement based network model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>registers_number</strong> -- the size of its quantum memory, <code class="docutils literal notranslate"><span class="pre">-1</span></code> means unlimited.</p></li>
+<li><p><strong>name</strong> -- its name</p></li>
+</ul>
+</dd>
+<dt class="field-even">Variables</dt>
+<dd class="field-even"><p><strong>registers</strong> -- its quantum registers (or memory)</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.node.QuantumNode.add_entanglement">
 <span class="sig-name descname"><span class="pre">add_entanglement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><span class="pre">qns.quantum.entanglement.Entanglement</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNode.add_entanglement" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>add an entanglement into registers:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>e</strong> (<a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><em>Entanglement</em></a>) -- the new coming entangled qubit</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="#qns.quantum.node.QuantumNodeError" title="qns.quantum.node.QuantumNodeError"><strong>QuantumNodeError</strong></a> -- The registers is full</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.node.QuantumNode.is_full">
 <span class="sig-name descname"><span class="pre">is_full</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNode.is_full" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>To check whether its registers is all used or not</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns bool</dt>
+<dd class="field-odd"><p>whether its reigsters is full</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.node.QuantumNode.remove_entanglement">
 <span class="sig-name descname"><span class="pre">remove_entanglement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><span class="pre">qns.quantum.entanglement.Entanglement</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNode.remove_entanglement" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>remove an entanglement from registers:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>e</strong> (<a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><em>Entanglement</em></a>) -- the removing entangled qubit</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -559,22 +812,52 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.quantum.node.QuantumNodeDistillationProtocol">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.node.</span></span><span class="sig-name descname"><span class="pre">QuantumNodeDistillationProtocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.node.QuantumNode" title="qns.quantum.node.QuantumNode"><span class="pre">qns.quantum.node.QuantumNode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lazy_run_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">under_controlled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNodeDistillationProtocol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol" title="qns.schedular.protocol.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol</span></code></a></p>
+<p>This is the distillation protocol for <code class="docutils literal notranslate"><span class="pre">QuantumNode</span></code>.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">under_controlled</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, it will check if there are two entanglements in <code class="docutils literal notranslate"><span class="pre">allow_distillation</span></code> that their fidelity is lower than <code class="docutils literal notranslate"><span class="pre">threshold</span></code>. If so, it will perfrom distillation spontaneously.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">under_controlled</span></code> is <code class="docutils literal notranslate"><span class="pre">False</span></code>, the swapping will not happen independently.
+In this case, <code class="docutils literal notranslate"><span class="pre">NodeDistillationEvent</span></code> should be generate to trigger entanglement swapping.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entity</strong> -- a <code class="docutils literal notranslate"><span class="pre">QuantumNode</span></code></p></li>
+<li><p><strong>threshold</strong> -- the lower bound of entanglement's fidelity. It an entanglement's fidelity is lower than <code class="docutils literal notranslate"><span class="pre">threshold</span></code>, it should be distillated.</p></li>
+<li><p><strong>delay</strong> -- the delay time of swapping operation</p></li>
+<li><p><strong>lazy_run_step</strong> -- The period that the node should check the fidelity states.
+It is a time in second. If <code class="docutils literal notranslate"><span class="pre">lazy_run_step</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>, periodly check will not happen. In this case, the <code class="docutils literal notranslate"><span class="pre">handle</span></code> will be triggled when a new entanglement is restored in the registers.</p></li>
+<li><p><strong>under_controlled</strong> (<em>bool</em>) -- Whether this node's swapping is under controlled.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Variables</dt>
+<dd class="field-even"><p><strong>allow_distillations</strong> -- a list of nodes. Entanglement between <code class="docutils literal notranslate"><span class="pre">entity</span></code> and <code class="docutils literal notranslate"><span class="pre">node</span> <span class="pre">in</span> <span class="pre">allow_distillation</span></code> will be checked.</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.node.QuantumNodeDistillationProtocol.distillation">
 <span class="sig-name descname"><span class="pre">distillation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">e1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNodeDistillationProtocol.distillation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The real distillation function. It will use <code class="docutils literal notranslate"><span class="pre">e1</span></code> and <code class="docutils literal notranslate"><span class="pre">e2</span></code> to generate a new entanglement with higher fidelity.</p>
+<p>Default success possibility is <code class="docutils literal notranslate"><span class="pre">f_min**2</span> <span class="pre">+</span> <span class="pre">(1-f_min)**2</span></code> and defaulty new fidelity is <code class="docutils literal notranslate"><span class="pre">f_min**2</span> <span class="pre">/</span> <span class="pre">(f_min**2</span> <span class="pre">+</span> <span class="pre">(1-f_min)**2)</span></code>, where <code class="docutils literal notranslate"><span class="pre">f_min</span> <span class="pre">=</span> <span class="pre">min(e1.fidelity,</span> <span class="pre">e2.fidelity)</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>simulator</strong> -- the simulator</p></li>
+<li><p><strong>e1</strong> (<a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><em>Entanglement</em></a>) -- a material entanglement</p></li>
+<li><p><strong>e2</strong> (<a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><em>Entanglement</em></a>) -- a material entanglement</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.node.QuantumNodeDistillationProtocol.handle">
 <span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><span class="pre">qns.schedular.event.Event</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNodeDistillationProtocol.handle" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">handle</span></code> is one of the callback functions that can be used to handle the triggered event.</p>
+<dd><p>This funcion is called every time when a new entanglement is restored in the <cite>registers</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>simulator</strong> – the simulator</p></li>
-<li><p><strong>msg</strong> – anything, can be considered as the <code class="docutils literal notranslate"><span class="pre">event</span></code>’s parameters</p></li>
-<li><p><strong>source</strong> – the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
-<li><p><strong>event</strong> – the event</p></li>
+<li><p><strong>simulator</strong> -- the simulator</p></li>
+<li><p><strong>msg</strong> -- anything, can be considered as the <code class="docutils literal notranslate"><span class="pre">event</span></code>'s parameters</p></li>
+<li><p><strong>source</strong> -- the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
+<li><p><strong>event</strong> -- the event</p></li>
 </ul>
 </dd>
 </dl>
@@ -587,7 +870,7 @@ It can be used to initialize or insert initial events.</p>
 It can be used to initialize or insert initial events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator</p>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator</p>
 </dd>
 </dl>
 </dd></dl>
@@ -598,12 +881,18 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.quantum.node.QuantumNodeError">
 <em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.node.</span></span><span class="sig-name descname"><span class="pre">QuantumNodeError</span></span><a class="headerlink" href="#qns.quantum.node.QuantumNodeError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>An error occured on a <code class="docutils literal notranslate"><span class="pre">QuantumNode</span></code>.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qns.quantum.node.QuantumNodeGenerationProtocol">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.node.</span></span><span class="sig-name descname"><span class="pre">QuantumNodeGenerationProtocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNodeGenerationProtocol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol" title="qns.schedular.protocol.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol</span></code></a></p>
+<p>This is the entanglement generation protocol</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It is now deprecated</p>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.node.QuantumNodeGenerationProtocol.handle">
 <span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><span class="pre">qns.schedular.event.Event</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNodeGenerationProtocol.handle" title="Permalink to this definition">¶</a></dt>
@@ -611,10 +900,10 @@ It can be used to initialize or insert initial events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>simulator</strong> – the simulator</p></li>
-<li><p><strong>msg</strong> – anything, can be considered as the <code class="docutils literal notranslate"><span class="pre">event</span></code>’s parameters</p></li>
-<li><p><strong>source</strong> – the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
-<li><p><strong>event</strong> – the event</p></li>
+<li><p><strong>simulator</strong> -- the simulator</p></li>
+<li><p><strong>msg</strong> -- anything, can be considered as the <code class="docutils literal notranslate"><span class="pre">event</span></code>'s parameters</p></li>
+<li><p><strong>source</strong> -- the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
+<li><p><strong>event</strong> -- the event</p></li>
 </ul>
 </dd>
 </dl>
@@ -627,7 +916,7 @@ It can be used to initialize or insert initial events.</p>
 It can be used to initialize or insert initial events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator</p>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator</p>
 </dd>
 </dl>
 </dd></dl>
@@ -638,6 +927,25 @@ It can be used to initialize or insert initial events.</p>
 <dt class="sig sig-object py" id="qns.quantum.node.QuantumNodeSwappingProtocol">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.node.</span></span><span class="sig-name descname"><span class="pre">QuantumNodeSwappingProtocol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">possible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fidelity_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">under_controlled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNodeSwappingProtocol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol" title="qns.schedular.protocol.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol</span></code></a></p>
+<p>This is the swapping protocol for <code class="docutils literal notranslate"><span class="pre">QuantumNode</span></code> .</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">under_controlled</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, it will check if there are two entanglements that fits <code class="docutils literal notranslate"><span class="pre">swapping_schema</span></code>. If so, it will perfrom swapping spontaneously.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">under_controlled</span></code> is <code class="docutils literal notranslate"><span class="pre">False</span></code>, the swapping will not happen independently.
+In this case, <code class="docutils literal notranslate"><span class="pre">NodeSwappingEvent</span></code> should be generate to trigger entanglement swapping.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entity</strong> -- a <code class="docutils literal notranslate"><span class="pre">QuantumNode</span></code></p></li>
+<li><p><strong>possible</strong> -- the success rate of swapping</p></li>
+<li><p><strong>delay</strong> -- the delay time of swapping operation</p></li>
+<li><p><strong>fidelity_func</strong> -- a fidelity function. if it is <code class="docutils literal notranslate"><span class="pre">None</span></code> , the default function will be used. In this case, the new generated entanglement's fidelity is f1 * f2.</p></li>
+<li><p><strong>under_controlled</strong> (<em>bool</em>) -- Whether this node's swapping is under controlled.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Variables</dt>
+<dd class="field-even"><p><strong>swapping_schema</strong> -- It is the swapping schema in the following format:
+<code class="docutils literal notranslate"><span class="pre">[left_hand_nodes,right_hand_nodes]</span></code>, where both <code class="docutils literal notranslate"><span class="pre">left_hand_nodes</span></code> and <code class="docutils literal notranslate"><span class="pre">right_hand_nodes</span></code> is a list of quantum nodes.</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.node.QuantumNodeSwappingProtocol.fidelity">
 <span class="sig-name descname"><span class="pre">fidelity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNodeSwappingProtocol.fidelity" title="Permalink to this definition">¶</a></dt>
@@ -646,14 +954,14 @@ It can be used to initialize or insert initial events.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.node.QuantumNodeSwappingProtocol.handle">
 <span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><span class="pre">qns.schedular.event.Event</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNodeSwappingProtocol.handle" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">handle</span></code> is one of the callback functions that can be used to handle the triggered event.</p>
+<dd><p>This funcion is called every time when a new entanglement is restored in the <cite>registers</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>simulator</strong> – the simulator</p></li>
-<li><p><strong>msg</strong> – anything, can be considered as the <code class="docutils literal notranslate"><span class="pre">event</span></code>’s parameters</p></li>
-<li><p><strong>source</strong> – the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
-<li><p><strong>event</strong> – the event</p></li>
+<li><p><strong>simulator</strong> -- the simulator</p></li>
+<li><p><strong>msg</strong> -- anything, can be considered as the <code class="docutils literal notranslate"><span class="pre">event</span></code>'s parameters</p></li>
+<li><p><strong>source</strong> -- the entity that generated the <code class="docutils literal notranslate"><span class="pre">event</span></code></p></li>
+<li><p><strong>event</strong> -- the event</p></li>
 </ul>
 </dd>
 </dl>
@@ -666,7 +974,7 @@ It can be used to initialize or insert initial events.</p>
 It can be used to initialize or insert initial events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator</p>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator</p>
 </dd>
 </dl>
 </dd></dl>
@@ -674,13 +982,24 @@ It can be used to initialize or insert initial events.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.quantum.node.QuantumNodeSwappingProtocol.swapping">
 <span class="sig-name descname"><span class="pre">swapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">e1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><span class="pre">qns.quantum.entanglement.Entanglement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">e2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><span class="pre">qns.quantum.entanglement.Entanglement</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.node.QuantumNodeSwappingProtocol.swapping" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The real swapping function. It will aggreate <code class="docutils literal notranslate"><span class="pre">e1</span></code> and <code class="docutils literal notranslate"><span class="pre">e2</span></code> to distribute a new entanglement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>simulator</strong> -- the simulator</p></li>
+<li><p><strong>e1</strong> (<a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><em>Entanglement</em></a>) -- a material entanglement</p></li>
+<li><p><strong>e2</strong> (<a class="reference internal" href="#qns.quantum.entanglement.Entanglement" title="qns.quantum.entanglement.Entanglement"><em>Entanglement</em></a>) -- a material entanglement</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
 </div>
 <div class="section" id="module-qns.quantum">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qns.quantum" title="Permalink to this headline">¶</a></h2>
+<p>A entanglement based quantum network model.</p>
 </div>
 </div>
 

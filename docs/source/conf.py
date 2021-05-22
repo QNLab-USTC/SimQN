@@ -22,6 +22,11 @@ copyright = '2021, Elliot Chen'
 author = 'Elliot Chen'
 html_baseurl = "/QuantNetSim"
 
+html_copy_source = False
+html_show_sourcelink = False
+
+language = "en,zh_CN"
+
 
 # -- General configuration ---------------------------------------------------
 

@@ -10,33 +10,60 @@ import uuid
 
 
 class QuantumNodeError(Exception):
+    '''
+    An error occured on a ``QuantumNode``.
+    '''
     pass
 
 
 class QuantumNode(Node):
+    '''
+    A quantum node in entanglement based network model
+
+    :param registers_number: the size of its quantum memory, ``-1`` means unlimited.
+    :param name: its name
+    :var registers: its quantum registers (or memory)
+    '''
+
     def __init__(self, registers_number: int = -1, name=None):
         self.links = []
 
         self.registers_number = registers_number
         self.registers: list(Entanglement) = []
-        self.route = None
+        self.swapping_schema = None
         if name is None:
             self.name = uuid.uudi4()
         else:
             self.name = name
 
     def is_full(self):
+        '''
+        To check whether its registers is all used or not
+
+        :returns bool: whether its reigsters is full
+        '''
         if self.registers_number != -1 and len(self.registers) >= self.registers_number:
             self.registers = [en for en in self.registers if en.is_alive()]
             return len(self.registers) >= self.registers_number
         return False
 
     def add_entanglement(self, e: Entanglement):
+        '''
+        add an entanglement into registers:
+
+        :param Entanglement e: the new coming entangled qubit
+        :raises QuantumNodeError: The registers is full
+        '''
         if self.is_full():
             raise QuantumNodeError("out of quantum memory")
         self.registers.insert(0, e)
 
     def remove_entanglement(self, e: Entanglement):
+        '''
+        remove an entanglement from registers:
+
+        :param Entanglement e: the removing entangled qubit
+        '''
         self.registers.remove(e)
 
     def __repr__(self):
@@ -44,6 +71,12 @@ class QuantumNode(Node):
 
 
 class QuantumNodeGenerationProtocol(Protocol):
+    '''
+    This is the entanglement generation protocol
+
+    .. warning::
+        It is now deprecated
+    '''
     def install(_self, simulator: Simulator):
         pass
 
@@ -53,26 +86,51 @@ class QuantumNodeGenerationProtocol(Protocol):
 
 
 class QuantumNodeSwappingProtocol(Protocol):
+    '''
+    This is the swapping protocol for ``QuantumNode`` .
+
+    If ``under_controlled`` is ``True``, it will check if there are two entanglements that fits ``swapping_schema``. If so, it will perfrom swapping spontaneously.
+    
+    If ``under_controlled`` is ``False``, the swapping will not happen independently.
+    In this case, ``NodeSwappingEvent`` should be generate to trigger entanglement swapping.
+
+
+    :param entity: a ``QuantumNode``
+    :param possible: the success rate of swapping
+    :param delay: the delay time of swapping operation
+    :param fidelity_func: a fidelity function. if it is ``None`` , the default function will be used. In this case, the new generated entanglement's fidelity is f1 \* f2.
+    :param bool under_controlled: Whether this node's swapping is under controlled.
+    :var swapping_schema: It is the swapping schema in the following format:
+        ``[left_hand_nodes,right_hand_nodes]``, where both ``left_hand_nodes`` and ``right_hand_nodes`` is a list of quantum nodes.
+    '''
     def __init__(_self, entity, possible=1, delay=0, fidelity_func=None, under_controlled=False):
         _self.entity = entity
-        _self.entity.router = []
+        _self.entity.swapping_schema = []
         _self.possible = possible
         _self.delay = delay
         _self.fidelity_func = fidelity_func
         _self.under_controlled = under_controlled
 
     def install(_self, simulator: Simulator):
-        _self.entity.router = []
+        _self.entity.swapping_schema = []
         _self.delay_time_slice = simulator.to_time_slice(_self.delay)
 
     def handle(_self, simulator: Simulator, msg: object, source=None, event: Event = None):
+        '''
+        This funcion is called every time when a new entanglement is restored in the `registers`.
+
+        :param simulator: the simulator
+        :param msg: anything, can be considered as the ``event``'s parameters 
+        :param source: the entity that generated the ``event``
+        :param event: the event 
+        '''
         self = _self.entity
         if _self.under_controlled:
             return
 
-        if self.route is None or len(self.route) < 2:
+        if self.swapping_schema is None or len(self.swapping_schema) < 2:
             return
-        nodes1, nodes2 = self.route[0], self.route[1]
+        nodes1, nodes2 = self.swapping_schema[0], self.swapping_schema[1]
         e_set1, e_set2 = [], []
         for e in self.registers:
             for n in e.nodes:
@@ -91,6 +149,13 @@ class QuantumNodeSwappingProtocol(Protocol):
                                 _self.delay_time_slice, swapevent)
 
     def swapping(_self, simulator: Simulator, e1: Entanglement, e2: Entanglement):
+        '''
+        The real swapping function. It will aggreate ``e1`` and ``e2`` to distribute a new entanglement.
+
+        :param simulator: the simulator
+        :param Entanglement e1: a material entanglement
+        :param Entanglement e2: a material entanglement
+        '''
         self = _self.entity
 
         node1 = None
@@ -139,6 +204,24 @@ class QuantumNodeSwappingProtocol(Protocol):
 
 
 class QuantumNodeDistillationProtocol(Protocol):
+    '''
+    This is the distillation protocol for ``QuantumNode``.
+
+    If ``under_controlled`` is ``True``, it will check if there are two entanglements in ``allow_distillation`` that their fidelity is lower than ``threshold``. If so, it will perfrom distillation spontaneously.
+    
+    If ``under_controlled`` is ``False``, the swapping will not happen independently.
+    In this case, ``NodeDistillationEvent`` should be generate to trigger entanglement swapping.
+
+
+    :param entity: a ``QuantumNode``
+    :param threshold: the lower bound of entanglement's fidelity. It an entanglement's fidelity is lower than ``threshold``, it should be distillated.
+    :param delay: the delay time of swapping operation
+
+    :param lazy_run_step: The period that the node should check the fidelity states.
+        It is a time in second. If ``lazy_run_step`` is ``None``, periodly check will not happen. In this case, the ``handle`` will be triggled when a new entanglement is restored in the registers.
+    :param bool under_controlled: Whether this node's swapping is under controlled.
+    :var allow_distillations: a list of nodes. Entanglement between ``entity`` and ``node in allow_distillation`` will be checked.
+    '''
     def __init__(_self, entity: QuantumNode, threshold: float = 0, delay: float = 0, lazy_run_step=None, under_controlled=False):
         super().__init__(entity)
         _self.threshold = threshold
@@ -158,8 +241,15 @@ class QuantumNodeDistillationProtocol(Protocol):
             self.call(simulator, None, _self, None, i)
 
     def handle(_self, simulator: Simulator, msg: object, source=None, event: Event = None):
-        self = _self.entity  # self is a QuantumNode
+        '''
+        This funcion is called every time when a new entanglement is restored in the `registers`.
 
+        :param simulator: the simulator
+        :param msg: anything, can be considered as the ``event``'s parameters 
+        :param source: the entity that generated the ``event``
+        :param event: the event 
+        '''
+        self = _self.entity  # self is a QuantumNode
         if _self.under_controlled:
             return
 
@@ -186,7 +276,15 @@ class QuantumNodeDistillationProtocol(Protocol):
                 simulator.current_time_slice + _self.delay_time_slice, ede)
 
     def distillation(self, simulator: Simulator, e1, e2):
+        '''
+        The real distillation function. It will use ``e1`` and ``e2`` to generate a new entanglement with higher fidelity.
 
+        Default success possibility is ``f_min**2 + (1-f_min)**2`` and defaulty new fidelity is ``f_min**2 / (f_min**2 + (1-f_min)**2)``, where ``f_min = min(e1.fidelity, e2.fidelity)``
+
+        :param simulator: the simulator
+        :param Entanglement e1: a material entanglement
+        :param Entanglement e2: a material entanglement
+        '''
         for n in e1.nodes:
             if n not in e2.nodes:
                 log.debug("{} and {} can not used for distillation", e1, e2)
@@ -223,6 +321,17 @@ class QuantumNodeDistillationProtocol(Protocol):
 
 
 class KeepUseSoonProtocol():
+    '''
+    This protocol should be loaded on ``QuantumNode``. It is used to simulate upper-level applications using entanglement.
+    It keeps checking whether there is any distributed target entanglement and its fidelity is larger than ``fidelity``.
+    If so, it will move that entnaglement into `used_e` and increase the counter `used`.
+
+    :param entity: a ``QuantumNode``
+    :param dest: the target destination. The target entanglement should be shared between ``self`` and ``dest``
+    :param fidelity: the low bound of fidelity. The entanglement's fidelity must be larger than ``fidelity``
+    :var used: the counter of used entanglements.
+    :var used_e: the storaged for used entanglements.
+    '''
     def __init__(_self, entity, dest, fidelity=0):
         _self.entity = entity
         _self.fidelity = fidelity
@@ -234,6 +343,15 @@ class KeepUseSoonProtocol():
         pass
 
     def handle(_self, simulator: Simulator, msg: object, source=None, event=None):
+        '''
+        This funcion is called every time when a new entanglement is restored in the `registers`.
+
+        :param simulator: the simulator
+        :param msg: anything, can be considered as the ``event``'s parameters 
+        :param source: the entity that generated the ``event``
+        :param event: the event 
+        '''
+        
         self = _self.entity
 
         el = [e for e in self.registers if _self.dest in e.nodes and e in _self.dest.registers and e.fidelity >= _self.fidelity]
@@ -247,7 +365,15 @@ class KeepUseSoonProtocol():
             _self.used_e.append(e)
 
     def total_used_count(_self):
+        '''
+        This function returns the number in couter ``used``
+        :returns int: the number of used entanglements
+        '''
         return _self.used
 
     def total_used_entanglements(_self):
+        '''
+        This function returns the used entanglements
+        :returns: the used entanglements
+        '''
         return _self.used_e

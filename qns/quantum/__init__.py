@@ -1,3 +1,7 @@
+'''
+A entanglement based quantum network model.
+'''
+
 from .network import QuantumNetwork
 from .node import QuantumNode, QuantumNodeGenerationProtocol, QuantumNodeSwappingProtocol, QuantumNodeDistillationProtocol
 from .link import QuantumChannel, GenerationProtocal

@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en,zh-CN" >
 <head>
   <meta charset="utf-8" />
   
@@ -168,8 +168,6 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/qns.timer.rst.txt" rel="nofollow"> View page source</a>
-          
         
       </li>
     
@@ -200,11 +198,11 @@ Setting an appropriate <code class="docutils literal notranslate"><span class="p
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>start_time</strong> (<em>float</em>) – The timer’s start time in second</p></li>
-<li><p><strong>end_time</strong> (<em>float</em>) – The timer’s finish time in second</p></li>
-<li><p><strong>step_time</strong> (<em>float</em>) – The <code class="docutils literal notranslate"><span class="pre">TimerEvent</span></code> will be called every <code class="docutils literal notranslate"><span class="pre">step_time</span></code></p></li>
-<li><p><strong>alloc_time</strong> (<em>float</em>) – The next <code class="docutils literal notranslate"><span class="pre">TimerEvent</span></code> will be generated and inserted into simulator every <code class="docutils literal notranslate"><span class="pre">alloc_time</span></code></p></li>
-<li><p><strong>name</strong> (<em>str</em>) – timer’s name</p></li>
+<li><p><strong>start_time</strong> (<em>float</em>) -- The timer's start time in second</p></li>
+<li><p><strong>end_time</strong> (<em>float</em>) -- The timer's finish time in second</p></li>
+<li><p><strong>step_time</strong> (<em>float</em>) -- The <code class="docutils literal notranslate"><span class="pre">TimerEvent</span></code> will be called every <code class="docutils literal notranslate"><span class="pre">step_time</span></code></p></li>
+<li><p><strong>alloc_time</strong> (<em>float</em>) -- The next <code class="docutils literal notranslate"><span class="pre">TimerEvent</span></code> will be generated and inserted into simulator every <code class="docutils literal notranslate"><span class="pre">alloc_time</span></code></p></li>
+<li><p><strong>name</strong> (<em>str</em>) -- timer's name</p></li>
 </ul>
 </dd>
 </dl>
@@ -216,7 +214,7 @@ Setting an appropriate <code class="docutils literal notranslate"><span class="p
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.timer.timer.Timer.install">
 <span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.timer.timer.Timer.install" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function runs before simulator is started. It is used to inject initial <a href="#id1"><span class="problematic" id="id2">``</span></a>TimerEvent``s.</p>
+<dd><p>This function runs before simulator is started. It is used to inject initial <code class="docutils literal notranslate"><span class="pre">TimerEvent</span></code>'s.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -225,7 +223,7 @@ Setting an appropriate <code class="docutils literal notranslate"><span class="p
 <dd><p>This function must be overrided to perform specific functions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> – the simulator</p>
+<dd class="field-odd"><p><strong>simulator</strong> -- the simulator</p>
 </dd>
 </dl>
 </dd></dl>
@@ -239,7 +237,7 @@ Setting an appropriate <code class="docutils literal notranslate"><span class="p
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.timer.timer.TimerAllocEvent.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.timer.timer.TimerAllocEvent.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is an inner event that triggle <code class="docutils literal notranslate"><span class="pre">Timer</span></code>’s <code class="docutils literal notranslate"><span class="pre">alloc</span></code> function.</p>
+<dd><p>This is an inner event that triggle <code class="docutils literal notranslate"><span class="pre">Timer</span></code>'s <code class="docutils literal notranslate"><span class="pre">alloc</span></code> function.</p>
 </dd></dl>
 
 </dd></dl>
@@ -251,7 +249,7 @@ Setting an appropriate <code class="docutils literal notranslate"><span class="p
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.timer.timer.TimerEvent.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><span class="pre">qns.schedular.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.timer.timer.TimerEvent.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is an inner event that triggle <code class="docutils literal notranslate"><span class="pre">Timer</span></code>’s <code class="docutils literal notranslate"><span class="pre">run</span></code> function.</p>
+<dd><p>This is an inner event that triggle <code class="docutils literal notranslate"><span class="pre">Timer</span></code>'s <code class="docutils literal notranslate"><span class="pre">run</span></code> function.</p>
 </dd></dl>
 
 </dd></dl>
@@ -259,6 +257,7 @@ Setting an appropriate <code class="docutils literal notranslate"><span class="p
 </div>
 <div class="section" id="module-qns.timer">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qns.timer" title="Permalink to this headline">¶</a></h2>
+<p>A timer entity that traggle events periodly.</p>
 </div>
 </div>
 
