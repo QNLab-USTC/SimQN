@@ -10,9 +10,10 @@ Welcome to QuantNetSim's documentation!
    :maxdepth: 4
    :caption: Contents:
 
+   develop
+   modules
 
-
-Manual
+Index
 ==================
 
 * :ref:`genindex`

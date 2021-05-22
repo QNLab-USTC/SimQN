@@ -13,10 +13,16 @@ class SimulatorError(Exception):
 
 class Simulator():
     '''
-    Simulator: The simulator for quantum network
+    Simulator: The simulator for quantum network.
     '''
-    
+
     def __init__(self, start_time: float = default_start_time, end_time: float = default_end_time, time_accuracy: int = default_time_accuracy, events_list=[]):
+        '''
+
+        :param start_time: simulate start time in second
+        :param end_time: simulate end time in second
+        :param time_accuracy: simulate time accuracy, eg: 1000, 1000000
+        '''
         self.status = "init"
         self.log = None
         self.time_accuracy = time_accuracy
@@ -37,6 +43,9 @@ class Simulator():
         self.setup(events_list)
 
     def run(self):
+        '''
+        run simulation
+        '''
         self.status = "run"
         st = time.time()
         while self.current_time_slice <= self.end_time_slice:
@@ -61,14 +70,37 @@ class Simulator():
             raise SimulatorError("Events List is not vaild")
 
     def add_event(self, time_slice: int, event: Event):
+        '''
+        Add an event into simulator event pool.
+
+        :param time_slice: event start time in time_slice
+        :param event: inserted event
+        '''
         self.events_pool.add_event(time_slice, event)
         self.total_events += 1
 
     def remote_event(self, event: Event):
+        '''
+        Remove an event from simulator event pool.
+
+        :param event: removed event
+        '''
         self.events_pool.remote_event(event)
 
     def to_time_slice(self, time: float):
+        '''
+        Convert time to time_slice, change time from second into inner time sequence
+
+        :param time: a time in second
+        :returns: inner time_slice
+        '''
         return int(self.time_accuracy * time)
 
     def to_time(self, time_slice: int) -> float:
+        '''
+        Convert a time_slice to time
+        
+        :param time: a time_slice
+        :returns: a time in second
+        '''
         return time_slice / self.time_accuracy

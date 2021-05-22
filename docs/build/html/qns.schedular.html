@@ -309,21 +309,37 @@
 <dt class="sig sig-object py" id="qns.schedular.simulator.Simulator">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.schedular.simulator.</span></span><span class="sig-name descname"><span class="pre">Simulator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">600.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_accuracy</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">events_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.simulator.Simulator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Simulator: The simulator for quantum network</p>
+<p>Simulator: The simulator for quantum network.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.schedular.simulator.Simulator.add_event">
 <span class="sig-name descname"><span class="pre">add_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_slice</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.schedular.event.Event" title="qns.schedular.event.Event"><span class="pre">qns.schedular.event.Event</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.simulator.Simulator.add_event" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Add an event into simulator event pool.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time_slice</strong> – event start time in time_slice</p></li>
+<li><p><strong>event</strong> – inserted event</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.schedular.simulator.Simulator.remote_event">
 <span class="sig-name descname"><span class="pre">remote_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#qns.schedular.event.Event" title="qns.schedular.event.Event"><span class="pre">qns.schedular.event.Event</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.simulator.Simulator.remote_event" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Remove an event from simulator event pool.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>event</strong> – removed event</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.schedular.simulator.Simulator.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.simulator.Simulator.run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>run simulation</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.schedular.simulator.Simulator.setup">
@@ -333,12 +349,30 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.schedular.simulator.Simulator.to_time">
 <span class="sig-name descname"><span class="pre">to_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_slice</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">float</span><a class="headerlink" href="#qns.schedular.simulator.Simulator.to_time" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Convert a time_slice to time</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> – a time_slice</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a time in second</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.schedular.simulator.Simulator.to_time_slice">
 <span class="sig-name descname"><span class="pre">to_time_slice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.schedular.simulator.Simulator.to_time_slice" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Convert time to time_slice, change time from second into inner time sequence</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> – a time in second</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>inner time_slice</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
