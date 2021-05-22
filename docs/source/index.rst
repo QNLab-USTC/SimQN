@@ -11,6 +11,8 @@ Welcome to QuantNetSim's documentation!
    :caption: Contents:
 
    develop
+   structure
+   model-dev
    modules
 
 Index
