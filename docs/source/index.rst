@@ -7,28 +7,13 @@ Welcome to QuantNetSim's documentation!
 =======================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Contents:
 
 
 
-Indices and tables
+Manual
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
-.. automodule::src
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. automodule::models
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-...
-
 * :ref:`modindex`
