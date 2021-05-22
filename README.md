@@ -3,6 +3,7 @@
 A discrete time scheduler designed for Quantum Network. QuantNetSim is writen in python3 with out any 3th-party libraries. Some examples are in `example`.
 
 > **进行开发请务必阅读[开发手册](https://github.com/ertuil/QuantNetSim/blob/dev/doc/%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C.md)**
+> **API documents are in [Documents](https://www.elliot98.top/QuantNetSim/)**
 
 **Still in heavy development, api may change**
 
@@ -36,12 +37,6 @@ The following command will install QuantNetSim in system:
 ```
 pip3 install dist/qns-<version>-none-any.whl
 ```
-
-## Usage
-API documents are in [Documents](https://www.elliot98.top/QuantNetSim/)
-
-## Models
-TBD
 
 ## License
 
