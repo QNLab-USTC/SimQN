@@ -43,8 +43,11 @@
 ---------------------------
 
 我们代码和其他资料存放在 `Github <https://github.com/ertuil/QuantNetSim>`_ 上。
-我们开发时候，请将代码上传到 `dev` 分支（非 `master` 分支）。
+我们开发时候，请将代码上传到 ``dev`` 分支（非 `master` 分支）。
+
 Python代码的编码规范和变量命名请参考 `PEP 8 <https://www.python.org/dev/peps/pep-0008/>`_ 标准。
+项目中每一个类、方法都需要存在注释（docstrings)，以便于文档自动生成工具可以快速生成API文档。
+具体格式可以参考 ``scheduar`` 模块下的注释的语法。
 
 代码运行和编译方法
 ----------------------
