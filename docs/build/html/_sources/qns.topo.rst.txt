@@ -12,14 +12,6 @@ qns.topo.basic module
    :undoc-members:
    :show-inheritance:
 
-qns.topo.classic module
------------------------
-
-.. automodule:: qns.topo.classic
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Module contents
 ---------------
 
