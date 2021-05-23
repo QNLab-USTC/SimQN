@@ -1,6 +1,6 @@
 
 import random
-from qns.quantum.entanglement import Entanglement
+from qns.entangled.entanglement import Entanglement
 from qns.topo import Channel
 from qns.schedular import Simulator, Event, Protocol
 from .events import GenerationAllocateEvent, GenerationEntanglementAfterEvent, GenerationEvent

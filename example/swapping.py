@@ -1,8 +1,8 @@
-from qns.quantum.node import QuantumNodeGenerationProtocol, QuantumNodeSwappingProtocol, QuantumNodeDistillationProtocol
+from qns.entangled.node import QuantumNodeGenerationProtocol, QuantumNodeSwappingProtocol, QuantumNodeDistillationProtocol
 from qns.schedular import Simulator, Protocol
-from qns.quantum.link import QuantumChannel, GenerationProtocal
-from qns.quantum import QuantumNode
-from qns.quantum import QuantumNetwork
+from qns.entangled.link import QuantumChannel, GenerationProtocal
+from qns.entangled import QuantumNode
+from qns.entangled import QuantumNetwork
 from qns.log import log
 
 

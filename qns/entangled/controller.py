@@ -1,5 +1,5 @@
-from qns.quantum.node import QuantumNodeDistillationProtocol
-from qns.quantum import NodeDistillationEvent, QuantumNodeSwappingProtocol, NodeSwappingEvent, Entanglement
+from qns.entangled.node import QuantumNodeDistillationProtocol
+from qns.entangled import NodeDistillationEvent, QuantumNodeSwappingProtocol, NodeSwappingEvent, Entanglement
 from qns.schedular import Protocol, Simulator, Event
 from qns.topo import Node
 from qns.log import log

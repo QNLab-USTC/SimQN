@@ -1,7 +1,7 @@
-from qns.quantum.node import QuantumNodeGenerationProtocol
+from qns.entangled.node import QuantumNodeGenerationProtocol
 from qns.schedular.simulator import Simulator
-from qns.quantum.link import QuantumChannel, GenerationProtocal
-from qns.quantum import QuantumNode
+from qns.entangled.link import QuantumChannel, GenerationProtocal
+from qns.entangled import QuantumNode
 
 s = Simulator(0, 10, 1000)
 

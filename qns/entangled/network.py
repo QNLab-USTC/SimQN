@@ -1,4 +1,4 @@
-from qns.quantum.link import QuantumChannel
+from qns.entangled.link import QuantumChannel
 from .node import QuantumNode
 from .entanglement import Entanglement
 from qns.schedular import Entity, Simulator, Event

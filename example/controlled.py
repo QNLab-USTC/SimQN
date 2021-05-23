@@ -1,7 +1,7 @@
 from os import name
-from qns.quantum.node import KeepUseSoonProtocol
+from qns.entangled.node import KeepUseSoonProtocol
 from qns.schedular import Simulator, Protocol
-from qns.quantum import QuantumNode, QuantumController, QuantumChannel, GenerationProtocal, QuantumNodeSwappingProtocol, QuantumNodeDistillationProtocol, ControllerProtocol
+from qns.entangled import QuantumNode, QuantumController, QuantumChannel, GenerationProtocal, QuantumNodeSwappingProtocol, QuantumNodeDistillationProtocol, ControllerProtocol
 from qns.log import log
 
 
@@ -12,7 +12,7 @@ class PrintProtocol(Protocol):
         log.info("check {}: {}", self, self.registers)
 
 
-s = Simulator(0, 3600, 1000000)
+s = Simulator(0, 300, 1000000)
 log.set_debug(True)
 log.install(s)
 

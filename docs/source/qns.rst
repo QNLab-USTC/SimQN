@@ -10,10 +10,11 @@ Subpackages
    qns.bb84
    qns.classic
    qns.log
-   qns.quantum
+   qns.entangled
    qns.schedular
    qns.timer
    qns.topo
+   qns.application
 
 Module contents
 ---------------

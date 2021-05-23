@@ -50,7 +50,7 @@ This project has the following packages and directories.
     |  |- log           The log module
     |  |- classic       A classic message network model
     |  |- bb84          A single photon network model
-    |  |- quantum       A entanglement based network model
+    |  |- entangled     A entanglement based network model
     |
     |- LICENSE          Open source license
     |- README.md        Readme

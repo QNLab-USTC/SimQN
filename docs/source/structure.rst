@@ -136,7 +136,7 @@ A new ``Event`` must be implemented.
 In that ``Event``, the arbitrary method of other ``Entity`` can be called with arbitrary parameters.
 
 .. note::
-    An example of this form is :class:`qns.quantum.events.GenerationEvent`
+    An example of this form is :class:`qns.entangled.events.GenerationEvent`
 
 The second form is much more easiler to implement but has strict limitations.
 One ``Entity`` can call another ``Entity``'s :meth:`qns.schedular.entity.Entity.call` method.
