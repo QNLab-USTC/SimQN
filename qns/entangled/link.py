@@ -41,14 +41,16 @@ class GenerationProtocal(Protocol):
     :param delay: the delay time for each generation.
     :param fidelity: the initial fidelity of generated entanglement.
     :param allocate_step: the step time to schedule the next several ``GenerationEvent``. The default value is ``1`` second.
+    :param under_controlled: whether the EPR will generate spontaneously. If ``under_controlled`` is ``False``, it will generate entanglements when ``generation`` is called. 
     '''
-    def __init__(_self, entity, possible=1, rate=10, delay=0.02, fidelity=1, allocate_step=1):
+    def __init__(_self, entity, possible=1, rate=10, delay=0.02, fidelity=1, allocate_step=1, under_controlled = False):
         super().__init__(entity)
         _self.possible = possible
         _self.delay = delay
         _self.fidelity = fidelity
         _self.rate = rate
         _self.step = allocate_step
+        _self.under_controlled = under_controlled
 
     def install(_self, simulator: Simulator):
         '''
@@ -61,6 +63,9 @@ class GenerationProtocal(Protocol):
 
         for n in self.nodes:
             n.links.append(self)
+
+        if _self.under_controlled:
+            return
 
         # ge = GenerationEvent(_self, simulator.current_time)
         gae = GenerationAllocateEvent(_self, simulator.current_time)
