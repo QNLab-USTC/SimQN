@@ -1,10 +1,10 @@
-qns.application package
+qns.network package
 =======================
 
 Module contents
 ---------------
 
-.. automodule:: qns.application
+.. automodule:: qns.network
    :members:
    :undoc-members:
    :show-inheritance:

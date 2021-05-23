@@ -7,14 +7,14 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   qns.schedular
+   qns.topo
+   qns.entangled
    qns.bb84
    qns.classic
+   qns.network
    qns.log
-   qns.entangled
-   qns.schedular
    qns.timer
-   qns.topo
-   qns.application
 
 Module contents
 ---------------
