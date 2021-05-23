@@ -13,32 +13,6 @@
     pip3 install setuptools wheel
 
 
-项目目录介绍
-----------------------
-
-项目的主要目录如下：
-
-.. code-block:: 
-
-    - QuantNetSim       项目根目录
-    |- doc              存放项目文档
-    |- docs             自动生成的API手册
-    |- dist             打包后的二进制分发包
-    |- example          一些实例和用户程序
-    |- qns
-    |  |- schedular     离散时间调度器，核心
-    |  |- timer         定时器模块
-    |  |- topo          网络拓扑模块
-    |  |- log           日志模块
-    |  |- classic       经典网络模块
-    |  |- bb84          单光子网络模型
-    |  |- quantum       纠缠网络模型
-    |
-    |- LICENSE          代码开源协议
-    |- README.md        项目说明书
-    |- setup.py         项目打包脚本
-
-
 代码开发和合作规范
 ---------------------------
 

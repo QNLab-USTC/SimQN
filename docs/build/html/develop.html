@@ -42,8 +42,8 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="项目架构-CN" href="structure.html" />
-    <link rel="prev" title="Welcome to QuantNetSim&#39;s documentation!" href="index.html" /> 
+    <link rel="next" title="API Manual" href="modules.html" />
+    <link rel="prev" title="Tutorials and Usage Examples" href="tutorials.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -90,16 +90,16 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="frontpage.html">An introduction to QuantNetSim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="structure.html">Basic Concepts and Simulation Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials and Usage Examples</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">开发手册-CN</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id1">项目介绍</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">项目目录介绍</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">代码开发和合作规范</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">代码运行和编译方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">代码开发和合作规范</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">代码运行和编译方法</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#api">构建API文档</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="structure.html">项目架构-CN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="model-dev.html">模型构建和开发指南-CN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">API Manual</a></li>
 </ul>
 
@@ -178,38 +178,15 @@
 </div>
 </div>
 <div class="section" id="id2">
-<h2>项目目录介绍<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>项目的主要目录如下：</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>- QuantNetSim       项目根目录
-|- doc              存放项目文档
-|- docs             自动生成的API手册
-|- dist             打包后的二进制分发包
-|- example          一些实例和用户程序
-|- qns
-|  |- schedular     离散时间调度器，核心
-|  |- timer         定时器模块
-|  |- topo          网络拓扑模块
-|  |- log           日志模块
-|  |- classic       经典网络模块
-|  |- bb84          单光子网络模型
-|  |- quantum       纠缠网络模型
-|
-|- LICENSE          代码开源协议
-|- README.md        项目说明书
-|- setup.py         项目打包脚本
-</pre></div>
-</div>
-</div>
-<div class="section" id="id3">
-<h2>代码开发和合作规范<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<h2>代码开发和合作规范<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>我们代码和其他资料存放在 <a class="reference external" href="https://github.com/ertuil/QuantNetSim">Github</a> 上。
 我们开发时候，请将代码上传到 <code class="docutils literal notranslate"><span class="pre">dev</span></code> 分支（非 <cite>master</cite> 分支）。</p>
 <p>Python代码的编码规范和变量命名请参考 <a class="reference external" href="https://www.python.org/dev/peps/pep-0008/">PEP 8</a> 标准。
 项目中每一个类、方法都需要存在注释（docstrings)，以便于文档自动生成工具可以快速生成API文档。
 具体格式可以参考 <code class="docutils literal notranslate"><span class="pre">scheduar</span></code> 模块下的注释的语法。</p>
 </div>
-<div class="section" id="id4">
-<h2>代码运行和编译方法<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h2>代码运行和编译方法<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>我们的项目使用 <a class="reference external" href="https://pypi.org/project/setuptools/">setuptools</a> 进行打包。</p>
 <p>我们在开发的时候，可以使用命令</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3 setup.py develop
@@ -251,8 +228,8 @@ make html
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="structure.html" class="btn btn-neutral float-right" title="项目架构-CN" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to QuantNetSim&#39;s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral float-right" title="API Manual" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="tutorials.html" class="btn btn-neutral float-left" title="Tutorials and Usage Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

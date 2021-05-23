@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>项目架构-CN &mdash; QuantNetSim  documentation</title>
+  <title>Basic Concepts and Simulation Model &mdash; QuantNetSim  documentation</title>
   
 
   
@@ -42,8 +42,8 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="模型构建和开发指南-CN" href="model-dev.html" />
-    <link rel="prev" title="开发手册-CN" href="develop.html" /> 
+    <link rel="next" title="Tutorials and Usage Examples" href="tutorials.html" />
+    <link rel="prev" title="An introduction to QuantNetSim" href="frontpage.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -90,14 +90,20 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="develop.html">开发手册-CN</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">项目架构-CN</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">离散时间调度器</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">事件和消息传递模型</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">项目框架和接口设计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontpage.html">An introduction to QuantNetSim</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Basic Concepts and Simulation Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#basic-concepts">Basic Concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-discrete-time-schedular">The Discrete Time Schedular</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#entity-and-protocol">Entity and Protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#event-and-message-model">Event and Message Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#active-mode">1. Active Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#passive-mode">2. Passive Mode</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="model-dev.html">模型构建和开发指南-CN</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials and Usage Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="develop.html">开发手册-CN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">API Manual</a></li>
 </ul>
 
@@ -147,7 +153,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>项目架构-CN</li>
+      <li>Basic Concepts and Simulation Model</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -164,16 +170,139 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="cn">
-<h1>项目架构-CN<a class="headerlink" href="#cn" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id1">
-<h2>离散时间调度器<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="basic-concepts-and-simulation-model">
+<h1>Basic Concepts and Simulation Model<a class="headerlink" href="#basic-concepts-and-simulation-model" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="basic-concepts">
+<h2>Basic Concepts<a class="headerlink" href="#basic-concepts" title="Permalink to this headline">¶</a></h2>
+<p>Some basic concepts in <code class="docutils literal notranslate"><span class="pre">QuantNetSim</span></code> includes:</p>
+<dl class="simple">
+<dt>Simulator  (<a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.simulator.Simulator</span></code></a>)</dt><dd><p><code class="docutils literal notranslate"><span class="pre">Simulator</span></code> is an event scheduar and the simulator for quantum network and
+it manages <code class="docutils literal notranslate"><span class="pre">Event</span></code>  and calls these <code class="docutils literal notranslate"><span class="pre">Event</span></code> in sequence based on the time of occurrence.
+<code class="docutils literal notranslate"><span class="pre">Simulator</span></code> provides <code class="docutils literal notranslate"><span class="pre">add_event</span></code> and <code class="docutils literal notranslate"><span class="pre">remove_event</span></code> to insert or remove <code class="docutils literal notranslate"><span class="pre">Event</span></code>.</p>
+</dd>
+<dt>Event (<a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a>)</dt><dd><p><code class="docutils literal notranslate"><span class="pre">Event</span></code> is a set of actions that happens in time <code class="docutils literal notranslate"><span class="pre">t</span></code>.
+<code class="docutils literal notranslate"><span class="pre">Event</span></code> is called by <code class="docutils literal notranslate"><span class="pre">Simulator</span></code> and its <code class="docutils literal notranslate"><span class="pre">run</span></code> method must be implemented.</p>
+</dd>
+<dt>Entity  (<a class="reference internal" href="qns.schedular.html#qns.schedular.entity.Entity" title="qns.schedular.entity.Entity"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.entity.Entity</span></code></a>)</dt><dd><p><code class="docutils literal notranslate"><span class="pre">Entity</span></code> is a subject in Simulation.
+It can be a network entity such as a node, link or a controller.
+It can also be a component such as quantum registers or virtual entity such as a <code class="docutils literal notranslate"><span class="pre">timer</span></code>.
+In <code class="docutils literal notranslate"><span class="pre">QuantNetSim</span></code>, we make no assumptions about the capabilities of an <code class="docutils literal notranslate"><span class="pre">Entity</span></code>,
+its capabilities is injected from a <code class="docutils literal notranslate"><span class="pre">Protocol</span></code>.</p>
+</dd>
+<dt>Protocol  (<a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol" title="qns.schedular.protocol.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol</span></code></a>)</dt><dd><p>A protocol adds new capabilities to <code class="docutils literal notranslate"><span class="pre">Entity</span></code>.
+For example, <code class="docutils literal notranslate"><span class="pre">SwappingProtocol</span></code> add entanglement swapping ability to quantum nodes
+while <code class="docutils literal notranslate"><span class="pre">ClassicSenderProtocol</span></code> add classic message sending ability to it.</p>
+</dd>
+<dt>time</dt><dd><p><code class="docutils literal notranslate"><span class="pre">time</span></code> is the external time stamp in second. It is an <code class="docutils literal notranslate"><span class="pre">Float</span></code> variable.</p>
+</dd>
+<dt>time_slice</dt><dd><p><code class="docutils literal notranslate"><span class="pre">time_slice</span></code> is the inner time stamp in simulator. It is an <code class="docutils literal notranslate"><span class="pre">Integer</span></code> variable.
+It is different from <code class="docutils literal notranslate"><span class="pre">time</span></code> because the simulation accuracy is flexible.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For example, time <code class="docutils literal notranslate"><span class="pre">1</span></code> second is <code class="docutils literal notranslate"><span class="pre">1000000</span></code> in <code class="docutils literal notranslate"><span class="pre">time_slice</span></code> if <code class="docutils literal notranslate"><span class="pre">time_accuracy</span></code> is <code class="docutils literal notranslate"><span class="pre">1000000</span></code>.</p>
 </div>
-<div class="section" id="id2">
-<h2>事件和消息传递模型<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/structure.png" src="_images/structure.png" />
 </div>
-<div class="section" id="id3">
-<h2>项目框架和接口设计<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="the-discrete-time-schedular">
+<h2>The Discrete Time Schedular<a class="headerlink" href="#the-discrete-time-schedular" title="Permalink to this headline">¶</a></h2>
+<p>A discrete time schedular is in <code class="docutils literal notranslate"><span class="pre">qns.schedular.simulator</span></code>. It has the following main interface:</p>
+<dl class="simple">
+<dt><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator.run" title="qns.schedular.simulator.Simulator.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">qns.schedular.simulator.Simulator.run()</span></code></a></dt><dd><p>The functions will start the simulation</p>
+</dd>
+<dt><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator.add_event" title="qns.schedular.simulator.Simulator.add_event"><code class="xref py py-meth docutils literal notranslate"><span class="pre">qns.schedular.simulator.Simulator.add_event()</span></code></a></dt><dd><p>Add an event into the event pool and calls it at time <code class="docutils literal notranslate"><span class="pre">start_time</span></code>.</p>
+</dd>
+<dt><code class="xref py py-meth docutils literal notranslate"><span class="pre">qns.schedular.simulator.Simulator.remove_event()</span></code></dt><dd><p>Remove an event from event pool</p>
+</dd>
+<dt><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator.to_time" title="qns.schedular.simulator.Simulator.to_time"><code class="xref py py-meth docutils literal notranslate"><span class="pre">qns.schedular.simulator.Simulator.to_time()</span></code></a></dt><dd><p>Convert <code class="docutils literal notranslate"><span class="pre">time_slice</span></code> to <code class="docutils literal notranslate"><span class="pre">time</span></code></p>
+</dd>
+<dt><a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator.to_time_slice" title="qns.schedular.simulator.Simulator.to_time_slice"><code class="xref py py-meth docutils literal notranslate"><span class="pre">qns.schedular.simulator.Simulator.to_time_slice()</span></code></a></dt><dd><p>Convert a <code class="docutils literal notranslate"><span class="pre">time</span></code> to <code class="docutils literal notranslate"><span class="pre">time_slice</span></code></p>
+</dd>
+</dl>
+<p>For more informatin, please refer to <a class="reference internal" href="qns.schedular.html#qns.schedular.simulator.Simulator" title="qns.schedular.simulator.Simulator"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.simulator.Simulator</span></code></a>.</p>
+</div>
+<div class="section" id="entity-and-protocol">
+<h2>Entity and Protocol<a class="headerlink" href="#entity-and-protocol" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Entity</span></code> is a entity in simulation. It has the following API:</p>
+<dl class="simple">
+<dt><a class="reference internal" href="qns.schedular.html#qns.schedular.entity.Entity.install" title="qns.schedular.entity.Entity.install"><code class="xref py py-meth docutils literal notranslate"><span class="pre">qns.schedular.entity.Entity.install()</span></code></a></dt><dd><p>Initialize parameters and insert initial events.
+If it is not overrided, it will call its all protocols' <code class="docutils literal notranslate"><span class="pre">install</span></code> function.</p>
+</dd>
+<dt><a class="reference internal" href="qns.schedular.html#qns.schedular.entity.Entity.handle" title="qns.schedular.entity.Entity.handle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">qns.schedular.entity.Entity.handle()</span></code></a></dt><dd><p>Handle event function.
+If it is not overrided, it will call its all protocols' <code class="docutils literal notranslate"><span class="pre">handle</span></code> function.</p>
+</dd>
+<dt><a class="reference internal" href="qns.schedular.html#qns.schedular.entity.Entity.inject_protocol" title="qns.schedular.entity.Entity.inject_protocol"><code class="xref py py-meth docutils literal notranslate"><span class="pre">qns.schedular.entity.Entity.inject_protocol()</span></code></a></dt><dd><p>This method is used to inject one or more protocols into this entity.</p>
+</dd>
+</dl>
+<p>For more informatin, please refer to <a class="reference internal" href="qns.schedular.html#qns.schedular.entity.Entity" title="qns.schedular.entity.Entity"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.entity.Entity</span></code></a>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Protocol</span></code> implements a special ability for an <code class="docutils literal notranslate"><span class="pre">Entity</span></code>.</p>
+<dl class="simple">
+<dt><a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol.install" title="qns.schedular.protocol.Protocol.install"><code class="xref py py-meth docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol.install()</span></code></a></dt><dd><p>Initialize parameters and insert initial events.
+This method should be overrided.</p>
+</dd>
+<dt><a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol.handle" title="qns.schedular.protocol.Protocol.handle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol.handle()</span></code></a></dt><dd><p>Handle event function. This function is called when a event is sent to this entity.
+This method should be overrided.</p>
+</dd>
+</dl>
+<p>For more informatin, please refer to <a class="reference internal" href="qns.schedular.html#qns.schedular.protocol.Protocol" title="qns.schedular.protocol.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.protocol.Protocol</span></code></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">Protocol</span></code>, we usually use <code class="docutils literal notranslate"><span class="pre">self</span></code> to refer the <code class="docutils literal notranslate"><span class="pre">Entity</span></code> it injects,
+while we use <code class="docutils literal notranslate"><span class="pre">_self</span></code> to refer the <code class="docutils literal notranslate"><span class="pre">Protocol</span></code> itself.</p>
+</div>
+</div>
+<div class="section" id="event-and-message-model">
+<h2>Event and Message Model<a class="headerlink" href="#event-and-message-model" title="Permalink to this headline">¶</a></h2>
+<p>An <code class="docutils literal notranslate"><span class="pre">Event</span></code> is added to the simulator with a <code class="docutils literal notranslate"><span class="pre">start_time_slice</span></code>.
+Its <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event.run" title="qns.schedular.event.Event.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">qns.schedular.event.Event.run()</span></code></a> will be called at <code class="docutils literal notranslate"><span class="pre">start_time_slice</span></code>.
+For more informatin, please refer to <a class="reference internal" href="qns.schedular.html#qns.schedular.event.Event" title="qns.schedular.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.event.Event</span></code></a>.</p>
+<p>We devide the messaging model into <code class="docutils literal notranslate"><span class="pre">Active</span> <span class="pre">Mode</span></code> and <code class="docutils literal notranslate"><span class="pre">Passive</span> <span class="pre">Mode</span></code>.</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">Active</span> <span class="pre">Mode</span></code>, <code class="docutils literal notranslate"><span class="pre">Entity</span></code> or <code class="docutils literal notranslate"><span class="pre">Protocol</span></code> will insert several initial <code class="docutils literal notranslate"><span class="pre">Event</span></code> in simulator
+so that those events can call <code class="docutils literal notranslate"><span class="pre">Entity</span></code> or <code class="docutils literal notranslate"><span class="pre">Protocol</span></code>'s certain function periodly or one-time.</p>
+<p>While in <code class="docutils literal notranslate"><span class="pre">Passive</span> <span class="pre">Mode</span></code>, the event is generated by other <code class="docutils literal notranslate"><span class="pre">Entity</span></code> and  the execution of a specific function of this <code class="docutils literal notranslate"><span class="pre">Entity</span></code>.</p>
+<div class="section" id="active-mode">
+<h3>1. Active Mode<a class="headerlink" href="#active-mode" title="Permalink to this headline">¶</a></h3>
+<p>In <code class="docutils literal notranslate"><span class="pre">Active</span> <span class="pre">Mode</span></code>, an <code class="docutils literal notranslate"><span class="pre">Entity</span></code> or its <code class="docutils literal notranslate"><span class="pre">Protocol</span></code> can generate one or more events in <code class="docutils literal notranslate"><span class="pre">install</span></code> function
+and then insert them into simulator.
+The event will call arbitrary function of the <code class="docutils literal notranslate"><span class="pre">Entity</span></code> itself.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Active</span> <span class="pre">Mode</span></code> is usually used when the <code class="docutils literal notranslate"><span class="pre">Entity</span></code> will periodly perform some actions.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>However, it will bring a heavy overhead in simulation initialization because it will insert too many events in the simulator.
+To address this issue, it is better to call a <code class="docutils literal notranslate"><span class="pre">ArrangeEvent</span></code> to insert Handle Event for the following <code class="docutils literal notranslate"><span class="pre">step</span></code> time.
+For the <code class="docutils literal notranslate"><span class="pre">ArrangeEvent</span></code> is called with a lower frequence, the overhead will be decreased.
+An example is in <a class="reference internal" href="qns.timer.html#qns.timer.timer.Timer" title="qns.timer.timer.Timer"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.timer.timer.Timer</span></code></a>.</p>
+</div>
+</div>
+<div class="section" id="passive-mode">
+<h3>2. Passive Mode<a class="headerlink" href="#passive-mode" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">Passive</span> <span class="pre">Mode</span></code> has two forms. The first form is just like <code class="docutils literal notranslate"><span class="pre">Active</span> <span class="pre">Mode</span></code>
+while the second form provides a simple way to call other <code class="docutils literal notranslate"><span class="pre">Entity</span></code>.</p>
+<p>The first form is just like <code class="docutils literal notranslate"><span class="pre">Active</span> <span class="pre">Mode</span></code>.
+A new <code class="docutils literal notranslate"><span class="pre">Event</span></code> must be implemented.
+In that <code class="docutils literal notranslate"><span class="pre">Event</span></code>, the arbitrary method of other <code class="docutils literal notranslate"><span class="pre">Entity</span></code> can be called with arbitrary parameters.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>An example of this form is <a class="reference internal" href="qns.quantum.html#qns.quantum.events.GenerationEvent" title="qns.quantum.events.GenerationEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.quantum.events.GenerationEvent</span></code></a></p>
+</div>
+<p>The second form is much more easiler to implement but has strict limitations.
+One <code class="docutils literal notranslate"><span class="pre">Entity</span></code> can call another <code class="docutils literal notranslate"><span class="pre">Entity</span></code>'s <a class="reference internal" href="qns.schedular.html#qns.schedular.entity.Entity.call" title="qns.schedular.entity.Entity.call"><code class="xref py py-meth docutils literal notranslate"><span class="pre">qns.schedular.entity.Entity.call()</span></code></a> method.
+In <code class="docutils literal notranslate"><span class="pre">call</span></code> method,  a common <a class="reference internal" href="qns.schedular.html#qns.schedular.entity.CallEvent" title="qns.schedular.entity.CallEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.entity.CallEvent</span></code></a> is used instead a self-defined event.
+The <code class="docutils literal notranslate"><span class="pre">CallEvent</span></code> will call the <code class="docutils literal notranslate"><span class="pre">Entity</span></code>'s <a class="reference internal" href="qns.schedular.html#qns.schedular.entity.Entity.handle" title="qns.schedular.entity.Entity.handle"><code class="xref py py-meth docutils literal notranslate"><span class="pre">qns.schedular.entity.Entity.handle()</span></code></a> method at time <code class="docutils literal notranslate"><span class="pre">time_slice</span></code>.
+If <code class="docutils literal notranslate"><span class="pre">time_slice</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>, the CallEvent happens currently.
+The parameters of <code class="docutils literal notranslate"><span class="pre">call</span></code> function and <code class="docutils literal notranslate"><span class="pre">handle</span></code> method has an strict form:</p>
+<ul class="simple">
+<li><p>simulator: the simulator</p></li>
+<li><p>msg: anything, e.g. classic message, photon etc.</p></li>
+<li><p>source: the caller</p></li>
+<li><p>event: any event that calls this call, could be <code class="docutils literal notranslate"><span class="pre">None</span></code>. The <code class="docutils literal notranslate"><span class="pre">handle</span></code> function can use <code class="docutils literal notranslate"><span class="pre">event</span></code> to distinguish call types and dispatch it to different processing functions.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>An example of this form is <a class="reference internal" href="qns.bb84.html#qns.bb84.device.PhotonRandomSendProtocol" title="qns.bb84.device.PhotonRandomSendProtocol"><code class="xref py py-meth docutils literal notranslate"><span class="pre">qns.bb84.device.PhotonRandomSendProtocol()</span></code></a></p>
+</div>
+</div>
 </div>
 </div>
 
@@ -183,8 +312,8 @@
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="model-dev.html" class="btn btn-neutral float-right" title="模型构建和开发指南-CN" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="develop.html" class="btn btn-neutral float-left" title="开发手册-CN" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorials.html" class="btn btn-neutral float-right" title="Tutorials and Usage Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="frontpage.html" class="btn btn-neutral float-left" title="An introduction to QuantNetSim" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

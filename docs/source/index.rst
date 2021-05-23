@@ -7,12 +7,13 @@ Welcome to QuantNetSim's documentation!
 =======================================
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 5
    :caption: Contents:
 
-   develop
+   frontpage
    structure
-   model-dev
+   tutorials
+   develop
    modules
 
 Index

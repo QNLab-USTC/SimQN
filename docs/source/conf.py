@@ -26,6 +26,7 @@ html_copy_source = False
 html_show_sourcelink = False
 
 language = "en,zh_CN"
+todo_include_todos = True
 
 
 # -- General configuration ---------------------------------------------------
@@ -35,7 +36,8 @@ language = "en,zh_CN"
 # ones.
 # import sphinx.ext.autodoc
 extensions = [
-    "sphinx.ext.autodoc"
+    "sphinx.ext.autodoc",
+    "sphinx.ext.todo"
 ]
 
 # Add any paths that contain templates here, relative to this directory.
