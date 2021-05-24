@@ -1,9 +1,8 @@
 from qns.topo import Node
 from qns.schedular import Protocol, Simulator, Event
 from .event import GenerationAndSendEvent, PhotonReceiveEvent
-from .photon import Photon, Basis, Polar
+from .photon import Photon
 from qns.log import log
-import uuid
 
 
 class PhotonNode(Node):
@@ -18,15 +17,11 @@ class PhotonNode(Node):
     '''
 
     def __init__(self, registers_number: int = -1, name=None):
+        super().__init__(name)
         self.links = []
 
         self.registers_number = registers_number
         self.registers = []
-
-        if name is None:
-            self.name = uuid.uuid4()
-        else:
-            self.name = name
 
     def __repr__(self):
         return "<bb84 node " + self.name+">"

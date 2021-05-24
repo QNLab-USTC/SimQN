@@ -1,5 +1,4 @@
-import uuid
-from qns.schedular import Simulator, Protocol, Event
+from qns.schedular import Simulator, Protocol
 from qns.topo import Node
 from qns.log import log
 from .message import Message
@@ -14,12 +13,8 @@ class ClassicNode(Node):
     '''
 
     def __init__(self, name=None):
+        super().__init__(name)
         self.classic_links = []
-
-        if name is None:
-            self.name = uuid.uuid4()
-        else:
-            self.name = name
 
     def __repr__(self):
         return "<classic node " + self.name+">"

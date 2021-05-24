@@ -1,4 +1,3 @@
-import uuid
 import random
 from qns.topo import Channel
 from qns.schedular import Protocol, Simulator
@@ -15,12 +14,8 @@ class ClassicLink(Channel):
     '''
 
     def __init__(self, nodes=[], name=None):
+        super().__init__(name)
         self.classic_nodes = nodes
-
-        if name is None:
-            self.name = uuid.uuid4()
-        else:
-            self.name = name
 
     def __repr__(self):
         return "<classic link " + self.name+">"

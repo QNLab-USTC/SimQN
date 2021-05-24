@@ -3,6 +3,7 @@ from .protocol import Protocol
 from .event import Event
 from .simulator import Simulator
 from qns.schedular import simulator
+import uuid
 
 
 class Entity():
@@ -11,10 +12,17 @@ class Entity():
     It can also be used as a virtual entity such as a timer.
 
     One or more ``Protocol``'s should be injected into a entity to implement certain components and functions.
+
+    :param name: the name of this entity. If ``name`` is ``None``, a random uuid4 will be used.
     '''
 
-    def __init__(self):
+    def __init__(self, name = None):
         self.protocols = []
+        self.sub_entities = []
+        if name is None:
+            self.name == uuid.uuid4()
+        else:
+            self.name = name
 
     def install(self, simulator: Simulator):
         '''
@@ -69,6 +77,27 @@ class Entity():
                 self.protocols.append(p)
         else:
             self.protocols.append(protocol)
+    
+    def add_subentity(self, entity):
+        '''
+        Add a sub entity into this subentity.
+
+        :param entity: the sub entity
+        '''
+        self.sub_entities.append(entity)
+    
+    def get_subentity(self, name: str):
+        '''
+        retrive a sub entity by its name.
+
+        :param str name: the name of this sub entity.
+        :returns: the sub entity or ``None``
+        '''
+        for se in self.sub_entities:
+            if se.name == name:
+                return se
+        return None
+
 
 
 class CallEvent(Event):

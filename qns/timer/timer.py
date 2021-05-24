@@ -43,14 +43,11 @@ class Timer(Entity):
     '''
 
     def __init__(self, start_time, end_time=None, step_time=None, alloc_time=1, name=None):
+        super().__init__(name)
         self.step_time = step_time
         self.start_time = start_time
         self.end_time = end_time
         self.alloc_time = alloc_time
-        if name is None:
-            self.name = uuid.uuid4()
-        else:
-            self.name = name
 
     def install(self, simulator: Simulator):
         '''

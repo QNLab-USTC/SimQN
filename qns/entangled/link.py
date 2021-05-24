@@ -5,7 +5,6 @@ from qns.topo import Channel
 from qns.schedular import Simulator, Event, Protocol
 from .events import GenerationAllocateEvent, GenerationEntanglementAfterEvent, GenerationEvent
 from qns.log import log
-import uuid
 
 
 class QuantumChannel(Channel):
@@ -16,12 +15,8 @@ class QuantumChannel(Channel):
     :param str name: its name
     '''
     def __init__(self, nodes=[],  name=None):
+        super().__init__(name)
         self.nodes = nodes
-
-        if name is None:
-            self.name = uuid.uuid4()
-        else:
-            self.name = name
 
     def __repr__(self):
         return "<link " + self.name+">"

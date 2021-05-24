@@ -3,7 +3,6 @@ from qns.topo import Channel
 from qns.schedular import Simulator, Protocol, Event
 from .event import PhotonReceiveEvent
 from qns.log import log
-import uuid
 
 
 class OpticalFiber(Channel):
@@ -14,12 +13,8 @@ class OpticalFiber(Channel):
     :param str name: its name
     '''
     def __init__(self, nodes=[],  name=None):
+        super().__init__(name)
         self.nodes = nodes
-
-        if name is None:
-            self.name = uuid.uuid4()
-        else:
-            self.name = name
 
     def __repr__(self):
         return "<bb84 link " + self.name+">"

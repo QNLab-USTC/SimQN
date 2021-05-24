@@ -1,9 +1,8 @@
 from qns.entangled.node import QuantumNodeDistillationProtocol
-from qns.entangled import NodeDistillationEvent, QuantumNodeSwappingProtocol, NodeSwappingEvent, Entanglement
+from qns.entangled import NodeDistillationEvent, QuantumNodeSwappingProtocol, NodeSwappingEvent
 from qns.schedular import Protocol, Simulator, Event
 from qns.topo import Node
 from qns.log import log
-import uuid
 
 
 class QuantumController(Node):
@@ -16,12 +15,9 @@ class QuantumController(Node):
     :param name: its name
     '''
     def __init__(self, nodes=[], links=[], name=None):
+        super().__init__(name)
         self.nodes = nodes
         self.links = links
-        if name is None:
-            self.name = uuid.uuid4()
-        else:
-            self.name = name
 
     def __repr__(self) -> str:
         return "<controller {}>".format(self.name)

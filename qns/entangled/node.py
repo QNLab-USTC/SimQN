@@ -6,7 +6,6 @@ from .entanglement import Entanglement
 from .events import NodeDistillationAfterEvent, NodeDistillationEvent, NodeSwappingAfterEvent,  NodeSwappingEvent
 from qns.log import log
 import random
-import uuid
 
 
 class QuantumNodeError(Exception):
@@ -26,15 +25,12 @@ class QuantumNode(Node):
     '''
 
     def __init__(self, registers_number: int = -1, name=None):
+        super().__init__(name)
         self.links = []
 
         self.registers_number = registers_number
         self.registers: list(Entanglement) = []
         self.swapping_schema = None
-        if name is None:
-            self.name = uuid.uudi4()
-        else:
-            self.name = name
 
     def is_full(self):
         '''

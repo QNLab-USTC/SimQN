@@ -2,7 +2,8 @@ from qns.schedular import Simulator, Event, Entity
 
 
 class TestClockEntity(Entity):
-    def __init__(self, start_time, end_time, step_time):
+    def __init__(self, start_time, end_time, step_time, name = None):
+        super().__init__(name)
         self.step_time = step_time
         self.start_time = start_time
         self.end_time = end_time
