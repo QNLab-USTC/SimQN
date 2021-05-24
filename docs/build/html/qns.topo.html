@@ -41,7 +41,9 @@
 
     
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="qns.entangled package" href="qns.entangled.html" />
+    <link rel="prev" title="qns.schedular package" href="qns.schedular.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -86,16 +88,33 @@
               
             
             
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">qns.topo package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-qns.topo.basic">qns.topo.basic module</a></li>
-<li><a class="reference internal" href="#module-qns.topo">Module contents</a></li>
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="frontpage.html">An introduction to QuantNetSim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="structure.html">Basic Concepts and Simulation Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials and Usage Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="develop.html">开发手册-CN</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Manual</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="qns.html">qns package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="qns.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="qns.schedular.html">qns.schedular package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">qns.topo package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.entangled.html">qns.entangled package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.bb84.html">qns.bb84 package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.classic.html">qns.classic package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.quantum.html">qns.quantum package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.network.html">qns.network package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.log.html">qns.log package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.timer.html">qns.timer package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qns.html#module-qns">Module contents</a></li>
 </ul>
 </li>
 </ul>
-</div>
+</li>
+</ul>
+
             
           
         </div>
@@ -142,6 +161,10 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
+          <li><a href="modules.html">API Manual</a> &raquo;</li>
+        
+          <li><a href="qns.html">qns package</a> &raquo;</li>
+        
       <li>qns.topo package</li>
     
     
@@ -168,14 +191,14 @@
 <span id="qns-topo-basic-module"></span><h2>qns.topo.basic module<a class="headerlink" href="#module-qns.topo.basic" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="qns.topo.basic.Channel">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.topo.basic.</span></span><span class="sig-name descname"><span class="pre">Channel</span></span><a class="headerlink" href="#qns.topo.basic.Channel" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.topo.basic.</span></span><span class="sig-name descname"><span class="pre">Channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.topo.basic.Channel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.entity.Entity" title="qns.schedular.entity.Entity"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.entity.Entity</span></code></a></p>
 <p>This is the base class for network link</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qns.topo.basic.Node">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.topo.basic.</span></span><span class="sig-name descname"><span class="pre">Node</span></span><a class="headerlink" href="#qns.topo.basic.Node" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.topo.basic.</span></span><span class="sig-name descname"><span class="pre">Node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.topo.basic.Node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.schedular.html#qns.schedular.entity.Entity" title="qns.schedular.entity.Entity"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.schedular.entity.Entity</span></code></a></p>
 <p>This is the base class for network nodes</p>
 </dd></dl>
@@ -192,6 +215,10 @@
            
           </div>
           <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="qns.entangled.html" class="btn btn-neutral float-right" title="qns.entangled package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="qns.schedular.html" class="btn btn-neutral float-left" title="qns.schedular package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
 
   <hr/>
 
