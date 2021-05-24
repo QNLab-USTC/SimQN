@@ -12,6 +12,7 @@ Subpackages
    qns.entangled
    qns.bb84
    qns.classic
+   qns.quantum
    qns.network
    qns.log
    qns.timer
