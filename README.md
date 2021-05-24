@@ -19,7 +19,7 @@ Todo List:
 - [x] Entanglement Network, Node, Link and Controller
 - [x] Simple swapping, distillation and generation
 - [x] Refact classic Sender, Receiver and repeator
-- [ ] Physical Simulation on entanglement (Bell State, GHZ State)
+- [ ] Physical Simulation on Quantum Computation
 - [ ] Performance enhancement
 - [ ] Documents, Unit Testing
 
