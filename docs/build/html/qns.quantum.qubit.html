@@ -186,6 +186,141 @@
             
   <div class="section" id="qns-quantum-qubit-package">
 <h1>qns.quantum.qubit package<a class="headerlink" href="#qns-quantum-qubit-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-qns.quantum.qubit.basis">
+<span id="qns-quantum-qubit-basis-module"></span><h2>qns.quantum.qubit.basis module<a class="headerlink" href="#module-qns.quantum.qubit.basis" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.quantum.qubit.basis.Basis">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.qubit.basis.</span></span><span class="sig-name descname"><span class="pre">Basis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.qubit.basis.Basis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">Basis</span></code> is the quantum basis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> -- X basis</p></li>
+<li><p><strong>Z</strong> -- Z basis</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qns.quantum.qubit.basis.Basis.X">
+<span class="sig-name descname"><span class="pre">X</span></span><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#qns.quantum.qubit.basis.Basis.X" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qns.quantum.qubit.basis.Basis.Z">
+<span class="sig-name descname"><span class="pre">Z</span></span><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#qns.quantum.qubit.basis.Basis.Z" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-qns.quantum.qubit.polar">
+<span id="qns-quantum-qubit-polar-module"></span><h2>qns.quantum.qubit.polar module<a class="headerlink" href="#module-qns.quantum.qubit.polar" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.quantum.qubit.polar.Polar">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.qubit.polar.</span></span><span class="sig-name descname"><span class="pre">Polar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.qubit.polar.Polar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">Polar</span></code> is the quantum state of a single photon</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>H</strong> -- |1&gt; state</p></li>
+<li><p><strong>V</strong> -- |0&gt; state</p></li>
+<li><p><strong>P</strong> -- |+&gt; state</p></li>
+<li><p><strong>Q</strong> -- |-&gt; state</p></li>
+<li><p><strong>A</strong> -- Any state</p></li>
+<li><p><strong>N</strong> -- Not be measured</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qns.quantum.qubit.polar.Polar.A">
+<span class="sig-name descname"><span class="pre">A</span></span><em class="property"> <span class="pre">=</span> <span class="pre">-2</span></em><a class="headerlink" href="#qns.quantum.qubit.polar.Polar.A" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qns.quantum.qubit.polar.Polar.H">
+<span class="sig-name descname"><span class="pre">H</span></span><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#qns.quantum.qubit.polar.Polar.H" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qns.quantum.qubit.polar.Polar.N">
+<span class="sig-name descname"><span class="pre">N</span></span><em class="property"> <span class="pre">=</span> <span class="pre">-1</span></em><a class="headerlink" href="#qns.quantum.qubit.polar.Polar.N" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qns.quantum.qubit.polar.Polar.P">
+<span class="sig-name descname"><span class="pre">P</span></span><em class="property"> <span class="pre">=</span> <span class="pre">3</span></em><a class="headerlink" href="#qns.quantum.qubit.polar.Polar.P" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qns.quantum.qubit.polar.Polar.Q">
+<span class="sig-name descname"><span class="pre">Q</span></span><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#qns.quantum.qubit.polar.Polar.Q" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qns.quantum.qubit.polar.Polar.V">
+<span class="sig-name descname"><span class="pre">V</span></span><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#qns.quantum.qubit.polar.Polar.V" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-qns.quantum.qubit.qubit">
+<span id="qns-quantum-qubit-qubit-module"></span><h2>qns.quantum.qubit.qubit module<a class="headerlink" href="#module-qns.quantum.qubit.qubit" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.quantum.qubit.qubit.Qubit">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.qubit.qubit.</span></span><span class="sig-name descname"><span class="pre">Qubit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">birth_time_slice</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fidelity</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">live_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.qubit.qubit.Qubit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This is the qubit class in quantum model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>birth_time_slice</strong> -- its birth time slice</p></li>
+<li><p><strong>fidelity</strong> -- its fidelity</p></li>
+<li><p><strong>live_func</strong> -- inject a <code class="docutils literal notranslate"><span class="pre">live_func</span></code> to determine whether this qubit is decohered.</p></li>
+<li><p><strong>name</strong> -- its name</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.qubit.qubit.Qubit.is_entangled">
+<span class="sig-name descname"><span class="pre">is_entangled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#qns.quantum.qubit.qubit.Qubit.is_entangled" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether it is entangled with other qubits.
+:returns: bool, <cite>true</cite> if it is entangled</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.qubit.qubit.Qubit.is_live">
+<span class="sig-name descname"><span class="pre">is_live</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#qns.quantum.qubit.qubit.Qubit.is_live" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether it is decohered.
+If <code class="docutils literal notranslate"><span class="pre">live_func</span></code> is injected, this self-defined function will be used.
+Or it will always return <cite>self.fidelity &gt;= 0.5</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>bool, <cite>true</cite> if it is still not decohered.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.quantum.qubit.qubit.Qubit.set_fidelity">
+<span class="sig-name descname"><span class="pre">set_fidelity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fidelity</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qns.quantum.qubit.qubit.Qubit.set_fidelity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set its fidelity</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="qns.quantum.qubit.qubit.QubitFidelityInvaildError">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">qns.quantum.qubit.qubit.</span></span><span class="sig-name descname"><span class="pre">QubitFidelityInvaildError</span></span><a class="headerlink" href="#qns.quantum.qubit.qubit.QubitFidelityInvaildError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+</div>
 <div class="section" id="module-qns.quantum.qubit">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qns.quantum.qubit" title="Permalink to this headline">¶</a></h2>
 <p>This package contains a basic model for qubit</p>
