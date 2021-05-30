@@ -1,4 +1,5 @@
 from qns.schedular import Entity
 
 class Memory(Entity):
-    raise NotImplemented
+    def __init__(self):
+        raise NotImplemented

@@ -1,8 +1,9 @@
 from qns.schedular import Entity
 
 class ClassicChannel(Entity):
-    raise NotImplemented
-
+    def __init__(self):
+        raise NotImplemented
 
 class QuantumChannel(Entity):
-    raise NotImplemented
+    def __init__(self):
+        raise NotImplemented

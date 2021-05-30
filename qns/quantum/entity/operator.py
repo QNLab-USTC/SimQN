@@ -1,12 +1,15 @@
 from qns.schedular import Entity
 
 class Generator(Entity):
-    raise NotImplemented
+    def __init__(self):
+        raise NotImplemented
 
 
 class Measurer(Entity):
-    raise NotImplemented
+    def __init__(self):
+        raise NotImplemented
 
 
 class Operator(Entity):
-    raise NotImplemented
+    def __init__(self):
+        raise NotImplemented
