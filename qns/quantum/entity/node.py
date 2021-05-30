@@ -12,3 +12,5 @@ class Node(Entity):
     def __init__(self, name = None):
         super().__init__(name)
 
+    def __repr__(self) -> str:
+        return f"<node {self.name}>"

@@ -5,6 +5,9 @@ from .basis import Basis
 class QubitFidelityInvaildError(Exception):
     pass
 
+class QubitRemoveEntanglementError(Exception):
+    pass
+
 class Qubit(object):
     '''
     This is the qubit class in quantum model
@@ -56,7 +59,23 @@ class Qubit(object):
         if fidelity < 0 or fidelity > 1:
             raise QubitFidelityInvaildError
 
+    def add_entanglement(self, qubit):
+        '''
+        add an entangled qubit
+
+        :param qubit: another qubit that entangled with `self`
+        '''
+        self.entangled.append(qubit)
 
     
-        
+    def remove_entanglement(self, qubit):
+
+        try:
+            self.entangled.remove(qubit)
+        except ValueError:
+            raise QubitRemoveEntanglementError(f"{qubit} is not entangled with {self}")
+
+    
+    def __repr__(self) -> str:
+        return f"<qubit {self.name}, fidelity: {self.fidelity}>"
 
