@@ -123,3 +123,7 @@ class CallEvent(Event):
         This function call ``self.callee``'s ``handle`` function.
         '''
         self.callee.handle(self.simulator, self.msg, self.source, self.event)
+
+class RecieveEvent(Event):
+    def __init__(self, init_time=None):
+        super().__init__(init_time)

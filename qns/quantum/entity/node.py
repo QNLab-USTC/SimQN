@@ -1,5 +1,6 @@
 
-from qns.schedular import Entity
+from qns.schedular import Entity,Event
+from qns.schedular.entity import RecieveEvent
 
 class Node(Entity):
     '''
@@ -11,6 +12,15 @@ class Node(Entity):
 
     def __init__(self, name = None):
         super().__init__(name)
-
+    def handle(self, simulator, msg, source=None, event=None):
+        if type(event)==RecieveEvent:
+            print(msg[0].polar)
     def __repr__(self) -> str:
         return f"<node {self.name}>"
+
+
+
+
+
+    
+
