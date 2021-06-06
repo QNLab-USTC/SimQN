@@ -9,8 +9,8 @@ def fun(t):
 s=Simulator(0,50,1000)
 n1=Node('n1')
 m1=Memory('m1',FilelityMode=fun)
-g1=Generator(0,'g1')
-mea1=Measurer(0,'mea1')
+g1=Generator(60,'g1')
+mea1=Measurer(300,'mea1')
 q1=Qubit(0)
 q1.polar=Polar.V
 n1.install(s)
