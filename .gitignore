@@ -12,4 +12,4 @@ build/
 *.egg
 *.egg-info/
 /.vs
-/example/test.py
+

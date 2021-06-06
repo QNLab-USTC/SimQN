@@ -32,8 +32,8 @@ class Generator(Entity):
         '''
         q=Qubit(self.simulator.current_time_slice+self.delay)
         q.polar=polar.value
-        simulator.add_event(simulator.current_time_slice+self.delay,GenerateEvent(simulator.current_time_slice+self.delay,q))
-        source.call(self.simulator,(q,),self,ReceiveEvent(self.simulator.current_time_slice))
+        self.simulator.add_event(self.simulator.current_time_slice+self.delay,GenerateSEvent(self.simulator.current_time_slice+self.delay,q))
+        self.source.call(self.simulator,(q,),self,RecieveEvent(self.simulator.current_time_slice))
 
     def __repr__(self) -> str:
         return f"<generator {self.name}> "
@@ -70,30 +70,37 @@ class Measurer(Entity):
             if error_model is None:
                 if qubit.polar.value == 0 or 1:
                     if basis.value == 0:
-                        source.call(self.simulator,(qubit.polar.value,),self,RecieveEvent(self.simulator.current_time_slice))
+                        self.simulator.add_event(self.simulator.current_time_slice,MeasureSEvent(self.simulator.current_time_slice,qubit))
+                        self.source.call(self.simulator,(qubit.polar.value,),self,RecieveEvent(self.simulator.current_time_slice))
                     else:
                         tmp=random.random()
                         if tmp<=0.5:
-                            qubit.polar=polar.P
-                            source.call(self.simulator,(qubit.polar.value,),self,RecieveEvent(self.simulator.current_time_slice))
+                            qubit.polar=Polar.P
+                            self.simulator.add_event(self.simulator.current_time_slice,MeasureSEvent(self.simulator.current_time_slice,qubit))
+                            self.source.call(self.simulator,(qubit.polar.value,),self,RecieveEvent(self.simulator.current_time_slice))
                         else:
-                            qubit.polar=polar.Q
-                            source.call(self.simulator,(qubit.polar.value,),self,RecieveEvent(self.simulator.current_time_slice))
+                            qubit.polar=Polar.Q
+                            self.simulator.add_event(self.simulator.current_time_slice,MeasureSEvent(self.simulator.current_time_slice,qubit))
+                            self.source.call(self.simulator,(qubit.polar.value,),self,RecieveEvent(self.simulator.current_time_slice))
                 elif qubit.polar.value == 2 or 3:
                     if basis == 1:
-                        source.call(self.simulator,(qubit.polar.value,),self,RecieveEvent(self.simulator.current_time_slice))
+                        self.simulator.add_event(self.simulator.current_time_slice,MeasureSEvent(self.simulator.current_time_slice,qubit))
+                        self.source.call(self.simulator,(qubit.polar.value,),self,RecieveEvent(self.simulator.current_time_slice))
                     else:
                         tmp=random.random()
                         if tmp<=0.5:
-                            qubit.polar=polar.H
-                            source.call(self.simulator,(qubit.polar.value,),self,RecieveEvent(self.simulator.current_time_slice))
+                            qubit.polar=Polar.H
+                            self.simulator.add_event(self.simulator.current_time_slice,MeasureSEvent(self.simulator.current_time_slice,qubit))
+                            self.source.call(self.simulator,(qubit.polar.value,),self,RecieveEvent(self.simulator.current_time_slice))
                         else:
-                            qubit.polar=polar.V
-                            source.call(self.simulator,(qubit.polar.value,),self,RecieveEvent(self.simulator.current_time_slice))
+                            qubit.polar=Polar.V
+                            self.simulator.add_event(self.simulator.current_time_slice,MeasureSEvent(self.simulator.current_time_slice,qubit))
+                            self.source.call(self.simulator,(qubit.polar.value,),self,RecieveEvent(self.simulator.current_time_slice))
             else:
                 pass
         else:
-            source.call(self.simulator,(Polar.N,),self,RecieveEvent(self.simulator.current_time_slice))
+            self.simulator.add_event(self.simulator.current_time_slice,MeasureFEvent(self.simulator.current_time_slice,qubit))
+            self.source.call(self.simulator,(Polar.N,),self,RecieveEvent(self.simulator.current_time_slice))
         
 
         
@@ -125,15 +132,27 @@ class Operator(Entity):
         
 
 class GenerateEvent(Event):
+    def __init__(self,init_time):
+        super().__init__(init_time)
+
+class GenerateSEvent(Event):
     def __init__(self,init_time,qubit: Qubit):
         super().__init__(init_time)
         self.qubit=qubit
 
     def run(self, simulator):
-        print('%f 时产生了一个qbuit %s'%(self.init_time,self.qubit.name))
+        print('%f 时产生了一个qbuit %s'%(simulator.current_time,self.qubit.name))
+
+class GenerateFEvent(Event):
+    def __init__(self,init_time,qubit: Qubit):
+        super().__init__(init_time)
+        self.qubit=qubit
+
+    def run(self, simulator):
+        pass
 
 class MeasureEvent(Event):
-    def __init__(self,init_time,qubit: Qubit):
+    def __init__(self,init_time):
         super().__init__(init_time)
         
 class MeasureSEvent(Event):
@@ -142,7 +161,7 @@ class MeasureSEvent(Event):
         self.qubit=qubit
 
     def run(self, simulator):
-        print('%f 时成功测量了一个qbuit %s'%(self.init_time,self.qubit.name))
+        print('%f 时成功测量了一个qbuit %s'%(simulator.current_time,self.qubit.name))
 
 class MeasureFEvent(Event):
     def __init__(self,init_time,qubit: Qubit):
@@ -150,7 +169,7 @@ class MeasureFEvent(Event):
         self.qubit=qubit
 
     def run(self, simulator):
-        print('%f 时失败测量了一个qbuit %s'%(self.init_time,self.qubit.name))
+        print('%f 时失败测量了一个qbuit %s'%(simulator.current_time,self.qubit.name))
 
 
 class OperateEvent(Event):
