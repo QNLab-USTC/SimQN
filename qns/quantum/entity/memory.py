@@ -83,14 +83,16 @@ class WriteSEvent(Event):
         super().__init__(init_time)
 
     def run(self, simulator):
-        print('time:%f写入成功'%simulator.current_time)
+        pass
+        #print('time:%f写入成功'%simulator.current_time)
 
 class WriteFEvent(Event):
     def __init__(self, init_time=None):
         super().__init__(init_time)
 
     def run(self, simulator):
-        print('time:%f写入失败'%simulator.current_time)
+        pass
+        #print('time:%f写入失败'%simulator.current_time)
 
 class ReadEvent(Event):
     def __init__(self, init_time=None):
@@ -102,11 +104,13 @@ class ReadSEvent(Event):
         super().__init__(init_time)
 
     def run(self, simulator):
-        print('time:%f读取成功'%simulator.current_time)
+        pass
+        #print('time:%f读取成功'%simulator.current_time)
 
 class ReadFEvent(Event):
     def __init__(self, init_time=None):
         super().__init__(init_time)
 
     def run(self, simulator):
-        print('time:%f读取失败'%simulator.current_time)
+        pass
+        #print('time:%f读取失败'%simulator.current_time)

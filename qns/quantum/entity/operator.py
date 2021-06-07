@@ -141,7 +141,8 @@ class GenerateSEvent(Event):
         self.qubit=qubit
 
     def run(self, simulator):
-        print('%f 时产生了一个qbuit %s'%(simulator.current_time,self.qubit.name))
+        pass
+        #print('%f 时产生了一个qbuit %s'%(simulator.current_time,self.qubit.name))
 
 class GenerateFEvent(Event):
     def __init__(self,init_time,qubit: Qubit):
@@ -161,7 +162,8 @@ class MeasureSEvent(Event):
         self.qubit=qubit
 
     def run(self, simulator):
-        print('%f 时成功测量了一个qbuit %s'%(simulator.current_time,self.qubit.name))
+        pass
+        #print('%f 时成功测量了一个qbuit %s'%(simulator.current_time,self.qubit.name))
 
 class MeasureFEvent(Event):
     def __init__(self,init_time,qubit: Qubit):
@@ -169,7 +171,8 @@ class MeasureFEvent(Event):
         self.qubit=qubit
 
     def run(self, simulator):
-        print('%f 时失败测量了一个qbuit %s'%(simulator.current_time,self.qubit.name))
+        pass
+        #print('%f 时失败测量了一个qbuit %s'%(simulator.current_time,self.qubit.name))
 
 
 class OperateEvent(Event):
