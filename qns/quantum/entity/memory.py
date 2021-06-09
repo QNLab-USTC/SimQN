@@ -34,12 +34,12 @@ class Memory(Entity):
         if index is None:
             index=self.getfreememory()
         if self.size== -1:
-            self.Register.insert(index,(self.simulator.current_time_slice,qubit))
+            self.Register.insert(index,qubit)
             self.full+=1
             self.simulator.add_event(self.simulator.current_time_slice,WriteSEvent(self.simulator.current_time_slice))
             return True
         elif self.full<self.size:
-            self.Register.insert(index,(self.simulator.current_time_slice,qubit))
+            self.Register.insert(index,qubit)
             self.full+=1
             self.simulator.add_event(self.simulator.current_time_slice,WriteSEvent(self.simulator.current_time_slice))
             return True

@@ -12,10 +12,7 @@ class Node(Entity):
 
     def __init__(self, name = None):
         super().__init__(name)
-    def handle(self, simulator, msg, source=None, event=None):
-        if type(event)==RecieveEvent:
-            print('time:%f'% simulator.current_time)
-            print(msg)
+    
     def __repr__(self) -> str:
         return f"<node {self.name}>"
 

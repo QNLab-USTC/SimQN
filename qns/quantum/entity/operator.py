@@ -129,6 +129,12 @@ class Operator(Entity):
     def notgate(self,qubit:Qubit):
         pass
 
+    def time_decay(self,qubit:Qubit):
+        decoherence_time_slice=50
+        if self.simulator.current_time_slice-qubit.birth_time_slice>=decoherence_time_slice:
+            qubit.fidelity=0
+        return qubit
+
         
 
 class GenerateEvent(Event):
