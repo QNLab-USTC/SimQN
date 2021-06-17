@@ -59,6 +59,14 @@ class Qubit(object):
         if fidelity < 0 or fidelity > 1:
             raise QubitFidelityInvaildError
 
+    def set_polar(self, polar: Polar):
+        '''
+        Set its polar
+
+        :param polar: the polarization of this qubit
+        '''
+        self.polar = polar
+
     def add_entanglement(self, qubit):
         '''
         add an entangled qubit
