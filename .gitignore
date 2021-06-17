@@ -11,3 +11,5 @@ build/
 !docs/build
 *.egg
 *.egg-info/
+/.vs
+
