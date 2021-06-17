@@ -38,16 +38,6 @@ class Generator(Entity):
         
     def generate(self, polar: Polar) -> Qubit:
         '''
-<<<<<<< HEAD
-        Generate a new qubit with certain fidelity and polar
-
-        :param: the polarization of this qubit
-        :returns: the newly generated qubit
-        '''
-        e = Qubit(self.simulator.current_time_slice, fidelity = self.fidelity, live_func = None)
-        e.set_polar(polar)
-        return e
-=======
         ''generate''function can generate the specified type of qubit.It then will send the qubit to the source who creat the GenerateEvent.
         :param polar:the type of qubit.
         '''
@@ -55,7 +45,6 @@ class Generator(Entity):
         q.polar=polar.value
         self.simulator.add_event(self.simulator.current_time_slice+self.delay,GenerateSEvent(self.simulator.current_time_slice+self.delay,q))
         self.source.call(self.simulator,(q,),self,RecieveEvent(self.simulator.current_time_slice+self.delay),self.simulator.current_time_slice+self.delay)
->>>>>>> c6c3c3e65888782cbee5ec32295ea605035bc241
 
     def __repr__(self) -> str:
         return f"<generator {self.name}> "
