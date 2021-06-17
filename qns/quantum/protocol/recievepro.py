@@ -1,12 +1,20 @@
-from qns.schedular import Protocol
+from qns.quantum.protocol import NodeProtocol
 from qns.schedular.entity import  *
-class Recievepro(Protocol):
-    def __init__(self,entity):
-            super().__init__(entity)
+from qns.schedular import Simulator
 
-    def handle(self, simulator, msg: object, source=None, event= None):
-        if type(event)==RecieveEvent:
+
+class Recievepro(NodeProtocol):
+
+    def run(self, simulator: Simulator):
+        i = 0
+        while True:
+            (msg, source, event) =  yield None
+            print(f"{i}th called")
             print(msg)
+            i+=1
+
+
+        
 
     
 
