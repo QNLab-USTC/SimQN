@@ -80,23 +80,23 @@ class Memory(Entity):
         if type(t)==Qubit:
             for i in range(0,self.full):
                 if self.Register[i]==t:
-                    self.simulator.add_event(self.simulator.current_time_slice,ReadSEvent(self.simulator.current_time_slice))
+                    self.simulator.add_event(self.simulator.current_time_slice,GetSEvent(self.simulator.current_time_slice))
                     self.source.call(self.simulator,(self.FilelityMode(self.Register[i]),),self,RecieveEvent(self.simulator.current_time_slice))
                     self.full-=1
                     del self.Register[i]
                     return
         
-            self.simulator.add_event(self.simulator.current_time_slice,ReadFEvent(self.simulator.current_time_slice))
+            self.simulator.add_event(self.simulator.current_time_slice,GetFEvent(self.simulator.current_time_slice))
         else:
             for i in range(0,self.full):
                 if self.Register[i].name==t:
-                    self.simulator.add_event(self.simulator.current_time_slice,ReadSEvent(self.simulator.current_time_slice))
+                    self.simulator.add_event(self.simulator.current_time_slice,GetSEvent(self.simulator.current_time_slice))
                     self.source.call(self.simulator,(self.FilelityMode(self.Register[i]),),self,RecieveEvent(self.simulator.current_time_slice))
                     self.full-=1
                     del self.Register[i]
                     return
         
-            self.simulator.add_event(self.simulator.current_time_slice,ReadFEvent(self.simulator.current_time_slice))
+            self.simulator.add_event(self.simulator.current_time_slice,GetFEvent(self.simulator.current_time_slice))
         
         
 
