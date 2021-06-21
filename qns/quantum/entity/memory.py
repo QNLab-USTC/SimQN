@@ -21,25 +21,26 @@ class Memory(Entity):
         self.event=event
         self.source=source
         if type(self.event)==WriteEvent:
-            self.Write(msg[0],msg[1])
+            self.Write(msg[0])
         elif type(self.event)==ReadEvent:
             self.Read(msg[0])
+        elif type(self.event)==GetEvent:
+            self.Get(msg[0])
         
-    def Write(self,qubit,index=None)->bool:
+    def Write(self,qubit)->bool:
         '''
         ''Write''function can store qubit in the specified location.
         :param qubit:the qubit to be stored.
         :param index:the address.
         '''
-        if index is None:
-            index=self.getfreememory()
+        
         if self.size== -1:
-            self.Register.insert(index,qubit)
+            self.Register.append(qubit)
             self.full+=1
             self.simulator.add_event(self.simulator.current_time_slice,WriteSEvent(self.simulator.current_time_slice))
             return True
         elif self.full<self.size:
-            self.Register.insert(index,qubit)
+            self.Register.append(qubit)
             self.full+=1
             self.simulator.add_event(self.simulator.current_time_slice,WriteSEvent(self.simulator.current_time_slice))
             return True
@@ -47,29 +48,59 @@ class Memory(Entity):
             self.simulator.add_event(self.simulator.current_time_slice,WriteFEvent(self.simulator.current_time_slice))
             return False
 
-    def Read(self,index)->Qubit:
+    def Read(self,t)->Qubit:
         '''
         ''Read''function can read qubit in the specified location.
-        :param index:the address.
+        :param t:the name of qubit or the qubit itself.
         '''
-        if index>=self.full:
+        if type(t)==Qubit:
+            for i in range(0,self.full):
+                if self.Register[i]==t:
+                    self.simulator.add_event(self.simulator.current_time_slice,ReadSEvent(self.simulator.current_time_slice))
+                    self.source.call(self.simulator,(self.FilelityMode(self.Register[i]),),self,RecieveEvent(self.simulator.current_time_slice))
+                    return
+        
             self.simulator.add_event(self.simulator.current_time_slice,ReadFEvent(self.simulator.current_time_slice))
-            return 
-        self.source.call(self.simulator,(self.FilelityMode(self.Register[index]),),self,RecieveEvent(self.simulator.current_time_slice))
+        else:
+            for i in range(0,self.full):
+                if self.Register[i].name==t:
+                    self.simulator.add_event(self.simulator.current_time_slice,ReadSEvent(self.simulator.current_time_slice))
+                    self.source.call(self.simulator,(self.FilelityMode(self.Register[i]),),self,RecieveEvent(self.simulator.current_time_slice))
+                    return
+        
+            self.simulator.add_event(self.simulator.current_time_slice,ReadFEvent(self.simulator.current_time_slice))
+        
         
 
-    def Get(self,index)->Qubit:
+    def Get(self,t)->Qubit:
         '''
-        ''Get''function can get qubit in the specified location which will the disappear in the memory.
-        :param index:the address.
+        ''Get''function can get qubit in the specified location which will then disappear in the memory.
+        :param t:the name of qubit or the qubit itself.
         '''
-        tmp=self.FilelityMode(self.Register[index])
-        del self.Register[index]
-        self.full-=1
-        self.source.call(self.simulator,(self.FilelityMode(self.Register[index]),),self,RecieveEvent(self.simulator.current_time_slice))
+        if type(t)==Qubit:
+            for i in range(0,self.full):
+                if self.Register[i]==t:
+                    self.simulator.add_event(self.simulator.current_time_slice,ReadSEvent(self.simulator.current_time_slice))
+                    self.source.call(self.simulator,(self.FilelityMode(self.Register[i]),),self,RecieveEvent(self.simulator.current_time_slice))
+                    self.full-=1
+                    del self.Register[i]
+                    return
+        
+            self.simulator.add_event(self.simulator.current_time_slice,ReadFEvent(self.simulator.current_time_slice))
+        else:
+            for i in range(0,self.full):
+                if self.Register[i].name==t:
+                    self.simulator.add_event(self.simulator.current_time_slice,ReadSEvent(self.simulator.current_time_slice))
+                    self.source.call(self.simulator,(self.FilelityMode(self.Register[i]),),self,RecieveEvent(self.simulator.current_time_slice))
+                    self.full-=1
+                    del self.Register[i]
+                    return
+        
+            self.simulator.add_event(self.simulator.current_time_slice,ReadFEvent(self.simulator.current_time_slice))
+        
+        
 
-    def getfreememory(self):
-        return self.full
+    
 
 
 class WriteEvent(Event):
@@ -108,6 +139,27 @@ class ReadSEvent(Event):
         #print('time:%f读取成功'%simulator.current_time)
 
 class ReadFEvent(Event):
+    def __init__(self, init_time=None):
+        super().__init__(init_time)
+
+    def run(self, simulator):
+        pass
+        #print('time:%f读取失败'%simulator.current_time)
+
+class GetEvent(Event):
+    def __init__(self, init_time=None):
+        super().__init__(init_time)
+
+
+class GetSEvent(Event):
+    def __init__(self, init_time=None):
+        super().__init__(init_time)
+
+    def run(self, simulator):
+        pass
+        #print('time:%f读取成功'%simulator.current_time)
+
+class GetFEvent(Event):
     def __init__(self, init_time=None):
         super().__init__(init_time)
 
