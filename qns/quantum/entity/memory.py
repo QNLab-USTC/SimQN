@@ -31,7 +31,7 @@ class Memory(Entity):
         '''
         ''Write''function can store qubit in the specified location.
         :param qubit:the qubit to be stored.
-        :param index:the address.
+       
         '''
         
         if self.size== -1:
