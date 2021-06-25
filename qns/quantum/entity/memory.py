@@ -50,6 +50,7 @@ class MemoryResultEvent(Event):
     :param status: a status code below
     :param qubit: the readed qubit
     :param index: the index of that qubit in memory
+    :param original_event: the original event that causes this MemoryResultEvent 
     '''
 
     StatusOK = 0
@@ -58,11 +59,12 @@ class MemoryResultEvent(Event):
     StatusFullError = 3
     StatusNotFoundError = 4
 
-    def __init__(self, status: int, qubit: Optional[Qubit] = None, index: Optional[int] = None, init_time: int = None):
+    def __init__(self, status: int, qubit: Optional[Qubit] = None, index: Optional[int] = None, original_event: Optional[Union[MemoryGetEvent, MemoryReadEvent, MemoryWriteEvent]] = None, init_time: int = None):
         super().__init__(init_time)
         self.status = status
         self.index = index
         self.qubit = qubit
+        self.original_event = original_event
 
 
 class Memory(Entity):
@@ -75,14 +77,14 @@ class Memory(Entity):
         :param fidelity_model: its fidelity_model which will decide the status of qubit when the qubit is readed.
         '''
 
-    def __init__(self, name: str = None, size: int = None, delay: int = 0 ,fidelity_model=None):
+    def __init__(self, size: int = None, delay: int = 0 ,fidelity_model=None,  name: Optional[str] = None):
         super().__init__(name)
         self.size = size
         self.delay = delay
         self.fidelity_model = fidelity_model
         self.registers: List[Optional[Qubit]] = [None] * self.size
 
-    def handle(self, simulator: Simulator, msg: object, source=None, event: Event = None):
+    def handle(self, simulator: Simulator, msg: object, source =None, event: Event = None):
 
         if isinstance(event, MemoryWriteEvent):
             e = self.Write(event.qubit, event.index)
@@ -97,7 +99,10 @@ class Memory(Entity):
                 self.fidelity_model(e.qubit)
             else:
                 self.default_fidelity_model(e.qubit)
-        self.simulator.add_event(self.simulator.current_time_slice + self.simulator.to_time_slice(self.delay), e)
+        
+        e.original_event = event
+        source.call(simulator, msg = None, source = self, event = e, time_slice = simulator.current_time_slice + simulator.to_time_slice(self.delay))
+        # self.simulator.add_event(self.simulator.current_time_slice + self.simulator.to_time_slice(self.delay), e)
 
     @property
     def full(self) -> bool:
@@ -106,12 +111,12 @@ class Memory(Entity):
 
         :return bool: whether it is full or not
         '''
-        for _, v in self.registers:
+        for _, v in enumerate(self.registers):
             if v is not None:
                 return False
         return True
 
-    def default_fidelity_model(qubit: Qubit) -> None:
+    def default_fidelity_model(self, qubit: Qubit) -> None:
         pass
 
     def Write(self, qubit, index=None) -> MemoryResultEvent:
@@ -123,10 +128,10 @@ class Memory(Entity):
         '''
 
         if index is None:
-            for i, q in self.registers:
+            for i, q in enumerate(self.registers):
                 if q is None:
                     self.registers[i] = qubit
-                    return MemoryResultEvent(MemoryResultEvent.StatusOK, index=i)
+                    return MemoryResultEvent(MemoryResultEvent.StatusOK, qubit = qubit, index=i)
             return MemoryResultEvent(MemoryResultEvent.StatusFullError)
 
         if index < 0 or index >= self.size:
@@ -136,7 +141,7 @@ class Memory(Entity):
             return MemoryResultEvent(MemoryResultEvent.StatusFullError)
 
         self.registers[index] = qubit
-        return MemoryResultEvent(MemoryResultEvent.StatusOK, index=index)
+        return MemoryResultEvent(MemoryResultEvent.StatusOK, qubit = qubit, index=index)
 
     def Read(self, by: Union[Qubit, str, int]) -> MemoryResultEvent:
         '''
@@ -147,13 +152,14 @@ class Memory(Entity):
 
         if isinstance(by, Qubit):
             #  by is a qubit
-            if by in self.registers:
-                self.registers.remove(by)
-                return MemoryResultEvent(MemoryResultEvent.StatusOK, by)
+            for i, v in enumerate(self.registers):
+                if isinstance(v, Qubit) and v == by:
+                    self.registers[i] = None
+                    return MemoryResultEvent(MemoryResultEvent.StatusOK, by)
             return MemoryResultEvent(MemoryResultEvent.StatusNotFoundError)
         elif isinstance(by, str):
             # by is a name
-            for i, v in self.registers:
+            for i, v in enumerate(self.registers):
                 if isinstance(v, Qubit) and v.name == by:
                     self.registers[i] = None
                     return MemoryResultEvent(MemoryResultEvent.StatusOK, v)
@@ -185,7 +191,7 @@ class Memory(Entity):
             return MemoryResultEvent(MemoryResultEvent.StatusNotFoundError)
         elif isinstance(by, str):
             # by is a name
-            for i, v in self.registers:
+            for i, v in enumerate(self.registers):
                 if isinstance(v, Qubit) and v.name == by:
                     return MemoryResultEvent(MemoryResultEvent.StatusOK, v)
             return MemoryResultEvent(MemoryResultEvent.StatusNotFoundError)

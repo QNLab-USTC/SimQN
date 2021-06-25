@@ -1,4 +1,5 @@
 
+from typing import Any, List, Optional
 from .protocol import Protocol
 from .event import Event
 from .simulator import Simulator
@@ -17,10 +18,12 @@ class Entity():
     '''
 
     def __init__(self, name = None):
-        self.protocols = []
-        self.sub_entities = []
+        self._is_installed: bool = False
+
+        self.protocols: List[Protocol] = []
+        self.sub_entities: List[Entity] = []
         if name is None:
-            self.name == uuid.uuid4()
+            self.name = uuid.uuid4()
         else:
             self.name = name
 
@@ -30,9 +33,14 @@ class Entity():
 
         :param simulator: the simulator
         '''
-        self.simulator = simulator
-        for p in self.protocols:
-            p.install(simulator)
+        if not self._is_installed:
+            self.simulator = simulator
+            for p in self.protocols:
+                p.install(simulator)
+            for sub in self.sub_entities:
+                sub.install(simulator)
+            self._is_installed = True
+        
 
     def handle(self, simulator: Simulator, msg: object, source=None, event: Event = None):
         '''
@@ -46,7 +54,7 @@ class Entity():
         for p in self.protocols:
             p.handle(simulator, msg, source, event)
 
-    def call(self, simulator: Simulator, msg: object, source=None, event: Event = None, time_slice=None):
+    def call(self, simulator: Simulator, msg: Optional[Any] = None, source = None, event: Event = None, time_slice=None):
         '''
         ``call`` is an easy way to build an ``CallEvent`` and triggle itself's ``handle`` function in ``time_slice``.
         When ``time_slice`` is ``None``, the ``CallEvent`` will be called currently.
