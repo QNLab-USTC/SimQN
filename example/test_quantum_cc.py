@@ -1,4 +1,3 @@
-from qns.classic import message
 from qns.quantum.protocol.protocol import NodeProtocol
 from qns.quantum.entity import Node
 from qns.quantum.entity import ClassicChannel, ClassicTransferEvent

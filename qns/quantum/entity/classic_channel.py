@@ -90,6 +90,14 @@ class ClassicChannel(Entity):
 
 
 class ClassicReceiveEvent(Event):
+    '''
+    This is the event that handled by Node when it received a message
+
+    :param msg: the message
+    :param source_node: the sender node
+    :param init_time: the time that this event is initied.
+    '''
+
     def __init__(self, destination_node: Node, msg, source_node: Node =None, init_time: float = None):
         super().__init__(init_time)
         self.msg = msg
@@ -103,6 +111,9 @@ class ClassicReceiveEvent(Event):
 
 
 class ClassicTransferEvent(Event):
+    '''
+    This is the event that handled by ClassicChannel to send a message.
+    '''
     def __init__(self, init_time=None):
         super().__init__(init_time)
 
