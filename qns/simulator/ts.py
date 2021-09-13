@@ -1,7 +1,4 @@
 default_accuracy = 1000000  # {default_accuracy} time slots per second
-default_start_time = 0.0
-default_end_time = 60.0
-
 
 class Time(object):
     def __init__(self, time_slot: int = 0, sec: float = 0.0, accuracy: int = default_accuracy):
@@ -15,8 +12,10 @@ class Time(object):
         '''
         self.accuracy = accuracy
         if time_slot != 0:
-            self.time_slot = 0
+            self.time_slot = time_slot
         else:
+            if sec is None:
+                sec = 0
             self.time_slot = int(sec * self.accuracy)
 
     @property
@@ -27,11 +26,16 @@ class Time(object):
         '''
         return self.time_slot / self.accuracy
 
-    def __eq__(self, t: "Time") -> bool:
-        return self.time_slot == t.time_slot
+    def __eq__(self, other: object) -> bool:
+        return self.time_slot == other.time_slot
+    def __lt__(self, other: object) -> bool:
+        return self.time_slot < other.time_slot
 
-    def __lt__(self, t: "Time") -> bool:
-        return self.time_slot < t.time_slot
+
+    __le__ = lambda self, other: self < other or self == other
+    __gt__ = lambda self, other: not (self < other or self == other)
+    __ge__ = lambda self, other: not (self < other)
+    __ne__ = lambda self, other: not self == other
 
     def __repr__(self) -> str:
         return str(self.sec)
