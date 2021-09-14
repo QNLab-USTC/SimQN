@@ -8,6 +8,7 @@ Subpackages
    :maxdepth: 4
 
    qns.simulator
+   qns.utils
 
 Module contents
 ---------------

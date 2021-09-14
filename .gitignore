@@ -3,3 +3,5 @@ env
 qns.egg-info
 docs/build
 **/__pycache__
+.vscode
+.cspell
