@@ -8,6 +8,6 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     exclude_package_data={'docs': ['.gitkeep']},
-    install_requires=[
-    ],
+    setup_requires=["numpy"],
+    install_requires=["numpy"],
 )
