@@ -1,6 +1,4 @@
-from qns.models.qubit import Qubit, QState
-from qns.models.qubit.gate import H,CNOT, joint, swap
-from qns.models.qubit.const import *
+from qns.models.qubit import Qubit, QState, H, CNOT, joint, swap, QUBIT_STATE_0, QUBIT_STATE_P
 import numpy as np
 
 q1 = Qubit(state=QUBIT_STATE_0, name="q1")
