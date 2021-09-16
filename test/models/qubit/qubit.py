@@ -6,14 +6,10 @@ import numpy as np
 q1 = Qubit(state=QUBIT_STATE_0, name="q1")
 q2 = Qubit(state=QUBIT_STATE_0, name="q2")
 q3 = Qubit(state=QUBIT_STATE_P, name="q3")
-
-H(q1)
-CNOT(q1, q2)
-joint(q1, q3)
-q1.measure()
-print(q1.state)
-print(q2.state)
-print(q3.state)
+# CNOT(q1, q2)
+# joint(q1, q3)
+print(q1.measureY())
+print(q1.measureY())
 
 
 # nq = QState(qubits = [q1, q2, q3], state = np.matrix([1, 2, 3, 4, 5, 6, 7, 8]).H)

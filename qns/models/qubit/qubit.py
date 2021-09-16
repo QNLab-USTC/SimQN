@@ -32,6 +32,15 @@ class QState():
         self.state: np.ndarray = np.array(state)
 
     def measure(self, qubit: "Qubit" = None) -> int:
+        """
+        Measure this qubit using Z basis
+        Args:
+            qubit (Qubit): the measuring qubit
+
+        Returns:
+            0: QUBIT_STATE_0 state
+            1: QUBIT_STATE_1 state
+        """
         try:
             idx = self.qubits.index(qubit)
             shift = self.num - idx - 1
@@ -117,7 +126,72 @@ class Qubit():
         self.state = QState([self], state)
 
     def measure(self):
+        """
+        Measure this qubit using Z basis
+
+        Returns:
+            0: QUBIT_STATE_0 state
+            1: QUBIT_STATE_1 state
+        """
         return self.state.measure(self)
+
+    def measureX(self):
+        """
+        Measure this qubit using X basis.
+        Only for not entangled qubits.
+
+        Returns:
+            0: QUBIT_STATE_P state
+            1: QUBIT_STATE_N state
+        """
+        state = self.state.state
+        state = np.dot(OPERATOR_HADAMARD, state)
+        poss = np.abs(state[0][0])**2
+        rn = np.random.rand()
+        if rn <= poss:
+            ret = 0
+            ret_s = QUBIT_STATE_P
+        else:
+            ret = 1
+            ret_s = QUBIT_STATE_N
+        self.state.state = ret_s
+        return ret
+
+
+    def measureY(self):
+        """
+        Measure this qubit using Y basis.
+        Only for not entangled qubits.
+
+        Returns:
+            0: QUBIT_STATE_R state
+            1: QUBIT_STATE_L state
+        """
+        state = self.state.state
+        SH = np.array([[1, 0], [0, -1j]])
+        state = np.dot(SH, state)
+        state = np.dot(OPERATOR_HADAMARD, state)
+
+        poss = np.abs(state[0][0])**2
+        rn = np.random.rand()
+        if rn <= poss:
+            ret = 0
+            ret_s = QUBIT_STATE_R
+        else:
+            ret = 1
+            ret_s = QUBIT_STATE_L
+        self.state.state = ret_s
+        return ret
+
+    def measureZ(self):
+        """
+        Measure this qubit using Z basis
+
+        Returns:
+            0: QUBIT_STATE_0 state
+            1: QUBIT_STATE_1 state
+        """
+        return self.measure()
 
     def __repr__(self) -> str:
         if self.name is not None:
