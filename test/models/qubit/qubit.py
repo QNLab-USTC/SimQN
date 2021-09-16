@@ -1,4 +1,5 @@
-from qns.models.qubit import Qubit, QState, QGate
+from qns.models.qubit import Qubit, QState
+from qns.models.qubit.gate import H,CNOT, joint, swap
 from qns.models.qubit.const import *
 import numpy as np
 
@@ -6,18 +7,30 @@ q1 = Qubit(state=QUBIT_STATE_0, name="q1")
 q2 = Qubit(state=QUBIT_STATE_0, name="q2")
 q3 = Qubit(state=QUBIT_STATE_0, name="q3")
 
-nq = QState(qubits = [q1, q2, q3], state = np.matrix([1, 2, 3, 4, 5, 6, 7, 8]).H)
-q1.state = nq
-q2.state = nq
-q3.state = nq
-
-x1 = np.kron(OPERATOR_PAULI_I, OPERATOR_PAULI_X)
-x1 = np.kron(OPERATOR_PAULI_I, x1)
-
-print(x1)
-
-q1.state.operate(operator = x1)
+H(q1)
 print(q1.state)
+
+joint(q1, q3)
+
+CNOT(q1, q2)
+print(q1.state)
+swap(q1, 0, 1)
+print(q1.state)
+
+
+
+# nq = QState(qubits = [q1, q2, q3], state = np.matrix([1, 2, 3, 4, 5, 6, 7, 8]).H)
+# q1.state = nq
+# q2.state = nq
+# q3.state = nq
+
+# x1 = np.kron(OPERATOR_PAULI_I, OPERATOR_PAULI_X)
+# x1 = np.kron(OPERATOR_PAULI_I, x1)
+
+# print(x1)
+
+# q1.state.operate(operator = x1)
+# print(q1.state)
 # q1.operate(OPERATOR_HADAMARD)
 # print(q1.state)
 # q1.state.operate(operator=OPERATOR_CNOT)

@@ -1,5 +1,5 @@
-qns package
-===========
+qns.models package
+==================
 
 Subpackages
 -----------
@@ -7,14 +7,12 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   qns.models
-   qns.simulator
-   qns.utils
+   qns.models.qubit
 
 Module contents
 ---------------
 
-.. automodule:: qns
+.. automodule:: qns.models
    :members:
    :undoc-members:
    :show-inheritance:
