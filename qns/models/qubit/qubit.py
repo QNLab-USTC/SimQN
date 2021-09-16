@@ -29,27 +29,69 @@ class QState():
         if len(state) != 2**self.num:
             raise QStateSizeNotMatchError
         self.qubits = qubits
-        self.state = np.array(state)
+        self.state: np.ndarray = np.array(state)
 
-    def measure(self, qubit: "Qubit" = None, basis = None):
-        pass
+    def measure(self, qubit: "Qubit" = None) -> int:
+        try:
+            idx = self.qubits.index(qubit)
+            shift = self.num - idx - 1
+            assert(shift >= 0)
+        except:
+            raise QStateQubitNotInStateError
+        
+        set_0, set_1 = [], []
+        poss_0, poss_1 = 0, 0
+        for l in range(2**self.num):
+            if (l & (1<<shift)) > 0:
+                set_1.append(l)
+            else:
+                set_0.append(l)
 
-    def operate(self, qubit: "Qubit" = None, operator: np.ndarray = None):
+        ns = self.state.copy()
+        for i in set_0:
+            poss_0 += np.abs(ns[i][0])**2
+
+        rn = np.random.rand()
+
+        nns = []
+        if rn <= poss_0:
+            ret = 0
+            ret_s = QUBIT_STATE_0
+            for i in set_0:
+                nns.append(ns[i])
+        else:
+            ret = 1
+            ret_s = QUBIT_STATE_1
+            for i in set_1:
+                nns.append(ns[i])
+
+        ns1 = QState([qubit], ret_s)
+        qubit.state = ns1
+        self.num -= 1
+        self.qubits.remove(qubit)
+        self.state = np.array(nns)
+        self._to_1()
+        return ret
+
+    def _to_1(self):
+        poss = 0
+        for i in range(2**self.num):
+            poss += np.abs(self.state[i][0])**2
+        amp = np.sqrt(1 / poss)
+        for i in range(2**self.num):
+            self.state[i][0] = amp * self.state[i][0]
+
+    def operate(self, operator: np.ndarray = None):
+        """
+        transform using `operator`
+
+        Args:
+            operator (np.ndarray): the operator
+        Raises:
+            OperatorNotMatchError
+        """
         operator_size = operator.shape
-        if qubit is not None and operator_size == (2, 2):           
-            # single qubit operate
-            try:
-                idx = self.qubits.index(qubit)
-            except:
-                raise QStateQubitNotInStateError
-            full_operator = np.array([1])
-            for i in range(self.num):
-                if i == idx:
-                    full_operator = np.kron(full_operator, operator)
-                else:
-                    full_operator = np.kron(full_operator, OPERATOR_PAULI_I)
-
-        elif operator_size == (2**self.num, 2**self.num):
+        if operator_size == (2**self.num, 2**self.num):
             # joint qubit operate
             full_operator = operator
         else:
@@ -74,11 +116,8 @@ class Qubit():
         self.name = name
         self.state = QState([self], state)
 
-    def measure(self, basis = BASIS_Z):
-        return self.state.measure(self, basis)
-
-    def operate(self, operator):
-        return self.state.operate(self, operator)
+    def measure(self):
+        return self.state.measure(self)
 
     def __repr__(self) -> str:
         if self.name is not None:
