@@ -134,6 +134,7 @@ class WernerStateEntanglement(BaseEntanglement):
         self.w = (fidelity * 4 - 1)/3
 
     def swapping(self, epr: "WernerStateEntanglement"):
+
         ne = WernerStateEntanglement()
         if self.is_decoherenced == True or epr.is_decoherenced == True:
             ne.is_decoherenced = True
@@ -141,13 +142,27 @@ class WernerStateEntanglement(BaseEntanglement):
         epr.is_decoherenced = True
         self.is_decoherenced = True
         ne.w = self.w * epr.w
+        if self.fidelity <= 0.5:
+            self.fidelity = 0.5
+            self.is_decoherenced = True
         return ne
     
     def distillation(self, epr: "BellStateEntanglement"):
+        """
+        Use `self` and `epr` to perfrom distillation and distribute a new entanglement.
+        Using Bennett 96 protocol and estimate lower bound.
+
+        Args:
+            epr (BaseEntanglement): another entanglement
+        Returns:
+            the new distributed entnaglement
+        """
         ne = BellStateEntanglement()
         if self.is_decoherenced == True or epr.is_decoherenced == True:
             ne.is_decoherenced = True
             ne.fidelity = 0
         epr.is_decoherenced = True
         self.is_decoherenced = True
+        fmin = min(self.fidelity, epr.fidelity)
+        ne.fidelity = (fmin**2 + (1-fmin)**2/9)/(fmin**2 + 5/9*(1-fmin)**2 + 2/3*fmin*(1-fmin))
         return ne
