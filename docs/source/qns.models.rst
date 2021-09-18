@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   qns.models.epr
    qns.models.qubit
 
 Module contents
