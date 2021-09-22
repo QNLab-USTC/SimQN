@@ -1,6 +1,6 @@
-
 from typing import List, Optional
 import numpy as np
+from ..core.backend import QuantumModel
 from ..qubit import H, X, Y, Z, CNOT, Qubit, QState, QUBIT_STATE_0, QUBIT_STATE_P
 
 
@@ -87,7 +87,7 @@ class BaseEntanglement(object):
         self.is_decoherenced = True
         return q2
 
-class BellStateEntanglement(BaseEntanglement):
+class BellStateEntanglement(BaseEntanglement, QuantumModel):
     """
     `BellStateEntanglement` is the ideal max entangled qubits. Its fidelity is always 1.
     """
@@ -109,7 +109,29 @@ class BellStateEntanglement(BaseEntanglement):
         self.is_decoherenced = True
         return ne
 
-class WernerStateEntanglement(BaseEntanglement):
+    def storage_error_model(self, t: float, **kwargs):
+        """
+        The default error model for storing this entangled pair in a quantum memory.
+        The default behavior is doing nothing
+
+        Args:
+            t: the time stored in a quantum memory. The unit it second.
+            kwargs: other parameters
+        """
+        pass
+
+    def transfer_error_model(self, length: float, **kwargs):
+        """
+        The default error model for transmitting this entanglement.
+        The default behavior is doing nothing
+
+        Args:
+            length (float): the length of the channel 
+            kwargs: other parameters
+        """
+        pass
+
+class WernerStateEntanglement(BaseEntanglement, QuantumModel):
     """
     `WernerStateEntanglement` is a pair of entangled qubits in Werner State with a hidden-variable.
     """
@@ -166,3 +188,31 @@ class WernerStateEntanglement(BaseEntanglement):
         fmin = min(self.fidelity, epr.fidelity)
         ne.fidelity = (fmin**2 + (1-fmin)**2/9)/(fmin**2 + 5/9*(1-fmin)**2 + 2/3*fmin*(1-fmin))
         return ne
+
+    def storage_error_model(self, t: float, **kwargs):
+        """
+        The default error model for storing this entangled pair in a quantum memory.
+        The default behavior is: w = w*e^{-a*t}, default a = 0
+
+        Args:
+            t: the time stored in a quantum memory. The unit it second.
+            kwargs: other parameters
+        """
+        a = kwargs.get("a", 0)
+        self.w = self.w * np.exp(-a * t)
+
+    def transfer_error_model(self, length: float, **kwargs):
+        """
+        The default error model for transmitting this entanglement.
+        The success possibility of transmitting is: p = 10^{-b*D}, default b = 0
+
+        Args:
+            length (float): the length of the channel 
+            kwargs: other parameters
+        """
+        b = kwargs.get("b", 0)
+        r = np.random.rand()
+        if r <= 10**(-b * length):
+            return
+        self.fidelity = 0
+        self.is_decoherenced = True

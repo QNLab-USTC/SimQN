@@ -30,6 +30,16 @@ class Simulator(object):
         self.status = {}
         self.total_events = 0
 
+    @property
+    def current_time(self) -> Time:
+        '''
+        Get the current time of the simulation
+
+        Returns:
+            (Time) the current time
+        '''
+        return self.event_pool.current_time
+
     def time(self, time_slot: Optional[int] = None, sec: Optional[float] = None) -> Time:
         """
         Produce a ``Time`` using ``time_slot`` or ``sec``

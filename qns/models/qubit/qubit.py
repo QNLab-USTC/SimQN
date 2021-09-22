@@ -1,7 +1,10 @@
+from qns.models.core import backend
+from qns.models import core
 from typing import List, Optional
 import numpy as np
 from numpy.core.numeric import full
 from .const import *
+from ..core.backend import QuantumModel
 
 class QStateSizeNotMatchError(Exception):
     """
@@ -19,7 +22,7 @@ class OperatorNotMatchError(Exception):
     pass
 
 
-class QState():
+class QState(object):
     """
     QState is the state of one (or multiple) qubits
     """
@@ -110,7 +113,7 @@ class QState():
     def __repr__(self) -> str:
         return str(self.state)
 
-class Qubit():
+class Qubit(QuantumModel):
     """
     Represent a qubit
     """
@@ -197,3 +200,25 @@ class Qubit():
         if self.name is not None:
             return f"<Qubit {self.name}>"
         return super().__repr__()
+
+    def storage_error_model(self, t: float, **kwargs):
+        """
+        The default error model for storing a qubit in quantum memory.
+        The default behavior is doing nothing
+
+        Args:
+            t: the time stored in a quantum memory. The unit it second.
+            kwargs: other parameters
+        """
+        pass
+
+    def transfer_error_model(self, length: float, **kwargs):
+        """
+        The default error model for transmitting this qubit
+        The default behavior is doing nothing
+
+        Args:
+            length (float): the length of the channel 
+            kwargs: other parameters
+        """
+        pass

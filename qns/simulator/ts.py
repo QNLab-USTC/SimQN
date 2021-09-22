@@ -1,3 +1,6 @@
+from typing import Union
+
+
 default_accuracy = 1000000  # {default_accuracy} time slots per second
 
 class Time(object):
@@ -31,11 +34,24 @@ class Time(object):
     def __lt__(self, other: object) -> bool:
         return self.time_slot < other.time_slot
 
-
     __le__ = lambda self, other: self < other or self == other
     __gt__ = lambda self, other: not (self < other or self == other)
     __ge__ = lambda self, other: not (self < other)
     __ne__ = lambda self, other: not self == other
+
+
+    def __add__(self, ts: Union["Time", float]) -> "Time":
+        """
+        Add an offset to the Time object
+
+        Args:
+            ts (Union["Time", float]): a Time object or a float indicating time in second
+        """
+        tn = Time(time_slot= self.time_slot, accuracy=self.accuracy)
+        if isinstance(ts, float):
+            ts = Time(sec = ts, accuracy=self.accuracy)
+        tn.time_slot += ts.time_slot
+        return tn
 
     def __repr__(self) -> str:
         return str(self.sec)
