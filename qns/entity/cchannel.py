@@ -57,7 +57,7 @@ class ClassicChannel(Entity):
         self.bandwidth = bandwidth
         self.delay = delay
         self.drop_rate = drop_rate
-        self.max_buffer_size = 2 * self.bandwidth
+        self.max_buffer_size = max_buffer_size
 
     def install(self, simulator: Simulator) -> None:
         '''
@@ -77,6 +77,15 @@ class ClassicChannel(Entity):
 
 
     def send(self, packet: ClassicPacket, next_hop: QNode):
+        """
+        Send a classic packet to the next_hop
+
+        Args:
+            packet (ClassicPacket): the packet
+            next_hop (QNode): the next hop QNode
+        Raises:
+            NextHopNotConnectionException: the next_hop is not connected to this channel
+        """
         if next_hop not in self.node_list:
             raise NextHopNotConnectionException
 
@@ -109,13 +118,16 @@ class ClassicChannel(Entity):
 
     def __repr__(self) -> str:
         if self.name is not None:
-            return f"<Classic Channel {self.name}>"
+            return f"<cchannel {self.name}>"
         return super().__repr__()
 
 class NextHopNotConnectionException(Exception):
     pass
 
 class RecvClassicPacket(Event):
+    """
+    The event for a QNode to receive a classic packet
+    """
     def __init__(self, t: Optional[Time] = None, name: Optional[str] = None, cchannel: ClassicChannel = None, packet: ClassicPacket = None, dest: QNode = None):
         super().__init__(t=t, name=name)
         self.cchannel = cchannel

@@ -11,7 +11,7 @@ class QuantumModel(object):
             t: the time stored in a quantum memory. The unit it second.
             kwargs: other parameters
         """
-        raise NotImplemented
+        pass
 
     def transfer_error_model(self, length: float, **kwargs):
         """
@@ -22,4 +22,4 @@ class QuantumModel(object):
             length (float): the length of the channel 
             kwargs: other parameters
         """
-        raise NotImplemented
+        pass

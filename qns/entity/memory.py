@@ -11,17 +11,19 @@ class QuantumMemory(Entity):
     """
     Quantum memory stores multiple `QuantumModel`
     """
-    def __init__(self, name: str = None, node: QNode = None,capacity: int = 0):
+    def __init__(self, name: str = None, node: QNode = None,capacity: int = 0, store_error_model_args: dict = {}):
         """
         Args:
             name (str): its name
             node (QNode): the quantum node that equips this memory
             capacity (int): the capacity of this quantum memory. 0 presents unlimited.
+            store_error_model_args （dict): the parameters that will pass to the storage_error_model
         """
         super().__init__(name=name)
         self.node = node
         self.capacity = capacity
         self.memory: List[Tuple[QuantumModel, Time]] = []
+        self.store_error_model_args = store_error_model_args
 
     def install(self, simulator: Simulator) -> None:
         return super().install(simulator)
@@ -51,7 +53,7 @@ class QuantumMemory(Entity):
         self.memory.remove((ret, ret_t))
         t_now = self._simulator.current_time
         sec_diff = t_now.sec - ret_t.sec
-        ret.storage_error_model(t = sec_diff)
+        ret.storage_error_model(t = sec_diff, **self.store_error_model_args)
         return ret
 
     def write(self, qm: QuantumModel) -> None:
