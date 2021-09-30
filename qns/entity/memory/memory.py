@@ -1,8 +1,8 @@
 from typing import List, Optional, Tuple, Union
-from ..simulator import Simulator, Time, Event
-from ..models import QuantumModel
-from .entity import Entity
-from .node import QNode
+from qns.simulator import Simulator, Time, Event
+from qns.models import QuantumModel
+from qns.entity import Entity
+from qns.entity import QNode
 
 class OutOfMemoryException(Exception):
     pass
@@ -21,6 +21,7 @@ class QuantumMemory(Entity):
         """
         super().__init__(name=name)
         self.node = node
+        self.node.memories.append(self)
         self.capacity = capacity
         self.memory: List[Tuple[QuantumModel, Time]] = []
         self.store_error_model_args = store_error_model_args

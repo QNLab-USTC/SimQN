@@ -1,27 +1,56 @@
 import random
-from typing import List, Optional
-from .entity import Entity
-from .node import QNode
 from qns.simulator import Simulator, Time, Event
-from qns.models import QuantumModel
-from qns.utils.log import log
+from qns.utils import log
+from typing import Any, List, Optional, Union
 
-class QuantumChannel(Entity):
+from numpy import exp
+from qns.entity import Entity
+from qns.entity import QNode
+
+class ClassicPacket(object):
     """
-    QuantumChannel is the channel for transmitting qubit
+    ClassicPacket is the message that transfer on a ClassicChannel
     """
-    def __init__(self, name: str = None, node_list: List[QNode] = [], bandwidth: int = 0, delay: float = 0, drop_rate: float = 0, max_buffer_size: int = 0, length: float = 0, transfer_error_model_args: dict = {}):
+
+    def __init__(self, msg: Union[str, bytes], src: QNode = None, dest: QNode = None):
+        """
+        Args:
+            msg (Union[str, bytes]): the message content. It can be a `str` or `bytes`
+            src (QNode): the source of this message
+            dest (QNode): the destination of this message
+        """
+        self.msg = msg
+        self.src = src
+        self.dest = dest
+
+    def encode(self) -> bytes:
+        """
+        encode the self.msg if it is a `str`
+
+        Return:
+            (bytes) a `bytes` object
+        """
+        if isinstance(self.msg, str):
+            return self.msg.encode(encoding="utf-8")
+        return self.msg
+
+    def __len__(self) -> int:
+        return len(self.msg)
+
+
+class ClassicChannel(Entity):
+    """
+    ClassicChannel is the channel for classic message
+    """
+    def __init__(self, name: str = None, node_list: List[QNode] = [], bandwidth: int = 0, delay: float = 0, drop_rate: float = 0, max_buffer_size: int = 0):
         """
         Args:
             name (str): the name of this channel
             node_list (List[QNode]): a list of QNodes that it connects to
-            bandwidth (int): the qubit per second on this channel. 0 represents unlimited
+            bandwidth (int): the byte per second on this channel. 0 represents unlimited
             delay (float): the time delay for transmitting a packet
             drop_rate (float): the drop rate
             max_buffer_size (int): the max buffer size. If it is full, the next coming packet will be dropped. 0 represents unlimited
-
-            length (float): the length of this channel
-            transfer_error_model_args (dict): the parameters that will pass to the transfer_error_model
         """
         super().__init__(name=name)
         self.node_list = node_list
@@ -29,8 +58,6 @@ class QuantumChannel(Entity):
         self.delay = delay
         self.drop_rate = drop_rate
         self.max_buffer_size = max_buffer_size
-        self.length = length
-        self.transfer_error_model_args = transfer_error_model_args
 
     def install(self, simulator: Simulator) -> None:
         '''
@@ -44,21 +71,21 @@ class QuantumChannel(Entity):
             self._next_send_time = self._simulator.ts
 
             for n in self.node_list:
-                n.qchannels.append(self)
+                n.cchannels.append(self)
             self._is_installed = True
 
-    
-    def send(self, qubit: QuantumModel, next_hop: QNode):
+
+
+    def send(self, packet: ClassicPacket, next_hop: QNode):
         """
-        Send a qubit to the next_hop
+        Send a classic packet to the next_hop
 
         Args:
-            qubit (QuantumModel): the transmitting qubit
+            packet (ClassicPacket): the packet
             next_hop (QNode): the next hop QNode
         Raises:
             NextHopNotConnectionException: the next_hop is not connected to this channel
         """
-
         if next_hop not in self.node_list:
             raise NextHopNotConnectionException
 
@@ -71,42 +98,40 @@ class QuantumChannel(Entity):
 
             if self.max_buffer_size != 0 and send_time > self._simulator.current_time + self._simulator.time(sec = self.max_buffer_size / self.bandwidth):
                 # buffer is overflow
-                log.debug(f"qchannel {self}: drop qubit {qubit} due to overflow")
+                log.debug(f"cchannel {self}: drop packet {packet} due to overflow")
                 return
             
-            self._next_send_time = send_time + self._simulator.time(sec = 1 / self.bandwidth)
+            self._next_send_time = send_time + self._simulator.time(sec = len(packet) / self.bandwidth)
         else:
             send_time = self._simulator.current_time
 
         # random drop
         if random.random() < self.drop_rate:
-            log.debug(f"cchannel {self}: drop qubit {qubit} due to drop rate")
+            log.debug(f"cchannel {self}: drop packet {packet} due to drop rate")
             return
 
         #  add delay
         recv_time = send_time + self._simulator.time(sec = self.delay)
 
-        # operation on the qubit
-        qubit.transfer_error_model(self.length, **self.transfer_error_model_args)
-        send_event = RecvQubitPacket(recv_time, name = None, qchannel= self, qubit = qubit, dest = next_hop)
+        send_event = RecvClassicPacket(recv_time, name = None, cchannel= self, packet = packet, dest = next_hop)
         self._simulator.add_event(send_event)
 
     def __repr__(self) -> str:
         if self.name is not None:
-            return f"<qchannel {self.name}>"
+            return f"<cchannel {self.name}>"
         return super().__repr__()
 
 class NextHopNotConnectionException(Exception):
     pass
 
-class RecvQubitPacket(Event):
+class RecvClassicPacket(Event):
     """
     The event for a QNode to receive a classic packet
     """
-    def __init__(self, t: Optional[Time] = None, name: Optional[str] = None, qchannel: QuantumChannel = None, qubit: QuantumModel = None, dest: QNode = None):
+    def __init__(self, t: Optional[Time] = None, name: Optional[str] = None, cchannel: ClassicChannel = None, packet: ClassicPacket = None, dest: QNode = None):
         super().__init__(t=t, name=name)
-        self.qchannel = qchannel
-        self.qubit = qubit
+        self.cchannel = cchannel
+        self.packet = packet
         self.dest = dest
 
     def invoke(self) -> None:

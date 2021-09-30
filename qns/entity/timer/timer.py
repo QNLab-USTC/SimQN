@@ -1,6 +1,6 @@
 from typing import Optional
-from ..simulator.simulator import Simulator, Event, Time
-from .entity import Entity
+from qns.simulator import Simulator, Event, Time
+from qns.entity import Entity
 
 class Timer(Entity):
     """
