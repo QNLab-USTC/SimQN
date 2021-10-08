@@ -1,7 +1,9 @@
-from typing import Callable, List, Optional, Sequence, Tuple
+from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple
 from qns.entity import QNode, QuantumChannel, QuantumMemory, ClassicChannel
 from qns.network.topology import Topology
 from qns.network.route import RouteImpl, DijkstraRouteAlgorithm
+from qns.network.reqeusts import Request
+import random
 
 class QuantumNetwork(object):
     """
@@ -27,6 +29,7 @@ class QuantumNetwork(object):
             self.route: RouteImpl = DijkstraRouteAlgorithm()
         else:
             self.route: RouteImpl = route
+        self.requests: List[Request] = []
         
     def add_node(self, node: QNode):
         """
@@ -129,3 +132,64 @@ class QuantumNetwork(object):
             The element is a tuple containing: metric, the next-hop and the whole path.
         """
         return self.route.query(src, dest)
+
+    def add_request(self, src: QNode, dest: QNode, attr: Dict = {}):
+        """
+        Add a request (SD-pair) to the network
+
+        Args:
+            src: the source node
+            dest: the destination node
+            attr: other attributions
+        """
+        req = Request(src = src, dest = dest, attr = attr)
+        self.requests.append(req)
+        src.add_request(req)
+        dest.add_request(req)
+
+
+    def random_requests(self, number: int, allow_overlay: bool = False):
+        """
+        Generate random requests
+
+        Args:
+            number (int): the number of requests
+            allow_overlay (bool): allow a node to be the source or destination in mulitple requests
+        """
+        used_nodes: List[int] = []
+        nnodes = len(self.nodes)
+
+        if number < 1:
+            raise QNSNetworkError("number of requests should be large than 1")
+
+        if not allow_overlay and number * 2 > nnodes:
+            raise QNSNetworkError("Too many requests")
+        
+        for n in self.nodes:
+            n.clear_request()
+        self.requests.clear()
+ 
+        for _ in range(number):
+            while True:
+                src_idx = random.randint(0, nnodes - 1)
+                dest_idx = random.randint(0, nnodes - 1)
+                if src_idx == dest_idx:
+                    continue
+                if not allow_overlay and src_idx in used_nodes:
+                    continue
+                if not allow_overlay and dest_idx in used_nodes:
+                    continue
+                if not allow_overlay:
+                    used_nodes.append(src_idx)
+                    used_nodes.append(dest_idx)
+                break
+
+            src = self.nodes[src_idx]
+            dest = self.nodes[dest_idx]
+            req = Request(src = src, dest = dest, attr = {})
+            self.requests.append(req)
+            src.add_request(req)
+            dest.add_request(req)
+
+class QNSNetworkError(Exception):
+    pass

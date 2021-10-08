@@ -1,4 +1,5 @@
 from typing import List
+from qns.network.reqeusts import Request
 from qns.simulator import simulator
 from qns.simulator import Event
 from qns.entity import Entity
@@ -20,6 +21,7 @@ class QNode(Entity):
 
         self.croute_table = []
         self.qroute_table = []
+        self.requests: List[Request] = []
         if apps is None:
             self.apps: List[Application] = []
         else:
@@ -95,6 +97,21 @@ class QNode(Entity):
         """
         qchannel.node_list.append(self)
         self.qchannels.append(qchannel)
+
+    def add_request(self, request: Request):
+        """
+        add a request to this node
+
+        Args:
+            request (Request): the inserting request
+        """
+        self.requests.append(request)
+
+    def clear_request(self):
+        """
+        clear all requests
+        """
+        self.requests.clear()
 
     def __repr__(self) -> str:
         if self.name is not None:
