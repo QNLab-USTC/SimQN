@@ -1,4 +1,5 @@
 from typing import List
+from qns.simulator import simulator
 from qns.simulator import Event
 from qns.entity import Entity
 from qns.entity.node.app import Application
@@ -7,7 +8,7 @@ class QNode(Entity):
     """
     QNode is a quantum node in the quantum network
     """
-    def __init__(self, name: str = None):
+    def __init__(self, name: str = None, apps: List[Application] = None):
         """
         Args:
             name (str): the node's name
@@ -19,7 +20,31 @@ class QNode(Entity):
 
         self.croute_table = []
         self.qroute_table = []
-        self.apps: List[Application] = []
+        if apps is None:
+            self.apps: List[Application] = []
+        else:
+            self.apps: List[Application] = apps
+
+    def install(self, simulator: simulator) -> None:
+        super().install(simulator)
+        # initize sub-entities
+        for cchannel in self.cchannels:
+            from qns.entity import ClassicChannel
+            assert(isinstance(cchannel, ClassicChannel))
+            cchannel.install(simulator)
+        for qchannel in self.qchannels:
+            from qns.entity import QuantumChannel
+            assert(isinstance(qchannel, QuantumChannel))
+            qchannel.install(simulator)
+        for memory in self.memories:
+            from qns.entity import QuantumMemory
+            assert(isinstance(memory, QuantumMemory))
+            memory.install(simulator)
+
+        # initize applications
+        for app in self.apps:
+            app.install(self, simulator)
+
 
     def handle(self, event: Event) -> None:
         """
@@ -40,3 +65,38 @@ class QNode(Entity):
             app (Application): the inserting application.
         """
         self.apps.append(app)
+    
+    def add_memory(self, memory):
+        """
+        Add a quantum memory in this QNode
+
+        Args:
+            memory (Memory): the quantum memory
+        """
+        memory.node = self
+        self.memories.append(memory)
+
+    def add_cchannel(self, cchannel):
+        """
+        Add a classic channel in this QNode
+
+        Args:
+            cchannel (ClassicChannel): the classic channel
+        """
+        cchannel.node_list.append(self)
+        self.cchannels.append(cchannel)
+
+    def add_qchannel(self, qchannel):
+        """
+        Add a quantum channel in this QNode
+
+        Args:
+            qchannel (QuantumChannel): the quantum channel
+        """
+        qchannel.node_list.append(self)
+        self.qchannels.append(qchannel)
+
+    def __repr__(self) -> str:
+        if self.name is not None:
+            return f"<node {self.name}>"
+        return super().__repr__()

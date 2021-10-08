@@ -43,12 +43,13 @@ class SendEvent(Event):
 
 n2 = QuantumRecvNode("n2")
 n1 = QuantumSendNode("n1", dest = n2)
-l1 = QuantumChannel(name="l1", node_list=[n1, n2], bandwidth= 3, delay = 0.2, drop_rate= 0.1, max_buffer_size=5)
+l1 = QuantumChannel(name="l1", bandwidth= 3, delay = 0.2, drop_rate= 0.1, max_buffer_size=5)
 
+n1.add_qchannel(l1)
+n2.add_qchannel(l1)
 s = Simulator(0, 10, 1000)
 n1.install(s)
 n2.install(s)
-l1.install(s)
 s.run()
 
 

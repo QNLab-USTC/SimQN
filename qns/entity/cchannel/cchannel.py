@@ -69,9 +69,6 @@ class ClassicChannel(Entity):
         if not self._is_installed:
             self._simulator = simulator
             self._next_send_time = self._simulator.ts
-
-            for n in self.node_list:
-                n.cchannels.append(self)
             self._is_installed = True
 
 

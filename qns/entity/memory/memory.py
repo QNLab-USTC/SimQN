@@ -21,7 +21,6 @@ class QuantumMemory(Entity):
         """
         super().__init__(name=name)
         self.node = node
-        self.node.memories.append(self)
         self.capacity = capacity
         self.memory: List[Tuple[QuantumModel, Time]] = []
         self.store_error_model_args = store_error_model_args
@@ -70,3 +69,8 @@ class QuantumMemory(Entity):
 
     def handle(self, event: Event) -> None:
         return super().handle(event)
+
+    def __repr__(self) -> str:
+        if self.name is not None:
+            return f"<memory {self.name}>"
+        return super().__repr__()

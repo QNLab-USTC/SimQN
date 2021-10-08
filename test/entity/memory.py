@@ -1,14 +1,16 @@
+from qns.entity.node.node import QNode
 from qns import Event, Time, Simulator
 from qns.entity import Timer, QuantumMemory
 from qns.models.qubit import Qubit
 
 
 m = QuantumMemory("m1")
-
+n1 = QNode("n1")
+n1.add_memory(m)
 q1 = Qubit()
 
 s = Simulator(0, 10, 1000)
-m.install(s)
+n1.install(s)
 
 def triggle_func():
     m.write(q1)
