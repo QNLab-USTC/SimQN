@@ -22,7 +22,7 @@ class GridTopology(Topology):
 
         for i in range(self.nodes_number):
             n = QNode(f"n{i+1}")
-            nl.append(QNode(f"n{i+1}"))
+            nl.append(n)
         
         if self.nodes_number > 1:
             for i in range(self.nodes_number):

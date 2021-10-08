@@ -24,7 +24,7 @@ class QuantumChannel(Entity):
             transfer_error_model_args (dict): the parameters that will pass to the transfer_error_model
         """
         super().__init__(name=name)
-        self.node_list = node_list
+        self.node_list = node_list.copy()
         self.bandwidth = bandwidth
         self.delay = delay
         self.drop_rate = drop_rate

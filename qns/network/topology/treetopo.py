@@ -23,7 +23,7 @@ class TreeTopology(Topology):
 
         for i in range(self.nodes_number):
             n = QNode(f"n{i+1}")
-            nl.append(QNode(f"n{i+1}"))
+            nl.append(n)
 
         for i in range(self.nodes_number):
             for j in range(i * self.children_number + 1, (i+1) * self.children_number + 1):

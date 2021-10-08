@@ -15,7 +15,7 @@ class BasicTopology(Topology):
         ll = []
         for i in range(self.nodes_number):
             n = QNode(f"n{i+1}")
-            nl.append(QNode(f"n{i+1}"))
+            nl.append(n)
         if isinstance(self.nodes_apps, List):
             for n in nl:
                 for p in self.nodes_apps:

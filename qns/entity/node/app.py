@@ -3,7 +3,7 @@ from qns.simulator import Event
 
 class Application(object):
     """
-    Application can be deployed on the `QNode`s
+    Application can be deployed on the quantum nodes.
     """
     def __init__(self):
         pass

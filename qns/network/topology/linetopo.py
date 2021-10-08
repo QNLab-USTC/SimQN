@@ -16,11 +16,11 @@ class LineTopology(Topology):
         ll = []
         if self.nodes_number >= 1:
             n = QNode(f"n{1}")
-        nl.append(n)
+            nl.append(n)
         pn = n
         for i in range(self.nodes_number - 1):
             n = QNode(f"n{i+2}")
-            nl.append(QNode(f"n{i+2}"))
+            nl.append(n)
             l = QuantumChannel(name= f"l{i+1}", **self.channel_args)
             ll.append(l)
 

@@ -29,18 +29,18 @@ class RandomTopology(Topology):
 
         if self.nodes_number >= 1:
             n = QNode(f"n{1}")
-            nl.append(QNode(f"n{1}"))
+            nl.append(n)
         
         for i in range(self.nodes_number - 1):
             n = QNode(f"n{i+2}")
-            nl.append(QNode(f"n{i+2}"))
+            nl.append(n)
             
             idx = random.randint(0,i)
             pn = nl[idx]
             mat[idx][i+1] = 1
             mat[i+1][idx] = 1
 
-            l = QuantumChannel(name= f"l{idx},{i+1}", **self.channel_args)
+            l = QuantumChannel(name= f"l{idx+1},{i+2}", **self.channel_args)
             ll.append(l)
             pn.add_qchannel(l)
             n.add_qchannel(l)
@@ -56,7 +56,7 @@ class RandomTopology(Topology):
                 mat[b][a] = 1
                 n = nl[a]
                 pn = nl[b]
-                l = QuantumChannel(name= f"l{a},{b}", **self.channel_args)
+                l = QuantumChannel(name= f"l{a+1},{b+1}", **self.channel_args)
                 ll.append(l)
                 pn.add_qchannel(l)
                 n.add_qchannel(l)
@@ -65,5 +65,5 @@ class RandomTopology(Topology):
             for n in nl:
                 for p in self.nodes_apps:
                     n.add_apps(p)
-
+        
         return nl,ll

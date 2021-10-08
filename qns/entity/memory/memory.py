@@ -11,7 +11,7 @@ class QuantumMemory(Entity):
     """
     Quantum memory stores multiple `QuantumModel`
     """
-    def __init__(self, name: str = None, node: QNode = None,capacity: int = 0, store_error_model_args: dict = {}):
+    def __init__(self, name: str = None, node: QNode = None, capacity: int = 0, store_error_model_args: dict = {}):
         """
         Args:
             name (str): its name
