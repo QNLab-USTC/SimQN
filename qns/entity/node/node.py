@@ -1,5 +1,4 @@
 from typing import List
-from qns.network.reqeusts import Request
 from qns.simulator import simulator
 from qns.simulator import Event
 from qns.entity import Entity

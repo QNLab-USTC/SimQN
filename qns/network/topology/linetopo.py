@@ -1,6 +1,7 @@
+from qns.entity.node.app import Application
 from qns.entity.qchannel.qchannel import QuantumChannel
 from qns.entity.node.node import QNode
-from typing import List, Tuple
+from typing import Dict, List, Optional, Tuple
 from qns.network.topology import Topology
 
 
@@ -8,8 +9,8 @@ class LineTopology(Topology):
     """
     LineTopology includes `nodes_number` Qnodes. The topology is a line pattern.
     """
-    def __init__(self, nodes_number):
-        super().__init__(nodes_number)
+    def __init__(self, nodes_number, nodes_apps: List[Application] = [], qchannel_args: Dict = {}, cchannel_args: Dict = {}, memory_args: Optional[List[Dict]] = {}):
+        super().__init__(nodes_number, nodes_apps=nodes_apps, qchannel_args = qchannel_args, cchannel_args = cchannel_args, memory_args= memory_args)
 
     def build(self) -> Tuple[List[QNode], List[QuantumChannel]]:
         nl: List[QNode] = []
@@ -21,16 +22,13 @@ class LineTopology(Topology):
         for i in range(self.nodes_number - 1):
             n = QNode(f"n{i+2}")
             nl.append(n)
-            l = QuantumChannel(name= f"l{i+1}", **self.channel_args)
+            l = QuantumChannel(name= f"l{i+1}", **self.qchannel_args)
             ll.append(l)
 
             pn.add_qchannel(l)
             n.add_qchannel(l)
             pn = n
 
-        if isinstance(self.nodes_apps, List):
-            for n in nl:
-                for p in self.nodes_apps:
-                    n.add_apps(p)
-
+        self._add_apps(nl)
+        self._add_memories(nl)
         return nl,ll

@@ -76,7 +76,7 @@ class Simulator(object):
             event = self.event_pool.next_event()
 
         tre = time.time()
-        log.info("simulation finished.")
+        log.debug("simulation finished.")
         
         log.debug(
                 f"runtime {tre - trs}, {self.total_events} events, sim_time {self.te.sec - self.ts.sec}, x{(self.te.sec - self.ts.sec)/(tre-trs)}")

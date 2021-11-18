@@ -16,7 +16,8 @@ class Application(object):
             node (QNode): the node that will handle this event
             simulator (Simulator): the simulator
         """
-        pass
+        self._simulator = simulator
+        self._node = node
 
     def handle(self, node: "QNode", event: Event):
         """

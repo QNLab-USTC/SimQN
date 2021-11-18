@@ -7,19 +7,26 @@ from numpy import exp
 from qns.entity import Entity
 from qns.entity import QNode
 
+import json
+
 class ClassicPacket(object):
     """
     ClassicPacket is the message that transfer on a ClassicChannel
     """
 
-    def __init__(self, msg: Union[str, bytes], src: QNode = None, dest: QNode = None):
+    def __init__(self, msg: Union[str, bytes, Any], src: QNode = None, dest: QNode = None):
         """
         Args:
-            msg (Union[str, bytes]): the message content. It can be a `str` or `bytes`
+            msg (Union[str, bytes, Any]): the message content. It can be a `str` or `bytes` type or can be jsonify
             src (QNode): the source of this message
             dest (QNode): the destination of this message
         """
-        self.msg = msg
+        self.is_json = False
+        if not isinstance(msg, (str,bytes)):
+            self.msg = json.dumps(msg)
+            self.is_json = True
+        else:
+            self.msg = msg
         self.src = src
         self.dest = dest
 
@@ -32,6 +39,17 @@ class ClassicPacket(object):
         """
         if isinstance(self.msg, str):
             return self.msg.encode(encoding="utf-8")
+        return self.msg
+    
+    def get(self):
+        """
+        get the message from packet
+
+        Return:
+            (Union[str, bytes, Any])
+        """
+        if self.is_json:
+            return json.loads(self.msg)
         return self.msg
 
     def __len__(self) -> int:
@@ -85,9 +103,7 @@ class ClassicChannel(Entity):
         """
         if next_hop not in self.node_list:
             raise NextHopNotConnectionException
-
         if self.bandwidth != 0:
-
             if self._next_send_time <= self._simulator.current_time:
                 send_time = self._simulator.current_time
             else:
@@ -106,7 +122,6 @@ class ClassicChannel(Entity):
         if random.random() < self.drop_rate:
             log.debug(f"cchannel {self}: drop packet {packet} due to drop rate")
             return
-
         #  add delay
         recv_time = send_time + self._simulator.time(sec = self.delay)
 

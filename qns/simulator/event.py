@@ -1,4 +1,6 @@
 from typing import Optional
+
+from numpy.core.fromnumeric import trace
 from .ts import Time
 
 
@@ -52,3 +54,13 @@ class Event(object):
         if self.name is not None:
             return f"Event({self.name})"
         return "Event()"
+
+def func_to_event(t: Time, fn, *args, **kwargs):
+    class WrapperEvent(Event):
+        def __init__(self, t: Optional[Time] = t, name: Optional[str] = None):
+            super().__init__(t=t, name=name)
+
+        def invoke(self) -> None:
+            fn(*args, **kwargs)
+
+    return WrapperEvent(t)

@@ -77,7 +77,7 @@ class QuantumChannel(Entity):
 
         # random drop
         if random.random() < self.drop_rate:
-            log.debug(f"cchannel {self}: drop qubit {qubit} due to drop rate")
+            log.debug(f"qchannel {self}: drop qubit {qubit} due to drop rate")
             return
 
         #  add delay

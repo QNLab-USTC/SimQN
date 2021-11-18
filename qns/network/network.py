@@ -5,23 +5,28 @@ from qns.network.route import RouteImpl, DijkstraRouteAlgorithm
 from qns.network.reqeusts import Request
 import random
 
+from qns.network.topology.topo import ClassicTopology
+
 class QuantumNetwork(object):
     """
     QuantumNetwork includes several quantum nodes, channels and a special topology
     """
 
-    def __init__(self, topo: Optional[Topology] = None, route: Optional[RouteImpl] = None):
+    def __init__(self, topo: Optional[Topology] = None, route: Optional[RouteImpl] = None, classic_topo: Optional[ClassicTopology] = ClassicTopology.Empty):
         """
         Args:
             topo: a `Topology` class. If topo is not None, a special quantum topology is built.
             route: the route implement. If route is None, the dijkstra algorithm will be used
+            classic_topo (ClassicTopo): a `ClassicTopo` enum class.
         """
         self.cchannels: List[ClassicChannel] = []
         if topo is None:
-            self.nodes = []
-            self.qchannels = []
+            self.nodes: List[QNode] = []
+            self.qchannels: List[QuantumChannel] = []
         else:
             self.nodes, self.qchannels = topo.build()
+            if classic_topo is not None:
+                self.cchannels = topo.add_cchannels(classic_topo = classic_topo, nl = self.nodes, ll = self.qchannels)
             for n in self.nodes:
                 n.network = self
 
