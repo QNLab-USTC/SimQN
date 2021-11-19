@@ -176,6 +176,7 @@ def drop_rate(length):
 
 
 for length in [1000, 5000, 10000, 50000, 100000, 150000]:
+    results = []
     for i in range(10):
         s = Simulator(0, 10, accuracy=10000000000)
         n1 = QNode(name="n1")
@@ -200,5 +201,5 @@ for length in [1000, 5000, 10000, 50000, 100000, 150000]:
         n2.install(s)
     
         s.run()
-        print(length, i,len(rp.succ_key_pool) / 10,
-            len(rp.succ_key_pool) / (sp.count))
+        results.append(len(rp.succ_key_pool) / 10)
+    print(length, np.mean(results), np.std(results))

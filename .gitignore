@@ -1,5 +1,6 @@
 **/.DS_Store
 env
+build
 qns.egg-info
 docs/build
 **/__pycache__
