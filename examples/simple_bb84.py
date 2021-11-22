@@ -1,4 +1,3 @@
-from numpy.lib.arraysetops import isin
 from qns.entity.cchannel.cchannel import ClassicChannel, RecvClassicPacket
 from qns.entity.node.app import Application
 from qns.entity.qchannel.qchannel import QuantumChannel, RecvQubitPacket

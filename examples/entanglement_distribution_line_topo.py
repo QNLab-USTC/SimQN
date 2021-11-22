@@ -28,7 +28,7 @@ lines_number = 4
 qchannel_delay = 0.01
 cchannel_delay = 0.01
 memory_capacity = 3
-send_rate = 1
+send_rate = 100
 
 class Transmit():
     def __init__(self, id: str, src: QNode, dst: QNode, first_epr_name: Optional[str] = None, second_epr_name: Optional[str] = None):
@@ -45,18 +45,17 @@ class EntanglementDistributionApp(Application):
     def __init__(self, net: QuantumNetwork ,send_rate: Optional[int] = None):
         super().__init__()
         self.net = net
-
         self.own: QNode = None
         self.memory: QuantumMemory = None
         self.src: Optional[QNode] = None
         self.dst: Optional[QNode] = None
         self.send_rate: int = send_rate
 
-        self.send_idx = 0
-
         self.state: Dict[str, Transmit] = {}
 
         self.success = []
+        self.success_count = 0
+        self.send_count = 0
 
     def install(self, node: QNode, simulator: Simulator):
         super().install(node, simulator)
@@ -108,6 +107,7 @@ class EntanglementDistributionApp(Application):
         except OutOfMemoryException:
             self.memory.read(epr)
             self.state[epr.transmit_id] = None
+        self.send_count += 1
         self.request_distrbution(epr.transmit_id)
     
     def request_distrbution(self, transmit_id: str):
@@ -163,12 +163,12 @@ class EntanglementDistributionApp(Application):
             log.debug(f"{self.own}: store {epr.name} and {next_epr.name}")
             self.memory.write(epr)
             self.memory.write(next_epr)
-        except:
+        except OutOfMemoryException:
             log.debug(f"{self.own}: store fail, destory {epr} and {next_epr}")
             # if failed (memory is full), destory all entanglements
             self.memory.read(epr)
             self.memory.read(next_epr)
-            classic_packet = ClassicPacket(msg = {"cmd": "revoke", "transmit_id": epr.transmit_id}, src = self.own, dst = from_node)
+            classic_packet = ClassicPacket(msg = {"cmd": "revoke", "transmit_id": epr.transmit_id}, src = self.own, dest = from_node)
             cchannel.send(classic_packet, next_hop = from_node)
             log.debug(f"{self.own}: send {classic_packet.msg} to {from_node}")
             return
@@ -217,11 +217,24 @@ class EntanglementDistributionApp(Application):
                 self.memory.read(transmit.second_epr_name)
                 self.success.append(result_epr)
                 self.state[transmit_id] = None
+                self.success_count += 1
                 log.debug(f"{self.own}: successful distribute {result_epr}")
+
+                classic_packet = ClassicPacket(msg = {"cmd": "succ", "transmit_id": transmit_id}, src = self.own, dest = transmit.src)
+                cchannel = self.own.get_cchannel(transmit.src)
+                if cchannel is not None:
+                    log.debug(f"{self.own}: send {classic_packet} to {from_node}")
+                    cchannel.send(classic_packet, next_hop = transmit.src)
             else:
                 log.debug(f"{self.own}: begin new request {transmit_id}")
                 self.request_distrbution(transmit_id)
-        else:
+        elif cmd == "succ":
+            # the source notice that entanglement distirbution is succeed.
+            result_epr = self.memory.read(transmit.second_epr_name)
+            log.debug(f"{self.own}: recv success distribution {result_epr}")
+            self.state[transmit_id] = None
+            self.success_count += 1
+        elif cmd == "revoke":
             # clean memory
             log.debug(f"{self.own}: clean memory {transmit.first_epr_name} and {transmit.second_epr_name}")
             self.memory.read(transmit.first_epr_name)
@@ -279,3 +292,4 @@ for n in net.nodes:
     n.install(s)
 
 s.run()
+log.info(f"succ: {src.apps[0].success_count}, total: {src.apps[0].send_count}")

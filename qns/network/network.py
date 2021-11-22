@@ -153,13 +153,14 @@ class QuantumNetwork(object):
         dest.add_request(req)
 
 
-    def random_requests(self, number: int, allow_overlay: bool = False):
+    def random_requests(self, number: int, allow_overlay: bool = False, attr: Dict = {}):
         """
         Generate random requests
 
         Args:
             number (int): the number of requests
             allow_overlay (bool): allow a node to be the source or destination in mulitple requests
+            attr (Dict): request attributions
         """
         used_nodes: List[int] = []
         nnodes = len(self.nodes)
@@ -191,7 +192,7 @@ class QuantumNetwork(object):
 
             src = self.nodes[src_idx]
             dest = self.nodes[dest_idx]
-            req = Request(src = src, dest = dest, attr = {})
+            req = Request(src = src, dest = dest, attr = attr)
             self.requests.append(req)
             src.add_request(req)
             dest.add_request(req)

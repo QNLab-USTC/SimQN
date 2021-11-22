@@ -1,5 +1,7 @@
 from typing import List, Optional
 import numpy as np
+import random
+
 from ..core.backend import QuantumModel
 from ..qubit import H, X, Y, Z, CNOT, Qubit, QState, QUBIT_STATE_0, QUBIT_STATE_P
 
@@ -107,7 +109,7 @@ class BellStateEntanglement(BaseEntanglement, QuantumModel):
             ne.is_decoherenced = True
             ne.fidelity = 0
 
-        r = np.random.rand()
+        r = random.random()
         if r > min(self.p_swap, epr.p_swap):
             ne.is_decoherenced = True
             ne.fidelity = 0
@@ -235,7 +237,7 @@ class WernerStateEntanglement(BaseEntanglement, QuantumModel):
             kwargs: other parameters
         """
         b = kwargs.get("b", 0)
-        r = np.random.rand()
+        r = random.random()        
         if r <= 10**(-b * length):
             return
         self.fidelity = 0

@@ -86,7 +86,11 @@ class Simulator(object):
         tre = time.time()
         log.debug("simulation finished.")
         
-        log.debug(
+        if tre - trs == 0:
+            log.debug(
+                f"runtime {tre - trs}, {self.total_events} events, sim_time {self.te.sec - self.ts.sec}, xINF")
+        else:
+            log.debug(
                 f"runtime {tre - trs}, {self.total_events} events, sim_time {self.te.sec - self.ts.sec}, x{(self.te.sec - self.ts.sec)/(tre-trs)}")
 
 

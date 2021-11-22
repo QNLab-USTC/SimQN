@@ -2,7 +2,8 @@ from qns.models.core import backend
 from qns.models import core
 from typing import List, Optional
 import numpy as np
-from numpy.core.numeric import full
+import random
+
 from .const import *
 from ..core.backend import QuantumModel
 
@@ -63,7 +64,7 @@ class QState(object):
         for i in set_0:
             poss_0 += np.abs(ns[i][0])**2
 
-        rn = np.random.rand()
+        rn = random.random()
 
         nns = []
         if rn <= poss_0:
@@ -152,7 +153,7 @@ class Qubit(QuantumModel):
         state = self.state.state
         state = np.dot(OPERATOR_HADAMARD, state)
         poss = np.abs(state[0][0])**2
-        rn = np.random.rand()
+        rn = random.random()
         if rn <= poss:
             ret = 0
             ret_s = QUBIT_STATE_P
@@ -178,7 +179,7 @@ class Qubit(QuantumModel):
         state = np.dot(OPERATOR_HADAMARD, state)
 
         poss = np.abs(state[0][0])**2
-        rn = np.random.rand()
+        rn = random.random()
         if rn <= poss:
             ret = 0
             ret_s = QUBIT_STATE_R
