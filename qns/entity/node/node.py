@@ -66,6 +66,15 @@ class QNode(Entity):
             app (Application): the inserting application.
         """
         self.apps.append(app)
+
+    def get_apps(self, app_type):
+        """
+        Get an Application that is `app_type`
+
+        Args:
+            app_type: the class of app_type
+        """
+        return [ app for app in self.apps if isinstance(app, app_type) ]
     
     def add_memory(self, memory):
         """
@@ -87,6 +96,18 @@ class QNode(Entity):
         cchannel.node_list.append(self)
         self.cchannels.append(cchannel)
 
+    def get_cchannel(self, dst: "QNode"):
+        """
+        Get the classic channel that connects to the `dst`
+
+        Args:
+            dst (QNode): the destination
+        """
+        for cchannel in self.cchannels:
+            if dst in cchannel.node_list and self in cchannel.node_list:
+                return cchannel
+        return None
+
     def add_qchannel(self, qchannel):
         """
         Add a quantum channel in this QNode
@@ -96,6 +117,18 @@ class QNode(Entity):
         """
         qchannel.node_list.append(self)
         self.qchannels.append(qchannel)
+
+    def get_qchannel(self, dst: "QNode"):
+        """
+        Get the quantum channel that connects to the `dst`
+
+        Args:
+            dst (QNode): the destination
+        """
+        for qchannel in self.qchannels:
+            if dst in qchannel.node_list and self in qchannel.node_list:
+                return qchannel
+        return None
 
     def add_request(self, request: "Request"):
         """

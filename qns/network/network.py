@@ -2,7 +2,7 @@ from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple
 from qns.entity import QNode, QuantumChannel, QuantumMemory, ClassicChannel
 from qns.network.topology import Topology
 from qns.network.route import RouteImpl, DijkstraRouteAlgorithm
-from qns.network.reqeusts import Request
+from qns.network.requests import Request
 import random
 
 from qns.network.topology.topo import ClassicTopology

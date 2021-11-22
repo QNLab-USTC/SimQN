@@ -1,9 +1,8 @@
 import logging
 from typing import Optional
-from qns import Event, Time, Simulator, log
+from qns import Event, Time, simulator
+import qns.utils.log
 from qns.entity import QNode, ClassicChannel, ClassicPacket, RecvClassicPacket
-
-log.setLevel(logging.DEBUG)
 
 class ClassicRecvNode(QNode):
     def handle(self, event: Event) -> None:

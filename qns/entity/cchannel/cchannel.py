@@ -1,6 +1,6 @@
 import random
 from qns.simulator import Simulator, Time, Event
-from qns.utils import log
+import qns.utils.log
 from typing import Any, List, Optional, Union
 
 from numpy import exp
@@ -71,7 +71,7 @@ class ClassicChannel(Entity):
             max_buffer_size (int): the max buffer size. If it is full, the next coming packet will be dropped. 0 represents unlimited
         """
         super().__init__(name=name)
-        self.node_list = node_list
+        self.node_list = node_list.copy()
         self.bandwidth = bandwidth
         self.delay = delay
         self.drop_rate = drop_rate

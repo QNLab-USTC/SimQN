@@ -84,7 +84,7 @@ class Topology(object):
                 src.add_cchannel(cchannel = cchannel)
                 dst.add_cchannel(cchannel = cchannel)
                 cchannel_list.append(cchannel)
-        if classic_topo == ClassicTopology.Follow:
+        elif classic_topo == ClassicTopology.Follow:
             if ll is None:
                 return cchannel_list
             for idx, qchannel in enumerate(ll):

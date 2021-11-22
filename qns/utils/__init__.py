@@ -1,1 +1,1 @@
-from .log import log
+from .log import logger, debug, info, error, install, warn, critical, monitor

@@ -25,6 +25,6 @@ class Application(object):
 
         Args:
             node (QNode): the node that will handle this event
-            evnet (Event): the event
+            event (Event): the event
         """
         pass

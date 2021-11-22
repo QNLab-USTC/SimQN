@@ -111,6 +111,8 @@ class QState(object):
         self.state = np.dot(full_operator, self.state)
 
     def __repr__(self) -> str:
+        if self.name is not None:
+            return f"<qubit {self.name}: {self.state}>"
         return str(self.state)
 
 class Qubit(QuantumModel):

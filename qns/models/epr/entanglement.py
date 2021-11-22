@@ -87,6 +87,11 @@ class BaseEntanglement(object):
         self.is_decoherenced = True
         return q2
 
+    def __repr__(self) -> str:
+        if self.name is not None:
+            return f"<entanglement {self.name}>"
+        return super().__repr__()
+
 class BellStateEntanglement(BaseEntanglement, QuantumModel):
     """
     `BellStateEntanglement` is the ideal max entangled qubits. Its fidelity is always 1.
@@ -165,9 +170,17 @@ class WernerStateEntanglement(BaseEntanglement, QuantumModel):
     def fidelity(self, fidelity: float = 1):
         self.w = (fidelity * 4 - 1)/3
 
-    def swapping(self, epr: "WernerStateEntanglement"):
+    def swapping(self, epr: "WernerStateEntanglement", name: Optional[str] = None):
+        """
+        Use `self` and `epr` to perfrom swapping and distribute a new entanglement
 
-        ne = WernerStateEntanglement()
+        Args:
+            epr (BaseEntanglement): another entanglement
+            name (str): the name of the new entanglement
+        Returns:
+            the new distributed entanglement
+        """
+        ne = WernerStateEntanglement(name = name)
         if self.is_decoherenced == True or epr.is_decoherenced == True:
             ne.is_decoherenced = True
             ne.fidelity = 0
@@ -179,15 +192,16 @@ class WernerStateEntanglement(BaseEntanglement, QuantumModel):
             self.is_decoherenced = True
         return ne
     
-    def distillation(self, epr: "BellStateEntanglement"):
+    def distillation(self, epr: "BellStateEntanglement", name: Optional[str] = None):
         """
         Use `self` and `epr` to perfrom distillation and distribute a new entanglement.
         Using Bennett 96 protocol and estimate lower bound.
 
         Args:
             epr (BaseEntanglement): another entanglement
+            name (str): the name of the new entanglement
         Returns:
-            the new distributed entnaglement
+            the new distributed entanglement
         """
         ne = BellStateEntanglement()
         if self.is_decoherenced == True or epr.is_decoherenced == True:

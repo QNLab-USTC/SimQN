@@ -9,13 +9,12 @@ from qns.simulator.event import Event, func_to_event
 from qns.simulator.simulator import Simulator
 from qns.models.qubit import Qubit, QUBIT_STATE_0, QUBIT_STATE_1, QUBIT_STATE_P, QUBIT_STATE_N
 from qns.entity import ClassicPacket
-from qns.utils import log
+import qns.utils.log
 
 from qns.network import QuantumNetwork
 from qns.network.topology import LineTopology
 
 from random import choice
-import logging
 import numpy as np
 
 

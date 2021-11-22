@@ -15,7 +15,7 @@ class Request():
         from qns.entity import QNode
         self.src: QNode = src
         self.dest: QNode = dest
-        self.attr: Dict = {}
+        self.attr: Dict = attr
 
     def __repr__(self) -> str:
         return f"<Request {self.src}->{self.dest}>"

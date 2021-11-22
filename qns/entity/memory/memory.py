@@ -28,14 +28,9 @@ class QuantumMemory(Entity):
     def install(self, simulator: Simulator) -> None:
         return super().install(simulator)
 
-    def read(self, key: Union[QuantumModel, str]) -> QuantumModel:
-        """
-        The API for reading a qubit from the memory
-
-        Args:
-            key (Union[QuantumModel, str]): the key. It can be a QuantumModel object, its name or the index number.
-        """
+    def _search(self, key: Union[QuantumModel, str]) -> Optional[QuantumModel]:
         ret = None
+        ret_t = None
         if isinstance(key, QuantumModel):
             for (q,t_store) in self.memory:
                 if q == key:
@@ -48,8 +43,30 @@ class QuantumMemory(Entity):
                     ret = q
                     ret_t = t_store
                     break
-        if ret is None:
+        return ret, ret_t
+
+    def get(self, key: Union[QuantumModel, str]) -> Optional[QuantumModel]:
+        """
+        get a qubit from the memory but without removing it from the memory
+
+        Args:
+            key (Union[QuantumModel, str]): the key. It can be a QuantumModel object, its name or the index number.
+        """ 
+        try:
+            return self._search(key)[0]
+        except:
             return None
+
+    def read(self, key: Union[QuantumModel, str]) -> Optional[QuantumModel]:
+        """
+        The API for reading a qubit from the memory
+
+        Args:
+            key (Union[QuantumModel, str]): the key. It can be a QuantumModel object, its name or the index number.
+        """
+        ret, ret_t = self._search(key)
+        if ret is None or ret_t is None:
+            return None 
         self.memory.remove((ret, ret_t))
         t_now = self._simulator.current_time
         sec_diff = t_now.sec - ret_t.sec
@@ -66,6 +83,12 @@ class QuantumMemory(Entity):
         if self.capacity > 0 and len(self.memory) >= self.capacity:
             raise OutOfMemoryException
         self.memory.append((qm, self._simulator.current_time))
+
+    def is_full(self) -> bool:
+        """
+        check whether the memory is full
+        """
+        return self.capacity > 0 and len(self.memory) >= self.capacity
 
     def handle(self, event: Event) -> None:
         return super().handle(event)

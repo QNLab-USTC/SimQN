@@ -1,10 +1,7 @@
-import logging
 from typing import Optional
-from qns import Event, Time, Simulator, log
+from qns import Event, Time, Simulator
 from qns.models.qubit import Qubit
 from qns.entity import QNode, QuantumChannel, RecvQubitPacket
-
-log.setLevel(logging.DEBUG)
 
 class QuantumRecvNode(QNode):
     def handle(self, event: Event) -> None:

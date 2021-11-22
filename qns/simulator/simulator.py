@@ -3,11 +3,11 @@ import time
 from typing import Optional
 from .ts import Time, default_accuracy
 from .event import Event
-from ..utils.log import log
+import qns.utils.log
+from . import ts
 
 default_start_second = 0.0
 default_end_second = 60.0
-
 
 class Simulator(object):
     """
@@ -22,6 +22,7 @@ class Simulator(object):
             accuracy (int): the number of time slots per second
         """
         self.accuracy = accuracy
+        ts.default_accuracy = accuracy
 
         self.ts: Time = self.time(sec=start_second)
         self.te: Time = self.time(sec=end_second)
@@ -39,6 +40,13 @@ class Simulator(object):
             (Time) the current time
         '''
         return self.event_pool.current_time
+
+    @property
+    def tc(self) -> Time:
+        """
+        The alias of `current_time`
+        """
+        return self.current_time
 
     def time(self, time_slot: Optional[int] = None, sec: Optional[float] = None) -> Time:
         """
