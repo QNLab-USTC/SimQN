@@ -12,8 +12,10 @@ class QNode(Entity):
         """
         Args:
             name (str): the node's name
+            apps (List[Application]): the installing applications.
         """
         super().__init__(name=name)
+        self.network = None
         self.cchannels = []
         self.qchannels = []
         self.memories = []
@@ -144,6 +146,15 @@ class QNode(Entity):
         clear all requests
         """
         self.requests.clear()
+
+    def add_network(self, network):
+        """
+        add a network object to this node
+
+        Args:
+            network (qns.network.network.Network): the network object
+        """
+        self.network = network
 
     def __repr__(self) -> str:
         if self.name is not None:

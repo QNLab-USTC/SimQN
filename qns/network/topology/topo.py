@@ -8,6 +8,7 @@ from qns.entity.node.node import QNode
 
 from enum import Enum, auto
 import itertools
+import copy
 
 class ClassicTopology(Enum):
     Empty = 1
@@ -52,7 +53,8 @@ class Topology(object):
         """
         for n in nl:
             for p in self.nodes_apps:
-                n.add_apps(p)
+                tmp_p = copy.deepcopy(p)
+                n.add_apps(tmp_p)
 
     def _add_memories(self, nl: List[QNode]):
         """

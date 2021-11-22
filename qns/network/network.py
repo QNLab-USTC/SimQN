@@ -6,19 +6,21 @@ from qns.network.requests import Request
 import random
 
 from qns.network.topology.topo import ClassicTopology
+from qns.simulator.simulator import Simulator
 
 class QuantumNetwork(object):
     """
     QuantumNetwork includes several quantum nodes, channels and a special topology
     """
 
-    def __init__(self, topo: Optional[Topology] = None, route: Optional[RouteImpl] = None, classic_topo: Optional[ClassicTopology] = ClassicTopology.Empty):
+    def __init__(self, topo: Optional[Topology] = None, route: Optional[RouteImpl] = None, classic_topo: Optional[ClassicTopology] = ClassicTopology.Empty, name: Optional[str] = None):
         """
         Args:
             topo: a `Topology` class. If topo is not None, a special quantum topology is built.
             route: the route implement. If route is None, the dijkstra algorithm will be used
             classic_topo (ClassicTopo): a `ClassicTopo` enum class.
         """
+        self.name = name
         self.cchannels: List[ClassicChannel] = []
         if topo is None:
             self.nodes: List[QNode] = []
@@ -28,13 +30,23 @@ class QuantumNetwork(object):
             if classic_topo is not None:
                 self.cchannels = topo.add_cchannels(classic_topo = classic_topo, nl = self.nodes, ll = self.qchannels)
             for n in self.nodes:
-                n.network = self
+                n.add_network(self)
 
         if route is None:
             self.route: RouteImpl = DijkstraRouteAlgorithm()
         else:
             self.route: RouteImpl = route
         self.requests: List[Request] = []
+
+    def install(self, s: Simulator):
+        '''
+        install all nodes (including channels, memories and applications) in this network
+
+        Args:
+            simulator (Simulator): the simulator
+        '''
+        for n in self.nodes:
+            n.install(s)
         
     def add_node(self, node: QNode):
         """
@@ -44,7 +56,7 @@ class QuantumNetwork(object):
             node (QNode): the inserting node
         """
         self.nodes.append(node)
-        node.network = self
+        n.add_network(self)
 
     def get_node(self, name: str):
         """
