@@ -24,11 +24,11 @@ from qns.utils.random import set_seed
 init_fidelity = 0.99
 nodes_number = 150
 lines_number = 300
-qchannel_delay = 0.03
-cchannel_delay = 0.03
-memory_capacity = 20
+qchannel_delay = 0.05
+cchannel_delay = 0.05
+memory_capacity = 50
 send_rate = 100
-requests_number = 10
+requests_number = 20
 
 
 class Transmit():
@@ -291,7 +291,7 @@ class EntanglementDistributionApp(Application):
 
 
 set_seed(100)
-log.logger.setLevel(logging.DEBUG)
+log.logger.setLevel(logging.INFO)
 s = Simulator(0, 10, accuracy=1000000)
 log.install(s)
 
