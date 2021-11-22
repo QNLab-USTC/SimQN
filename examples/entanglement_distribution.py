@@ -19,7 +19,7 @@ from qns.simulator.ts import Time
 from qns.network.topology import RandomTopology, LineTopology
 import qns.utils.log as log
 
-log.log.setLevel(logging.DEBUG)
+log.logger.setLevel(logging.DEBUG)
 
 # constrains
 init_fidelity = 0.99

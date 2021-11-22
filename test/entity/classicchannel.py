@@ -1,7 +1,7 @@
 import logging
 from typing import Optional
-from qns import Event, Time, simulator
-import qns.utils.log
+from qns.simulator import Event, Time, Simulator
+import qns.utils.log as log
 from qns.entity import QNode, ClassicChannel, ClassicPacket, RecvClassicPacket
 
 class ClassicRecvNode(QNode):

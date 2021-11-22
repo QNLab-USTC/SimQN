@@ -1,6 +1,5 @@
 from typing import Optional
 
-from numpy.core.fromnumeric import trace
 from .ts import Time
 
 

@@ -3,7 +3,7 @@ import time
 from typing import Optional
 from .ts import Time, default_accuracy
 from .event import Event
-import qns.utils.log
+import qns.utils.log as log
 from . import ts
 
 default_start_second = 0.0

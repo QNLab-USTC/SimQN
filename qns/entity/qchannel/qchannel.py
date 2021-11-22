@@ -4,7 +4,7 @@ from qns.entity import Entity
 from qns.entity import QNode
 from qns.simulator import Simulator, Time, Event
 from qns.models import QuantumModel
-from qns.utils.log import log
+import qns.utils.log as log
 
 class QuantumChannel(Entity):
     """

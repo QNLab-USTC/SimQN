@@ -1,6 +1,6 @@
 import random
 from qns.simulator import Simulator, Time, Event
-import qns.utils.log
+import qns.utils.log as log
 from typing import Any, List, Optional, Union
 
 from numpy import exp

@@ -17,7 +17,7 @@ def debug(msg, *args):
     if hasattr(logger, "_simulator"):
         logger.debug(f"[{logger._simulator.tc}]"+msg, *args)
     else:
-        log.debug(msg, *args)
+        logger.debug(msg, *args)
 
 def info(msg, *args):
     if hasattr(logger, "_simulator"):

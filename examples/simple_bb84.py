@@ -10,7 +10,7 @@ from qns.simulator.simulator import Simulator
 from qns.models.qubit import Qubit, QUBIT_STATE_0, QUBIT_STATE_1, QUBIT_STATE_P, QUBIT_STATE_N
 from qns.models.qubit.gate import R
 from qns.entity import ClassicPacket
-import qns.utils.log
+import qns.utils.log as log
 
 from random import choice
 import numpy as np
@@ -167,7 +167,6 @@ class BB84RecvApp(Application):
 
 
 light_speed = 299791458
-
 
 def drop_rate(length):
     # drop 0.2 db/KM
