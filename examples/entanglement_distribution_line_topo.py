@@ -19,17 +19,6 @@ from qns.simulator.ts import Time
 from qns.network.topology import RandomTopology, LineTopology
 import qns.utils.log as log
 
-log.logger.setLevel(logging.DEBUG)
-
-# constrains
-init_fidelity = 0.99
-nodes_number = 5
-lines_number = 4
-qchannel_delay = 0.01
-cchannel_delay = 0.01
-memory_capacity = 3
-send_rate = 100
-
 
 class Transmit():
     def __init__(self, id: str, src: QNode, dst: QNode, first_epr_name: Optional[str] = None, second_epr_name: Optional[str] = None):
@@ -44,8 +33,9 @@ class Transmit():
 
 
 class EntanglementDistributionApp(Application):
-    def __init__(self, send_rate: Optional[int] = None):
+    def __init__(self, send_rate: Optional[int] = None, init_fidelity:int = 0.99):
         super().__init__()
+        self.init_fidelity = init_fidelity
         self.net = None
         self.own: QNode = None
         self.memory: QuantumMemory = None
@@ -267,7 +257,7 @@ class EntanglementDistributionApp(Application):
 
     def generate_qubit(self, src: QNode, dst: QNode, transmit_id: Optional[str] = None) -> QuantumModel:
         epr = WernerStateEntanglement(
-            fidelity=init_fidelity, name=uuid.uuid4().hex)
+            fidelity=self.init_fidelity, name=uuid.uuid4().hex)
         epr.src = src
         epr.dst = dst
         epr.transmit_id = transmit_id if transmit_id is not None else uuid.uuid4().hex
@@ -289,24 +279,35 @@ class EntanglementDistributionApp(Application):
         self.memory.write(epr)
         transmit.second_epr_name = epr.name
 
+log.logger.setLevel(logging.INFO)
 
-s = Simulator(0, 10, accuracy=1000000)
-log.install(s)
-topo = LineTopology(nodes_number=nodes_number,
-                    qchannel_args={"delay": qchannel_delay},
-                    cchannel_args={"delay": cchannel_delay},
-                    memory_args={"capacity": memory_capacity},
-                    nodes_apps=[EntanglementDistributionApp()])
+# constrains
+init_fidelity = 0.99
+nodes_number = 20
+lines_number = 19
+qchannel_delay = 0.05
+cchannel_delay = 0.05
+memory_capacity = 100
+send_rate = 10
 
-net = QuantumNetwork(
-    topo=topo, classic_topo=ClassicTopology.All, route=DijkstraRouteAlgorithm())
-net.build_route()
-
-src = net.get_node("n1")
-dst = net.get_node(f"n{nodes_number}")
-net.add_request(src=src, dest=dst, attr={"send_rate": send_rate})
-
-net.install(s)
-
-s.run()
-log.info(f"succ: {src.apps[0].success_count}, total: {src.apps[0].send_count}")
+for n in range(5,21):
+    nodes_number = n
+    lines_number = n-1
+    s = Simulator(0, 30, accuracy=10000000)
+    log.install(s)
+    topo = LineTopology(nodes_number=nodes_number,
+                        qchannel_args={"delay": qchannel_delay},
+                        cchannel_args={"delay": cchannel_delay},
+                        memory_args={"capacity": memory_capacity, "store_error_model_args": {"a": 0.2} },
+                        nodes_apps=[EntanglementDistributionApp(init_fidelity = init_fidelity)])
+    
+    net = QuantumNetwork(
+        topo=topo, classic_topo=ClassicTopology.All, route=DijkstraRouteAlgorithm())
+    net.build_route()
+    
+    src = net.get_node("n1")
+    dst = net.get_node(f"n{nodes_number}")
+    net.add_request(src=src, dest=dst, attr={"send_rate": send_rate})
+    net.install(s)
+    s.run()
+    log.monitor(f"{n} {src.apps[0].success_count/ 10} {src.apps[0].success_count/src.apps[0].send_count} {dst.apps[0].success[0].fidelity}")

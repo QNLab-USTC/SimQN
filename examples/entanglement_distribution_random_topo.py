@@ -1,4 +1,4 @@
-from typing import ChainMap, Dict, List, Optional, Tuple
+from typing import Dict, Optional
 import uuid
 import logging
 
@@ -19,18 +19,6 @@ from qns.simulator.ts import Time
 from qns.network.topology import RandomTopology
 import qns.utils.log as log
 from qns.utils.random import set_seed
-
-# constrains
-init_fidelity = 0.99
-nodes_number = 150
-lines_number = 300
-qchannel_delay = 0.05
-cchannel_delay = 0.05
-memory_capacity = 50
-send_rate = 100
-requests_number = 20
-
-
 class Transmit():
     def __init__(self, id: str, src: QNode, dst: QNode, first_epr_name: Optional[str] = None, second_epr_name: Optional[str] = None):
         self.id = id
@@ -44,8 +32,9 @@ class Transmit():
 
 
 class EntanglementDistributionApp(Application):
-    def __init__(self, send_rate: Optional[int] = None):
+    def __init__(self, send_rate: Optional[int] = None, init_fidelity: int = 0.99):
         super().__init__()
+        self.init_fidelity = init_fidelity
         self.net: QuantumNetwork = None
         self.own: QNode = None
         self.memory: QuantumMemory = None
@@ -267,7 +256,7 @@ class EntanglementDistributionApp(Application):
 
     def generate_qubit(self, src: QNode, dst: QNode, transmit_id: Optional[str] = None) -> QuantumModel:
         epr = WernerStateEntanglement(
-            fidelity=init_fidelity, name=uuid.uuid4().hex)
+            fidelity=self.init_fidelity, name=uuid.uuid4().hex)
         epr.src = src
         epr.dst = dst
         epr.transmit_id = transmit_id if transmit_id is not None else uuid.uuid4().hex
@@ -289,7 +278,17 @@ class EntanglementDistributionApp(Application):
         self.memory.write(epr)
         transmit.second_epr_name = epr.name
 
+# constrains
+init_fidelity = 0.99
+nodes_number = 30
+lines_number = 300
+qchannel_delay = 0.05
+cchannel_delay = 0.05
+memory_capacity = 50
+send_rate = 100
+requests_number = 1
 
+# set a fixed random seed
 set_seed(100)
 log.logger.setLevel(logging.INFO)
 s = Simulator(0, 10, accuracy=1000000)
@@ -299,7 +298,7 @@ topo = RandomTopology(nodes_number=nodes_number, lines_number=lines_number,
                       qchannel_args={"delay": qchannel_delay},
                       cchannel_args={"delay": cchannel_delay},
                       memory_args={"capacity": memory_capacity},
-                      nodes_apps=[EntanglementDistributionApp()])
+                      nodes_apps=[EntanglementDistributionApp(init_fidelity= init_fidelity)])
 
 net = QuantumNetwork(
     topo=topo, classic_topo=ClassicTopology.All, route=DijkstraRouteAlgorithm())
