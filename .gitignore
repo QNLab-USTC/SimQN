@@ -5,3 +5,4 @@ qns.egg-info
 **/__pycache__
 .vscode
 .cspell
+.pytest_cache

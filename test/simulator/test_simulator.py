@@ -14,18 +14,17 @@ class TimerEvent(Event):
         return f"<{self.name}-{self.t}>"
 
 
-s = Simulator(0, 15, 1000)
+def test_simulator():
+    s = Simulator(0, 15, 1000)
+    t = 0
+    while t <= 12:
+        e = TimerEvent(t=s.time(sec=t), name="t1")
+        s.add_event(e)
+        t += 0.5
 
-t = 0
-while t <= 12:
-    e = TimerEvent(t=s.time(sec=t), name="t1")
-    s.add_event(e)
-    t += 0.5
-
-t = 5
-while t <= 20:
-    e = TimerEvent(t=s.time(sec=t), name="t2")
-    s.add_event(e)
-    t += 1
-
-s.run()
+    t = 5
+    while t <= 20:
+        e = TimerEvent(t=s.time(sec=t), name="t2")
+        s.add_event(e)
+        t += 1
+    s.run()
