@@ -10,8 +10,16 @@ logger.setLevel(logging.INFO)
 handle = logging.StreamHandler(sys.stdout)
 logger.addHandler(handle)
 
-def install(s: "Simulator"):
+
+def install(s):
+    """
+    Install the logger to the simulator
+
+    Args:
+        s (Simulator): the simulator
+    """
     logger._simulator = s
+
 
 def debug(msg, *args):
     if hasattr(logger, "_simulator"):
@@ -19,11 +27,13 @@ def debug(msg, *args):
     else:
         logger.debug(msg, *args)
 
+
 def info(msg, *args):
     if hasattr(logger, "_simulator"):
         logger.info(f"[{logger._simulator.tc}] "+msg, *args)
     else:
         logger.info(msg, *args)
+
 
 def error(msg, *args):
     if hasattr(logger, "_simulator"):
@@ -31,11 +41,13 @@ def error(msg, *args):
     else:
         logger.error(msg, *args)
 
+
 def warn(msg, *args):
     if hasattr(logger, "_simulator"):
         logger.warn(f"[{logger._simulator.tc}] "+msg, *args)
     else:
         logger.warn(msg, *args)
+
 
 def critical(msg, *args):
     if hasattr(logger, "_simulator"):
@@ -43,7 +55,8 @@ def critical(msg, *args):
     else:
         logger.critical(msg, *args)
 
-def monitor(*args ,sep: str = ",", with_time: bool = False):
+
+def monitor(*args, sep: str = ",", with_time: bool = False):
     attrs = list(args)
     if with_time:
         attrs.insert(0, logger._simulator.tc)
