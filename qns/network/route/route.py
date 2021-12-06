@@ -3,8 +3,10 @@ from typing import List, Tuple
 from qns.entity import QNode
 from qns.entity.qchannel.qchannel import QuantumChannel
 
+
 class NetworkRouteError(Exception):
     pass
+
 
 class RouteImpl():
     """
@@ -18,7 +20,7 @@ class RouteImpl():
         """
         build static route tables for each nodes
         """
-        raise NotImplemented
+        raise NotImplementedError
 
     def query(self, src: QNode, dest: QNode) -> List[Tuple[float, QNode, List[QNode]]]:
         """
@@ -27,9 +29,9 @@ class RouteImpl():
         Args:
             src: the source node
             dest: the destination node
-        
+
         Returns:
-            A list of route paths. The result should be sortted by the perority.
+            A list of route paths. The result should be sortted by the priority.
             The element is a tuple containing: metric, the next-hop and the whole path.
         """
-        raise NotImplemented
+        raise NotImplementedError

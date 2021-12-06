@@ -1,5 +1,6 @@
 from typing import Dict
 
+
 class Request():
     """
     A request is a source-destination pair represents a quantum transmitting request.

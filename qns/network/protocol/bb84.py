@@ -1,14 +1,15 @@
-from qns.entity.cchannel.cchannel import ClassicChannel, RecvClassicPacket
+from qns.entity.cchannel.cchannel import ClassicChannel, RecvClassicPacket, ClassicPacket
 from qns.entity.node.app import Application
 from qns.entity.qchannel.qchannel import QuantumChannel, RecvQubitPacket
-from qns.entity import QNode
-from qns.models.qubit.const import BASIS_X, BASIS_Z
+from qns.entity.node.node import QNode
+from qns.models.qubit.const import BASIS_X, BASIS_Z, \
+    QUBIT_STATE_0, QUBIT_STATE_1, QUBIT_STATE_P, QUBIT_STATE_N
 from qns.simulator.event import Event, func_to_event
 from qns.simulator.simulator import Simulator
-from qns.models.qubit import Qubit, QUBIT_STATE_0, QUBIT_STATE_1, QUBIT_STATE_P, QUBIT_STATE_N
-from qns.entity import ClassicPacket
+from qns.models.qubit import Qubit
 
 from random import choice
+
 
 class QubitWithError(Qubit):
     def transfer_error_model(self, length: float, **kwargs):
@@ -16,9 +17,10 @@ class QubitWithError(Qubit):
         # R(self, np.pi /4)
         pass
 
-class BB84SendApp(Application):
 
-    def __init__(self, dest: QNode, qchannel: QuantumChannel, cchannel: ClassicChannel, send_rate=1000):
+class BB84SendApp(Application):
+    def __init__(self, dest: QNode, qchannel: QuantumChannel,
+                 cchannel: ClassicChannel, send_rate=1000):
         super().__init__()
         self.dest = dest
         self.qchannel = qchannel
@@ -60,7 +62,7 @@ class BB84SendApp(Application):
         id = msg.get("id")
         basis_dest = msg.get("basis")
 
-        qubit = self.qubit_list[id]
+        # qubit = self.qubit_list[id]
         basis_src = "Z" if (self.basis_list[id] == BASIS_Z).all() else "X"
 
         if basis_dest == basis_src:
@@ -82,7 +84,7 @@ class BB84SendApp(Application):
         qubit = QubitWithError(state=state)
         basis = BASIS_Z if (state == QUBIT_STATE_0).all() or (
             state == QUBIT_STATE_1).all() else BASIS_X
-        basis_msg = "Z" if (basis == BASIS_Z).all() else "X"
+        # basis_msg = "Z" if (basis == BASIS_Z).all() else "X"
 
         ret = 0 if (state == QUBIT_STATE_0).all() or (
             state == QUBIT_STATE_P).all() else 1
@@ -93,7 +95,8 @@ class BB84SendApp(Application):
         self.basis_list[qubit.id] = basis
         self.measure_list[qubit.id] = ret
 
-        # log.info(f"[{self._simulator.current_time}] send qubit {qubit.id}, basis: {basis_msg} , ret: {ret}")
+        # log.info(f"[{self._simulator.current_time}] send qubit {qubit.id},\
+        #  basis: {basis_msg} , ret: {ret}")
         self.qchannel.send(qubit=qubit, next_hop=self.dest)
 
         t = self._simulator.current_time + \
@@ -130,7 +133,7 @@ class BB84RecvApp(Application):
         id = msg.get("id")
         basis_src = msg.get("basis")
 
-        qubit = self.qubit_list[id]
+        # qubit = self.qubit_list[id]
         basis_dest = "Z" if (self.basis_list[id] == BASIS_Z).all() else "X"
 
         ret_dest = self.measure_list[id]
@@ -145,7 +148,7 @@ class BB84RecvApp(Application):
 
     def recv(self, event: RecvQubitPacket):
         qubit: Qubit = event.qubit
-        # randomly choise X,Z basis
+        # randomly choose X,Z basis
         basis = choice([BASIS_Z, BASIS_X])
         basis_msg = "Z" if (basis == BASIS_Z).all() else "X"
         ret = qubit.measureZ() if (basis == BASIS_Z).all() else qubit.measureX()
@@ -153,7 +156,8 @@ class BB84RecvApp(Application):
         self.basis_list[qubit.id] = basis
         self.measure_list[qubit.id] = ret
 
-        # log.info(f"[{self._simulator.current_time}] recv qubit {qubit.id},basis: {basis_msg}, ret: {ret}")
+        # log.info(f"[{self._simulator.current_time}] recv qubit {qubit.id}, \
+        # basis: {basis_msg}, ret: {ret}")
         packet = ClassicPacket(
             msg={"id": qubit.id, "basis": basis_msg}, src=self._node, dest=self.src)
         self.cchannel.send(packet, next_hop=self.src)

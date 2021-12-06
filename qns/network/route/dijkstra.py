@@ -2,18 +2,21 @@ from typing import Callable, Dict, List, Tuple
 
 from qns.entity.node.node import QNode
 from qns.entity.qchannel.qchannel import QuantumChannel
-from .route import RouteImpl, NetworkRouteError
+from qns.network.route.route import RouteImpl, NetworkRouteError
+
 
 class DijkstraRouteAlgorithm(RouteImpl):
     """
     This is the dijkstra route algorithm implement
     """
 
-    def __init__(self, name: str = "dijkstra", metric_func: Callable[[QuantumChannel], float] = None) -> None:
+    def __init__(self, name: str = "dijkstra",
+                 metric_func: Callable[[QuantumChannel], float] = None) -> None:
         """
         Args:
             name: the routing algorithm's name
-            metric_func: the function that returns the metric for each QuantumChannel. The default is the const function m(l)=1
+            metric_func: the function that returns the metric for each QuantumChannel.
+                The default is the const function m(l)=1
         """
         self.name = name
         self.route_table = {}
@@ -49,17 +52,17 @@ class DijkstraRouteAlgorithm(RouteImpl):
                 selected.append(ms)
                 unselected.remove(ms)
 
-                for l in qchannels:
-                    if ms not in l.node_list:
+                for link in qchannels:
+                    if ms not in link.node_list:
                         continue
-                    if len(l.node_list) < 2:
+                    if len(link.node_list) < 2:
                         raise NetworkRouteError("broken link")
-                    idx = l.node_list.index(ms)
+                    idx = link.node_list.index(ms)
                     idx_s = 1 - idx
-                    s = l.node_list[idx_s]
-                    if s in unselected and d[s][0] > d[ms][0] + self.metric_func(l):
-                        d[s] = [d[ms][0] + self.metric_func(l), [ms] + d[ms][1]]
-            
+                    s = link.node_list[idx_s]
+                    if s in unselected and d[s][0] > d[ms][0] + self.metric_func(link):
+                        d[s] = [d[ms][0] + self.metric_func(link), [ms] + d[ms][1]]
+
             for nn in nodes:
                 d[nn][1] = [nn] + d[nn][1]
             self.route_table[n] = d
@@ -71,9 +74,9 @@ class DijkstraRouteAlgorithm(RouteImpl):
         Args:
             src: the source node
             dest: the destination node
-        
+
         Returns:
-            A list of route paths. The result should be sortted by the perority.
+            A list of route paths. The result should be sortted by the priority.
             The element is a tuple containing: metric, the next-hop and the whole path.
         """
         ls: Dict[QNode, List[float, List[QNode]]] = self.route_table.get(src, None)
@@ -83,7 +86,7 @@ class DijkstraRouteAlgorithm(RouteImpl):
         if le is None:
             return []
         try:
-            metric =le[0]
+            metric = le[0]
             path: List[QNode] = le[1]
             path = path.copy()
             path.reverse()
@@ -92,5 +95,5 @@ class DijkstraRouteAlgorithm(RouteImpl):
             else:
                 next_hop = path[1]
                 return [(metric, next_hop, path)]
-        except:
+        except Exception:
             return []

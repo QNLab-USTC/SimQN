@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple
+from typing import Dict, List, Optional, Tuple
 from qns.entity import QNode, QuantumChannel, QuantumMemory, ClassicChannel
 from qns.network.topology import Topology
 from qns.network.route import RouteImpl, DijkstraRouteAlgorithm
@@ -8,12 +8,15 @@ import random
 from qns.network.topology.topo import ClassicTopology
 from qns.simulator.simulator import Simulator
 
+
 class QuantumNetwork(object):
     """
     QuantumNetwork includes several quantum nodes, channels and a special topology
     """
 
-    def __init__(self, topo: Optional[Topology] = None, route: Optional[RouteImpl] = None, classic_topo: Optional[ClassicTopology] = ClassicTopology.Empty, name: Optional[str] = None):
+    def __init__(self, topo: Optional[Topology] = None, route: Optional[RouteImpl] = None,
+                 classic_topo: Optional[ClassicTopology] = ClassicTopology.Empty,
+                 name: Optional[str] = None):
         """
         Args:
             topo: a `Topology` class. If topo is not None, a special quantum topology is built.
@@ -28,7 +31,8 @@ class QuantumNetwork(object):
         else:
             self.nodes, self.qchannels = topo.build()
             if classic_topo is not None:
-                self.cchannels = topo.add_cchannels(classic_topo = classic_topo, nl = self.nodes, ll = self.qchannels)
+                self.cchannels = topo.add_cchannels(classic_topo=classic_topo,
+                                                    nl=self.nodes, ll=self.qchannels)
             for n in self.nodes:
                 n.add_network(self)
 
@@ -47,16 +51,16 @@ class QuantumNetwork(object):
         '''
         for n in self.nodes:
             n.install(s)
-        
+
     def add_node(self, node: QNode):
         """
-        add a QNode into this netowrk.
+        add a QNode into this network.
 
         Args:
             node (QNode): the inserting node
         """
         self.nodes.append(node)
-        n.add_network(self)
+        node.add_network(self)
 
     def get_node(self, name: str):
         """
@@ -74,7 +78,7 @@ class QuantumNetwork(object):
 
     def add_qchannel(self, qchannel: QuantumChannel):
         """
-        add a QuantumChannel into this netowrk.
+        add a QuantumChannel into this network.
 
         Args:
             qchannel (QuantumChannel): the inserting QuantumChannel
@@ -97,13 +101,13 @@ class QuantumNetwork(object):
 
     def add_cchannel(self, cchannel: ClassicChannel):
         """
-        add a ClassicChannel into this netowrk.
+        add a ClassicChannel into this network.
 
         Args:
             cchannel (ClassicChannel): the inserting ClassicChannel
         """
         self.cchannels.append(cchannel)
-    
+
     def get_cchannel(self, name: str):
         """
         get the ClassicChannel by its name
@@ -127,7 +131,8 @@ class QuantumNetwork(object):
             store_error_model_args: the arguments for store_error_model
         """
         for idx, n in enumerate(self.nodes):
-            m = QuantumMemory(name=f"m{idx}", node = n, capacity = capacity, store_error_model_args = store_error_model_args)
+            m = QuantumMemory(name=f"m{idx}", node=n, capacity=capacity,
+                              store_error_model_args=store_error_model_args)
             n.add_memory(m)
 
     def build_route(self):
@@ -135,7 +140,7 @@ class QuantumNetwork(object):
         build static route tables for each nodes
         """
         self.route.build(self.nodes, self.qchannels)
-    
+
     def query_route(self, src: QNode, dest: QNode) -> List[Tuple[float, QNode, List[QNode]]]:
         """
         query the metric, nexthop and the path
@@ -143,9 +148,9 @@ class QuantumNetwork(object):
         Args:
             src: the source node
             dest: the destination node
-        
+
         Returns:
-            A list of route paths. The result should be sortted by the perority.
+            A list of route paths. The result should be sortted by the priority.
             The element is a tuple containing: metric, the next-hop and the whole path.
         """
         return self.route.query(src, dest)
@@ -159,11 +164,10 @@ class QuantumNetwork(object):
             dest: the destination node
             attr: other attributions
         """
-        req = Request(src = src, dest = dest, attr = attr)
+        req = Request(src=src, dest=dest, attr=attr)
         self.requests.append(req)
         src.add_request(req)
         dest.add_request(req)
-
 
     def random_requests(self, number: int, allow_overlay: bool = False, attr: Dict = {}):
         """
@@ -171,7 +175,7 @@ class QuantumNetwork(object):
 
         Args:
             number (int): the number of requests
-            allow_overlay (bool): allow a node to be the source or destination in mulitple requests
+            allow_overlay (bool): allow a node to be the source or destination in multiple requests
             attr (Dict): request attributions
         """
         used_nodes: List[int] = []
@@ -182,11 +186,11 @@ class QuantumNetwork(object):
 
         if not allow_overlay and number * 2 > nnodes:
             raise QNSNetworkError("Too many requests")
-        
+
         for n in self.nodes:
             n.clear_request()
         self.requests.clear()
- 
+
         for _ in range(number):
             while True:
                 src_idx = random.randint(0, nnodes - 1)
@@ -204,10 +208,11 @@ class QuantumNetwork(object):
 
             src = self.nodes[src_idx]
             dest = self.nodes[dest_idx]
-            req = Request(src = src, dest = dest, attr = attr)
+            req = Request(src=src, dest=dest, attr=attr)
             self.requests.append(req)
             src.add_request(req)
             dest.add_request(req)
+
 
 class QNSNetworkError(Exception):
     pass

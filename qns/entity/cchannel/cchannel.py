@@ -19,7 +19,7 @@ class ClassicPacket(object):
         """
         Args:
             msg (Union[str, bytes, Any]): the message content.
-                It can be a `str` or `bytes` type or can be jsonify
+                It can be a `str` or `bytes` type or can be dumpped to json.
             src (QNode): the source of this message
             dest (QNode): the destination of this message
         """
