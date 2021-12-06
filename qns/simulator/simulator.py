@@ -9,12 +9,15 @@ from . import ts
 default_start_second = 0.0
 default_end_second = 60.0
 
+
 class Simulator(object):
     """
     The discrete-event driven simulator core
     """
 
-    def __init__(self, start_second: float = default_start_second, end_second: float = default_end_second, accuracy: int = default_accuracy):
+    def __init__(self, start_second: float = default_start_second,
+                 end_second: float = default_end_second,
+                 accuracy: int = default_accuracy):
         """
         Args:
             start_second (float): the start second of the simulation
@@ -76,7 +79,7 @@ class Simulator(object):
         Run the simulate
         '''
         log.debug("simulation started.")
-        
+
         trs = time.time()
         event = self.event_pool.next_event()
         while event is not None:
@@ -87,13 +90,13 @@ class Simulator(object):
         tre = time.time()
         self.time_spend = tre - trs
         log.debug("simulation finished.")
-        
+
         if tre - trs == 0:
-            log.debug(
-                f"runtime {tre - trs}, {self.total_events} events, sim_time {self.te.sec - self.ts.sec}, xINF")
+            log.debug(f"runtime {tre - trs}, {self.total_events} events,\
+                sim_time {self.te.sec - self.ts.sec}, xINF")
         else:
-            log.debug(
-                f"runtime {tre - trs}, {self.total_events} events, sim_time {self.te.sec - self.ts.sec}, x{(self.te.sec - self.ts.sec)/(tre-trs)}")
+            log.debug(f"runtime {tre - trs}, {self.total_events} events,\
+                sim_time {self.te.sec - self.ts.sec}, x{(self.te.sec - self.ts.sec)/(tre-trs)}")
 
 
 class DefaultEventPool(object):
@@ -148,13 +151,3 @@ class DefaultEventPool(object):
             event = None
             self.tc = self.te
         return event
-
-        
-
-        
-
-        
-
-    
-
-    
