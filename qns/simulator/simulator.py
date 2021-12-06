@@ -1,8 +1,8 @@
 import heapq
 import time
 from typing import Optional
-from .ts import Time, default_accuracy
-from .event import Event
+from qns.simulator.ts import Time, default_accuracy
+from qns.simulator.event import Event
 import qns.utils.log as log
 from . import ts
 

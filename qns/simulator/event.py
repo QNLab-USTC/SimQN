@@ -1,6 +1,6 @@
 from typing import Optional
 
-from .ts import Time
+from qns.simulator.ts import Time
 
 
 class Event(object):

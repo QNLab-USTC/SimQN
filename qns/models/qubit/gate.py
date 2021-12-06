@@ -1,7 +1,9 @@
 import numpy as np
-from numpy.core.numeric import full
-from .const import *
+from qns.models.qubit.const import OPERATOR_HADAMARD, OPERATOR_PAULI_I,\
+     OPERATOR_PAULI_X, OPERATOR_PAULI_Y, OPERATOR_PAULI_Z, OPERATOR_PHASE_SHIFT,\
+     OPERATOR_S, OPERATOR_T
 from .qubit import QState, Qubit
+
 
 class QGateQubitNotInStateError(Exception):
     """
@@ -9,11 +11,13 @@ class QGateQubitNotInStateError(Exception):
     """
     pass
 
+
 class QGateOperatorNotMatchError(Exception):
     """
     This error happens when the size of state vector or matrix mismatch occurs
     """
     pass
+
 
 class QGateStateJointError(Exception):
     """
@@ -21,15 +25,16 @@ class QGateStateJointError(Exception):
     """
     pass
 
+
 def _single_gate_expand(qubit: Qubit, operator: np.ndarray) -> np.ndarray:
     state = qubit.state
-    if operator.shape != (2, 2):    
+    if operator.shape != (2, 2):
         raise QGateOperatorNotMatchError
-       
+
     # single qubit operate
     try:
         idx = state.qubits.index(qubit)
-    except:
+    except ValueError:
         raise QGateQubitNotInStateError
     full_operator = np.array([1])
     for i in range(state.num):
@@ -39,16 +44,19 @@ def _single_gate_expand(qubit: Qubit, operator: np.ndarray) -> np.ndarray:
             full_operator = np.kron(full_operator, OPERATOR_PAULI_I)
     return full_operator
 
+
 def joint(qubit1: Qubit, qubit2: Qubit) -> None:
     if qubit1.state == qubit2.state:
         return
     if len(set(qubit1.state.qubits) & set(qubit2.state.qubits)) > 0:
         raise QGateStateJointError
 
-    nq = QState(qubit1.state.qubits + qubit2.state.qubits, np.kron(qubit1.state.state, qubit2.state.state))
+    nq = QState(qubit1.state.qubits + qubit2.state.qubits,
+                np.kron(qubit1.state.state, qubit2.state.state))
     for q in nq.qubits:
         q.state = nq
     return
+
 
 def swap(qubit: Qubit, pos1: int, pos2: int) -> None:
     """
@@ -59,7 +67,9 @@ def swap(qubit: Qubit, pos1: int, pos2: int) -> None:
         pos1 (int): the first position
         pos2 (int): the second position
     """
-    tmp = qubit.state.state[pos1][0], qubit.state.state[pos2][0] = qubit.state.state[pos2][0], qubit.state.state[pos1][0]
+    qubit.state.state[pos1][0], qubit.state.state[pos2][0]\
+        = qubit.state.state[pos2][0], qubit.state.state[pos1][0]
+
 
 def X(qubit: Qubit) -> None:
     """
@@ -75,6 +85,7 @@ def X(qubit: Qubit) -> None:
     full_operation = _single_gate_expand(qubit, OPERATOR_PAULI_X)
     qubit.state.state = np.dot(full_operation, qubit.state.state)
 
+
 def Y(qubit: Qubit) -> None:
     """
     The pauli Y gate
@@ -88,6 +99,7 @@ def Y(qubit: Qubit) -> None:
     """
     full_operation = _single_gate_expand(qubit, OPERATOR_PAULI_Y)
     qubit.state.state = np.dot(full_operation, qubit.state.state)
+
 
 def Z(qubit: Qubit) -> None:
     """
@@ -103,6 +115,7 @@ def Z(qubit: Qubit) -> None:
     full_operation = _single_gate_expand(qubit, OPERATOR_PAULI_Z)
     qubit.state.state = np.dot(full_operation, qubit.state.state)
 
+
 def I(qubit: Qubit) -> None:
     """
     The pauli I gate (do nothing)
@@ -116,6 +129,7 @@ def I(qubit: Qubit) -> None:
     """
     full_operation = _single_gate_expand(qubit, OPERATOR_PAULI_I)
     qubit.state.state = np.dot(full_operation, qubit.state.state)
+
 
 def H(qubit: Qubit) -> None:
     """
@@ -131,6 +145,7 @@ def H(qubit: Qubit) -> None:
     full_operation = _single_gate_expand(qubit, OPERATOR_HADAMARD)
     qubit.state.state = np.dot(full_operation, qubit.state.state)
 
+
 def T(qubit: Qubit) -> None:
     """
     The T gate (pi/4 shift gate)
@@ -144,6 +159,7 @@ def T(qubit: Qubit) -> None:
     """
     full_operation = _single_gate_expand(qubit, OPERATOR_T)
     qubit.state.state = np.dot(full_operation, qubit.state.state)
+
 
 def S(qubit: Qubit) -> None:
     """
@@ -161,6 +177,7 @@ def S(qubit: Qubit) -> None:
     """
     full_operation = _single_gate_expand(qubit, OPERATOR_S)
     qubit.state.state = np.dot(full_operation, qubit.state.state)
+
 
 def R(qubit: Qubit, theta: float = np.pi / 4) -> None:
     """
@@ -180,6 +197,7 @@ def R(qubit: Qubit, theta: float = np.pi / 4) -> None:
     full_operation = _single_gate_expand(qubit, OPERATOR_PHASE_SHIFT(theta))
     qubit.state.state = np.dot(full_operation, qubit.state.state)
 
+
 def CNOT(qubit1: Qubit, qubit2: Qubit, operator: np.ndarray = OPERATOR_PAULI_X):
     """
     The R gate (phase shift gate):
@@ -189,7 +207,8 @@ def CNOT(qubit1: Qubit, qubit2: Qubit, operator: np.ndarray = OPERATOR_PAULI_X):
     Args:
         qubit1 (Qubit): the first qubit (controller)
         qubit2 (Qubit): the second qubit
-        operator (np.ndarray): the gate on the second qubit if the first qubit is 1 , default is pauli X (CNOT)
+        operator (np.ndarray): the gate on the second qubit if the first qubit is 1,
+            default is pauli X (CNOT)
 
     Raises:
         QGateOperatorNotMatchError
@@ -202,18 +221,18 @@ def CNOT(qubit1: Qubit, qubit2: Qubit, operator: np.ndarray = OPERATOR_PAULI_X):
 
     state = qubit1.state
 
-    if operator.shape != (2, 2):    
+    if operator.shape != (2, 2):
         raise QGateOperatorNotMatchError
-       
+
     # single qubit operate
     try:
         idx1 = state.qubits.index(qubit1)
         idx2 = state.qubits.index(qubit2)
-    except:
+    except ValueError:
         raise QGateQubitNotInStateError
 
-    full_operator_part_0 = np.array([1]) # |0> <0|
-    full_operator_part_1 = np.array([1]) # |1> <1|
+    full_operator_part_0 = np.array([1])  # |0> <0|
+    full_operator_part_1 = np.array([1])  # |1> <1|
 
     for i in range(state.num):
         if i == idx1:

@@ -1,11 +1,11 @@
-from qns.models.core import backend
-from qns.models import core
 from typing import List, Optional
 import numpy as np
 import random
 
-from .const import *
-from ..core.backend import QuantumModel
+from qns.models.qubit.const import QUBIT_STATE_0, QUBIT_STATE_1,\
+     QUBIT_STATE_P, QUBIT_STATE_N, OPERATOR_HADAMARD, QUBIT_STATE_L, QUBIT_STATE_R
+from qns.models.core.backend import QuantumModel
+
 
 class QStateSizeNotMatchError(Exception):
     """
@@ -13,8 +13,10 @@ class QStateSizeNotMatchError(Exception):
     """
     pass
 
+
 class QStateQubitNotInStateError(Exception):
     pass
+
 
 class OperatorNotMatchError(Exception):
     """
@@ -27,7 +29,7 @@ class QState(object):
     """
     QState is the state of one (or multiple) qubits
     """
-    def __init__(self, qubits: List["Qubit"] = [] ,state: Optional[List[complex]] = QUBIT_STATE_0):
+    def __init__(self, qubits: List["Qubit"] = [], state: Optional[List[complex]] = QUBIT_STATE_0):
         self.num = len(qubits)
 
         if len(state) != 2**self.num:
@@ -49,16 +51,16 @@ class QState(object):
             idx = self.qubits.index(qubit)
             shift = self.num - idx - 1
             assert(shift >= 0)
-        except:
+        except AssertionError:
             raise QStateQubitNotInStateError
-        
+
         set_0, set_1 = [], []
-        poss_0, poss_1 = 0, 0
-        for l in range(2**self.num):
-            if (l & (1<<shift)) > 0:
-                set_1.append(l)
+        poss_0, _ = 0, 0
+        for idx in range(2**self.num):
+            if (idx & (1 << shift)) > 0:
+                set_1.append(idx)
             else:
-                set_0.append(l)
+                set_0.append(idx)
 
         ns = self.state.copy()
         for i in set_0:
@@ -116,13 +118,14 @@ class QState(object):
             return f"<qubit {self.name}: {self.state}>"
         return str(self.state)
 
+
 class Qubit(QuantumModel):
     """
     Represent a qubit
     """
 
-    def __init__(self, state = QUBIT_STATE_0, name: Optional[str] = None):
-        """ 
+    def __init__(self, state=QUBIT_STATE_0, name: Optional[str] = None):
+        """
         Args:
             state (list): the initial state of a qubit, default is |0> = [1, 0]^T
             name (str): the qubit's name
@@ -162,7 +165,6 @@ class Qubit(QuantumModel):
             ret_s = QUBIT_STATE_N
         self.state.state = ret_s
         return ret
-
 
     def measureY(self):
         """
@@ -221,7 +223,7 @@ class Qubit(QuantumModel):
         The default behavior is doing nothing
 
         Args:
-            length (float): the length of the channel 
+            length (float): the length of the channel
             kwargs: other parameters
         """
         pass

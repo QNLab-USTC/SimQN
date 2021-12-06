@@ -1,1 +1,4 @@
-from .core.backend import QuantumModel
+from qns.models.core.backend import QuantumModel
+
+
+__all__ = [QuantumModel]

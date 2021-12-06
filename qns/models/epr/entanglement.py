@@ -2,15 +2,17 @@ from typing import List, Optional
 import numpy as np
 import random
 
-from ..core.backend import QuantumModel
-from ..qubit import H, X, Y, Z, CNOT, Qubit, QState, QUBIT_STATE_0, QUBIT_STATE_P
+from qns.models.core.backend import QuantumModel
+from qns.models.qubit.qubit import Qubit, QState
+from qns.models.qubit.gate import H, X, Y, Z, CNOT
+from qns.models.qubit.const import QUBIT_STATE_0, QUBIT_STATE_P
 
 
 class BaseEntanglement(object):
     """
     This is the base entanglement model
     """
-    def __init__(self, fidelity: float = 1 ,name: Optional[str] = None):
+    def __init__(self, fidelity: float = 1, name: Optional[str] = None):
         """
         generate an entanglement with certain fidelity
 
@@ -29,9 +31,9 @@ class BaseEntanglement(object):
         Args:
             epr (BaseEntanglement): another entanglement
         Returns:
-            the new distributed entnaglement
+            the new distributed entanglement
         """
-        raise NotImplemented
+        raise NotImplementedError
 
     def distillation(self, epr: "BaseEntanglement") -> "BaseEntanglement":
         """
@@ -42,7 +44,7 @@ class BaseEntanglement(object):
         Returns:
             the new distributed entnaglement
         """
-        raise NotImplemented
+        raise NotImplementedError
 
     def to_qubits(self) -> List[Qubit]:
         """
@@ -60,7 +62,7 @@ class BaseEntanglement(object):
         q1 = Qubit(state=QUBIT_STATE_0, name="q1")
         a = np.sqrt(self.fidelity/2)
         b = np.sqrt((1-self.fidelity)/2)
-        qs = QState([q0, q1], state =np.array([[a], [b], [b], [a]]))
+        qs = QState([q0, q1], state=np.array([[a], [b], [b], [a]]))
         q0.state = qs
         q1.state = qs
         return [q0, q1]
@@ -72,7 +74,7 @@ class BaseEntanglement(object):
         Args:
             epr (BaseEntanglement): another entanglement
         Returns:
-            the new distributed entnaglement
+            the new distributed entanglement
         """
         q1, q2 = self.to_qubits()
         CNOT(qubit, q1)
@@ -94,18 +96,19 @@ class BaseEntanglement(object):
             return f"<entanglement {self.name}>"
         return super().__repr__()
 
+
 class BellStateEntanglement(BaseEntanglement, QuantumModel):
     """
     `BellStateEntanglement` is the ideal max entangled qubits. Its fidelity is always 1.
     """
 
-    def __init__(self, fidelity: float = 1 ,name: Optional[str] = None, p_swap: float = 1):
-        super().__init__(fidelity=fidelity, name = name)
+    def __init__(self, fidelity: float = 1, name: Optional[str] = None, p_swap: float = 1):
+        super().__init__(fidelity=fidelity, name=name)
         self.p_swap = p_swap
 
     def swapping(self, epr: "BellStateEntanglement"):
         ne = BellStateEntanglement()
-        if self.is_decoherenced == True or epr.is_decoherenced == True:
+        if self.is_decoherenced or epr.is_decoherenced:
             ne.is_decoherenced = True
             ne.fidelity = 0
 
@@ -116,10 +119,10 @@ class BellStateEntanglement(BaseEntanglement, QuantumModel):
         epr.is_decoherenced = True
         self.is_decoherenced = True
         return ne
-    
+
     def distillation(self, epr: "BellStateEntanglement"):
         ne = BellStateEntanglement()
-        if self.is_decoherenced == True or epr.is_decoherenced == True:
+        if self.is_decoherenced or epr.is_decoherenced:
             ne.is_decoherenced = True
             ne.fidelity = 0
         epr.is_decoherenced = True
@@ -143,16 +146,17 @@ class BellStateEntanglement(BaseEntanglement, QuantumModel):
         The default behavior is doing nothing
 
         Args:
-            length (float): the length of the channel 
+            length (float): the length of the channel
             kwargs: other parameters
         """
         pass
+
 
 class WernerStateEntanglement(BaseEntanglement, QuantumModel):
     """
     `WernerStateEntanglement` is a pair of entangled qubits in Werner State with a hidden-variable.
     """
-    def __init__(self, fidelity: float = 1,name: Optional[str] = None):
+    def __init__(self, fidelity: float = 1, name: Optional[str] = None):
         """
         generate an entanglement with certain fidelity
 
@@ -182,8 +186,8 @@ class WernerStateEntanglement(BaseEntanglement, QuantumModel):
         Returns:
             the new distributed entanglement
         """
-        ne = WernerStateEntanglement(name = name)
-        if self.is_decoherenced == True or epr.is_decoherenced == True:
+        ne = WernerStateEntanglement(name=name)
+        if self.is_decoherenced or epr.is_decoherenced:
             ne.is_decoherenced = True
             ne.fidelity = 0
         epr.is_decoherenced = True
@@ -193,7 +197,7 @@ class WernerStateEntanglement(BaseEntanglement, QuantumModel):
             self.fidelity = 0.5
             self.is_decoherenced = True
         return ne
-    
+
     def distillation(self, epr: "BellStateEntanglement", name: Optional[str] = None):
         """
         Use `self` and `epr` to perfrom distillation and distribute a new entanglement.
@@ -206,7 +210,7 @@ class WernerStateEntanglement(BaseEntanglement, QuantumModel):
             the new distributed entanglement
         """
         ne = BellStateEntanglement()
-        if self.is_decoherenced == True or epr.is_decoherenced == True:
+        if self.is_decoherenced or epr.is_decoherenced:
             ne.is_decoherenced = True
             ne.fidelity = 0
         epr.is_decoherenced = True
@@ -233,11 +237,11 @@ class WernerStateEntanglement(BaseEntanglement, QuantumModel):
         The success possibility of transmitting is: p = 10^{-b*D}, default b = 0
 
         Args:
-            length (float): the length of the channel 
+            length (float): the length of the channel
             kwargs: other parameters
         """
         b = kwargs.get("b", 0)
-        r = random.random()        
+        r = random.random()
         if r <= 10**(-b * length):
             return
         self.fidelity = 0
