@@ -12,6 +12,14 @@ qns.utils.log module
    :undoc-members:
    :show-inheritance:
 
+qns.utils.random module
+-----------------------
+
+.. automodule:: qns.utils.random
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

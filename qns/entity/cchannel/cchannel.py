@@ -87,7 +87,7 @@ class ClassicChannel(Entity):
         ``install`` is called before ``simulator`` runs to initialize or set initial events
 
         Args:
-            simulator (Simulator): the simulator
+            simulator (qns.simulator.simulator.Simulator): the simulator
         '''
         if not self._is_installed:
             self._simulator = simulator
@@ -102,7 +102,8 @@ class ClassicChannel(Entity):
             packet (ClassicPacket): the packet
             next_hop (QNode): the next hop QNode
         Raises:
-            NextHopNotConnectionException: the next_hop is not connected to this channel
+            qns.entity.cchannel.cchannel.NextHopNotConnectionException:
+                the next_hop is not connected to this channel
         """
         if next_hop not in self.node_list:
             raise NextHopNotConnectionException

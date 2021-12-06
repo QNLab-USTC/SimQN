@@ -21,7 +21,7 @@ class Entity(object):
         ``install`` is called before ``simulator`` runs to initialize or set initial events
 
         Args:
-            simulator (Simulator): the simulator
+            simulator (qns.simulator.simulator.Simulator): the simulator
         '''
         if not self._is_installed:
             self._simulator = simulator
@@ -32,7 +32,7 @@ class Entity(object):
         ``handle`` is called to process an receiving ``Event``.
 
         Args:
-            event (Event): the event that send to this entity
+            event (qns.simulator.event.Event): the event that send to this entity
         '''
         raise NotImplementedError
 

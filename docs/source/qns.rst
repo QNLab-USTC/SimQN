@@ -8,7 +8,6 @@ Subpackages
    :maxdepth: 4
 
    qns.entity
-   qns.examples
    qns.models
    qns.network
    qns.simulator

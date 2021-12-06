@@ -5,6 +5,6 @@ from qns.network.topology import Topology, LineTopology, RandomTopology,\
 from qns.network.route.route import RouteImpl, NetworkRouteError
 from qns.network.route.dijkstra import DijkstraRouteAlgorithm
 
-__all__ = [QuantumNetwork, Request, Topology, LineTopology, NetworkRouteError,
-           RandomTopology, GridTopology, TreeTopology, BasicTopology,
-           RouteImpl, DijkstraRouteAlgorithm, QNSNetworkError]
+__all__ = ["QuantumNetwork", "Request", "Topology", "LineTopology", "NetworkRouteError",
+           "RandomTopology", "GridTopology", "TreeTopology", "BasicTopology",
+           "RouteImpl", "DijkstraRouteAlgorithm", "QNSNetworkError"]

@@ -47,7 +47,7 @@ class QuantumNetwork(object):
         install all nodes (including channels, memories and applications) in this network
 
         Args:
-            simulator (Simulator): the simulator
+            simulator (qns.simulator.simulator.Simulator): the simulator
         '''
         for n in self.nodes:
             n.install(s)
@@ -57,7 +57,7 @@ class QuantumNetwork(object):
         add a QNode into this network.
 
         Args:
-            node (QNode): the inserting node
+            node (qns.entity.node.node.QNode): the inserting node
         """
         self.nodes.append(node)
         node.add_network(self)
@@ -81,7 +81,7 @@ class QuantumNetwork(object):
         add a QuantumChannel into this network.
 
         Args:
-            qchannel (QuantumChannel): the inserting QuantumChannel
+            qchannel (qns.entity.qchannel.qchannel.QuantumChannel): the inserting QuantumChannel
         """
         self.qchannels.append(qchannel)
 
@@ -104,7 +104,7 @@ class QuantumNetwork(object):
         add a ClassicChannel into this network.
 
         Args:
-            cchannel (ClassicChannel): the inserting ClassicChannel
+            cchannel (qns.entity.cchannel.cchannel.ClassicChannel): the inserting ClassicChannel
         """
         self.cchannels.append(cchannel)
 

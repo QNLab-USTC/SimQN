@@ -22,6 +22,14 @@ qns.network.network module
    :undoc-members:
    :show-inheritance:
 
+qns.network.requests module
+---------------------------
+
+.. automodule:: qns.network.requests
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

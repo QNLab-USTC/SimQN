@@ -82,8 +82,8 @@ class Topology(object):
                 ClassicTopology.Empty -> no connection
                 ClassicTopology.All -> every nodes are connected directly
                 ClassicTopology.Follow -> follow the quantum topology
-            nl (List[QNode]): a list of quantum nodes
-            ll (List[QuantumChannel]): a list of quantum channels
+            nl (List[qns.entity.node.node.QNode]): a list of quantum nodes
+            ll (List[qns.entity.cchannel.cchannel.QuantumChannel]): a list of quantum channels
         """
         cchannel_list = []
         if classic_topo == ClassicTopology.All:
