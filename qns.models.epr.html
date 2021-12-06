@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en,zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>qns.models.epr package &mdash; QuantNetSim 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="qns.models.qubit package" href="qns.models.qubit.html" />
+    <link rel="prev" title="qns.models.core package" href="qns.models.core.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> QuantNetSim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">qns</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="qns.html">qns package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="qns.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="qns.entity.html">qns.entity package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="qns.models.html">qns.models package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.network.html">qns.network package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.simulator.html">qns.simulator package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.utils.html">qns.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qns.html#module-qns">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">QuantNetSim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">qns</a> &raquo;</li>
+          <li><a href="qns.html">qns package</a> &raquo;</li>
+          <li><a href="qns.models.html">qns.models package</a> &raquo;</li>
+      <li>qns.models.epr package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/qns.models.epr.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="qns-models-epr-package">
+<h1>qns.models.epr package<a class="headerlink" href="#qns-models-epr-package" title="Permalink to this headline"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-qns.models.epr.entanglement">
+<span id="qns-models-epr-entanglement-module"></span><h2>qns.models.epr.entanglement module<a class="headerlink" href="#module-qns.models.epr.entanglement" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.models.epr.entanglement.BaseEntanglement">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.models.epr.entanglement.</span></span><span class="sig-name descname"><span class="pre">BaseEntanglement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fidelity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#BaseEntanglement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.entanglement.BaseEntanglement" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This is the base entanglement model</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.entanglement.BaseEntanglement.distillation">
+<span class="sig-name descname"><span class="pre">distillation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.epr.entanglement.BaseEntanglement" title="qns.models.epr.entanglement.BaseEntanglement"><span class="pre">qns.models.epr.entanglement.BaseEntanglement</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#qns.models.epr.entanglement.BaseEntanglement" title="qns.models.epr.entanglement.BaseEntanglement"><span class="pre">qns.models.epr.entanglement.BaseEntanglement</span></a></span></span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#BaseEntanglement.distillation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.entanglement.BaseEntanglement.distillation" title="Permalink to this definition"></a></dt>
+<dd><p>Use <cite>self</cite> and <cite>epr</cite> to perfrom distillation and distribute a new entanglement</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>epr</strong> (<a class="reference internal" href="#qns.models.epr.entanglement.BaseEntanglement" title="qns.models.epr.entanglement.BaseEntanglement"><em>BaseEntanglement</em></a>) -- another entanglement</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the new distributed entanglement</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.entanglement.BaseEntanglement.swapping">
+<span class="sig-name descname"><span class="pre">swapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.epr.entanglement.BaseEntanglement" title="qns.models.epr.entanglement.BaseEntanglement"><span class="pre">qns.models.epr.entanglement.BaseEntanglement</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#qns.models.epr.entanglement.BaseEntanglement" title="qns.models.epr.entanglement.BaseEntanglement"><span class="pre">qns.models.epr.entanglement.BaseEntanglement</span></a></span></span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#BaseEntanglement.swapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.entanglement.BaseEntanglement.swapping" title="Permalink to this definition"></a></dt>
+<dd><p>Use <cite>self</cite> and <cite>epr</cite> to perfrom swapping and distribute a new entanglement</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>epr</strong> (<a class="reference internal" href="#qns.models.epr.entanglement.BaseEntanglement" title="qns.models.epr.entanglement.BaseEntanglement"><em>BaseEntanglement</em></a>) -- another entanglement</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the new distributed entanglement</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.entanglement.BaseEntanglement.teleportion">
+<span class="sig-name descname"><span class="pre">teleportion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.models.qubit.html#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="qns.models.qubit.html#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#BaseEntanglement.teleportion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.entanglement.BaseEntanglement.teleportion" title="Permalink to this definition"></a></dt>
+<dd><p>Use <cite>self</cite> and <cite>epr</cite> to perfrom distillation and distribute a new entanglement</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>epr</strong> (<a class="reference internal" href="#qns.models.epr.entanglement.BaseEntanglement" title="qns.models.epr.entanglement.BaseEntanglement"><em>BaseEntanglement</em></a>) -- another entanglement</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the new distributed entanglement</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.entanglement.BaseEntanglement.to_qubits">
+<span class="sig-name descname"><span class="pre">to_qubits</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.models.qubit.html#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#BaseEntanglement.to_qubits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.entanglement.BaseEntanglement.to_qubits" title="Permalink to this definition"></a></dt>
+<dd><p>Transport the entanglement into a pair of qubits based on the fidelity.
+Suppose the first qubit is [1/sqrt(2), 1/sqrt(2)].H</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of two qubits</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.models.epr.entanglement.BellStateEntanglement">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.models.epr.entanglement.</span></span><span class="sig-name descname"><span class="pre">BellStateEntanglement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fidelity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_swap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#BellStateEntanglement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.entanglement.BellStateEntanglement" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qns.models.epr.entanglement.BaseEntanglement" title="qns.models.epr.entanglement.BaseEntanglement"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.models.epr.entanglement.BaseEntanglement</span></code></a>, <a class="reference internal" href="qns.models.core.html#qns.models.core.backend.QuantumModel" title="qns.models.core.backend.QuantumModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.models.core.backend.QuantumModel</span></code></a></p>
+<p><cite>BellStateEntanglement</cite> is the ideal max entangled qubits. Its fidelity is always 1.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.entanglement.BellStateEntanglement.distillation">
+<span class="sig-name descname"><span class="pre">distillation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.epr.entanglement.BellStateEntanglement" title="qns.models.epr.entanglement.BellStateEntanglement"><span class="pre">qns.models.epr.entanglement.BellStateEntanglement</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#BellStateEntanglement.distillation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.entanglement.BellStateEntanglement.distillation" title="Permalink to this definition"></a></dt>
+<dd><p>Use <cite>self</cite> and <cite>epr</cite> to perfrom distillation and distribute a new entanglement</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>epr</strong> (<a class="reference internal" href="#qns.models.epr.entanglement.BaseEntanglement" title="qns.models.epr.entanglement.BaseEntanglement"><em>BaseEntanglement</em></a>) -- another entanglement</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the new distributed entanglement</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.entanglement.BellStateEntanglement.storage_error_model">
+<span class="sig-name descname"><span class="pre">storage_error_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#BellStateEntanglement.storage_error_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.entanglement.BellStateEntanglement.storage_error_model" title="Permalink to this definition"></a></dt>
+<dd><p>The default error model for storing this entangled pair in a quantum memory.
+The default behavior is doing nothing</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t</strong> -- the time stored in a quantum memory. The unit it second.</p></li>
+<li><p><strong>kwargs</strong> -- other parameters</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.entanglement.BellStateEntanglement.swapping">
+<span class="sig-name descname"><span class="pre">swapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.epr.entanglement.BellStateEntanglement" title="qns.models.epr.entanglement.BellStateEntanglement"><span class="pre">qns.models.epr.entanglement.BellStateEntanglement</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#BellStateEntanglement.swapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.entanglement.BellStateEntanglement.swapping" title="Permalink to this definition"></a></dt>
+<dd><p>Use <cite>self</cite> and <cite>epr</cite> to perfrom swapping and distribute a new entanglement</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>epr</strong> (<a class="reference internal" href="#qns.models.epr.entanglement.BaseEntanglement" title="qns.models.epr.entanglement.BaseEntanglement"><em>BaseEntanglement</em></a>) -- another entanglement</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the new distributed entanglement</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.entanglement.BellStateEntanglement.transfer_error_model">
+<span class="sig-name descname"><span class="pre">transfer_error_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#BellStateEntanglement.transfer_error_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.entanglement.BellStateEntanglement.transfer_error_model" title="Permalink to this definition"></a></dt>
+<dd><p>The default error model for transmitting this entanglement.
+The default behavior is doing nothing</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>length</strong> (<em>float</em>) -- the length of the channel</p></li>
+<li><p><strong>kwargs</strong> -- other parameters</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.models.epr.entanglement.WernerStateEntanglement">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.models.epr.entanglement.</span></span><span class="sig-name descname"><span class="pre">WernerStateEntanglement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fidelity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#WernerStateEntanglement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.entanglement.WernerStateEntanglement" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qns.models.epr.entanglement.BaseEntanglement" title="qns.models.epr.entanglement.BaseEntanglement"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.models.epr.entanglement.BaseEntanglement</span></code></a>, <a class="reference internal" href="qns.models.core.html#qns.models.core.backend.QuantumModel" title="qns.models.core.backend.QuantumModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.models.core.backend.QuantumModel</span></code></a></p>
+<p><cite>WernerStateEntanglement</cite> is a pair of entangled qubits in Werner State with a hidden-variable.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.entanglement.WernerStateEntanglement.distillation">
+<span class="sig-name descname"><span class="pre">distillation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.epr.entanglement.BellStateEntanglement" title="qns.models.epr.entanglement.BellStateEntanglement"><span class="pre">qns.models.epr.entanglement.BellStateEntanglement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#WernerStateEntanglement.distillation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.entanglement.WernerStateEntanglement.distillation" title="Permalink to this definition"></a></dt>
+<dd><p>Use <cite>self</cite> and <cite>epr</cite> to perfrom distillation and distribute a new entanglement.
+Using Bennett 96 protocol and estimate lower bound.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>epr</strong> (<a class="reference internal" href="#qns.models.epr.entanglement.BaseEntanglement" title="qns.models.epr.entanglement.BaseEntanglement"><em>BaseEntanglement</em></a>) -- another entanglement</p></li>
+<li><p><strong>name</strong> (<em>str</em>) -- the name of the new entanglement</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the new distributed entanglement</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="qns.models.epr.entanglement.WernerStateEntanglement.fidelity">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fidelity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#qns.models.epr.entanglement.WernerStateEntanglement.fidelity" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.entanglement.WernerStateEntanglement.storage_error_model">
+<span class="sig-name descname"><span class="pre">storage_error_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#WernerStateEntanglement.storage_error_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.entanglement.WernerStateEntanglement.storage_error_model" title="Permalink to this definition"></a></dt>
+<dd><p>The default error model for storing this entangled pair in a quantum memory.
+The default behavior is: w = w*e^{-a*t}, default a = 0</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t</strong> -- the time stored in a quantum memory. The unit it second.</p></li>
+<li><p><strong>kwargs</strong> -- other parameters</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.entanglement.WernerStateEntanglement.swapping">
+<span class="sig-name descname"><span class="pre">swapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.epr.entanglement.WernerStateEntanglement" title="qns.models.epr.entanglement.WernerStateEntanglement"><span class="pre">qns.models.epr.entanglement.WernerStateEntanglement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#WernerStateEntanglement.swapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.entanglement.WernerStateEntanglement.swapping" title="Permalink to this definition"></a></dt>
+<dd><p>Use <cite>self</cite> and <cite>epr</cite> to perfrom swapping and distribute a new entanglement</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>epr</strong> (<a class="reference internal" href="#qns.models.epr.entanglement.BaseEntanglement" title="qns.models.epr.entanglement.BaseEntanglement"><em>BaseEntanglement</em></a>) -- another entanglement</p></li>
+<li><p><strong>name</strong> (<em>str</em>) -- the name of the new entanglement</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the new distributed entanglement</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.entanglement.WernerStateEntanglement.transfer_error_model">
+<span class="sig-name descname"><span class="pre">transfer_error_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#WernerStateEntanglement.transfer_error_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.entanglement.WernerStateEntanglement.transfer_error_model" title="Permalink to this definition"></a></dt>
+<dd><p>The default error model for transmitting this entanglement.
+The success possibility of transmitting is: p = 10^{-b*D}, default b = 0</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>length</strong> (<em>float</em>) -- the length of the channel</p></li>
+<li><p><strong>kwargs</strong> -- other parameters</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-qns.models.epr">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qns.models.epr" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.models.epr.BaseEntanglement">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.models.epr.</span></span><span class="sig-name descname"><span class="pre">BaseEntanglement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fidelity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#BaseEntanglement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.BaseEntanglement" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This is the base entanglement model</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.BaseEntanglement.distillation">
+<span class="sig-name descname"><span class="pre">distillation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.epr.entanglement.BaseEntanglement" title="qns.models.epr.entanglement.BaseEntanglement"><span class="pre">qns.models.epr.entanglement.BaseEntanglement</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#qns.models.epr.entanglement.BaseEntanglement" title="qns.models.epr.entanglement.BaseEntanglement"><span class="pre">qns.models.epr.entanglement.BaseEntanglement</span></a></span></span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#BaseEntanglement.distillation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.BaseEntanglement.distillation" title="Permalink to this definition"></a></dt>
+<dd><p>Use <cite>self</cite> and <cite>epr</cite> to perfrom distillation and distribute a new entanglement</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>epr</strong> (<a class="reference internal" href="#qns.models.epr.BaseEntanglement" title="qns.models.epr.BaseEntanglement"><em>BaseEntanglement</em></a>) -- another entanglement</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the new distributed entanglement</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.BaseEntanglement.swapping">
+<span class="sig-name descname"><span class="pre">swapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.epr.entanglement.BaseEntanglement" title="qns.models.epr.entanglement.BaseEntanglement"><span class="pre">qns.models.epr.entanglement.BaseEntanglement</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#qns.models.epr.entanglement.BaseEntanglement" title="qns.models.epr.entanglement.BaseEntanglement"><span class="pre">qns.models.epr.entanglement.BaseEntanglement</span></a></span></span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#BaseEntanglement.swapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.BaseEntanglement.swapping" title="Permalink to this definition"></a></dt>
+<dd><p>Use <cite>self</cite> and <cite>epr</cite> to perfrom swapping and distribute a new entanglement</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>epr</strong> (<a class="reference internal" href="#qns.models.epr.BaseEntanglement" title="qns.models.epr.BaseEntanglement"><em>BaseEntanglement</em></a>) -- another entanglement</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the new distributed entanglement</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.BaseEntanglement.teleportion">
+<span class="sig-name descname"><span class="pre">teleportion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.models.qubit.html#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="qns.models.qubit.html#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#BaseEntanglement.teleportion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.BaseEntanglement.teleportion" title="Permalink to this definition"></a></dt>
+<dd><p>Use <cite>self</cite> and <cite>epr</cite> to perfrom distillation and distribute a new entanglement</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>epr</strong> (<a class="reference internal" href="#qns.models.epr.BaseEntanglement" title="qns.models.epr.BaseEntanglement"><em>BaseEntanglement</em></a>) -- another entanglement</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the new distributed entanglement</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.BaseEntanglement.to_qubits">
+<span class="sig-name descname"><span class="pre">to_qubits</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.models.qubit.html#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#BaseEntanglement.to_qubits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.BaseEntanglement.to_qubits" title="Permalink to this definition"></a></dt>
+<dd><p>Transport the entanglement into a pair of qubits based on the fidelity.
+Suppose the first qubit is [1/sqrt(2), 1/sqrt(2)].H</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of two qubits</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.models.epr.BellStateEntanglement">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.models.epr.</span></span><span class="sig-name descname"><span class="pre">BellStateEntanglement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fidelity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_swap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#BellStateEntanglement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.BellStateEntanglement" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qns.models.epr.entanglement.BaseEntanglement" title="qns.models.epr.entanglement.BaseEntanglement"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.models.epr.entanglement.BaseEntanglement</span></code></a>, <a class="reference internal" href="qns.models.core.html#qns.models.core.backend.QuantumModel" title="qns.models.core.backend.QuantumModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.models.core.backend.QuantumModel</span></code></a></p>
+<p><cite>BellStateEntanglement</cite> is the ideal max entangled qubits. Its fidelity is always 1.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.BellStateEntanglement.distillation">
+<span class="sig-name descname"><span class="pre">distillation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.epr.entanglement.BellStateEntanglement" title="qns.models.epr.entanglement.BellStateEntanglement"><span class="pre">qns.models.epr.entanglement.BellStateEntanglement</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#BellStateEntanglement.distillation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.BellStateEntanglement.distillation" title="Permalink to this definition"></a></dt>
+<dd><p>Use <cite>self</cite> and <cite>epr</cite> to perfrom distillation and distribute a new entanglement</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>epr</strong> (<a class="reference internal" href="#qns.models.epr.BaseEntanglement" title="qns.models.epr.BaseEntanglement"><em>BaseEntanglement</em></a>) -- another entanglement</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the new distributed entanglement</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.BellStateEntanglement.storage_error_model">
+<span class="sig-name descname"><span class="pre">storage_error_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#BellStateEntanglement.storage_error_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.BellStateEntanglement.storage_error_model" title="Permalink to this definition"></a></dt>
+<dd><p>The default error model for storing this entangled pair in a quantum memory.
+The default behavior is doing nothing</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t</strong> -- the time stored in a quantum memory. The unit it second.</p></li>
+<li><p><strong>kwargs</strong> -- other parameters</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.BellStateEntanglement.swapping">
+<span class="sig-name descname"><span class="pre">swapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.epr.entanglement.BellStateEntanglement" title="qns.models.epr.entanglement.BellStateEntanglement"><span class="pre">qns.models.epr.entanglement.BellStateEntanglement</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#BellStateEntanglement.swapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.BellStateEntanglement.swapping" title="Permalink to this definition"></a></dt>
+<dd><p>Use <cite>self</cite> and <cite>epr</cite> to perfrom swapping and distribute a new entanglement</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>epr</strong> (<a class="reference internal" href="#qns.models.epr.BaseEntanglement" title="qns.models.epr.BaseEntanglement"><em>BaseEntanglement</em></a>) -- another entanglement</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the new distributed entanglement</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.BellStateEntanglement.transfer_error_model">
+<span class="sig-name descname"><span class="pre">transfer_error_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#BellStateEntanglement.transfer_error_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.BellStateEntanglement.transfer_error_model" title="Permalink to this definition"></a></dt>
+<dd><p>The default error model for transmitting this entanglement.
+The default behavior is doing nothing</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>length</strong> (<em>float</em>) -- the length of the channel</p></li>
+<li><p><strong>kwargs</strong> -- other parameters</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.models.epr.WernerStateEntanglement">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.models.epr.</span></span><span class="sig-name descname"><span class="pre">WernerStateEntanglement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fidelity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#WernerStateEntanglement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.WernerStateEntanglement" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qns.models.epr.entanglement.BaseEntanglement" title="qns.models.epr.entanglement.BaseEntanglement"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.models.epr.entanglement.BaseEntanglement</span></code></a>, <a class="reference internal" href="qns.models.core.html#qns.models.core.backend.QuantumModel" title="qns.models.core.backend.QuantumModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.models.core.backend.QuantumModel</span></code></a></p>
+<p><cite>WernerStateEntanglement</cite> is a pair of entangled qubits in Werner State with a hidden-variable.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.WernerStateEntanglement.distillation">
+<span class="sig-name descname"><span class="pre">distillation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.epr.entanglement.BellStateEntanglement" title="qns.models.epr.entanglement.BellStateEntanglement"><span class="pre">qns.models.epr.entanglement.BellStateEntanglement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#WernerStateEntanglement.distillation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.WernerStateEntanglement.distillation" title="Permalink to this definition"></a></dt>
+<dd><p>Use <cite>self</cite> and <cite>epr</cite> to perfrom distillation and distribute a new entanglement.
+Using Bennett 96 protocol and estimate lower bound.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>epr</strong> (<a class="reference internal" href="#qns.models.epr.BaseEntanglement" title="qns.models.epr.BaseEntanglement"><em>BaseEntanglement</em></a>) -- another entanglement</p></li>
+<li><p><strong>name</strong> (<em>str</em>) -- the name of the new entanglement</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the new distributed entanglement</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="qns.models.epr.WernerStateEntanglement.fidelity">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fidelity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#qns.models.epr.WernerStateEntanglement.fidelity" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.WernerStateEntanglement.storage_error_model">
+<span class="sig-name descname"><span class="pre">storage_error_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#WernerStateEntanglement.storage_error_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.WernerStateEntanglement.storage_error_model" title="Permalink to this definition"></a></dt>
+<dd><p>The default error model for storing this entangled pair in a quantum memory.
+The default behavior is: w = w*e^{-a*t}, default a = 0</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t</strong> -- the time stored in a quantum memory. The unit it second.</p></li>
+<li><p><strong>kwargs</strong> -- other parameters</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.WernerStateEntanglement.swapping">
+<span class="sig-name descname"><span class="pre">swapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.epr.entanglement.WernerStateEntanglement" title="qns.models.epr.entanglement.WernerStateEntanglement"><span class="pre">qns.models.epr.entanglement.WernerStateEntanglement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#WernerStateEntanglement.swapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.WernerStateEntanglement.swapping" title="Permalink to this definition"></a></dt>
+<dd><p>Use <cite>self</cite> and <cite>epr</cite> to perfrom swapping and distribute a new entanglement</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>epr</strong> (<a class="reference internal" href="#qns.models.epr.BaseEntanglement" title="qns.models.epr.BaseEntanglement"><em>BaseEntanglement</em></a>) -- another entanglement</p></li>
+<li><p><strong>name</strong> (<em>str</em>) -- the name of the new entanglement</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the new distributed entanglement</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.epr.WernerStateEntanglement.transfer_error_model">
+<span class="sig-name descname"><span class="pre">transfer_error_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/entanglement.html#WernerStateEntanglement.transfer_error_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.WernerStateEntanglement.transfer_error_model" title="Permalink to this definition"></a></dt>
+<dd><p>The default error model for transmitting this entanglement.
+The success possibility of transmitting is: p = 10^{-b*D}, default b = 0</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>length</strong> (<em>float</em>) -- the length of the channel</p></li>
+<li><p><strong>kwargs</strong> -- other parameters</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="qns.models.core.html" class="btn btn-neutral float-left" title="qns.models.core package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="qns.models.qubit.html" class="btn btn-neutral float-right" title="qns.models.qubit package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Elliot Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

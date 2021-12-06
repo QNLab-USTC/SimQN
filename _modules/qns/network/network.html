@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en,zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>qns.network.network &mdash; QuantNetSim 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> QuantNetSim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">qns</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">QuantNetSim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>qns.network.network</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for qns.network.network</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">qns.entity</span> <span class="kn">import</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">QuantumChannel</span><span class="p">,</span> <span class="n">QuantumMemory</span><span class="p">,</span> <span class="n">ClassicChannel</span>
+<span class="kn">from</span> <span class="nn">qns.network.topology</span> <span class="kn">import</span> <span class="n">Topology</span>
+<span class="kn">from</span> <span class="nn">qns.network.route</span> <span class="kn">import</span> <span class="n">RouteImpl</span><span class="p">,</span> <span class="n">DijkstraRouteAlgorithm</span>
+<span class="kn">from</span> <span class="nn">qns.network.requests</span> <span class="kn">import</span> <span class="n">Request</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="kn">from</span> <span class="nn">qns.network.topology.topo</span> <span class="kn">import</span> <span class="n">ClassicTopology</span>
+<span class="kn">from</span> <span class="nn">qns.simulator.simulator</span> <span class="kn">import</span> <span class="n">Simulator</span>
+
+
+<div class="viewcode-block" id="QuantumNetwork"><a class="viewcode-back" href="../../../qns.network.html#qns.network.network.QuantumNetwork">[docs]</a><span class="k">class</span> <span class="nc">QuantumNetwork</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    QuantumNetwork includes several quantum nodes, channels and a special topology</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topo</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Topology</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">route</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">RouteImpl</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">classic_topo</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ClassicTopology</span><span class="p">]</span> <span class="o">=</span> <span class="n">ClassicTopology</span><span class="o">.</span><span class="n">Empty</span><span class="p">,</span>
+                 <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            topo: a `Topology` class. If topo is not None, a special quantum topology is built.</span>
+<span class="sd">            route: the route implement. If route is None, the dijkstra algorithm will be used</span>
+<span class="sd">            classic_topo (ClassicTopo): a `ClassicTopo` enum class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cchannels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ClassicChannel</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">topo</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">qchannels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QuantumChannel</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">qchannels</span> <span class="o">=</span> <span class="n">topo</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">classic_topo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cchannels</span> <span class="o">=</span> <span class="n">topo</span><span class="o">.</span><span class="n">add_cchannels</span><span class="p">(</span><span class="n">classic_topo</span><span class="o">=</span><span class="n">classic_topo</span><span class="p">,</span>
+                                                    <span class="n">nl</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">,</span> <span class="n">ll</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qchannels</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                <span class="n">n</span><span class="o">.</span><span class="n">add_network</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">route</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">route</span><span class="p">:</span> <span class="n">RouteImpl</span> <span class="o">=</span> <span class="n">DijkstraRouteAlgorithm</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">route</span><span class="p">:</span> <span class="n">RouteImpl</span> <span class="o">=</span> <span class="n">route</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">requests</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Request</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="QuantumNetwork.install"><a class="viewcode-back" href="../../../qns.network.html#qns.network.network.QuantumNetwork.install">[docs]</a>    <span class="k">def</span> <span class="nf">install</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="n">Simulator</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        install all nodes (including channels, memories and applications) in this network</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            simulator (qns.simulator.simulator.Simulator): the simulator</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+            <span class="n">n</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QuantumNetwork.add_node"><a class="viewcode-back" href="../../../qns.network.html#qns.network.network.QuantumNetwork.add_node">[docs]</a>    <span class="k">def</span> <span class="nf">add_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">QNode</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        add a QNode into this network.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            node (qns.entity.node.node.QNode): the inserting node</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="n">node</span><span class="o">.</span><span class="n">add_network</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QuantumNetwork.get_node"><a class="viewcode-back" href="../../../qns.network.html#qns.network.network.QuantumNetwork.get_node">[docs]</a>    <span class="k">def</span> <span class="nf">get_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the QNode by its name</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): its name</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            the QNode</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">n</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">n</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="QuantumNetwork.add_qchannel"><a class="viewcode-back" href="../../../qns.network.html#qns.network.network.QuantumNetwork.add_qchannel">[docs]</a>    <span class="k">def</span> <span class="nf">add_qchannel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qchannel</span><span class="p">:</span> <span class="n">QuantumChannel</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        add a QuantumChannel into this network.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            qchannel (qns.entity.qchannel.qchannel.QuantumChannel): the inserting QuantumChannel</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qchannels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">qchannel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QuantumNetwork.get_qchannel"><a class="viewcode-back" href="../../../qns.network.html#qns.network.network.QuantumNetwork.get_qchannel">[docs]</a>    <span class="k">def</span> <span class="nf">get_qchannel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the QuantumChannel by its name</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): its name</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            the QuantumChannel</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">qchannels</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">n</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">n</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="QuantumNetwork.add_cchannel"><a class="viewcode-back" href="../../../qns.network.html#qns.network.network.QuantumNetwork.add_cchannel">[docs]</a>    <span class="k">def</span> <span class="nf">add_cchannel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cchannel</span><span class="p">:</span> <span class="n">ClassicChannel</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        add a ClassicChannel into this network.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cchannel (qns.entity.cchannel.cchannel.ClassicChannel): the inserting ClassicChannel</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cchannels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cchannel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QuantumNetwork.get_cchannel"><a class="viewcode-back" href="../../../qns.network.html#qns.network.network.QuantumNetwork.get_cchannel">[docs]</a>    <span class="k">def</span> <span class="nf">get_cchannel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the ClassicChannel by its name</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): its name</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            the ClassicChannel</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cchannels</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">n</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">n</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="QuantumNetwork.add_memories"><a class="viewcode-back" href="../../../qns.network.html#qns.network.network.QuantumNetwork.add_memories">[docs]</a>    <span class="k">def</span> <span class="nf">add_memories</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">capacity</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">store_error_model_args</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add quantum memories to every nodes in this network</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            capacity (int): the capacity of the quantum memory</span>
+<span class="sd">            store_error_model_args: the arguments for store_error_model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">):</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">QuantumMemory</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;m</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">capacity</span><span class="o">=</span><span class="n">capacity</span><span class="p">,</span>
+                              <span class="n">store_error_model_args</span><span class="o">=</span><span class="n">store_error_model_args</span><span class="p">)</span>
+            <span class="n">n</span><span class="o">.</span><span class="n">add_memory</span><span class="p">(</span><span class="n">m</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QuantumNetwork.build_route"><a class="viewcode-back" href="../../../qns.network.html#qns.network.network.QuantumNetwork.build_route">[docs]</a>    <span class="k">def</span> <span class="nf">build_route</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        build static route tables for each nodes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">route</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">qchannels</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QuantumNetwork.query_route"><a class="viewcode-back" href="../../../qns.network.html#qns.network.network.QuantumNetwork.query_route">[docs]</a>    <span class="k">def</span> <span class="nf">query_route</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">dest</span><span class="p">:</span> <span class="n">QNode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">]]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        query the metric, nexthop and the path</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            src: the source node</span>
+<span class="sd">            dest: the destination node</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of route paths. The result should be sortted by the priority.</span>
+<span class="sd">            The element is a tuple containing: metric, the next-hop and the whole path.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">route</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QuantumNetwork.add_request"><a class="viewcode-back" href="../../../qns.network.html#qns.network.network.QuantumNetwork.add_request">[docs]</a>    <span class="k">def</span> <span class="nf">add_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">dest</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a request (SD-pair) to the network</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            src: the source node</span>
+<span class="sd">            dest: the destination node</span>
+<span class="sd">            attr: other attributions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">dest</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="n">attr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">requests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+        <span class="n">src</span><span class="o">.</span><span class="n">add_request</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+        <span class="n">dest</span><span class="o">.</span><span class="n">add_request</span><span class="p">(</span><span class="n">req</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QuantumNetwork.random_requests"><a class="viewcode-back" href="../../../qns.network.html#qns.network.network.QuantumNetwork.random_requests">[docs]</a>    <span class="k">def</span> <span class="nf">random_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">allow_overlay</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate random requests</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            number (int): the number of requests</span>
+<span class="sd">            allow_overlay (bool): allow a node to be the source or destination in multiple requests</span>
+<span class="sd">            attr (Dict): request attributions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">used_nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">nnodes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QNSNetworkError</span><span class="p">(</span><span class="s2">&quot;number of requests should be large than 1&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">allow_overlay</span> <span class="ow">and</span> <span class="n">number</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">&gt;</span> <span class="n">nnodes</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QNSNetworkError</span><span class="p">(</span><span class="s2">&quot;Too many requests&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+            <span class="n">n</span><span class="o">.</span><span class="n">clear_request</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">requests</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">src_idx</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nnodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">dest_idx</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nnodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">src_idx</span> <span class="o">==</span> <span class="n">dest_idx</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">allow_overlay</span> <span class="ow">and</span> <span class="n">src_idx</span> <span class="ow">in</span> <span class="n">used_nodes</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">allow_overlay</span> <span class="ow">and</span> <span class="n">dest_idx</span> <span class="ow">in</span> <span class="n">used_nodes</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">allow_overlay</span><span class="p">:</span>
+                    <span class="n">used_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">src_idx</span><span class="p">)</span>
+                    <span class="n">used_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dest_idx</span><span class="p">)</span>
+                <span class="k">break</span>
+
+            <span class="n">src</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">src_idx</span><span class="p">]</span>
+            <span class="n">dest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">dest_idx</span><span class="p">]</span>
+            <span class="n">req</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">dest</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="n">attr</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">requests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+            <span class="n">src</span><span class="o">.</span><span class="n">add_request</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+            <span class="n">dest</span><span class="o">.</span><span class="n">add_request</span><span class="p">(</span><span class="n">req</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="QNSNetworkError"><a class="viewcode-back" href="../../../qns.network.html#qns.network.network.QNSNetworkError">[docs]</a><span class="k">class</span> <span class="nc">QNSNetworkError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Elliot Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

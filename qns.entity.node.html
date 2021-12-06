@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en,zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>qns.entity.node package &mdash; QuantNetSim 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="qns.entity.qchannel package" href="qns.entity.qchannel.html" />
+    <link rel="prev" title="qns.entity.memory package" href="qns.entity.memory.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> QuantNetSim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">qns</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="qns.html">qns package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="qns.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="qns.entity.html">qns.entity package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.models.html">qns.models package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.network.html">qns.network package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.simulator.html">qns.simulator package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.utils.html">qns.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qns.html#module-qns">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">QuantNetSim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">qns</a> &raquo;</li>
+          <li><a href="qns.html">qns package</a> &raquo;</li>
+          <li><a href="qns.entity.html">qns.entity package</a> &raquo;</li>
+      <li>qns.entity.node package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/qns.entity.node.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="qns-entity-node-package">
+<h1>qns.entity.node package<a class="headerlink" href="#qns-entity-node-package" title="Permalink to this headline"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-qns.entity.node.app">
+<span id="qns-entity-node-app-module"></span><h2>qns.entity.node.app module<a class="headerlink" href="#module-qns.entity.node.app" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.entity.node.app.Application">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.entity.node.app.</span></span><span class="sig-name descname"><span class="pre">Application</span></span><a class="reference internal" href="_modules/qns/entity/node/app.html#Application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.node.app.Application" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Application can be deployed on the quantum nodes.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.node.app.Application.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.simulator.html#qns.simulator.event.Event" title="qns.simulator.event.Event"><span class="pre">qns.simulator.event.Event</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/entity/node/app.html#Application.handle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.node.app.Application.handle" title="Permalink to this definition"></a></dt>
+<dd><p>process the event on the node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (<a class="reference internal" href="qns.entity.html#qns.entity.QNode" title="qns.entity.QNode"><em>QNode</em></a>) -- the node that will handle this event</p></li>
+<li><p><strong>event</strong> (<a class="reference internal" href="qns.simulator.html#qns.simulator.event.Event" title="qns.simulator.event.Event"><em>Event</em></a>) -- the event</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.node.app.Application.install">
+<span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.simulator.html#qns.simulator.simulator.Simulator" title="qns.simulator.simulator.Simulator"><span class="pre">qns.simulator.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/entity/node/app.html#Application.install"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.node.app.Application.install" title="Permalink to this definition"></a></dt>
+<dd><p>install initial events for this QNode</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (<a class="reference internal" href="qns.entity.html#qns.entity.QNode" title="qns.entity.QNode"><em>QNode</em></a>) -- the node that will handle this event</p></li>
+<li><p><strong>simulator</strong> (<a class="reference internal" href="qns.simulator.html#qns.simulator.simulator.Simulator" title="qns.simulator.simulator.Simulator"><em>Simulator</em></a>) -- the simulator</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-qns.entity.node.node">
+<span id="qns-entity-node-node-module"></span><h2>qns.entity.node.node module<a class="headerlink" href="#module-qns.entity.node.node" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.entity.node.node.QNode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.entity.node.node.</span></span><span class="sig-name descname"><span class="pre">QNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#qns.entity.node.app.Application" title="qns.entity.node.app.Application"><span class="pre">qns.entity.node.app.Application</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/entity/node/node.html#QNode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.node.node.QNode" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.entity.html#qns.entity.entity.Entity" title="qns.entity.entity.Entity"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.entity.entity.Entity</span></code></a></p>
+<p>QNode is a quantum node in the quantum network</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.node.node.QNode.add_apps">
+<span class="sig-name descname"><span class="pre">add_apps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.entity.node.app.Application" title="qns.entity.node.app.Application"><span class="pre">qns.entity.node.app.Application</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/entity/node/node.html#QNode.add_apps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.node.node.QNode.add_apps" title="Permalink to this definition"></a></dt>
+<dd><p>Insert an Application into the app list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>app</strong> (<a class="reference internal" href="#qns.entity.node.app.Application" title="qns.entity.node.app.Application"><em>Application</em></a>) -- the inserting application.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.node.node.QNode.add_cchannel">
+<span class="sig-name descname"><span class="pre">add_cchannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cchannel</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/entity/node/node.html#QNode.add_cchannel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.node.node.QNode.add_cchannel" title="Permalink to this definition"></a></dt>
+<dd><p>Add a classic channel in this QNode</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cchannel</strong> (<a class="reference internal" href="qns.entity.html#qns.entity.ClassicChannel" title="qns.entity.ClassicChannel"><em>ClassicChannel</em></a>) -- the classic channel</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.node.node.QNode.add_memory">
+<span class="sig-name descname"><span class="pre">add_memory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">memory</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/entity/node/node.html#QNode.add_memory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.node.node.QNode.add_memory" title="Permalink to this definition"></a></dt>
+<dd><p>Add a quantum memory in this QNode</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>memory</strong> (<em>Memory</em>) -- the quantum memory</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.node.node.QNode.add_network">
+<span class="sig-name descname"><span class="pre">add_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/entity/node/node.html#QNode.add_network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.node.node.QNode.add_network" title="Permalink to this definition"></a></dt>
+<dd><p>add a network object to this node</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>network</strong> (<em>qns.network.network.Network</em>) -- the network object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.node.node.QNode.add_qchannel">
+<span class="sig-name descname"><span class="pre">add_qchannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qchannel</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/entity/node/node.html#QNode.add_qchannel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.node.node.QNode.add_qchannel" title="Permalink to this definition"></a></dt>
+<dd><p>Add a quantum channel in this QNode</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>qchannel</strong> (<a class="reference internal" href="qns.entity.html#qns.entity.QuantumChannel" title="qns.entity.QuantumChannel"><em>QuantumChannel</em></a>) -- the quantum channel</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.node.node.QNode.add_request">
+<span class="sig-name descname"><span class="pre">add_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/entity/node/node.html#QNode.add_request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.node.node.QNode.add_request" title="Permalink to this definition"></a></dt>
+<dd><p>add a request to this node</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> (<a class="reference internal" href="qns.network.html#qns.network.requests.Request" title="qns.network.requests.Request"><em>Request</em></a>) -- the inserting request</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.node.node.QNode.clear_request">
+<span class="sig-name descname"><span class="pre">clear_request</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/entity/node/node.html#QNode.clear_request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.node.node.QNode.clear_request" title="Permalink to this definition"></a></dt>
+<dd><p>clear all requests</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.node.node.QNode.get_apps">
+<span class="sig-name descname"><span class="pre">get_apps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/entity/node/node.html#QNode.get_apps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.node.node.QNode.get_apps" title="Permalink to this definition"></a></dt>
+<dd><p>Get an Application that is <cite>app_type</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>app_type</strong> -- the class of app_type</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.node.node.QNode.get_cchannel">
+<span class="sig-name descname"><span class="pre">get_cchannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/entity/node/node.html#QNode.get_cchannel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.node.node.QNode.get_cchannel" title="Permalink to this definition"></a></dt>
+<dd><p>Get the classic channel that connects to the <cite>dst</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dst</strong> (<a class="reference internal" href="#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><em>QNode</em></a>) -- the destination</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.node.node.QNode.get_qchannel">
+<span class="sig-name descname"><span class="pre">get_qchannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/entity/node/node.html#QNode.get_qchannel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.node.node.QNode.get_qchannel" title="Permalink to this definition"></a></dt>
+<dd><p>Get the quantum channel that connects to the <cite>dst</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dst</strong> (<a class="reference internal" href="#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><em>QNode</em></a>) -- the destination</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.node.node.QNode.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.simulator.html#qns.simulator.event.Event" title="qns.simulator.event.Event"><span class="pre">qns.simulator.event.Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/entity/node/node.html#QNode.handle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.node.node.QNode.handle" title="Permalink to this definition"></a></dt>
+<dd><p>This function will handle an <cite>Event</cite>.
+This event will be passed to every applications in apps list in order.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>event</strong> (<a class="reference internal" href="qns.simulator.html#qns.simulator.event.Event" title="qns.simulator.event.Event"><em>Event</em></a>) -- the event that happens on this QNode</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.node.node.QNode.install">
+<span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator:</span> <span class="pre">&lt;module</span> <span class="pre">'qns.simulator.simulator'</span> <span class="pre">from</span> <span class="pre">'D:\\Seafile\\Personal\\Workspace\\QuantNetSim\\qns\\simulator\\simulator.py'&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/entity/node/node.html#QNode.install"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.node.node.QNode.install" title="Permalink to this definition"></a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">install</span></code> is called before <code class="docutils literal notranslate"><span class="pre">simulator</span></code> runs to initialize or set initial events</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>simulator</strong> (<a class="reference internal" href="qns.simulator.html#qns.simulator.simulator.Simulator" title="qns.simulator.simulator.Simulator"><em>qns.simulator.simulator.Simulator</em></a>) -- the simulator</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-qns.entity.node">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qns.entity.node" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="qns.entity.memory.html" class="btn btn-neutral float-left" title="qns.entity.memory package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="qns.entity.qchannel.html" class="btn btn-neutral float-right" title="qns.entity.qchannel package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Elliot Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

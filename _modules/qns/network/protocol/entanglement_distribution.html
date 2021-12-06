@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en,zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>qns.network.protocol.entanglement_distribution &mdash; QuantNetSim 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> QuantNetSim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">qns</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">QuantNetSim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>qns.network.protocol.entanglement_distribution</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for qns.network.protocol.entanglement_distribution</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
+
+<span class="kn">from</span> <span class="nn">qns.entity.cchannel.cchannel</span> <span class="kn">import</span> <span class="n">ClassicChannel</span><span class="p">,</span> <span class="n">ClassicPacket</span><span class="p">,</span> <span class="n">RecvClassicPacket</span>
+<span class="kn">from</span> <span class="nn">qns.entity.memory.memory</span> <span class="kn">import</span> <span class="n">OutOfMemoryException</span><span class="p">,</span> <span class="n">QuantumMemory</span>
+<span class="kn">from</span> <span class="nn">qns.entity.node.app</span> <span class="kn">import</span> <span class="n">Application</span>
+<span class="kn">from</span> <span class="nn">qns.entity.node.node</span> <span class="kn">import</span> <span class="n">QNode</span>
+<span class="kn">from</span> <span class="nn">qns.entity.qchannel.qchannel</span> <span class="kn">import</span> <span class="n">QuantumChannel</span><span class="p">,</span> <span class="n">RecvQubitPacket</span>
+<span class="kn">from</span> <span class="nn">qns.models.core.backend</span> <span class="kn">import</span> <span class="n">QuantumModel</span>
+<span class="kn">from</span> <span class="nn">qns.network.requests</span> <span class="kn">import</span> <span class="n">Request</span>
+<span class="kn">from</span> <span class="nn">qns.simulator.event</span> <span class="kn">import</span> <span class="n">Event</span><span class="p">,</span> <span class="n">func_to_event</span>
+<span class="kn">from</span> <span class="nn">qns.simulator.simulator</span> <span class="kn">import</span> <span class="n">Simulator</span>
+<span class="kn">from</span> <span class="nn">qns.network</span> <span class="kn">import</span> <span class="n">QuantumNetwork</span>
+<span class="kn">from</span> <span class="nn">qns.models.epr</span> <span class="kn">import</span> <span class="n">WernerStateEntanglement</span>
+<span class="kn">from</span> <span class="nn">qns.simulator.ts</span> <span class="kn">import</span> <span class="n">Time</span>
+<span class="kn">import</span> <span class="nn">qns.utils.log</span> <span class="k">as</span> <span class="nn">log</span>
+
+
+<div class="viewcode-block" id="Transmit"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.entanglement_distribution.Transmit">[docs]</a><span class="k">class</span> <span class="nc">Transmit</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">src</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">dst</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span>
+                 <span class="n">first_epr_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">second_epr_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">src</span> <span class="o">=</span> <span class="n">src</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dst</span> <span class="o">=</span> <span class="n">dst</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">first_epr_name</span> <span class="o">=</span> <span class="n">first_epr_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">second_epr_name</span> <span class="o">=</span> <span class="n">second_epr_name</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;transmit </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">src</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dst</span><span class="si">}</span><span class="s2">,</span><span class="se">\</span>
+<span class="s2">             epr: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">first_epr_name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">second_epr_name</span><span class="si">}</span><span class="s2">&gt;&quot;</span></div>
+
+
+<div class="viewcode-block" id="EntanglementDistributionApp"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.entanglement_distribution.EntanglementDistributionApp">[docs]</a><span class="k">class</span> <span class="nc">EntanglementDistributionApp</span><span class="p">(</span><span class="n">Application</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">send_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">init_fidelity</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mf">0.99</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_fidelity</span> <span class="o">=</span> <span class="n">init_fidelity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="p">:</span> <span class="n">QuantumNetwork</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="p">:</span> <span class="n">QNode</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="p">:</span> <span class="n">QuantumMemory</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">src</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QNode</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dst</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QNode</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_rate</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">send_rate</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Transmit</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">success</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">success_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="EntanglementDistributionApp.install"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.entanglement_distribution.EntanglementDistributionApp.install">[docs]</a>    <span class="k">def</span> <span class="nf">install</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">simulator</span><span class="p">:</span> <span class="n">Simulator</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">simulator</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="p">:</span> <span class="n">QNode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_node</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="p">:</span> <span class="n">QuantumMemory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="o">.</span><span class="n">memories</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">net</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="o">.</span><span class="n">network</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">request</span><span class="p">:</span> <span class="n">Request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="o">.</span><span class="n">requests</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">own</span> <span class="o">==</span> <span class="n">request</span><span class="o">.</span><span class="n">src</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dst</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">dest</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">own</span> <span class="o">==</span> <span class="n">request</span><span class="o">.</span><span class="n">dest</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">src</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">src</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_rate</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;send_rate&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dst</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># I am a sender</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">simulator</span><span class="o">.</span><span class="n">ts</span>
+            <span class="n">event</span> <span class="o">=</span> <span class="n">func_to_event</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_distribution</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">add_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="EntanglementDistributionApp.handle"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.entanglement_distribution.EntanglementDistributionApp.handle">[docs]</a>    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">RecvQubitPacket</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">response_distribution</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">RecvClassicPacket</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">handle_response</span><span class="p">(</span><span class="n">event</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="EntanglementDistributionApp.new_distribution"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.entanglement_distribution.EntanglementDistributionApp.new_distribution">[docs]</a>    <span class="k">def</span> <span class="nf">new_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># insert the next send event</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">tc</span> <span class="o">+</span> <span class="n">Time</span><span class="p">(</span><span class="n">sec</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">send_rate</span><span class="p">)</span>
+        <span class="n">event</span> <span class="o">=</span> <span class="n">func_to_event</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_distribution</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">add_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="si">}</span><span class="s2">: start new request&quot;</span><span class="p">)</span>
+
+        <span class="c1"># generate new entanglement</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">epr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_qubit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dst</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="si">}</span><span class="s2">: generate epr </span><span class="si">{</span><span class="n">epr</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">epr</span><span class="o">.</span><span class="n">transmit_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">Transmit</span><span class="p">(</span>
+                <span class="nb">id</span><span class="o">=</span><span class="n">epr</span><span class="o">.</span><span class="n">transmit_id</span><span class="p">,</span>
+                <span class="n">src</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="p">,</span>
+                <span class="n">dst</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dst</span><span class="p">,</span>
+                <span class="n">second_epr_name</span><span class="o">=</span><span class="n">epr</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="si">}</span><span class="s2">: generate transmit </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">epr</span><span class="o">.</span><span class="n">transmit_id</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">epr</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">OutOfMemoryException</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">epr</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">epr</span><span class="o">.</span><span class="n">transmit_id</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">request_distrbution</span><span class="p">(</span><span class="n">epr</span><span class="o">.</span><span class="n">transmit_id</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="EntanglementDistributionApp.request_distrbution"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.entanglement_distribution.EntanglementDistributionApp.request_distrbution">[docs]</a>    <span class="k">def</span> <span class="nf">request_distrbution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transmit_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">transmit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">transmit_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">transmit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">epr_name</span> <span class="o">=</span> <span class="n">transmit</span><span class="o">.</span><span class="n">second_epr_name</span>
+        <span class="n">epr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">epr_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">epr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">dst</span> <span class="o">=</span> <span class="n">transmit</span><span class="o">.</span><span class="n">dst</span>
+        <span class="c1"># get next hop</span>
+        <span class="n">route_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">query_route</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">next_hop</span><span class="p">:</span> <span class="n">QNode</span> <span class="o">=</span> <span class="n">route_result</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Route error&quot;</span><span class="p">)</span>
+
+        <span class="n">qchannel</span><span class="p">:</span> <span class="n">QuantumChannel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="o">.</span><span class="n">get_qchannel</span><span class="p">(</span><span class="n">next_hop</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">qchannel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;No such quantum channel&quot;</span><span class="p">)</span>
+
+        <span class="c1"># send the entanglement</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="si">}</span><span class="s2">: send epr </span><span class="si">{</span><span class="n">epr</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">next_hop</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">qchannel</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">epr</span><span class="p">,</span> <span class="n">next_hop</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="EntanglementDistributionApp.response_distribution"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.entanglement_distribution.EntanglementDistributionApp.response_distribution">[docs]</a>    <span class="k">def</span> <span class="nf">response_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">packet</span><span class="p">:</span> <span class="n">RecvQubitPacket</span><span class="p">):</span>
+        <span class="n">qchannel</span><span class="p">:</span> <span class="n">QuantumChannel</span> <span class="o">=</span> <span class="n">packet</span><span class="o">.</span><span class="n">qchannel</span>
+        <span class="n">from_node</span><span class="p">:</span> <span class="n">QNode</span> <span class="o">=</span> <span class="n">qchannel</span><span class="o">.</span><span class="n">node_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> \
+            <span class="k">if</span> <span class="n">qchannel</span><span class="o">.</span><span class="n">node_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">own</span> <span class="k">else</span> <span class="n">qchannel</span><span class="o">.</span><span class="n">node_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">cchannel</span><span class="p">:</span> <span class="n">ClassicChannel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="o">.</span><span class="n">get_cchannel</span><span class="p">(</span><span class="n">from_node</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cchannel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;No such classic channel&quot;</span><span class="p">)</span>
+
+        <span class="c1"># receive the first epr</span>
+        <span class="n">epr</span><span class="p">:</span> <span class="n">WernerStateEntanglement</span> <span class="o">=</span> <span class="n">packet</span><span class="o">.</span><span class="n">qubit</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="si">}</span><span class="s2">: recv epr </span><span class="si">{</span><span class="n">epr</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">from_node</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># generate the second epr</span>
+        <span class="n">next_epr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_qubit</span><span class="p">(</span>
+            <span class="n">src</span><span class="o">=</span><span class="n">epr</span><span class="o">.</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="o">=</span><span class="n">epr</span><span class="o">.</span><span class="n">dst</span><span class="p">,</span> <span class="n">transmit_id</span><span class="o">=</span><span class="n">epr</span><span class="o">.</span><span class="n">transmit_id</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="si">}</span><span class="s2">: generate epr </span><span class="si">{</span><span class="n">next_epr</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">epr</span><span class="o">.</span><span class="n">transmit_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">Transmit</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="n">epr</span><span class="o">.</span><span class="n">transmit_id</span><span class="p">,</span>
+            <span class="n">src</span><span class="o">=</span><span class="n">epr</span><span class="o">.</span><span class="n">src</span><span class="p">,</span>
+            <span class="n">dst</span><span class="o">=</span><span class="n">epr</span><span class="o">.</span><span class="n">dst</span><span class="p">,</span>
+            <span class="n">first_epr_name</span><span class="o">=</span><span class="n">epr</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">second_epr_name</span><span class="o">=</span><span class="n">next_epr</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="si">}</span><span class="s2">: generate transmit </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">epr</span><span class="o">.</span><span class="n">transmit_id</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># try to restore those entanglements</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="si">}</span><span class="s2">: store </span><span class="si">{</span><span class="n">epr</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">next_epr</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">epr</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">next_epr</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">OutOfMemoryException</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="si">}</span><span class="s2">: store fail, destory </span><span class="si">{</span><span class="n">epr</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">next_epr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># if failed (memory is full), destory all entanglements</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">epr</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">next_epr</span><span class="p">)</span>
+            <span class="n">classic_packet</span> <span class="o">=</span> <span class="n">ClassicPacket</span><span class="p">(</span>
+                <span class="n">msg</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;cmd&quot;</span><span class="p">:</span> <span class="s2">&quot;revoke&quot;</span><span class="p">,</span> <span class="s2">&quot;transmit_id&quot;</span><span class="p">:</span> <span class="n">epr</span><span class="o">.</span><span class="n">transmit_id</span><span class="p">},</span> <span class="n">src</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">from_node</span><span class="p">)</span>
+            <span class="n">cchannel</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">classic_packet</span><span class="p">,</span> <span class="n">next_hop</span><span class="o">=</span><span class="n">from_node</span><span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="si">}</span><span class="s2">: send </span><span class="si">{</span><span class="n">classic_packet</span><span class="o">.</span><span class="n">msg</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">from_node</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">classic_packet</span> <span class="o">=</span> <span class="n">ClassicPacket</span><span class="p">(</span>
+            <span class="n">msg</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;cmd&quot;</span><span class="p">:</span> <span class="s2">&quot;swap&quot;</span><span class="p">,</span> <span class="s2">&quot;transmit_id&quot;</span><span class="p">:</span> <span class="n">epr</span><span class="o">.</span><span class="n">transmit_id</span><span class="p">},</span> <span class="n">src</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">from_node</span><span class="p">)</span>
+        <span class="n">cchannel</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">classic_packet</span><span class="p">,</span> <span class="n">next_hop</span><span class="o">=</span><span class="n">from_node</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="si">}</span><span class="s2">: send </span><span class="si">{</span><span class="n">classic_packet</span><span class="o">.</span><span class="n">msg</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">from_node</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="EntanglementDistributionApp.handle_response"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.entanglement_distribution.EntanglementDistributionApp.handle_response">[docs]</a>    <span class="k">def</span> <span class="nf">handle_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">packet</span><span class="p">:</span> <span class="n">RecvClassicPacket</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">packet</span><span class="o">.</span><span class="n">packet</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">cchannel</span> <span class="o">=</span> <span class="n">packet</span><span class="o">.</span><span class="n">cchannel</span>
+
+        <span class="n">from_node</span><span class="p">:</span> <span class="n">QNode</span> <span class="o">=</span> <span class="n">cchannel</span><span class="o">.</span><span class="n">node_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> \
+            <span class="k">if</span> <span class="n">cchannel</span><span class="o">.</span><span class="n">node_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">own</span> <span class="k">else</span> <span class="n">cchannel</span><span class="o">.</span><span class="n">node_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="si">}</span><span class="s2">: recv </span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">from_node</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">cmd</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="s2">&quot;cmd&quot;</span><span class="p">]</span>
+        <span class="n">transmit_id</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="s2">&quot;transmit_id&quot;</span><span class="p">]</span>
+        <span class="n">transmit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">transmit_id</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s2">&quot;swap&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">own</span> <span class="o">!=</span> <span class="n">transmit</span><span class="o">.</span><span class="n">src</span><span class="p">:</span>
+                <span class="c1"># perfrom entanglement swapping</span>
+                <span class="n">first_epr</span><span class="p">:</span> <span class="n">WernerStateEntanglement</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">read</span><span class="p">(</span>
+                    <span class="n">transmit</span><span class="o">.</span><span class="n">first_epr_name</span><span class="p">)</span>
+                <span class="n">second_epr</span><span class="p">:</span> <span class="n">WernerStateEntanglement</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">read</span><span class="p">(</span>
+                    <span class="n">transmit</span><span class="o">.</span><span class="n">second_epr_name</span><span class="p">)</span>
+                <span class="n">new_epr</span> <span class="o">=</span> <span class="n">first_epr</span><span class="o">.</span><span class="n">swapping</span><span class="p">(</span><span class="n">second_epr</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">)</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="si">}</span><span class="s2">:perform swap use </span><span class="si">{</span><span class="n">first_epr</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">second_epr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="si">}</span><span class="s2">:perform swap generate </span><span class="si">{</span><span class="n">new_epr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                <span class="n">src</span><span class="p">:</span> <span class="n">QNode</span> <span class="o">=</span> <span class="n">transmit</span><span class="o">.</span><span class="n">src</span>
+                <span class="n">app</span><span class="p">:</span> <span class="n">EntanglementDistributionApp</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">get_apps</span><span class="p">(</span>
+                    <span class="n">EntanglementDistributionApp</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">app</span><span class="o">.</span><span class="n">set_second_epr</span><span class="p">(</span><span class="n">new_epr</span><span class="p">,</span> <span class="n">transmit_id</span><span class="o">=</span><span class="n">transmit_id</span><span class="p">)</span>
+
+                <span class="n">app</span><span class="p">:</span> <span class="n">EntanglementDistributionApp</span> <span class="o">=</span> <span class="n">from_node</span><span class="o">.</span><span class="n">get_apps</span><span class="p">(</span>
+                    <span class="n">EntanglementDistributionApp</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">app</span><span class="o">.</span><span class="n">set_first_epr</span><span class="p">(</span><span class="n">new_epr</span><span class="p">,</span> <span class="n">transmit_id</span><span class="o">=</span><span class="n">transmit_id</span><span class="p">)</span>
+
+            <span class="n">classic_packet</span> <span class="o">=</span> <span class="n">ClassicPacket</span><span class="p">(</span>
+                <span class="n">msg</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;cmd&quot;</span><span class="p">:</span> <span class="s2">&quot;next&quot;</span><span class="p">,</span> <span class="s2">&quot;transmit_id&quot;</span><span class="p">:</span> <span class="n">transmit_id</span><span class="p">},</span> <span class="n">src</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">from_node</span><span class="p">)</span>
+            <span class="n">cchannel</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">classic_packet</span><span class="p">,</span> <span class="n">next_hop</span><span class="o">=</span><span class="n">from_node</span><span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="si">}</span><span class="s2">: send </span><span class="si">{</span><span class="n">classic_packet</span><span class="o">.</span><span class="n">msg</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">from_node</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s2">&quot;next&quot;</span><span class="p">:</span>
+            <span class="c1"># finish or request to the next hop</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">own</span> <span class="o">==</span> <span class="n">transmit</span><span class="o">.</span><span class="n">dst</span><span class="p">:</span>
+                <span class="n">result_epr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">transmit</span><span class="o">.</span><span class="n">first_epr_name</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">transmit</span><span class="o">.</span><span class="n">second_epr_name</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">success</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result_epr</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">transmit_id</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">success_count</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="si">}</span><span class="s2">: successful distribute </span><span class="si">{</span><span class="n">result_epr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                <span class="n">classic_packet</span> <span class="o">=</span> <span class="n">ClassicPacket</span><span class="p">(</span>
+                    <span class="n">msg</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;cmd&quot;</span><span class="p">:</span> <span class="s2">&quot;succ&quot;</span><span class="p">,</span> <span class="s2">&quot;transmit_id&quot;</span><span class="p">:</span> <span class="n">transmit_id</span><span class="p">},</span>
+                    <span class="n">src</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">transmit</span><span class="o">.</span><span class="n">src</span><span class="p">)</span>
+                <span class="n">cchannel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="o">.</span><span class="n">get_cchannel</span><span class="p">(</span><span class="n">transmit</span><span class="o">.</span><span class="n">src</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">cchannel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="si">}</span><span class="s2">: send </span><span class="si">{</span><span class="n">classic_packet</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">from_node</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">cchannel</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">classic_packet</span><span class="p">,</span> <span class="n">next_hop</span><span class="o">=</span><span class="n">transmit</span><span class="o">.</span><span class="n">src</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="si">}</span><span class="s2">: begin new request </span><span class="si">{</span><span class="n">transmit_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">request_distrbution</span><span class="p">(</span><span class="n">transmit_id</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s2">&quot;succ&quot;</span><span class="p">:</span>
+            <span class="c1"># the source notice that entanglement distribution is succeed.</span>
+            <span class="n">result_epr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">transmit</span><span class="o">.</span><span class="n">second_epr_name</span><span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="si">}</span><span class="s2">: recv success distribution </span><span class="si">{</span><span class="n">result_epr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">transmit_id</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">success_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">cmd</span> <span class="o">==</span> <span class="s2">&quot;revoke&quot;</span><span class="p">:</span>
+            <span class="c1"># clean memory</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="si">}</span><span class="s2">: clean memory </span><span class="si">{</span><span class="n">transmit</span><span class="o">.</span><span class="n">first_epr_name</span><span class="si">}</span><span class="se">\</span>
+<span class="s2">                    and </span><span class="si">{</span><span class="n">transmit</span><span class="o">.</span><span class="n">second_epr_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">transmit</span><span class="o">.</span><span class="n">first_epr_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">transmit</span><span class="o">.</span><span class="n">second_epr_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">transmit_id</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">own</span> <span class="o">!=</span> <span class="n">transmit</span><span class="o">.</span><span class="n">src</span><span class="p">:</span>
+                <span class="n">classic_packet</span> <span class="o">=</span> <span class="n">ClassicPacket</span><span class="p">(</span>
+                    <span class="n">msg</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;cmd&quot;</span><span class="p">:</span> <span class="s2">&quot;revoke&quot;</span><span class="p">,</span> <span class="s2">&quot;transmit_id&quot;</span><span class="p">:</span> <span class="n">transmit_id</span><span class="p">},</span>
+                    <span class="n">src</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">transmit</span><span class="o">.</span><span class="n">src</span><span class="p">)</span>
+                <span class="n">cchannel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="o">.</span><span class="n">get_cchannel</span><span class="p">(</span><span class="n">transmit</span><span class="o">.</span><span class="n">src</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">cchannel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">own</span><span class="si">}</span><span class="s2">: send </span><span class="si">{</span><span class="n">classic_packet</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">from_node</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">cchannel</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">classic_packet</span><span class="p">,</span> <span class="n">next_hop</span><span class="o">=</span><span class="n">transmit</span><span class="o">.</span><span class="n">src</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="EntanglementDistributionApp.generate_qubit"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.entanglement_distribution.EntanglementDistributionApp.generate_qubit">[docs]</a>    <span class="k">def</span> <span class="nf">generate_qubit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">dst</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span>
+                       <span class="n">transmit_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QuantumModel</span><span class="p">:</span>
+        <span class="n">epr</span> <span class="o">=</span> <span class="n">WernerStateEntanglement</span><span class="p">(</span>
+            <span class="n">fidelity</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">init_fidelity</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">)</span>
+        <span class="n">epr</span><span class="o">.</span><span class="n">src</span> <span class="o">=</span> <span class="n">src</span>
+        <span class="n">epr</span><span class="o">.</span><span class="n">dst</span> <span class="o">=</span> <span class="n">dst</span>
+        <span class="n">epr</span><span class="o">.</span><span class="n">transmit_id</span> <span class="o">=</span> <span class="n">transmit_id</span> <span class="k">if</span> <span class="n">transmit_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span>
+        <span class="k">return</span> <span class="n">epr</span></div>
+
+<div class="viewcode-block" id="EntanglementDistributionApp.set_first_epr"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.entanglement_distribution.EntanglementDistributionApp.set_first_epr">[docs]</a>    <span class="k">def</span> <span class="nf">set_first_epr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epr</span><span class="p">:</span> <span class="n">QuantumModel</span><span class="p">,</span> <span class="n">transmit_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">transmit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">transmit_id</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">transmit</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">transmit</span><span class="o">.</span><span class="n">first_epr_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">transmit</span><span class="o">.</span><span class="n">first_epr_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">epr</span><span class="p">)</span>
+        <span class="n">transmit</span><span class="o">.</span><span class="n">first_epr_name</span> <span class="o">=</span> <span class="n">epr</span><span class="o">.</span><span class="n">name</span></div>
+
+<div class="viewcode-block" id="EntanglementDistributionApp.set_second_epr"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.entanglement_distribution.EntanglementDistributionApp.set_second_epr">[docs]</a>    <span class="k">def</span> <span class="nf">set_second_epr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epr</span><span class="p">:</span> <span class="n">QuantumModel</span><span class="p">,</span> <span class="n">transmit_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">transmit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">transmit_id</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">transmit</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">transmit</span><span class="o">.</span><span class="n">second_epr_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">transmit</span><span class="o">.</span><span class="n">second_epr_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">epr</span><span class="p">)</span>
+        <span class="n">transmit</span><span class="o">.</span><span class="n">second_epr_name</span> <span class="o">=</span> <span class="n">epr</span><span class="o">.</span><span class="n">name</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Elliot Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

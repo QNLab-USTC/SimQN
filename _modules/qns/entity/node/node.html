@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en,zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>qns.entity.node.node &mdash; QuantNetSim 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> QuantNetSim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">qns</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">QuantNetSim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>qns.entity.node.node</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for qns.entity.node.node</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">qns.simulator</span> <span class="kn">import</span> <span class="n">simulator</span>
+<span class="kn">from</span> <span class="nn">qns.simulator</span> <span class="kn">import</span> <span class="n">Event</span>
+<span class="kn">from</span> <span class="nn">qns.entity</span> <span class="kn">import</span> <span class="n">Entity</span>
+<span class="kn">from</span> <span class="nn">qns.entity.node.app</span> <span class="kn">import</span> <span class="n">Application</span>
+
+
+<div class="viewcode-block" id="QNode"><a class="viewcode-back" href="../../../../qns.entity.node.html#qns.entity.node.node.QNode">[docs]</a><span class="k">class</span> <span class="nc">QNode</span><span class="p">(</span><span class="n">Entity</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    QNode is a quantum node in the quantum network</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">apps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Application</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): the node&#39;s name</span>
+<span class="sd">            apps (List[Application]): the installing applications.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">network</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cchannels</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qchannels</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">memories</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">croute_table</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qroute_table</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">requests</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">apps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">apps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Application</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">apps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Application</span><span class="p">]</span> <span class="o">=</span> <span class="n">apps</span>
+
+<div class="viewcode-block" id="QNode.install"><a class="viewcode-back" href="../../../../qns.entity.node.html#qns.entity.node.node.QNode.install">[docs]</a>    <span class="k">def</span> <span class="nf">install</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simulator</span><span class="p">:</span> <span class="n">simulator</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">simulator</span><span class="p">)</span>
+        <span class="c1"># initiate sub-entities</span>
+        <span class="k">for</span> <span class="n">cchannel</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cchannels</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">qns.entity</span> <span class="kn">import</span> <span class="n">ClassicChannel</span>
+            <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">cchannel</span><span class="p">,</span> <span class="n">ClassicChannel</span><span class="p">))</span>
+            <span class="n">cchannel</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">simulator</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">qchannel</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">qchannels</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">qns.entity</span> <span class="kn">import</span> <span class="n">QuantumChannel</span>
+            <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">qchannel</span><span class="p">,</span> <span class="n">QuantumChannel</span><span class="p">))</span>
+            <span class="n">qchannel</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">simulator</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">memory</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">memories</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">qns.entity</span> <span class="kn">import</span> <span class="n">QuantumMemory</span>
+            <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">memory</span><span class="p">,</span> <span class="n">QuantumMemory</span><span class="p">))</span>
+            <span class="n">memory</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">simulator</span><span class="p">)</span>
+
+        <span class="c1"># initiate applications</span>
+        <span class="k">for</span> <span class="n">app</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">apps</span><span class="p">:</span>
+            <span class="n">app</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simulator</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QNode.handle"><a class="viewcode-back" href="../../../../qns.entity.node.html#qns.entity.node.node.QNode.handle">[docs]</a>    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function will handle an `Event`.</span>
+<span class="sd">        This event will be passed to every applications in apps list in order.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            event (Event): the event that happens on this QNode</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">app</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">apps</span><span class="p">:</span>
+            <span class="n">app</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QNode.add_apps"><a class="viewcode-back" href="../../../../qns.entity.node.html#qns.entity.node.node.QNode.add_apps">[docs]</a>    <span class="k">def</span> <span class="nf">add_apps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="n">Application</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Insert an Application into the app list.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            app (Application): the inserting application.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">apps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">app</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QNode.get_apps"><a class="viewcode-back" href="../../../../qns.entity.node.html#qns.entity.node.node.QNode.get_apps">[docs]</a>    <span class="k">def</span> <span class="nf">get_apps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_type</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get an Application that is `app_type`</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            app_type: the class of app_type</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">app</span> <span class="k">for</span> <span class="n">app</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">apps</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">app_type</span><span class="p">)]</span></div>
+
+<div class="viewcode-block" id="QNode.add_memory"><a class="viewcode-back" href="../../../../qns.entity.node.html#qns.entity.node.node.QNode.add_memory">[docs]</a>    <span class="k">def</span> <span class="nf">add_memory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memory</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a quantum memory in this QNode</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            memory (Memory): the quantum memory</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">memory</span><span class="o">.</span><span class="n">node</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">memories</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memory</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QNode.add_cchannel"><a class="viewcode-back" href="../../../../qns.entity.node.html#qns.entity.node.node.QNode.add_cchannel">[docs]</a>    <span class="k">def</span> <span class="nf">add_cchannel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cchannel</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a classic channel in this QNode</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cchannel (ClassicChannel): the classic channel</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cchannel</span><span class="o">.</span><span class="n">node_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cchannels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cchannel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QNode.get_cchannel"><a class="viewcode-back" href="../../../../qns.entity.node.html#qns.entity.node.node.QNode.get_cchannel">[docs]</a>    <span class="k">def</span> <span class="nf">get_cchannel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dst</span><span class="p">:</span> <span class="s2">&quot;QNode&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the classic channel that connects to the `dst`</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dst (QNode): the destination</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">cchannel</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cchannels</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dst</span> <span class="ow">in</span> <span class="n">cchannel</span><span class="o">.</span><span class="n">node_list</span> <span class="ow">and</span> <span class="bp">self</span> <span class="ow">in</span> <span class="n">cchannel</span><span class="o">.</span><span class="n">node_list</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">cchannel</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="QNode.add_qchannel"><a class="viewcode-back" href="../../../../qns.entity.node.html#qns.entity.node.node.QNode.add_qchannel">[docs]</a>    <span class="k">def</span> <span class="nf">add_qchannel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qchannel</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a quantum channel in this QNode</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            qchannel (QuantumChannel): the quantum channel</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qchannel</span><span class="o">.</span><span class="n">node_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qchannels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">qchannel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QNode.get_qchannel"><a class="viewcode-back" href="../../../../qns.entity.node.html#qns.entity.node.node.QNode.get_qchannel">[docs]</a>    <span class="k">def</span> <span class="nf">get_qchannel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dst</span><span class="p">:</span> <span class="s2">&quot;QNode&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the quantum channel that connects to the `dst`</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dst (QNode): the destination</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">qchannel</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">qchannels</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dst</span> <span class="ow">in</span> <span class="n">qchannel</span><span class="o">.</span><span class="n">node_list</span> <span class="ow">and</span> <span class="bp">self</span> <span class="ow">in</span> <span class="n">qchannel</span><span class="o">.</span><span class="n">node_list</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">qchannel</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="QNode.add_request"><a class="viewcode-back" href="../../../../qns.entity.node.html#qns.entity.node.node.QNode.add_request">[docs]</a>    <span class="k">def</span> <span class="nf">add_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        add a request to this node</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            request (Request): the inserting request</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">requests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">request</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QNode.clear_request"><a class="viewcode-back" href="../../../../qns.entity.node.html#qns.entity.node.node.QNode.clear_request">[docs]</a>    <span class="k">def</span> <span class="nf">clear_request</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        clear all requests</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">requests</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="QNode.add_network"><a class="viewcode-back" href="../../../../qns.entity.node.html#qns.entity.node.node.QNode.add_network">[docs]</a>    <span class="k">def</span> <span class="nf">add_network</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">network</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        add a network object to this node</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            network (qns.network.network.Network): the network object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">network</span> <span class="o">=</span> <span class="n">network</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;node </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Elliot Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
