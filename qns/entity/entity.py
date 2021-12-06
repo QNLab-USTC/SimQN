@@ -1,4 +1,6 @@
-from ..simulator import Simulator, Event, Time
+from qns.simulator.simulator import Simulator
+from qns.simulator.event import Event
+
 
 class Entity(object):
     """
@@ -13,7 +15,7 @@ class Entity(object):
         self.name = name
         self._is_installed = False
         self._simulator = None
-    
+
     def install(self, simulator: Simulator) -> None:
         '''
         ``install`` is called before ``simulator`` runs to initialize or set initial events
@@ -24,15 +26,15 @@ class Entity(object):
         if not self._is_installed:
             self._simulator = simulator
             self._is_installed = True
-        
+
     def handle(self, event: Event) -> None:
         '''
-        ``handle`` is triggled by an ``Event``.
+        ``handle`` is called to process an receiving ``Event``.
 
         Args:
-            event (Event): the event that triggles this entity.
+            event (Event): the event that send to this entity
         '''
-        raise NotImplemented
+        raise NotImplementedError
 
     def __repr__(self) -> str:
         if self.name is not None:

@@ -1,6 +1,7 @@
 from qns.simulator.simulator import Simulator
 from qns.simulator import Event
 
+
 class Application(object):
     """
     Application can be deployed on the quantum nodes.
@@ -8,7 +9,7 @@ class Application(object):
     def __init__(self):
         pass
 
-    def install(self, node: "QNode", simulator: Simulator):
+    def install(self, node, simulator: Simulator):
         """
         install initial events for this QNode
 
@@ -19,7 +20,7 @@ class Application(object):
         self._simulator = simulator
         self._node = node
 
-    def handle(self, node: "QNode", event: Event):
+    def handle(self, node, event: Event):
         """
         process the event on the node.
 

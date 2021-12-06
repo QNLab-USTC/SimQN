@@ -42,7 +42,7 @@ class BaseEntanglement(object):
         Args:
             epr (BaseEntanglement): another entanglement
         Returns:
-            the new distributed entnaglement
+            the new distributed entanglement
         """
         raise NotImplementedError
 

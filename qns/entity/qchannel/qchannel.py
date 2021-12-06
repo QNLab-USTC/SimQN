@@ -1,16 +1,23 @@
 import random
 from typing import List, Optional
-from qns.entity import Entity
-from qns.entity import QNode
-from qns.simulator import Simulator, Time, Event
-from qns.models import QuantumModel
+
+from qns.entity.entity import Entity
+from qns.entity.node.node import QNode
+from qns.simulator.simulator import Simulator
+from qns.simulator.ts import Time
+from qns.simulator.event import Event
+from qns.models.core.backend import QuantumModel
 import qns.utils.log as log
+
 
 class QuantumChannel(Entity):
     """
     QuantumChannel is the channel for transmitting qubit
     """
-    def __init__(self, name: str = None, node_list: List[QNode] = [], bandwidth: int = 0, delay: float = 0, drop_rate: float = 0, max_buffer_size: int = 0, length: float = 0, transfer_error_model_args: dict = {}):
+    def __init__(self, name: str = None, node_list: List[QNode] = [],
+                 bandwidth: int = 0, delay: float = 0, drop_rate: float = 0,
+                 max_buffer_size: int = 0, length: float = 0,
+                 transfer_error_model_args: dict = {}):
         """
         Args:
             name (str): the name of this channel
@@ -18,10 +25,11 @@ class QuantumChannel(Entity):
             bandwidth (int): the qubit per second on this channel. 0 represents unlimited
             delay (float): the time delay for transmitting a packet
             drop_rate (float): the drop rate
-            max_buffer_size (int): the max buffer size. If it is full, the next coming packet will be dropped. 0 represents unlimited
+            max_buffer_size (int): the max buffer size.
+                If it is full, the next coming packet will be dropped. 0 represents unlimited.
 
             length (float): the length of this channel
-            transfer_error_model_args (dict): the parameters that will pass to the transfer_error_model
+            transfer_error_model_args (dict): the parameters that pass to the transfer_error_model
         """
         super().__init__(name=name)
         self.node_list = node_list.copy()
@@ -44,7 +52,6 @@ class QuantumChannel(Entity):
             self._next_send_time = self._simulator.ts
             self._is_installed = True
 
-    
     def send(self, qubit: QuantumModel, next_hop: QNode):
         """
         Send a qubit to the next_hop
@@ -66,12 +73,13 @@ class QuantumChannel(Entity):
             else:
                 send_time = self._next_send_time
 
-            if self.max_buffer_size != 0 and send_time > self._simulator.current_time + self._simulator.time(sec = self.max_buffer_size / self.bandwidth):
+            if self.max_buffer_size != 0 and send_time > self._simulator.current_time\
+               + self._simulator.time(sec=self.max_buffer_size/self.bandwidth):
                 # buffer is overflow
                 log.debug(f"qchannel {self}: drop qubit {qubit} due to overflow")
                 return
-            
-            self._next_send_time = send_time + self._simulator.time(sec = 1 / self.bandwidth)
+
+            self._next_send_time = send_time + self._simulator.time(sec=1/self.bandwidth)
         else:
             send_time = self._simulator.current_time
 
@@ -81,11 +89,12 @@ class QuantumChannel(Entity):
             return
 
         #  add delay
-        recv_time = send_time + self._simulator.time(sec = self.delay)
+        recv_time = send_time+self._simulator.time(sec=self.delay)
 
         # operation on the qubit
         qubit.transfer_error_model(self.length, **self.transfer_error_model_args)
-        send_event = RecvQubitPacket(recv_time, name = None, qchannel= self, qubit = qubit, dest = next_hop)
+        send_event = RecvQubitPacket(recv_time, name=None, qchannel=self,
+                                     qubit=qubit, dest=next_hop)
         self._simulator.add_event(send_event)
 
     def __repr__(self) -> str:
@@ -93,14 +102,17 @@ class QuantumChannel(Entity):
             return f"<qchannel {self.name}>"
         return super().__repr__()
 
+
 class NextHopNotConnectionException(Exception):
     pass
+
 
 class RecvQubitPacket(Event):
     """
     The event for a QNode to receive a classic packet
     """
-    def __init__(self, t: Optional[Time] = None, name: Optional[str] = None, qchannel: QuantumChannel = None, qubit: QuantumModel = None, dest: QNode = None):
+    def __init__(self, t: Optional[Time] = None, name: Optional[str] = None,
+                 qchannel: QuantumChannel = None, qubit: QuantumModel = None, dest: QNode = None):
         super().__init__(t=t, name=name)
         self.qchannel = qchannel
         self.qubit = qubit

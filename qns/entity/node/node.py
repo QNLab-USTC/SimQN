@@ -4,6 +4,7 @@ from qns.simulator import Event
 from qns.entity import Entity
 from qns.entity.node.app import Application
 
+
 class QNode(Entity):
     """
     QNode is a quantum node in the quantum network
@@ -22,7 +23,7 @@ class QNode(Entity):
 
         self.croute_table = []
         self.qroute_table = []
-        self.requests: List["Request"] = []
+        self.requests = []
         if apps is None:
             self.apps: List[Application] = []
         else:
@@ -30,7 +31,7 @@ class QNode(Entity):
 
     def install(self, simulator: simulator) -> None:
         super().install(simulator)
-        # initize sub-entities
+        # initiate sub-entities
         for cchannel in self.cchannels:
             from qns.entity import ClassicChannel
             assert(isinstance(cchannel, ClassicChannel))
@@ -44,21 +45,20 @@ class QNode(Entity):
             assert(isinstance(memory, QuantumMemory))
             memory.install(simulator)
 
-        # initize applications
+        # initiate applications
         for app in self.apps:
             app.install(self, simulator)
 
-
     def handle(self, event: Event) -> None:
         """
-        This function will handle an `Event`. This event will be passed to every applications in apps list in order.
+        This function will handle an `Event`.
+        This event will be passed to every applications in apps list in order.
 
         Args:
             event (Event): the event that happens on this QNode
         """
         for app in self.apps:
             app.handle(self, event)
-            
 
     def add_apps(self, app: Application):
         """
@@ -76,8 +76,8 @@ class QNode(Entity):
         Args:
             app_type: the class of app_type
         """
-        return [ app for app in self.apps if isinstance(app, app_type) ]
-    
+        return [app for app in self.apps if isinstance(app, app_type)]
+
     def add_memory(self, memory):
         """
         Add a quantum memory in this QNode
@@ -132,7 +132,7 @@ class QNode(Entity):
                 return qchannel
         return None
 
-    def add_request(self, request: "Request"):
+    def add_request(self, request):
         """
         add a request to this node
 
