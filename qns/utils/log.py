@@ -43,12 +43,10 @@ def critical(msg, *args):
     else:
         logger.critical(msg, *args)
 
-def monitor(attrs, sep: str = ",", with_time: bool = False):
-    if isinstance(attrs, list):
-        if with_time and hasattr(logger, "_simulator"):
-            attrs.append(logger._simulator.tc)
-        logger.info(sep.join(attrs))
-        return
-    if with_time and hasattr(logger, "_simulator"):
-        attrs = [attrs, logger._simulator.tc]
-    logger.info(attrs)
+def monitor(*args ,sep: str = ",", with_time: bool = False):
+    attrs = list(args)
+    if with_time:
+        attrs.insert(0, logger._simulator.tc)
+    attrs_s = [str(a) for a in attrs]
+    msg = sep.join(attrs_s)
+    logger.info(msg)

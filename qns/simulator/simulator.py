@@ -26,6 +26,7 @@ class Simulator(object):
 
         self.ts: Time = self.time(sec=start_second)
         self.te: Time = self.time(sec=end_second)
+        self.time_spend: float = 0
 
         self.event_pool = DefaultEventPool(self.ts, self.te)
         self.status = {}
@@ -84,6 +85,7 @@ class Simulator(object):
             event = self.event_pool.next_event()
 
         tre = time.time()
+        self.time_spend = tre - trs
         log.debug("simulation finished.")
         
         if tre - trs == 0:
