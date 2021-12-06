@@ -20,14 +20,14 @@ for num in [2, 3, 4, 5, 6]:
     for i in range(10):
         length = total_length / (num - 1)
         s = Simulator(0, 10, accuracy=10000000000)
-    
+
         topo = LineTopology(num, nodes_apps=[], qchannel_args={
-                            "delay": length / light_speed, 
+                            "delay": length/light_speed,
                             "drop_rate": drop_rate(length)},
                             cchannel_args={"delay": length / light_speed})
-    
-        net = QuantumNetwork(topo = topo, classic_topo= ClassicTopology.Follow)
-    
+
+        net = QuantumNetwork(topo=topo, classic_topo=ClassicTopology.Follow)
+
         rps = []
         for qchannel in net.qchannels:
             (src, dst) = qchannel.node_list
@@ -36,13 +36,13 @@ for num in [2, 3, 4, 5, 6]:
                 if c.name == f"c-{qchannel.name}":
                     cchannel = c
             assert(cchannel is not None)
-    
+
             sp = BB84SendApp(dst, qchannel, cchannel, send_rate=1000)
             rp = BB84RecvApp(src, qchannel, cchannel)
             src.add_apps(sp)
             dst.add_apps(rp)
             rps.append(rp)
-    
+
         for n in net.nodes:
             n.install(s)
         s.run()
