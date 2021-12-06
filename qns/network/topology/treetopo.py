@@ -30,7 +30,7 @@ class TreeTopology(Topology):
             nl.append(n)
 
         for i in range(self.nodes_number):
-            for j in range(i * self.children_number + 1, (i+1) * self.children_number + 1):
+            for j in range(i * self.children_number + 1, (i + 1) * self.children_number + 1):
                 if j < self.nodes_number:
                     link = QuantumChannel(name=f"l{i},{j}", **self.qchannel_args)
                     ll.append(link)

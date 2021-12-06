@@ -47,8 +47,7 @@ class WaxmanTopology(Topology):
         L = 0
         cb = list(itertools.combinations(nl, 2))
         for n1, n2 in cb:
-            tmp_l = np.sqrt((location_table[n1][0] - location_table[n2][0]) ** 2 +
-                            (location_table[n1][1] - location_table[n2][1]) ** 2)
+            tmp_l = np.sqrt((location_table[n1][0] - location_table[n2][0]) ** 2 + (location_table[n1][1] - location_table[n2][1]) ** 2)
             distance_table[(n1, n2)] = tmp_l
             if tmp_l > L:
                 L = tmp_l
