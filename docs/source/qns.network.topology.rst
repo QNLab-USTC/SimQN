@@ -52,6 +52,14 @@ qns.network.topology.treetopo module
    :undoc-members:
    :show-inheritance:
 
+qns.network.topology.waxmantopo module
+--------------------------------------
+
+.. automodule:: qns.network.topology.waxmantopo
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

@@ -10,6 +10,8 @@ Welcome to QuantNetSim's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   tutorials
+   develop
    modules
 
 
