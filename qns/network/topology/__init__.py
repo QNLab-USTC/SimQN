@@ -4,6 +4,7 @@ from qns.network.topology.linetopo import LineTopology
 from qns.network.topology.treetopo import TreeTopology
 from qns.network.topology.gridtopo import GridTopology
 from qns.network.topology.randomtopo import RandomTopology
+from qns.network.topology.waxmantopo import WaxmanTopology
 
 __all__ = ["Topology", "BasicTopology", "LineTopology",
-           "TreeTopology", "GridTopology", "RandomTopology"]
+           "TreeTopology", "GridTopology", "RandomTopology", "WaxmanTopology"]
