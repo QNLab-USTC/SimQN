@@ -1,8 +1,9 @@
 import numpy as np
 from qns.models.qubit.const import OPERATOR_HADAMARD, OPERATOR_PAULI_I,\
-     OPERATOR_PAULI_X, OPERATOR_PAULI_Y, OPERATOR_PAULI_Z, OPERATOR_PHASE_SHIFT,\
-     OPERATOR_S, OPERATOR_T
-from .qubit import QState, Qubit
+                                   OPERATOR_PAULI_X, OPERATOR_PAULI_Y, \
+                                   OPERATOR_PAULI_Z, OPERATOR_PHASE_SHIFT,\
+                                   OPERATOR_S, OPERATOR_T
+from qns.models.qubit.qubit import QState, Qubit
 
 
 class QGateQubitNotInStateError(Exception):

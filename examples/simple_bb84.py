@@ -20,11 +20,10 @@ for length in [1000, 5000, 10000, 50000, 100000, 150000]:
         n1 = QNode(name="n1")
         n2 = QNode(name="n2")
 
-        qlink = QuantumChannel(
-                name="l1",
-                delay=length/light_speed, drop_rate=drop_rate(length))
+        qlink = QuantumChannel(name="l1", delay=length / light_speed,
+                               drop_rate=drop_rate(length))
 
-        clink = ClassicChannel(name="c1", delay=length/light_speed)
+        clink = ClassicChannel(name="c1", delay=length / light_speed)
 
         n1.add_cchannel(clink)
         n2.add_cchannel(clink)

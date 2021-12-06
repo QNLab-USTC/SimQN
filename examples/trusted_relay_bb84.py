@@ -22,7 +22,7 @@ for num in [2, 3, 4, 5, 6]:
         s = Simulator(0, 10, accuracy=10000000000)
 
         topo = LineTopology(num, nodes_apps=[], qchannel_args={
-                            "delay": length/light_speed,
+                            "delay": length / light_speed,
                             "drop_rate": drop_rate(length)},
                             cchannel_args={"delay": length / light_speed})
 

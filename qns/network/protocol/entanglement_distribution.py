@@ -77,7 +77,7 @@ class EntanglementDistributionApp(Application):
     def new_distribution(self):
 
         # insert the next send event
-        t = self._simulator.tc + Time(sec=1/self.send_rate)
+        t = self._simulator.tc + Time(sec=1 / self.send_rate)
         event = func_to_event(t, self.new_distribution)
         self._simulator.add_event(event)
         log.debug(f"{self.own}: start new request")

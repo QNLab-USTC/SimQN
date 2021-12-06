@@ -3,7 +3,8 @@ import numpy as np
 import random
 
 from qns.models.qubit.const import QUBIT_STATE_0, QUBIT_STATE_1,\
-     QUBIT_STATE_P, QUBIT_STATE_N, OPERATOR_HADAMARD, QUBIT_STATE_L, QUBIT_STATE_R
+                                   QUBIT_STATE_P, QUBIT_STATE_N,\
+                                   OPERATOR_HADAMARD, QUBIT_STATE_L, QUBIT_STATE_R
 from qns.models.core.backend import QuantumModel
 
 

@@ -40,15 +40,15 @@ class WaxmanTopology(Topology):
         for i in range(self.nodes_number):
             n = QNode(f"n{i+1}")
             nl.append(n)
-            x = random.random()*self.size
-            y = random.random()*self.size
+            x = random.random() * self.size
+            y = random.random() * self.size
             location_table[n] = (x, y)
 
         L = 0
         cb = list(itertools.combinations(nl, 2))
         for n1, n2 in cb:
-            tmp_l = np.sqrt((location_table[n1][0]-location_table[n2][0])**2 +
-                            (location_table[n1][1]-location_table[n2][1])**2)
+            tmp_l = np.sqrt((location_table[n1][0] - location_table[n2][0]) ** 2 +
+                            (location_table[n1][1] - location_table[n2][1]) ** 2)
             distance_table[(n1, n2)] = tmp_l
             if tmp_l > L:
                 L = tmp_l
@@ -57,7 +57,7 @@ class WaxmanTopology(Topology):
             if n1 == n2:
                 continue
             d = distance_table[(n1, n2)]
-            p = self.alpha*np.exp(-d/(self.beta*L))
+            p = self.alpha * np.exp(-d / (self.beta * L))
             if random.random() < p:
                 link = QuantumChannel(name=f"l{n1}-{n2}", length=d, **self.qchannel_args)
                 ll.append(link)

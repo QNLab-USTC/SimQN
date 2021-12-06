@@ -114,13 +114,13 @@ class ClassicChannel(Entity):
                 send_time = self._next_send_time
 
             if self.max_buffer_size != 0 and send_time > self._simulator.current_time\
-               + self._simulator.time(sec=self.max_buffer_size/self.bandwidth):
+               + self._simulator.time(sec=self.max_buffer_size / self.bandwidth):
                 # buffer is overflow
                 log.debug(f"cchannel {self}: drop packet {packet} due to overflow")
                 return
 
             self._next_send_time = send_time + \
-                self._simulator.time(sec=len(packet)/self.bandwidth)
+                self._simulator.time(sec=len(packet) / self.bandwidth)
         else:
             send_time = self._simulator.current_time
 

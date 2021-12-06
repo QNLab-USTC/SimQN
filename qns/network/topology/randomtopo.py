@@ -39,8 +39,8 @@ class RandomTopology(Topology):
 
             idx = random.randint(0, i)
             pn = nl[idx]
-            mat[idx][i+1] = 1
-            mat[i+1][idx] = 1
+            mat[idx][i + 1] = 1
+            mat[i + 1][idx] = 1
 
             link = QuantumChannel(name=f"l{idx+1},{i+2}", **self.qchannel_args)
             ll.append(link)

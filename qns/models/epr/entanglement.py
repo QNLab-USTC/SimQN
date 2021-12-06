@@ -60,8 +60,8 @@ class BaseEntanglement(object):
             return [q0, q1]
         q0 = Qubit(state=QUBIT_STATE_0, name="q0")
         q1 = Qubit(state=QUBIT_STATE_0, name="q1")
-        a = np.sqrt(self.fidelity/2)
-        b = np.sqrt((1-self.fidelity)/2)
+        a = np.sqrt(self.fidelity / 2)
+        b = np.sqrt((1 - self.fidelity) / 2)
         qs = QState([q0, q1], state=np.array([[a], [b], [b], [a]]))
         q0.state = qs
         q1.state = qs
@@ -164,17 +164,17 @@ class WernerStateEntanglement(BaseEntanglement, QuantumModel):
             fidelity (float): the fidelity
             name (str): the entanglement name
         """
-        self.w = (fidelity * 4 - 1)/3
+        self.w = (fidelity * 4 - 1) / 3
         self.name = name
         self.is_decoherenced = False
 
     @property
     def fidelity(self) -> float:
-        return (self.w * 3 + 1)/4
+        return (self.w * 3 + 1) / 4
 
     @fidelity.setter
     def fidelity(self, fidelity: float = 1):
-        self.w = (fidelity * 4 - 1)/3
+        self.w = (fidelity * 4 - 1) / 3
 
     def swapping(self, epr: "WernerStateEntanglement", name: Optional[str] = None):
         """
@@ -216,7 +216,8 @@ class WernerStateEntanglement(BaseEntanglement, QuantumModel):
         epr.is_decoherenced = True
         self.is_decoherenced = True
         fmin = min(self.fidelity, epr.fidelity)
-        ne.fidelity = (fmin**2 + (1-fmin)**2/9)/(fmin**2 + 5/9*(1-fmin)**2 + 2/3*fmin*(1-fmin))
+        ne.fidelity = (fmin ** 2 + (1 - fmin) ** 2 / 9) /\
+                      (fmin ** 2 + 5 / 9 * (1 - fmin) ** 2 + 2 / 3 * fmin * (1 - fmin))
         return ne
 
     def storage_error_model(self, t: float, **kwargs):

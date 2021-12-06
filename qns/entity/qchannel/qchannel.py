@@ -74,12 +74,12 @@ class QuantumChannel(Entity):
                 send_time = self._next_send_time
 
             if self.max_buffer_size != 0 and send_time > self._simulator.current_time\
-               + self._simulator.time(sec=self.max_buffer_size/self.bandwidth):
+               + self._simulator.time(sec=self.max_buffer_size / self.bandwidth):
                 # buffer is overflow
                 log.debug(f"qchannel {self}: drop qubit {qubit} due to overflow")
                 return
 
-            self._next_send_time = send_time + self._simulator.time(sec=1/self.bandwidth)
+            self._next_send_time = send_time + self._simulator.time(sec=1 / self.bandwidth)
         else:
             send_time = self._simulator.current_time
 
@@ -89,7 +89,7 @@ class QuantumChannel(Entity):
             return
 
         #  add delay
-        recv_time = send_time+self._simulator.time(sec=self.delay)
+        recv_time = send_time + self._simulator.time(sec=self.delay)
 
         # operation on the qubit
         qubit.transfer_error_model(self.length, **self.transfer_error_model_args)
