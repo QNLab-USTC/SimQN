@@ -29,8 +29,10 @@ class QState(object):
     """
     QState is the state of one (or multiple) qubits
     """
-    def __init__(self, qubits: List["Qubit"] = [], state: Optional[List[complex]] = QUBIT_STATE_0):
+    def __init__(self, qubits: List["Qubit"] = [],
+                 state: Optional[List[complex]] = QUBIT_STATE_0, name: Optional[str] = None):
         self.num = len(qubits)
+        self.name = name
 
         if len(state) != 2**self.num:
             raise QStateSizeNotMatchError

@@ -1,10 +1,13 @@
-from qns import Event, Time
+from qns.simulator.event import Event
+from qns.simulator.ts import Time
+
 
 class TestEvent(Event):
     def invoke(self) -> None:
         print("event happened")
 
-te = TestEvent(t = Time(sec=1), name ="test event")
+
+te = TestEvent(t=Time(sec=1), name="test event")
 print(te)
 
 te.invoke()

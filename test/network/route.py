@@ -1,14 +1,13 @@
-from qns.network import QuantumNetwork
-from qns.network.topology import RandomTopology, LineTopology
+from qns.network.network import QuantumNetwork
+from qns.network.topology import RandomTopology
 
-# topo = RandomTopology(nodes_number=5, lines_number=4)
-topo = RandomTopology(nodes_number=20, lines_number= 30)
+topo = RandomTopology(nodes_number=20, lines_number=30)
 net = QuantumNetwork(topo)
 
 net.build_route()
 print(net.nodes)
-for l in net.qchannels:
-    print(l, l.node_list)
+for link in net.qchannels:
+    print(link, link.node_list)
 
 n1 = net.get_node("n1")
 n4 = net.get_node("n4")

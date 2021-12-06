@@ -1,7 +1,6 @@
 from qns.simulator.simulator import Simulator
 from qns.entity.timer.timer import Timer
 
-
 s = Simulator(0, 10, 1000)
 
 
