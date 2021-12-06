@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en,zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>qns.network.protocol.bb84 &mdash; QuantNetSim 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> QuantNetSim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">qns</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">QuantNetSim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>qns.network.protocol.bb84</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for qns.network.protocol.bb84</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">qns.entity.cchannel.cchannel</span> <span class="kn">import</span> <span class="n">ClassicChannel</span><span class="p">,</span> <span class="n">RecvClassicPacket</span><span class="p">,</span> <span class="n">ClassicPacket</span>
+<span class="kn">from</span> <span class="nn">qns.entity.node.app</span> <span class="kn">import</span> <span class="n">Application</span>
+<span class="kn">from</span> <span class="nn">qns.entity.qchannel.qchannel</span> <span class="kn">import</span> <span class="n">QuantumChannel</span><span class="p">,</span> <span class="n">RecvQubitPacket</span>
+<span class="kn">from</span> <span class="nn">qns.entity.node.node</span> <span class="kn">import</span> <span class="n">QNode</span>
+<span class="kn">from</span> <span class="nn">qns.models.qubit.const</span> <span class="kn">import</span> <span class="n">BASIS_X</span><span class="p">,</span> <span class="n">BASIS_Z</span><span class="p">,</span> \
+    <span class="n">QUBIT_STATE_0</span><span class="p">,</span> <span class="n">QUBIT_STATE_1</span><span class="p">,</span> <span class="n">QUBIT_STATE_P</span><span class="p">,</span> <span class="n">QUBIT_STATE_N</span>
+<span class="kn">from</span> <span class="nn">qns.simulator.event</span> <span class="kn">import</span> <span class="n">Event</span><span class="p">,</span> <span class="n">func_to_event</span>
+<span class="kn">from</span> <span class="nn">qns.simulator.simulator</span> <span class="kn">import</span> <span class="n">Simulator</span>
+<span class="kn">from</span> <span class="nn">qns.models.qubit</span> <span class="kn">import</span> <span class="n">Qubit</span>
+
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
+
+
+<div class="viewcode-block" id="QubitWithError"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.bb84.QubitWithError">[docs]</a><span class="k">class</span> <span class="nc">QubitWithError</span><span class="p">(</span><span class="n">Qubit</span><span class="p">):</span>
+<div class="viewcode-block" id="QubitWithError.transfer_error_model"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.bb84.QubitWithError.transfer_error_model">[docs]</a>    <span class="k">def</span> <span class="nf">transfer_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># lkm = length / 1000</span>
+        <span class="c1"># R(self, np.pi /4)</span>
+        <span class="k">pass</span></div></div>
+
+
+<div class="viewcode-block" id="BB84SendApp"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.bb84.BB84SendApp">[docs]</a><span class="k">class</span> <span class="nc">BB84SendApp</span><span class="p">(</span><span class="n">Application</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dest</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">qchannel</span><span class="p">:</span> <span class="n">QuantumChannel</span><span class="p">,</span>
+                 <span class="n">cchannel</span><span class="p">:</span> <span class="n">ClassicChannel</span><span class="p">,</span> <span class="n">send_rate</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dest</span> <span class="o">=</span> <span class="n">dest</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qchannel</span> <span class="o">=</span> <span class="n">qchannel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cchannel</span> <span class="o">=</span> <span class="n">cchannel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_rate</span> <span class="o">=</span> <span class="n">send_rate</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qubit_list</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">basis_list</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measure_list</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">succ_key_pool</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fail_number</span> <span class="o">=</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="BB84SendApp.install"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.bb84.BB84SendApp.install">[docs]</a>    <span class="k">def</span> <span class="nf">install</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">simulator</span><span class="p">:</span> <span class="n">Simulator</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">simulator</span><span class="p">)</span>
+
+        <span class="n">time_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">time_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">simulator</span><span class="o">.</span><span class="n">ts</span><span class="p">)</span>
+
+        <span class="n">t</span> <span class="o">=</span> <span class="n">simulator</span><span class="o">.</span><span class="n">ts</span>
+        <span class="n">event</span> <span class="o">=</span> <span class="n">func_to_event</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_qubit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">add_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span></div>
+        <span class="c1"># while t &lt;= simulator.te:</span>
+        <span class="c1">#     time_list.append(t)</span>
+        <span class="c1">#     t = t + simulator.time(sec = 1 / self.send_rate)</span>
+
+        <span class="c1">#     event = func_to_event(t, self.send_qubit)</span>
+        <span class="c1">#     self._simulator.add_event(event)</span>
+
+<div class="viewcode-block" id="BB84SendApp.handle"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.bb84.BB84SendApp.handle">[docs]</a>    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">RecvClassicPacket</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">cchannel</span> <span class="o">==</span> <span class="n">event</span><span class="o">.</span><span class="n">cchannel</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">check_basis</span><span class="p">(</span><span class="n">event</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BB84SendApp.check_basis"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.bb84.BB84SendApp.check_basis">[docs]</a>    <span class="k">def</span> <span class="nf">check_basis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">RecvClassicPacket</span><span class="p">):</span>
+        <span class="n">packet</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">packet</span>
+        <span class="n">msg</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">packet</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+        <span class="n">basis_dest</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;basis&quot;</span><span class="p">)</span>
+
+        <span class="c1"># qubit = self.qubit_list[id]</span>
+        <span class="n">basis_src</span> <span class="o">=</span> <span class="s2">&quot;Z&quot;</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basis_list</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">==</span> <span class="n">BASIS_Z</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;X&quot;</span>
+
+        <span class="k">if</span> <span class="n">basis_dest</span> <span class="o">==</span> <span class="n">basis_src</span><span class="p">:</span>
+            <span class="c1"># log.info(f&quot;[{self._simulator.current_time}] src check {id} basis succ&quot;)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">succ_key_pool</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">measure_list</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># log.info(f&quot;[{self._simulator.current_time}] src check {id} basis fail&quot;)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fail_number</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">packet</span> <span class="o">=</span> <span class="n">ClassicPacket</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="nb">id</span><span class="p">,</span> <span class="s2">&quot;basis&quot;</span><span class="p">:</span> <span class="n">basis_src</span><span class="p">,</span>
+                               <span class="s2">&quot;ret&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">measure_list</span><span class="p">[</span><span class="nb">id</span><span class="p">]},</span> <span class="n">src</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_node</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dest</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cchannel</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">packet</span><span class="p">,</span> <span class="n">next_hop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dest</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BB84SendApp.send_qubit"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.bb84.BB84SendApp.send_qubit">[docs]</a>    <span class="k">def</span> <span class="nf">send_qubit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># randomly generate a qubit</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">choice</span><span class="p">([</span><span class="n">QUBIT_STATE_0</span><span class="p">,</span> <span class="n">QUBIT_STATE_1</span><span class="p">,</span>
+                       <span class="n">QUBIT_STATE_P</span><span class="p">,</span> <span class="n">QUBIT_STATE_N</span><span class="p">])</span>
+        <span class="n">qubit</span> <span class="o">=</span> <span class="n">QubitWithError</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">)</span>
+        <span class="n">basis</span> <span class="o">=</span> <span class="n">BASIS_Z</span> <span class="k">if</span> <span class="p">(</span><span class="n">state</span> <span class="o">==</span> <span class="n">QUBIT_STATE_0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> <span class="ow">or</span> <span class="p">(</span>
+            <span class="n">state</span> <span class="o">==</span> <span class="n">QUBIT_STATE_1</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> <span class="k">else</span> <span class="n">BASIS_X</span>
+        <span class="c1"># basis_msg = &quot;Z&quot; if (basis == BASIS_Z).all() else &quot;X&quot;</span>
+
+        <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="p">(</span><span class="n">state</span> <span class="o">==</span> <span class="n">QUBIT_STATE_0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> <span class="ow">or</span> <span class="p">(</span>
+            <span class="n">state</span> <span class="o">==</span> <span class="n">QUBIT_STATE_P</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> <span class="k">else</span> <span class="mi">1</span>
+
+        <span class="n">qubit</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qubit_list</span><span class="p">[</span><span class="n">qubit</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">qubit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">basis_list</span><span class="p">[</span><span class="n">qubit</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">basis</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measure_list</span><span class="p">[</span><span class="n">qubit</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">ret</span>
+
+        <span class="c1"># log.info(f&quot;[{self._simulator.current_time}] send qubit {qubit.id},\</span>
+        <span class="c1">#  basis: {basis_msg} , ret: {ret}&quot;)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qchannel</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">qubit</span><span class="o">=</span><span class="n">qubit</span><span class="p">,</span> <span class="n">next_hop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dest</span><span class="p">)</span>
+
+        <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">current_time</span> <span class="o">+</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="n">sec</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_rate</span><span class="p">)</span>
+        <span class="n">event</span> <span class="o">=</span> <span class="n">func_to_event</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_qubit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">add_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="BB84RecvApp"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.bb84.BB84RecvApp">[docs]</a><span class="k">class</span> <span class="nc">BB84RecvApp</span><span class="p">(</span><span class="n">Application</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">qchannel</span><span class="p">:</span> <span class="n">QuantumChannel</span><span class="p">,</span> <span class="n">cchannel</span><span class="p">:</span> <span class="n">ClassicChannel</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">src</span> <span class="o">=</span> <span class="n">src</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qchannel</span> <span class="o">=</span> <span class="n">qchannel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cchannel</span> <span class="o">=</span> <span class="n">cchannel</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">qubit_list</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">basis_list</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measure_list</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">succ_key_pool</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fail_number</span> <span class="o">=</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="BB84RecvApp.handle"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.bb84.BB84RecvApp.handle">[docs]</a>    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">RecvQubitPacket</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">qchannel</span> <span class="o">==</span> <span class="n">event</span><span class="o">.</span><span class="n">qchannel</span><span class="p">:</span>
+            <span class="c1"># receive a qubit</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">RecvClassicPacket</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">cchannel</span> <span class="o">==</span> <span class="n">event</span><span class="o">.</span><span class="n">cchannel</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_basis</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BB84RecvApp.check_basis"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.bb84.BB84RecvApp.check_basis">[docs]</a>    <span class="k">def</span> <span class="nf">check_basis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">RecvClassicPacket</span><span class="p">):</span>
+        <span class="n">packet</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">packet</span>
+        <span class="n">msg</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">packet</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+        <span class="n">basis_src</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;basis&quot;</span><span class="p">)</span>
+
+        <span class="c1"># qubit = self.qubit_list[id]</span>
+        <span class="n">basis_dest</span> <span class="o">=</span> <span class="s2">&quot;Z&quot;</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basis_list</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">==</span> <span class="n">BASIS_Z</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;X&quot;</span>
+
+        <span class="n">ret_dest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">measure_list</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span>
+        <span class="n">ret_src</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ret&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">basis_dest</span> <span class="o">==</span> <span class="n">basis_src</span> <span class="ow">and</span> <span class="n">ret_dest</span> <span class="o">==</span> <span class="n">ret_src</span><span class="p">:</span>
+            <span class="c1"># log.info(f&quot;[{self._simulator.current_time}] dest check {id} basis succ&quot;)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">succ_key_pool</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">measure_list</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># log.info(f&quot;[{self._simulator.current_time}] dest check {id} basis fail&quot;)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fail_number</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="BB84RecvApp.recv"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.bb84.BB84RecvApp.recv">[docs]</a>    <span class="k">def</span> <span class="nf">recv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">RecvQubitPacket</span><span class="p">):</span>
+        <span class="n">qubit</span><span class="p">:</span> <span class="n">Qubit</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">qubit</span>
+        <span class="c1"># randomly choose X,Z basis</span>
+        <span class="n">basis</span> <span class="o">=</span> <span class="n">choice</span><span class="p">([</span><span class="n">BASIS_Z</span><span class="p">,</span> <span class="n">BASIS_X</span><span class="p">])</span>
+        <span class="n">basis_msg</span> <span class="o">=</span> <span class="s2">&quot;Z&quot;</span> <span class="k">if</span> <span class="p">(</span><span class="n">basis</span> <span class="o">==</span> <span class="n">BASIS_Z</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;X&quot;</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">qubit</span><span class="o">.</span><span class="n">measureZ</span><span class="p">()</span> <span class="k">if</span> <span class="p">(</span><span class="n">basis</span> <span class="o">==</span> <span class="n">BASIS_Z</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> <span class="k">else</span> <span class="n">qubit</span><span class="o">.</span><span class="n">measureX</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qubit_list</span><span class="p">[</span><span class="n">qubit</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">qubit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">basis_list</span><span class="p">[</span><span class="n">qubit</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">basis</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measure_list</span><span class="p">[</span><span class="n">qubit</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">ret</span>
+
+        <span class="c1"># log.info(f&quot;[{self._simulator.current_time}] recv qubit {qubit.id}, \</span>
+        <span class="c1"># basis: {basis_msg}, ret: {ret}&quot;)</span>
+        <span class="n">packet</span> <span class="o">=</span> <span class="n">ClassicPacket</span><span class="p">(</span>
+            <span class="n">msg</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">qubit</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s2">&quot;basis&quot;</span><span class="p">:</span> <span class="n">basis_msg</span><span class="p">},</span> <span class="n">src</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_node</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">src</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cchannel</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">packet</span><span class="p">,</span> <span class="n">next_hop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">src</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Elliot Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

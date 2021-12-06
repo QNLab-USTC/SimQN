@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en,zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>qns.network.route.dijkstra &mdash; QuantNetSim 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> QuantNetSim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">qns</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">QuantNetSim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>qns.network.route.dijkstra</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for qns.network.route.dijkstra</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">from</span> <span class="nn">qns.entity.node.node</span> <span class="kn">import</span> <span class="n">QNode</span>
+<span class="kn">from</span> <span class="nn">qns.entity.qchannel.qchannel</span> <span class="kn">import</span> <span class="n">QuantumChannel</span>
+<span class="kn">from</span> <span class="nn">qns.network.route.route</span> <span class="kn">import</span> <span class="n">RouteImpl</span><span class="p">,</span> <span class="n">NetworkRouteError</span>
+
+
+<div class="viewcode-block" id="DijkstraRouteAlgorithm"><a class="viewcode-back" href="../../../../qns.network.route.html#qns.network.route.dijkstra.DijkstraRouteAlgorithm">[docs]</a><span class="k">class</span> <span class="nc">DijkstraRouteAlgorithm</span><span class="p">(</span><span class="n">RouteImpl</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is the dijkstra route algorithm implement</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;dijkstra&quot;</span><span class="p">,</span>
+                 <span class="n">metric_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">QuantumChannel</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            name: the routing algorithm&#39;s name</span>
+<span class="sd">            metric_func: the function that returns the metric for each QuantumChannel.</span>
+<span class="sd">                The default is the const function m(l)=1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">route_table</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">metric_func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metric_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metric_func</span> <span class="o">=</span> <span class="n">metric_func</span>
+
+<div class="viewcode-block" id="DijkstraRouteAlgorithm.build"><a class="viewcode-back" href="../../../../qns.network.route.html#qns.network.route.dijkstra.DijkstraRouteAlgorithm.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">],</span> <span class="n">qchannels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QuantumChannel</span><span class="p">]):</span>
+        <span class="n">INF</span> <span class="o">=</span> <span class="mi">999999</span>
+
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+            <span class="n">selected</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">unselected</span> <span class="o">=</span> <span class="p">[</span><span class="n">u</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">]</span>
+
+            <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">nn</span> <span class="o">==</span> <span class="n">n</span><span class="p">:</span>
+                    <span class="n">d</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">[]]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">d</span><span class="p">[</span><span class="n">nn</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">INF</span><span class="p">,</span> <span class="p">[</span><span class="n">nn</span><span class="p">]]</span>
+
+            <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">unselected</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">ms</span> <span class="o">=</span> <span class="n">unselected</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">mi</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">ms</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+                <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">unselected</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">mi</span><span class="p">:</span>
+                        <span class="n">ms</span> <span class="o">=</span> <span class="n">s</span>
+                        <span class="n">mi</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+                <span class="c1"># d[ms] = [d[ms][0], d[ms][1]]</span>
+                <span class="n">selected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ms</span><span class="p">)</span>
+                <span class="n">unselected</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">ms</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">qchannels</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">ms</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">link</span><span class="o">.</span><span class="n">node_list</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">node_list</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="n">NetworkRouteError</span><span class="p">(</span><span class="s2">&quot;broken link&quot;</span><span class="p">)</span>
+                    <span class="n">idx</span> <span class="o">=</span> <span class="n">link</span><span class="o">.</span><span class="n">node_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">ms</span><span class="p">)</span>
+                    <span class="n">idx_s</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">idx</span>
+                    <span class="n">s</span> <span class="o">=</span> <span class="n">link</span><span class="o">.</span><span class="n">node_list</span><span class="p">[</span><span class="n">idx_s</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">unselected</span> <span class="ow">and</span> <span class="n">d</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">d</span><span class="p">[</span><span class="n">ms</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric_func</span><span class="p">(</span><span class="n">link</span><span class="p">):</span>
+                        <span class="n">d</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="n">ms</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric_func</span><span class="p">(</span><span class="n">link</span><span class="p">),</span> <span class="p">[</span><span class="n">ms</span><span class="p">]</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="n">ms</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>
+
+            <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+                <span class="n">d</span><span class="p">[</span><span class="n">nn</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">nn</span><span class="p">]</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="n">nn</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">route_table</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span></div>
+
+<div class="viewcode-block" id="DijkstraRouteAlgorithm.query"><a class="viewcode-back" href="../../../../qns.network.route.html#qns.network.route.dijkstra.DijkstraRouteAlgorithm.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">dest</span><span class="p">:</span> <span class="n">QNode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">]]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        query the metric, nexthop and the path</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            src: the source node</span>
+<span class="sd">            dest: the destination node</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of route paths. The result should be sortted by the priority.</span>
+<span class="sd">            The element is a tuple containing: metric, the next-hop and the whole path.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ls</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">QNode</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">]]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">route_table</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ls</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+        <span class="n">le</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">le</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">metric</span> <span class="o">=</span> <span class="n">le</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">path</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">]</span> <span class="o">=</span> <span class="n">le</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">path</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">next_hop</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">next_hop</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">return</span> <span class="p">[(</span><span class="n">metric</span><span class="p">,</span> <span class="n">next_hop</span><span class="p">,</span> <span class="n">path</span><span class="p">)]</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Elliot Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

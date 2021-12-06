@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en,zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>qns.network.topology.topo &mdash; QuantNetSim 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> QuantNetSim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">qns</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">QuantNetSim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>qns.network.topology.topo</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for qns.network.topology.topo</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">qns.entity.node.node</span> <span class="kn">import</span> <span class="n">QNode</span>
+<span class="kn">from</span> <span class="nn">qns.entity.cchannel.cchannel</span> <span class="kn">import</span> <span class="n">ClassicChannel</span>
+<span class="kn">from</span> <span class="nn">qns.entity.memory.memory</span> <span class="kn">import</span> <span class="n">QuantumMemory</span>
+<span class="kn">from</span> <span class="nn">qns.entity.node.app</span> <span class="kn">import</span> <span class="n">Application</span>
+<span class="kn">from</span> <span class="nn">qns.entity.qchannel.qchannel</span> <span class="kn">import</span> <span class="n">QuantumChannel</span>
+
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+
+
+<div class="viewcode-block" id="ClassicTopology"><a class="viewcode-back" href="../../../../qns.network.topology.html#qns.network.ClassicTopology">[docs]</a><span class="k">class</span> <span class="nc">ClassicTopology</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">Empty</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">All</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">Follow</span> <span class="o">=</span> <span class="mi">3</span></div>
+
+
+<div class="viewcode-block" id="Topology"><a class="viewcode-back" href="../../../../qns.network.topology.html#qns.network.Topology">[docs]</a><span class="k">class</span> <span class="nc">Topology</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Topology is a factory for QuantumNetwork</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">nodes_apps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Application</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+                 <span class="n">qchannel_args</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">cchannel_args</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{},</span>
+                 <span class="n">memory_args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            nodes_number: the number of Qnodes</span>
+<span class="sd">            nodes_apps: apps will be installed to all nodes</span>
+<span class="sd">            qchannel_args: default quantum channel arguments</span>
+<span class="sd">            cchannel_args: default channel channel arguments</span>
+<span class="sd">            memory_args: default quantum memory arguments</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes_number</span> <span class="o">=</span> <span class="n">nodes_number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes_apps</span> <span class="o">=</span> <span class="n">nodes_apps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qchannel_args</span> <span class="o">=</span> <span class="n">qchannel_args</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">memory_args</span> <span class="o">=</span> <span class="n">memory_args</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cchannel_args</span> <span class="o">=</span> <span class="n">cchannel_args</span>
+
+<div class="viewcode-block" id="Topology.build"><a class="viewcode-back" href="../../../../qns.network.topology.html#qns.network.Topology.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">QuantumChannel</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        build the special topology</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the list of QNodes and the list of QuantumChannel</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+    <span class="k">def</span> <span class="nf">_add_apps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nl</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        add apps for all nodes in `nl`</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            nl (List[QNode]): a list of quantum nodes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nl</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_apps</span><span class="p">:</span>
+                <span class="n">tmp_p</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                <span class="n">n</span><span class="o">.</span><span class="n">add_apps</span><span class="p">(</span><span class="n">tmp_p</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_add_memories</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nl</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add quantum memories to all nodes in `nl`</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            nl (List[QNode]): a list of quantum nodes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">memory_args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nl</span><span class="p">):</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">QuantumMemory</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;m</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">memory_args</span><span class="p">)</span>
+            <span class="n">n</span><span class="o">.</span><span class="n">add_memory</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Topology.add_cchannels"><a class="viewcode-back" href="../../../../qns.network.topology.html#qns.network.Topology.add_cchannels">[docs]</a>    <span class="k">def</span> <span class="nf">add_cchannels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classic_topo</span><span class="p">:</span> <span class="n">ClassicTopology</span> <span class="o">=</span> <span class="n">ClassicTopology</span><span class="o">.</span><span class="n">Empty</span><span class="p">,</span>
+                      <span class="n">nl</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">ll</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">QuantumChannel</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        build classic network topology</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            classic_topo (ClassicTopology): Classic topology,</span>
+<span class="sd">                ClassicTopology.Empty -&gt; no connection</span>
+<span class="sd">                ClassicTopology.All -&gt; every nodes are connected directly</span>
+<span class="sd">                ClassicTopology.Follow -&gt; follow the quantum topology</span>
+<span class="sd">            nl (List[qns.entity.node.node.QNode]): a list of quantum nodes</span>
+<span class="sd">            ll (List[qns.entity.cchannel.cchannel.QuantumChannel]): a list of quantum channels</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cchannel_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">classic_topo</span> <span class="o">==</span> <span class="n">ClassicTopology</span><span class="o">.</span><span class="n">All</span><span class="p">:</span>
+            <span class="n">topo</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">nl</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">topo</span><span class="p">):</span>
+                <span class="n">cchannel</span> <span class="o">=</span> <span class="n">ClassicChannel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;c</span><span class="si">{</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">cchannel_args</span><span class="p">)</span>
+                <span class="n">src</span><span class="o">.</span><span class="n">add_cchannel</span><span class="p">(</span><span class="n">cchannel</span><span class="o">=</span><span class="n">cchannel</span><span class="p">)</span>
+                <span class="n">dst</span><span class="o">.</span><span class="n">add_cchannel</span><span class="p">(</span><span class="n">cchannel</span><span class="o">=</span><span class="n">cchannel</span><span class="p">)</span>
+                <span class="n">cchannel_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cchannel</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">classic_topo</span> <span class="o">==</span> <span class="n">ClassicTopology</span><span class="o">.</span><span class="n">Follow</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ll</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">cchannel_list</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">qchannel</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ll</span><span class="p">):</span>
+                <span class="n">node_list</span> <span class="o">=</span> <span class="n">qchannel</span><span class="o">.</span><span class="n">node_list</span>
+                <span class="n">cchannel</span> <span class="o">=</span> <span class="n">ClassicChannel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;c-</span><span class="si">{</span><span class="n">qchannel</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">cchannel_args</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">node_list</span><span class="p">:</span>
+                    <span class="n">n</span><span class="o">.</span><span class="n">add_cchannel</span><span class="p">(</span><span class="n">cchannel</span><span class="o">=</span><span class="n">cchannel</span><span class="p">)</span>
+                <span class="n">cchannel_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cchannel</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cchannel_list</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Elliot Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

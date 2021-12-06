@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en,zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>qns.network package &mdash; QuantNetSim 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="qns.network.protocol package" href="qns.network.protocol.html" />
+    <link rel="prev" title="qns.models.qubit package" href="qns.models.qubit.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> QuantNetSim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">qns</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="qns.html">qns package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="qns.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="qns.entity.html">qns.entity package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.models.html">qns.models package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">qns.network package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.simulator.html">qns.simulator package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.utils.html">qns.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qns.html#module-qns">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">QuantNetSim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">qns</a> &raquo;</li>
+          <li><a href="qns.html">qns package</a> &raquo;</li>
+      <li>qns.network package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/qns.network.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="qns-network-package">
+<h1>qns.network package<a class="headerlink" href="#qns-network-package" title="Permalink to this headline"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="qns.network.protocol.html">qns.network.protocol package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="qns.network.protocol.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qns.network.protocol.html#module-qns.network.protocol.bb84">qns.network.protocol.bb84 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qns.network.protocol.html#module-qns.network.protocol.entanglement_distribution">qns.network.protocol.entanglement_distribution module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qns.network.protocol.html#module-qns.network.protocol">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="qns.network.route.html">qns.network.route package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="qns.network.route.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qns.network.route.html#module-qns.network.route.dijkstra">qns.network.route.dijkstra module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qns.network.route.html#module-qns.network.route.route">qns.network.route.route module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qns.network.route.html#module-qns.network.route">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="qns.network.topology.html">qns.network.topology package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="qns.network.topology.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qns.network.topology.html#module-qns.network.topology.basictopo">qns.network.topology.basictopo module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qns.network.topology.html#module-qns.network.topology.gridtopo">qns.network.topology.gridtopo module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qns.network.topology.html#module-qns.network.topology.linetopo">qns.network.topology.linetopo module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qns.network.topology.html#module-qns.network.topology.randomtopo">qns.network.topology.randomtopo module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qns.network.topology.html#module-qns.network.topology.topo">qns.network.topology.topo module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qns.network.topology.html#module-qns.network.topology.treetopo">qns.network.topology.treetopo module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qns.network.topology.html#module-qns.network.topology.waxmantopo">qns.network.topology.waxmantopo module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qns.network.topology.html#module-qns.network.topology">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-qns.network.network">
+<span id="qns-network-network-module"></span><h2>qns.network.network module<a class="headerlink" href="#module-qns.network.network" title="Permalink to this headline"></a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="qns.network.network.QNSNetworkError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.network.network.</span></span><span class="sig-name descname"><span class="pre">QNSNetworkError</span></span><a class="reference internal" href="_modules/qns/network/network.html#QNSNetworkError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.network.QNSNetworkError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.network.network.QuantumNetwork">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.network.network.</span></span><span class="sig-name descname"><span class="pre">QuantumNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">topo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.network.topology.html#qns.network.topology.topo.Topology" title="qns.network.topology.topo.Topology"><span class="pre">qns.network.topology.topo.Topology</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">route</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.network.route.html#qns.network.route.route.RouteImpl" title="qns.network.route.route.RouteImpl"><span class="pre">qns.network.route.route.RouteImpl</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classic_topo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.network.topology.html#qns.network.topology.topo.ClassicTopology" title="qns.network.topology.topo.ClassicTopology"><span class="pre">qns.network.topology.topo.ClassicTopology</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">ClassicTopology.Empty</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.network.QuantumNetwork" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>QuantumNetwork includes several quantum nodes, channels and a special topology</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.network.QuantumNetwork.add_cchannel">
+<span class="sig-name descname"><span class="pre">add_cchannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cchannel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.entity.cchannel.html#qns.entity.cchannel.cchannel.ClassicChannel" title="qns.entity.cchannel.cchannel.ClassicChannel"><span class="pre">qns.entity.cchannel.cchannel.ClassicChannel</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.add_cchannel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.network.QuantumNetwork.add_cchannel" title="Permalink to this definition"></a></dt>
+<dd><p>add a ClassicChannel into this network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cchannel</strong> (<a class="reference internal" href="qns.entity.cchannel.html#qns.entity.cchannel.cchannel.ClassicChannel" title="qns.entity.cchannel.cchannel.ClassicChannel"><em>qns.entity.cchannel.cchannel.ClassicChannel</em></a>) -- the inserting ClassicChannel</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.network.QuantumNetwork.add_memories">
+<span class="sig-name descname"><span class="pre">add_memories</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">capacity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_error_model_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.add_memories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.network.QuantumNetwork.add_memories" title="Permalink to this definition"></a></dt>
+<dd><p>Add quantum memories to every nodes in this network</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>capacity</strong> (<em>int</em>) -- the capacity of the quantum memory</p></li>
+<li><p><strong>store_error_model_args</strong> -- the arguments for store_error_model</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.network.QuantumNetwork.add_node">
+<span class="sig-name descname"><span class="pre">add_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.add_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.network.QuantumNetwork.add_node" title="Permalink to this definition"></a></dt>
+<dd><p>add a QNode into this network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node</strong> (<a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><em>qns.entity.node.node.QNode</em></a>) -- the inserting node</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.network.QuantumNetwork.add_qchannel">
+<span class="sig-name descname"><span class="pre">add_qchannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qchannel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.entity.qchannel.html#qns.entity.qchannel.qchannel.QuantumChannel" title="qns.entity.qchannel.qchannel.QuantumChannel"><span class="pre">qns.entity.qchannel.qchannel.QuantumChannel</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.add_qchannel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.network.QuantumNetwork.add_qchannel" title="Permalink to this definition"></a></dt>
+<dd><p>add a QuantumChannel into this network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>qchannel</strong> (<a class="reference internal" href="qns.entity.qchannel.html#qns.entity.qchannel.qchannel.QuantumChannel" title="qns.entity.qchannel.qchannel.QuantumChannel"><em>qns.entity.qchannel.qchannel.QuantumChannel</em></a>) -- the inserting QuantumChannel</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.network.QuantumNetwork.add_request">
+<span class="sig-name descname"><span class="pre">add_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.add_request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.network.QuantumNetwork.add_request" title="Permalink to this definition"></a></dt>
+<dd><p>Add a request (SD-pair) to the network</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src</strong> -- the source node</p></li>
+<li><p><strong>dest</strong> -- the destination node</p></li>
+<li><p><strong>attr</strong> -- other attributions</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.network.QuantumNetwork.build_route">
+<span class="sig-name descname"><span class="pre">build_route</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.build_route"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.network.QuantumNetwork.build_route" title="Permalink to this definition"></a></dt>
+<dd><p>build static route tables for each nodes</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.network.QuantumNetwork.get_cchannel">
+<span class="sig-name descname"><span class="pre">get_cchannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.get_cchannel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.network.QuantumNetwork.get_cchannel" title="Permalink to this definition"></a></dt>
+<dd><p>get the ClassicChannel by its name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) -- its name</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the ClassicChannel</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.network.QuantumNetwork.get_node">
+<span class="sig-name descname"><span class="pre">get_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.get_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.network.QuantumNetwork.get_node" title="Permalink to this definition"></a></dt>
+<dd><p>get the QNode by its name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) -- its name</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the QNode</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.network.QuantumNetwork.get_qchannel">
+<span class="sig-name descname"><span class="pre">get_qchannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.get_qchannel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.network.QuantumNetwork.get_qchannel" title="Permalink to this definition"></a></dt>
+<dd><p>get the QuantumChannel by its name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) -- its name</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the QuantumChannel</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.network.QuantumNetwork.install">
+<span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.simulator.html#qns.simulator.simulator.Simulator" title="qns.simulator.simulator.Simulator"><span class="pre">qns.simulator.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.install"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.network.QuantumNetwork.install" title="Permalink to this definition"></a></dt>
+<dd><p>install all nodes (including channels, memories and applications) in this network</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>simulator</strong> (<a class="reference internal" href="qns.simulator.html#qns.simulator.simulator.Simulator" title="qns.simulator.simulator.Simulator"><em>qns.simulator.simulator.Simulator</em></a>) -- the simulator</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.network.QuantumNetwork.query_route">
+<span class="sig-name descname"><span class="pre">query_route</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.query_route"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.network.QuantumNetwork.query_route" title="Permalink to this definition"></a></dt>
+<dd><p>query the metric, nexthop and the path</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src</strong> -- the source node</p></li>
+<li><p><strong>dest</strong> -- the destination node</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of route paths. The result should be sortted by the priority.
+The element is a tuple containing: metric, the next-hop and the whole path.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.network.QuantumNetwork.random_requests">
+<span class="sig-name descname"><span class="pre">random_requests</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_overlay</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.random_requests"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.network.QuantumNetwork.random_requests" title="Permalink to this definition"></a></dt>
+<dd><p>Generate random requests</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>number</strong> (<em>int</em>) -- the number of requests</p></li>
+<li><p><strong>allow_overlay</strong> (<em>bool</em>) -- allow a node to be the source or destination in multiple requests</p></li>
+<li><p><strong>attr</strong> (<em>Dict</em>) -- request attributions</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-qns.network.requests">
+<span id="qns-network-requests-module"></span><h2>qns.network.requests module<a class="headerlink" href="#module-qns.network.requests" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.network.requests.Request">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.network.requests.</span></span><span class="sig-name descname"><span class="pre">Request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/requests.html#Request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.requests.Request" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A request is a source-destination pair represents a quantum transmitting request.</p>
+</dd></dl>
+
+</section>
+<section id="module-qns.network">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qns.network" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.network.BasicTopology">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.network.</span></span><span class="sig-name descname"><span class="pre">BasicTopology</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_apps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.app.Application" title="qns.entity.node.app.Application"><span class="pre">qns.entity.node.app.Application</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qchannel_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cchannel_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/topology/basictopo.html#BasicTopology"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.BasicTopology" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.network.topology.html#qns.network.topology.topo.Topology" title="qns.network.topology.topo.Topology"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.network.topology.topo.Topology</span></code></a></p>
+<p>BasicTopology includes <cite>nodes_number</cite> Qnodes. None of them are connected with each other</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.BasicTopology.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.qchannel.html#qns.entity.qchannel.qchannel.QuantumChannel" title="qns.entity.qchannel.qchannel.QuantumChannel"><span class="pre">qns.entity.qchannel.qchannel.QuantumChannel</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/qns/network/topology/basictopo.html#BasicTopology.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.BasicTopology.build" title="Permalink to this definition"></a></dt>
+<dd><p>build the special topology</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the list of QNodes and the list of QuantumChannel</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.network.DijkstraRouteAlgorithm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.network.</span></span><span class="sig-name descname"><span class="pre">DijkstraRouteAlgorithm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dijkstra'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.qchannel.html#qns.entity.qchannel.qchannel.QuantumChannel" title="qns.entity.qchannel.qchannel.QuantumChannel"><span class="pre">qns.entity.qchannel.qchannel.QuantumChannel</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/route/dijkstra.html#DijkstraRouteAlgorithm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.DijkstraRouteAlgorithm" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.network.route.html#qns.network.route.route.RouteImpl" title="qns.network.route.route.RouteImpl"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.network.route.route.RouteImpl</span></code></a></p>
+<p>This is the dijkstra route algorithm implement</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.DijkstraRouteAlgorithm.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qchannels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.qchannel.html#qns.entity.qchannel.qchannel.QuantumChannel" title="qns.entity.qchannel.qchannel.QuantumChannel"><span class="pre">qns.entity.qchannel.qchannel.QuantumChannel</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/route/dijkstra.html#DijkstraRouteAlgorithm.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.DijkstraRouteAlgorithm.build" title="Permalink to this definition"></a></dt>
+<dd><p>build static route tables for each nodes</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.DijkstraRouteAlgorithm.query">
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/qns/network/route/dijkstra.html#DijkstraRouteAlgorithm.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.DijkstraRouteAlgorithm.query" title="Permalink to this definition"></a></dt>
+<dd><p>query the metric, nexthop and the path</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src</strong> -- the source node</p></li>
+<li><p><strong>dest</strong> -- the destination node</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of route paths. The result should be sortted by the priority.
+The element is a tuple containing: metric, the next-hop and the whole path.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.network.GridTopology">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.network.</span></span><span class="sig-name descname"><span class="pre">GridTopology</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_apps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.app.Application" title="qns.entity.node.app.Application"><span class="pre">qns.entity.node.app.Application</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qchannel_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cchannel_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/topology/gridtopo.html#GridTopology"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.GridTopology" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.network.topology.html#qns.network.topology.topo.Topology" title="qns.network.topology.topo.Topology"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.network.topology.topo.Topology</span></code></a></p>
+<p>GridTopology includes <cite>nodes_number</cite> Qnodes. <cite>nodes_number</cite> should be a perfect square number.
+The topology is a square grid pattern, where each node has 4 neighbors.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.GridTopology.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.qchannel.html#qns.entity.qchannel.qchannel.QuantumChannel" title="qns.entity.qchannel.qchannel.QuantumChannel"><span class="pre">qns.entity.qchannel.qchannel.QuantumChannel</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/qns/network/topology/gridtopo.html#GridTopology.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.GridTopology.build" title="Permalink to this definition"></a></dt>
+<dd><p>build the special topology</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the list of QNodes and the list of QuantumChannel</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.network.LineTopology">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.network.</span></span><span class="sig-name descname"><span class="pre">LineTopology</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_apps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.app.Application" title="qns.entity.node.app.Application"><span class="pre">qns.entity.node.app.Application</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qchannel_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cchannel_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/topology/linetopo.html#LineTopology"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.LineTopology" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.network.topology.html#qns.network.topology.topo.Topology" title="qns.network.topology.topo.Topology"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.network.topology.topo.Topology</span></code></a></p>
+<p>LineTopology includes <cite>nodes_number</cite> Qnodes. The topology is a line pattern.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.LineTopology.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.qchannel.html#qns.entity.qchannel.qchannel.QuantumChannel" title="qns.entity.qchannel.qchannel.QuantumChannel"><span class="pre">qns.entity.qchannel.qchannel.QuantumChannel</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/qns/network/topology/linetopo.html#LineTopology.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.LineTopology.build" title="Permalink to this definition"></a></dt>
+<dd><p>build the special topology</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the list of QNodes and the list of QuantumChannel</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="qns.network.NetworkRouteError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.network.</span></span><span class="sig-name descname"><span class="pre">NetworkRouteError</span></span><a class="reference internal" href="_modules/qns/network/route/route.html#NetworkRouteError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.NetworkRouteError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="qns.network.QNSNetworkError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.network.</span></span><span class="sig-name descname"><span class="pre">QNSNetworkError</span></span><a class="reference internal" href="_modules/qns/network/network.html#QNSNetworkError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.QNSNetworkError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.network.QuantumNetwork">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.network.</span></span><span class="sig-name descname"><span class="pre">QuantumNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">topo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.network.topology.html#qns.network.topology.topo.Topology" title="qns.network.topology.topo.Topology"><span class="pre">qns.network.topology.topo.Topology</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">route</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.network.route.html#qns.network.route.route.RouteImpl" title="qns.network.route.route.RouteImpl"><span class="pre">qns.network.route.route.RouteImpl</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classic_topo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.network.topology.html#qns.network.topology.topo.ClassicTopology" title="qns.network.topology.topo.ClassicTopology"><span class="pre">qns.network.topology.topo.ClassicTopology</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">ClassicTopology.Empty</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.QuantumNetwork" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>QuantumNetwork includes several quantum nodes, channels and a special topology</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.QuantumNetwork.add_cchannel">
+<span class="sig-name descname"><span class="pre">add_cchannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cchannel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.entity.cchannel.html#qns.entity.cchannel.cchannel.ClassicChannel" title="qns.entity.cchannel.cchannel.ClassicChannel"><span class="pre">qns.entity.cchannel.cchannel.ClassicChannel</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.add_cchannel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.QuantumNetwork.add_cchannel" title="Permalink to this definition"></a></dt>
+<dd><p>add a ClassicChannel into this network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cchannel</strong> (<a class="reference internal" href="qns.entity.cchannel.html#qns.entity.cchannel.cchannel.ClassicChannel" title="qns.entity.cchannel.cchannel.ClassicChannel"><em>qns.entity.cchannel.cchannel.ClassicChannel</em></a>) -- the inserting ClassicChannel</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.QuantumNetwork.add_memories">
+<span class="sig-name descname"><span class="pre">add_memories</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">capacity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_error_model_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.add_memories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.QuantumNetwork.add_memories" title="Permalink to this definition"></a></dt>
+<dd><p>Add quantum memories to every nodes in this network</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>capacity</strong> (<em>int</em>) -- the capacity of the quantum memory</p></li>
+<li><p><strong>store_error_model_args</strong> -- the arguments for store_error_model</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.QuantumNetwork.add_node">
+<span class="sig-name descname"><span class="pre">add_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.add_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.QuantumNetwork.add_node" title="Permalink to this definition"></a></dt>
+<dd><p>add a QNode into this network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node</strong> (<a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><em>qns.entity.node.node.QNode</em></a>) -- the inserting node</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.QuantumNetwork.add_qchannel">
+<span class="sig-name descname"><span class="pre">add_qchannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qchannel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.entity.qchannel.html#qns.entity.qchannel.qchannel.QuantumChannel" title="qns.entity.qchannel.qchannel.QuantumChannel"><span class="pre">qns.entity.qchannel.qchannel.QuantumChannel</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.add_qchannel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.QuantumNetwork.add_qchannel" title="Permalink to this definition"></a></dt>
+<dd><p>add a QuantumChannel into this network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>qchannel</strong> (<a class="reference internal" href="qns.entity.qchannel.html#qns.entity.qchannel.qchannel.QuantumChannel" title="qns.entity.qchannel.qchannel.QuantumChannel"><em>qns.entity.qchannel.qchannel.QuantumChannel</em></a>) -- the inserting QuantumChannel</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.QuantumNetwork.add_request">
+<span class="sig-name descname"><span class="pre">add_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.add_request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.QuantumNetwork.add_request" title="Permalink to this definition"></a></dt>
+<dd><p>Add a request (SD-pair) to the network</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src</strong> -- the source node</p></li>
+<li><p><strong>dest</strong> -- the destination node</p></li>
+<li><p><strong>attr</strong> -- other attributions</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.QuantumNetwork.build_route">
+<span class="sig-name descname"><span class="pre">build_route</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.build_route"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.QuantumNetwork.build_route" title="Permalink to this definition"></a></dt>
+<dd><p>build static route tables for each nodes</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.QuantumNetwork.get_cchannel">
+<span class="sig-name descname"><span class="pre">get_cchannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.get_cchannel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.QuantumNetwork.get_cchannel" title="Permalink to this definition"></a></dt>
+<dd><p>get the ClassicChannel by its name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) -- its name</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the ClassicChannel</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.QuantumNetwork.get_node">
+<span class="sig-name descname"><span class="pre">get_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.get_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.QuantumNetwork.get_node" title="Permalink to this definition"></a></dt>
+<dd><p>get the QNode by its name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) -- its name</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the QNode</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.QuantumNetwork.get_qchannel">
+<span class="sig-name descname"><span class="pre">get_qchannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.get_qchannel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.QuantumNetwork.get_qchannel" title="Permalink to this definition"></a></dt>
+<dd><p>get the QuantumChannel by its name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) -- its name</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the QuantumChannel</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.QuantumNetwork.install">
+<span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.simulator.html#qns.simulator.simulator.Simulator" title="qns.simulator.simulator.Simulator"><span class="pre">qns.simulator.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.install"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.QuantumNetwork.install" title="Permalink to this definition"></a></dt>
+<dd><p>install all nodes (including channels, memories and applications) in this network</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>simulator</strong> (<a class="reference internal" href="qns.simulator.html#qns.simulator.simulator.Simulator" title="qns.simulator.simulator.Simulator"><em>qns.simulator.simulator.Simulator</em></a>) -- the simulator</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.QuantumNetwork.query_route">
+<span class="sig-name descname"><span class="pre">query_route</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.query_route"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.QuantumNetwork.query_route" title="Permalink to this definition"></a></dt>
+<dd><p>query the metric, nexthop and the path</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src</strong> -- the source node</p></li>
+<li><p><strong>dest</strong> -- the destination node</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of route paths. The result should be sortted by the priority.
+The element is a tuple containing: metric, the next-hop and the whole path.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.QuantumNetwork.random_requests">
+<span class="sig-name descname"><span class="pre">random_requests</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_overlay</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/network.html#QuantumNetwork.random_requests"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.QuantumNetwork.random_requests" title="Permalink to this definition"></a></dt>
+<dd><p>Generate random requests</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>number</strong> (<em>int</em>) -- the number of requests</p></li>
+<li><p><strong>allow_overlay</strong> (<em>bool</em>) -- allow a node to be the source or destination in multiple requests</p></li>
+<li><p><strong>attr</strong> (<em>Dict</em>) -- request attributions</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.network.RandomTopology">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.network.</span></span><span class="sig-name descname"><span class="pre">RandomTopology</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lines_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_apps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.app.Application" title="qns.entity.node.app.Application"><span class="pre">qns.entity.node.app.Application</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qchannel_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cchannel_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/topology/randomtopo.html#RandomTopology"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.RandomTopology" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.network.topology.html#qns.network.topology.topo.Topology" title="qns.network.topology.topo.Topology"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.network.topology.topo.Topology</span></code></a></p>
+<p>RandomTopology includes <cite>nodes_number</cite> Qnodes. The topology is randomly generated.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.RandomTopology.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.qchannel.html#qns.entity.qchannel.qchannel.QuantumChannel" title="qns.entity.qchannel.qchannel.QuantumChannel"><span class="pre">qns.entity.qchannel.qchannel.QuantumChannel</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/qns/network/topology/randomtopo.html#RandomTopology.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.RandomTopology.build" title="Permalink to this definition"></a></dt>
+<dd><p>build the special topology</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the list of QNodes and the list of QuantumChannel</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.network.Request">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.network.</span></span><span class="sig-name descname"><span class="pre">Request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/requests.html#Request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.Request" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A request is a source-destination pair represents a quantum transmitting request.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.network.RouteImpl">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.network.</span></span><span class="sig-name descname"><span class="pre">RouteImpl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'route'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/route/route.html#RouteImpl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.RouteImpl" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This is the route protocol interface</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.RouteImpl.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qchannels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.qchannel.html#qns.entity.qchannel.qchannel.QuantumChannel" title="qns.entity.qchannel.qchannel.QuantumChannel"><span class="pre">qns.entity.qchannel.qchannel.QuantumChannel</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/route/route.html#RouteImpl.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.RouteImpl.build" title="Permalink to this definition"></a></dt>
+<dd><p>build static route tables for each nodes</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.RouteImpl.query">
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/qns/network/route/route.html#RouteImpl.query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.RouteImpl.query" title="Permalink to this definition"></a></dt>
+<dd><p>query the metric, nexthop and the path</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src</strong> -- the source node</p></li>
+<li><p><strong>dest</strong> -- the destination node</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of route paths. The result should be sortted by the priority.
+The element is a tuple containing: metric, the next-hop and the whole path.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.network.Topology">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.network.</span></span><span class="sig-name descname"><span class="pre">Topology</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_apps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.app.Application" title="qns.entity.node.app.Application"><span class="pre">qns.entity.node.app.Application</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qchannel_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cchannel_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/topology/topo.html#Topology"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.Topology" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Topology is a factory for QuantumNetwork</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.Topology.add_cchannels">
+<span class="sig-name descname"><span class="pre">add_cchannels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classic_topo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.network.topology.html#qns.network.topology.topo.ClassicTopology" title="qns.network.topology.topo.ClassicTopology"><span class="pre">qns.network.topology.topo.ClassicTopology</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">ClassicTopology.Empty</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ll</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.qchannel.html#qns.entity.qchannel.qchannel.QuantumChannel" title="qns.entity.qchannel.qchannel.QuantumChannel"><span class="pre">qns.entity.qchannel.qchannel.QuantumChannel</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/topology/topo.html#Topology.add_cchannels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.Topology.add_cchannels" title="Permalink to this definition"></a></dt>
+<dd><p>build classic network topology</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>classic_topo</strong> (<a class="reference internal" href="qns.network.topology.html#qns.network.topology.topo.ClassicTopology" title="qns.network.topology.topo.ClassicTopology"><em>ClassicTopology</em></a>) -- Classic topology,
+ClassicTopology.Empty -&gt; no connection
+ClassicTopology.All -&gt; every nodes are connected directly
+ClassicTopology.Follow -&gt; follow the quantum topology</p></li>
+<li><p><strong>nl</strong> (<em>List</em><em>[</em><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><em>qns.entity.node.node.QNode</em></a><em>]</em>) -- a list of quantum nodes</p></li>
+<li><p><strong>ll</strong> (<em>List</em><em>[</em><em>qns.entity.cchannel.cchannel.QuantumChannel</em><em>]</em>) -- a list of quantum channels</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.Topology.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.qchannel.html#qns.entity.qchannel.qchannel.QuantumChannel" title="qns.entity.qchannel.qchannel.QuantumChannel"><span class="pre">qns.entity.qchannel.qchannel.QuantumChannel</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/qns/network/topology/topo.html#Topology.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.Topology.build" title="Permalink to this definition"></a></dt>
+<dd><p>build the special topology</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the list of QNodes and the list of QuantumChannel</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.network.TreeTopology">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.network.</span></span><span class="sig-name descname"><span class="pre">TreeTopology</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">children_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_apps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.app.Application" title="qns.entity.node.app.Application"><span class="pre">qns.entity.node.app.Application</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qchannel_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cchannel_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/topology/treetopo.html#TreeTopology"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.TreeTopology" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.network.topology.html#qns.network.topology.topo.Topology" title="qns.network.topology.topo.Topology"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.network.topology.topo.Topology</span></code></a></p>
+<p>TreeTopology includes <cite>nodes_number</cite> Qnodes.
+The topology is a tree pattern, where each parent has <cite>children_num</cite> children.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.TreeTopology.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.qchannel.html#qns.entity.qchannel.qchannel.QuantumChannel" title="qns.entity.qchannel.qchannel.QuantumChannel"><span class="pre">qns.entity.qchannel.qchannel.QuantumChannel</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/qns/network/topology/treetopo.html#TreeTopology.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.TreeTopology.build" title="Permalink to this definition"></a></dt>
+<dd><p>build the special topology</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the list of QNodes and the list of QuantumChannel</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.network.WaxmanTopology">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.network.</span></span><span class="sig-name descname"><span class="pre">WaxmanTopology</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_apps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.app.Application" title="qns.entity.node.app.Application"><span class="pre">qns.entity.node.app.Application</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qchannel_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cchannel_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/topology/waxmantopo.html#WaxmanTopology"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.WaxmanTopology" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.network.topology.html#qns.network.topology.topo.Topology" title="qns.network.topology.topo.Topology"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.network.topology.topo.Topology</span></code></a></p>
+<p>WaxmanTopology is the random topology generator using Waxman's model.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.network.WaxmanTopology.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.qchannel.html#qns.entity.qchannel.qchannel.QuantumChannel" title="qns.entity.qchannel.qchannel.QuantumChannel"><span class="pre">qns.entity.qchannel.qchannel.QuantumChannel</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/qns/network/topology/waxmantopo.html#WaxmanTopology.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.WaxmanTopology.build" title="Permalink to this definition"></a></dt>
+<dd><p>build the special topology</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the list of QNodes and the list of QuantumChannel</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="qns.models.qubit.html" class="btn btn-neutral float-left" title="qns.models.qubit package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="qns.network.protocol.html" class="btn btn-neutral float-right" title="qns.network.protocol package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Elliot Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

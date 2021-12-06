@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en,zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>qns.entity.cchannel.cchannel &mdash; QuantNetSim 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> QuantNetSim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">qns</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">QuantNetSim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>qns.entity.cchannel.cchannel</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for qns.entity.cchannel.cchannel</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">qns.simulator.simulator</span> <span class="kn">import</span> <span class="n">Simulator</span>
+<span class="kn">from</span> <span class="nn">qns.simulator.ts</span> <span class="kn">import</span> <span class="n">Time</span>
+<span class="kn">from</span> <span class="nn">qns.simulator.event</span> <span class="kn">import</span> <span class="n">Event</span>
+<span class="kn">import</span> <span class="nn">qns.utils.log</span> <span class="k">as</span> <span class="nn">log</span>
+<span class="kn">from</span> <span class="nn">qns.entity.entity</span> <span class="kn">import</span> <span class="n">Entity</span>
+<span class="kn">from</span> <span class="nn">qns.entity.node.node</span> <span class="kn">import</span> <span class="n">QNode</span>
+
+
+<div class="viewcode-block" id="ClassicPacket"><a class="viewcode-back" href="../../../../qns.entity.cchannel.html#qns.entity.ClassicPacket">[docs]</a><span class="k">class</span> <span class="nc">ClassicPacket</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    ClassicPacket is the message that transfer on a ClassicChannel</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">src</span><span class="p">:</span> <span class="n">QNode</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dest</span><span class="p">:</span> <span class="n">QNode</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            msg (Union[str, bytes, Any]): the message content.</span>
+<span class="sd">                It can be a `str` or `bytes` type or can be dumpped to json.</span>
+<span class="sd">            src (QNode): the source of this message</span>
+<span class="sd">            dest (QNode): the destination of this message</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_json</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">is_json</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">src</span> <span class="o">=</span> <span class="n">src</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dest</span> <span class="o">=</span> <span class="n">dest</span>
+
+<div class="viewcode-block" id="ClassicPacket.encode"><a class="viewcode-back" href="../../../../qns.entity.cchannel.html#qns.entity.ClassicPacket.encode">[docs]</a>    <span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        encode the self.msg if it is a `str`</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            (bytes) a `bytes` object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">msg</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">msg</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">msg</span></div>
+
+<div class="viewcode-block" id="ClassicPacket.get"><a class="viewcode-back" href="../../../../qns.entity.cchannel.html#qns.entity.ClassicPacket.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the message from packet</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            (Union[str, bytes, Any])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_json</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">msg</span></div>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">msg</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ClassicChannel"><a class="viewcode-back" href="../../../../qns.entity.cchannel.html#qns.entity.ClassicChannel">[docs]</a><span class="k">class</span> <span class="nc">ClassicChannel</span><span class="p">(</span><span class="n">Entity</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    ClassicChannel is the channel for classic message</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">node_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+                 <span class="n">bandwidth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">drop_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                 <span class="n">max_buffer_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): the name of this channel</span>
+<span class="sd">            node_list (List[QNode]): a list of QNodes that it connects to</span>
+<span class="sd">            bandwidth (int): the byte per second on this channel. 0 represents unlimited</span>
+<span class="sd">            delay (float): the time delay for transmitting a packet</span>
+<span class="sd">            drop_rate (float): the drop rate</span>
+<span class="sd">            max_buffer_size (int): the max buffer size.</span>
+<span class="sd">                If it is full, the next coming packet will be dropped. 0 represents unlimited.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">node_list</span> <span class="o">=</span> <span class="n">node_list</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bandwidth</span> <span class="o">=</span> <span class="n">bandwidth</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delay</span> <span class="o">=</span> <span class="n">delay</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">drop_rate</span> <span class="o">=</span> <span class="n">drop_rate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_buffer_size</span> <span class="o">=</span> <span class="n">max_buffer_size</span>
+
+<div class="viewcode-block" id="ClassicChannel.install"><a class="viewcode-back" href="../../../../qns.entity.cchannel.html#qns.entity.ClassicChannel.install">[docs]</a>    <span class="k">def</span> <span class="nf">install</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simulator</span><span class="p">:</span> <span class="n">Simulator</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        ``install`` is called before ``simulator`` runs to initialize or set initial events</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            simulator (qns.simulator.simulator.Simulator): the simulator</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_installed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span> <span class="o">=</span> <span class="n">simulator</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_next_send_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">ts</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_is_installed</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="ClassicChannel.send"><a class="viewcode-back" href="../../../../qns.entity.cchannel.html#qns.entity.ClassicChannel.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">packet</span><span class="p">:</span> <span class="n">ClassicPacket</span><span class="p">,</span> <span class="n">next_hop</span><span class="p">:</span> <span class="n">QNode</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Send a classic packet to the next_hop</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            packet (ClassicPacket): the packet</span>
+<span class="sd">            next_hop (QNode): the next hop QNode</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            qns.entity.cchannel.cchannel.NextHopNotConnectionException:</span>
+<span class="sd">                the next_hop is not connected to this channel</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">next_hop</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_list</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">NextHopNotConnectionException</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bandwidth</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_send_time</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">current_time</span><span class="p">:</span>
+                <span class="n">send_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">current_time</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">send_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_send_time</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_buffer_size</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">send_time</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">current_time</span>\
+               <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="n">sec</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_buffer_size</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">bandwidth</span><span class="p">):</span>
+                <span class="c1"># buffer is overflow</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cchannel </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">: drop packet </span><span class="si">{</span><span class="n">packet</span><span class="si">}</span><span class="s2"> due to overflow&quot;</span><span class="p">)</span>
+                <span class="k">return</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_next_send_time</span> <span class="o">=</span> <span class="n">send_time</span> <span class="o">+</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="n">sec</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">packet</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">bandwidth</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">send_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">current_time</span>
+
+        <span class="c1"># random drop</span>
+        <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">drop_rate</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cchannel </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">: drop packet </span><span class="si">{</span><span class="n">packet</span><span class="si">}</span><span class="s2"> due to drop rate&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="c1">#  add delay</span>
+        <span class="n">recv_time</span> <span class="o">=</span> <span class="n">send_time</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="n">sec</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">delay</span><span class="p">)</span>
+
+        <span class="n">send_event</span> <span class="o">=</span> <span class="n">RecvClassicPacket</span><span class="p">(</span><span class="n">recv_time</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                       <span class="n">cchannel</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">packet</span><span class="o">=</span><span class="n">packet</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">next_hop</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">add_event</span><span class="p">(</span><span class="n">send_event</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;cchannel </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="NextHopNotConnectionException"><a class="viewcode-back" href="../../../../qns.entity.cchannel.html#qns.entity.NextHopNotConnectionException">[docs]</a><span class="k">class</span> <span class="nc">NextHopNotConnectionException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="RecvClassicPacket"><a class="viewcode-back" href="../../../../qns.entity.cchannel.html#qns.entity.RecvClassicPacket">[docs]</a><span class="k">class</span> <span class="nc">RecvClassicPacket</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The event for a QNode to receive a classic packet</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Time</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">cchannel</span><span class="p">:</span> <span class="n">ClassicChannel</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">packet</span><span class="p">:</span> <span class="n">ClassicPacket</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dest</span><span class="p">:</span> <span class="n">QNode</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cchannel</span> <span class="o">=</span> <span class="n">cchannel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">packet</span> <span class="o">=</span> <span class="n">packet</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dest</span> <span class="o">=</span> <span class="n">dest</span>
+
+<div class="viewcode-block" id="RecvClassicPacket.invoke"><a class="viewcode-back" href="../../../../qns.entity.cchannel.html#qns.entity.RecvClassicPacket.invoke">[docs]</a>    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dest</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Elliot Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
