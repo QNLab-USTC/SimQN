@@ -116,6 +116,18 @@ class QState(object):
             raise OperatorNotMatchError
         self.state = np.dot(full_operator, self.state)
 
+    def equal(self, other_state: "QState") -> bool:
+        """
+        compare two state vectors, return True if they are the same
+
+        Args:
+            other_state (QState): the second QState
+        """
+        return np.all(self.state == other_state.state)
+
+    # def __eq__(self, __o: "QState") -> bool:
+    #     return np.all(self.state == __o.state)
+
     def __repr__(self) -> str:
         if self.name is not None:
             return f"<qubit {self.name}: {self.state}>"
