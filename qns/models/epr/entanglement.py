@@ -213,9 +213,15 @@ class WernerStateEntanglement(BaseEntanglement, QuantumModel):
         if self.is_decoherenced or epr.is_decoherenced:
             ne.is_decoherenced = True
             ne.fidelity = 0
+            return
         epr.is_decoherenced = True
         self.is_decoherenced = True
         fmin = min(self.fidelity, epr.fidelity)
+
+        if random.random() > (fmin ** 2 + 5 / 9 * (1 - fmin) ** 2 + 2 / 3 * fmin * (1 - fmin)):
+            ne.is_decoherenced = True
+            ne.fidelity = 0
+            return
         ne.fidelity = (fmin ** 2 + (1 - fmin) ** 2 / 9) /\
                       (fmin ** 2 + 5 / 9 * (1 - fmin) ** 2 + 2 / 3 * fmin * (1 - fmin))
         return ne

@@ -9,14 +9,17 @@ from qns.simulator.simulator import Simulator
 from qns.models.qubit import Qubit
 
 from random import choice
+import random
+import numpy as np
 
 
 class QubitWithError(Qubit):
     def transfer_error_model(self, length: float, **kwargs):
-        # lkm = length / 1000
-        # R(self, np.pi /4)
-        pass
-
+        lkm = length / 1000
+        standand_lkm = 50.0
+        theta = random.random() * lkm / standand_lkm * np.pi / 4
+        operation = np.array([[np.cos(theta), - np.sin(theta)], [np.sin(theta), np.cos(theta)]], dtype=np.complex128)
+        self.state.state = np.dot(operation, self.state.state)
 
 class BB84SendApp(Application):
     def __init__(self, dest: QNode, qchannel: QuantumChannel,
