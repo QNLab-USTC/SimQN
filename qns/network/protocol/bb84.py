@@ -21,6 +21,7 @@ class QubitWithError(Qubit):
         operation = np.array([[np.cos(theta), - np.sin(theta)], [np.sin(theta), np.cos(theta)]], dtype=np.complex128)
         self.state.state = np.dot(operation, self.state.state)
 
+
 class BB84SendApp(Application):
     def __init__(self, dest: QNode, qchannel: QuantumChannel,
                  cchannel: ClassicChannel, send_rate=1000):

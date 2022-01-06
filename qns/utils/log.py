@@ -3,7 +3,7 @@ import sys
 
 logger = logging.getLogger("qns")
 """
-The default ``logger`` used by QuantNetSim
+The default ``logger`` used by SimQN
 """
 
 logger.setLevel(logging.INFO)

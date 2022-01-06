@@ -20,7 +20,7 @@ print(sys.path)
 
 # -- Project information -----------------------------------------------------
 
-project = 'QuantNetSim'
+project = 'SimQN'
 copyright = '2021, Elliot Chen'
 author = 'Elliot Chen'
 

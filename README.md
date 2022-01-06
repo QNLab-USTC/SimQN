@@ -1,6 +1,6 @@
-# QuantNetSim
+# SimQN
 
-QuantNetSim is a network-layer simulator for the quantum networks. It is designed for quantum network evaluation, such as routing algorithms, transmission control protocols, network applications, resource allocations, and other scenarios. For more information, please refer to the [Documents](https://ertuil.github.io/QuantNetSim/).
+SimQN is a network-layer simulator for the quantum networks. It is designed for quantum network evaluation, such as routing algorithms, transmission control protocols, network applications, resource allocations, and other scenarios. For more information, please refer to the [Documents](https://ertuil.github.io/QuantNetSim/).
 
 ## Features
 
@@ -10,17 +10,17 @@ QuantNetSim is a network-layer simulator for the quantum networks. It is designe
 
 ## Requirements and compile
 
-Python version > 3.7 is required. To build QuantNetSim, `setuptools` and `wheel` is needed:
+Python version > 3.7 is required. To build SimQN, `setuptools` and `wheel` is needed:
 ```
 pip3 install setuptools wheel
 ```
 
-Run the following command to build QuantNetSim as a python package:
+Run the following command to build SimQN as a python package:
 ```
 python3 setup.py bdist_wheel # build wheel format package
 ```
 
-The following command will install QuantNetSim into the system library:
+The following command will install SimQN into the system library:
 ```
 pip3 install dist/qns-<version>-none-any.whl
 ```
