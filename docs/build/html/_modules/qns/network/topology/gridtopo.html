@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>qns.network.topology.gridtopo &mdash; QuantNetSim 0.1.0 documentation</title>
+  <title>qns.network.topology.gridtopo &mdash; SimQN 0.1.0 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -24,7 +24,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../../index.html" class="icon icon-home"> QuantNetSim
+            <a href="../../../../index.html" class="icon icon-home"> SimQN
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -34,9 +34,13 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">qns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Install Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../develop.html">Develop Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
 </ul>
 
         </div>
@@ -45,7 +49,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../../index.html">QuantNetSim</a>
+          <a href="../../../../index.html">SimQN</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -72,12 +76,12 @@
 <span class="kn">import</span> <span class="nn">math</span>
 
 
-<div class="viewcode-block" id="GridTopology"><a class="viewcode-back" href="../../../../qns.network.topology.html#qns.network.topology.gridtopo.GridTopology">[docs]</a><span class="k">class</span> <span class="nc">GridTopology</span><span class="p">(</span><span class="n">Topology</span><span class="p">):</span>
+<div class="viewcode-block" id="GridTopology"><a class="viewcode-back" href="../../../../qns.network.topology.html#qns.network.GridTopology">[docs]</a><span class="k">class</span> <span class="nc">GridTopology</span><span class="p">(</span><span class="n">Topology</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    GridTopology includes `nodes_number` Qnodes. `nodes_number` should be a perfect square number.</span>
 <span class="sd">    The topology is a square grid pattern, where each node has 4 neighbors.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes_number</span><span class="p">,</span>  <span class="n">nodes_apps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Application</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes_number</span><span class="p">,</span> <span class="n">nodes_apps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Application</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
                  <span class="n">qchannel_args</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">cchannel_args</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{},</span>
                  <span class="n">memory_args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">nodes_number</span><span class="p">,</span> <span class="n">nodes_apps</span><span class="p">,</span> <span class="n">qchannel_args</span><span class="p">,</span> <span class="n">cchannel_args</span><span class="p">,</span> <span class="n">memory_args</span><span class="p">)</span>
@@ -85,7 +89,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span>
         <span class="k">assert</span><span class="p">(</span><span class="n">size</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_number</span><span class="p">)</span>
 
-<div class="viewcode-block" id="GridTopology.build"><a class="viewcode-back" href="../../../../qns.network.topology.html#qns.network.topology.gridtopo.GridTopology.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">QuantumChannel</span><span class="p">]]:</span>
+<div class="viewcode-block" id="GridTopology.build"><a class="viewcode-back" href="../../../../qns.network.topology.html#qns.network.GridTopology.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">QuantumChannel</span><span class="p">]]:</span>
         <span class="n">nl</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">ll</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -99,12 +103,12 @@
                     <span class="n">link</span> <span class="o">=</span> <span class="n">QuantumChannel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;l</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">qchannel_args</span><span class="p">)</span>
                     <span class="n">ll</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
                     <span class="n">nl</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">add_qchannel</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
-                    <span class="n">nl</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">add_qchannel</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+                    <span class="n">nl</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">add_qchannel</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">i</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_number</span><span class="p">:</span>
                     <span class="n">link</span> <span class="o">=</span> <span class="n">QuantumChannel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;l</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">qchannel_args</span><span class="p">)</span>
                     <span class="n">ll</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
                     <span class="n">nl</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">add_qchannel</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
-                    <span class="n">nl</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">]</span><span class="o">.</span><span class="n">add_qchannel</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+                    <span class="n">nl</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">]</span><span class="o">.</span><span class="n">add_qchannel</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_apps</span><span class="p">(</span><span class="n">nl</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_memories</span><span class="p">(</span><span class="n">nl</span><span class="p">)</span>
@@ -118,7 +122,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021, Elliot Chen.</p>
+    <p>&#169; Copyright 2022, Elliot Chen.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -1,4 +1,4 @@
-开发手册-CN
+Develop Manual
 =======================================
 
 项目介绍
@@ -10,7 +10,7 @@
 
 .. code-block:: bash
 
-    pip3 install setuptools wheel
+    pip3 install setuptools wheel twine
 
 
 代码开发和合作规范

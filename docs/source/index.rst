@@ -6,18 +6,25 @@
 Welcome to SimQN's documentation!
 =======================================
 
+Welcome to SimQN's documentation. SimQN is a discrete-event based network simulation platform for quantum networks.
+SimQN enables large-scale investigations, including QKD protocols, entanglement distributions protocols, and routing algorithms in quantum networks.
+
+Get Help
+---------------------------------------
+
+Having trouble? We’d like to help!
+
+- This `documentation <https://ertuil.github.io/QuantNetSim/>`_ many answer most questions.
+- Try the :ref:`modindex` or :ref:`genindex` the detailed table of contents.
+- Welcome to report bugs at `Github <https://github.com/ertuil/QuantNetSim>`_.
+
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Users' Guide:
 
+   introduction
+   install
    tutorials
    develop
    modules
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>qns.entity.qchannel.qchannel &mdash; QuantNetSim 0.1.0 documentation</title>
+  <title>qns.entity.qchannel.qchannel &mdash; SimQN 0.1.0 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -24,7 +24,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../../index.html" class="icon icon-home"> QuantNetSim
+            <a href="../../../../index.html" class="icon icon-home"> SimQN
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -34,9 +34,13 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">qns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Install Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../develop.html">Develop Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
 </ul>
 
         </div>
@@ -45,7 +49,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../../index.html">QuantNetSim</a>
+          <a href="../../../../index.html">SimQN</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -76,7 +80,7 @@
 <span class="kn">import</span> <span class="nn">qns.utils.log</span> <span class="k">as</span> <span class="nn">log</span>
 
 
-<div class="viewcode-block" id="QuantumChannel"><a class="viewcode-back" href="../../../../qns.entity.qchannel.html#qns.entity.qchannel.qchannel.QuantumChannel">[docs]</a><span class="k">class</span> <span class="nc">QuantumChannel</span><span class="p">(</span><span class="n">Entity</span><span class="p">):</span>
+<div class="viewcode-block" id="QuantumChannel"><a class="viewcode-back" href="../../../../qns.entity.qchannel.html#qns.entity.QuantumChannel">[docs]</a><span class="k">class</span> <span class="nc">QuantumChannel</span><span class="p">(</span><span class="n">Entity</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    QuantumChannel is the channel for transmitting qubit</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -106,7 +110,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="n">length</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">transfer_error_model_args</span> <span class="o">=</span> <span class="n">transfer_error_model_args</span>
 
-<div class="viewcode-block" id="QuantumChannel.install"><a class="viewcode-back" href="../../../../qns.entity.qchannel.html#qns.entity.qchannel.qchannel.QuantumChannel.install">[docs]</a>    <span class="k">def</span> <span class="nf">install</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simulator</span><span class="p">:</span> <span class="n">Simulator</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="QuantumChannel.install"><a class="viewcode-back" href="../../../../qns.entity.qchannel.html#qns.entity.QuantumChannel.install">[docs]</a>    <span class="k">def</span> <span class="nf">install</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simulator</span><span class="p">:</span> <span class="n">Simulator</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        ``install`` is called before ``simulator`` runs to initialize or set initial events</span>
 
@@ -118,7 +122,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_next_send_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">ts</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_is_installed</span> <span class="o">=</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="QuantumChannel.send"><a class="viewcode-back" href="../../../../qns.entity.qchannel.html#qns.entity.qchannel.qchannel.QuantumChannel.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="n">QuantumModel</span><span class="p">,</span> <span class="n">next_hop</span><span class="p">:</span> <span class="n">QNode</span><span class="p">):</span>
+<div class="viewcode-block" id="QuantumChannel.send"><a class="viewcode-back" href="../../../../qns.entity.qchannel.html#qns.entity.QuantumChannel.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="n">QuantumModel</span><span class="p">,</span> <span class="n">next_hop</span><span class="p">:</span> <span class="n">QNode</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Send a qubit to the next_hop</span>
 
@@ -140,12 +144,12 @@
                 <span class="n">send_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_send_time</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_buffer_size</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">send_time</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">current_time</span>\
-               <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="n">sec</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_buffer_size</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">bandwidth</span><span class="p">):</span>
+               <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="n">sec</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_buffer_size</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">bandwidth</span><span class="p">):</span>
                 <span class="c1"># buffer is overflow</span>
                 <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;qchannel </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">: drop qubit </span><span class="si">{</span><span class="n">qubit</span><span class="si">}</span><span class="s2"> due to overflow&quot;</span><span class="p">)</span>
                 <span class="k">return</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">_next_send_time</span> <span class="o">=</span> <span class="n">send_time</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="n">sec</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">bandwidth</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_next_send_time</span> <span class="o">=</span> <span class="n">send_time</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="n">sec</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">bandwidth</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">send_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">current_time</span>
 
@@ -155,7 +159,7 @@
             <span class="k">return</span>
 
         <span class="c1">#  add delay</span>
-        <span class="n">recv_time</span> <span class="o">=</span> <span class="n">send_time</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="n">sec</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">delay</span><span class="p">)</span>
+        <span class="n">recv_time</span> <span class="o">=</span> <span class="n">send_time</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="n">sec</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">delay</span><span class="p">)</span>
 
         <span class="c1"># operation on the qubit</span>
         <span class="n">qubit</span><span class="o">.</span><span class="n">transfer_error_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">transfer_error_model_args</span><span class="p">)</span>
@@ -169,11 +173,11 @@
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="NextHopNotConnectionException"><a class="viewcode-back" href="../../../../qns.entity.qchannel.html#qns.entity.qchannel.qchannel.NextHopNotConnectionException">[docs]</a><span class="k">class</span> <span class="nc">NextHopNotConnectionException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="NextHopNotConnectionException"><a class="viewcode-back" href="../../../../qns.entity.qchannel.html#qns.entity.NextHopNotConnectionException">[docs]</a><span class="k">class</span> <span class="nc">NextHopNotConnectionException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="RecvQubitPacket"><a class="viewcode-back" href="../../../../qns.entity.qchannel.html#qns.entity.qchannel.qchannel.RecvQubitPacket">[docs]</a><span class="k">class</span> <span class="nc">RecvQubitPacket</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+<div class="viewcode-block" id="RecvQubitPacket"><a class="viewcode-back" href="../../../../qns.entity.qchannel.html#qns.entity.RecvQubitPacket">[docs]</a><span class="k">class</span> <span class="nc">RecvQubitPacket</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The event for a QNode to receive a classic packet</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -184,7 +188,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">qubit</span> <span class="o">=</span> <span class="n">qubit</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dest</span> <span class="o">=</span> <span class="n">dest</span>
 
-<div class="viewcode-block" id="RecvQubitPacket.invoke"><a class="viewcode-back" href="../../../../qns.entity.qchannel.html#qns.entity.qchannel.qchannel.RecvQubitPacket.invoke">[docs]</a>    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="RecvQubitPacket.invoke"><a class="viewcode-back" href="../../../../qns.entity.qchannel.html#qns.entity.RecvQubitPacket.invoke">[docs]</a>    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dest</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div></div>
 </pre></div>
 
@@ -195,7 +199,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021, Elliot Chen.</p>
+    <p>&#169; Copyright 2022, Elliot Chen.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

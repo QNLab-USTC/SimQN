@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>qns.network.route.dijkstra &mdash; QuantNetSim 0.1.0 documentation</title>
+  <title>qns.network.route.dijkstra &mdash; SimQN 0.1.0 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -24,7 +24,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../../index.html" class="icon icon-home"> QuantNetSim
+            <a href="../../../../index.html" class="icon icon-home"> SimQN
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -34,9 +34,13 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">qns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Install Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../develop.html">Develop Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
 </ul>
 
         </div>
@@ -45,7 +49,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../../index.html">QuantNetSim</a>
+          <a href="../../../../index.html">SimQN</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -71,7 +75,7 @@
 <span class="kn">from</span> <span class="nn">qns.network.route.route</span> <span class="kn">import</span> <span class="n">RouteImpl</span><span class="p">,</span> <span class="n">NetworkRouteError</span>
 
 
-<div class="viewcode-block" id="DijkstraRouteAlgorithm"><a class="viewcode-back" href="../../../../qns.network.route.html#qns.network.route.dijkstra.DijkstraRouteAlgorithm">[docs]</a><span class="k">class</span> <span class="nc">DijkstraRouteAlgorithm</span><span class="p">(</span><span class="n">RouteImpl</span><span class="p">):</span>
+<div class="viewcode-block" id="DijkstraRouteAlgorithm"><a class="viewcode-back" href="../../../../qns.network.route.html#qns.network.DijkstraRouteAlgorithm">[docs]</a><span class="k">class</span> <span class="nc">DijkstraRouteAlgorithm</span><span class="p">(</span><span class="n">RouteImpl</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This is the dijkstra route algorithm implement</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -91,7 +95,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">metric_func</span> <span class="o">=</span> <span class="n">metric_func</span>
 
-<div class="viewcode-block" id="DijkstraRouteAlgorithm.build"><a class="viewcode-back" href="../../../../qns.network.route.html#qns.network.route.dijkstra.DijkstraRouteAlgorithm.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">],</span> <span class="n">qchannels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QuantumChannel</span><span class="p">]):</span>
+<div class="viewcode-block" id="DijkstraRouteAlgorithm.build"><a class="viewcode-back" href="../../../../qns.network.route.html#qns.network.DijkstraRouteAlgorithm.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">],</span> <span class="n">qchannels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QuantumChannel</span><span class="p">]):</span>
         <span class="n">INF</span> <span class="o">=</span> <span class="mi">999999</span>
 
         <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
@@ -133,7 +137,7 @@
                 <span class="n">d</span><span class="p">[</span><span class="n">nn</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">nn</span><span class="p">]</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="n">nn</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">route_table</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span></div>
 
-<div class="viewcode-block" id="DijkstraRouteAlgorithm.query"><a class="viewcode-back" href="../../../../qns.network.route.html#qns.network.route.dijkstra.DijkstraRouteAlgorithm.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">dest</span><span class="p">:</span> <span class="n">QNode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">]]]:</span>
+<div class="viewcode-block" id="DijkstraRouteAlgorithm.query"><a class="viewcode-back" href="../../../../qns.network.route.html#qns.network.DijkstraRouteAlgorithm.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">dest</span><span class="p">:</span> <span class="n">QNode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">]]]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        query the metric, nexthop and the path</span>
 
@@ -172,7 +176,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021, Elliot Chen.</p>
+    <p>&#169; Copyright 2022, Elliot Chen.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

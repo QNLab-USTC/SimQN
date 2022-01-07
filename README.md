@@ -1,32 +1,17 @@
 # SimQN
 
-SimQN is a network-layer simulator for the quantum networks. It is designed for quantum network evaluation, such as routing algorithms, transmission control protocols, network applications, resource allocations, and other scenarios. For more information, please refer to the [Documents](https://ertuil.github.io/QuantNetSim/).
+Welcome to SimQN's documentation. SimQN is a discrete-event based network simulation platform for quantum networks.
+SimQN enables large-scale investigations, including QKD protocols, entanglement distributions protocols, and routing algorithms, resource allocation schemas in quantum networks. For example, users can use SimQN to design routing algorithms for better QKD performance. For more information, please refer to the [Documents](https://ertuil.github.io/QuantNetSim/).
 
-## Features
+SimQN is a Python3 library for quantum networking simulation. It is designed to be general propose. It means that SimQN can be used for both QKD network, entanglement distribution network and other kinds of quantum networks' evaluation. The core idea is that SimQN makes no architecture assumption. Since there is currently no recognized network architecture in quantum networks investigations, SimQN stays flexible in this aspect.
 
-* General Propose: For both QKD and entanglement based networks
-* Multiple Backends: We provide Qubit backend and EPR backend
-* Easy-to-Use: Utilities for large-scale network evaluation
+SimQN provides high performance for large-scale network simulation. Besides the common used quantum state based physical models, SimQN provides a higher-layer fidelity based entanglement physical model to reduce the computation overhead and brings convenience for users in evaluation. Bootstrap is anther core feature when designing SimQN. SimQN provides several network auxiliary models for easily building network topologies, producing routing tables and managing multiple session requests.
 
-## Requirements and compile
+## Get Help
 
-Python version > 3.7 is required. To build SimQN, `setuptools` and `wheel` is needed:
-```
-pip3 install setuptools wheel
-```
-
-Run the following command to build SimQN as a python package:
-```
-python3 setup.py bdist_wheel # build wheel format package
-```
-
-The following command will install SimQN into the system library:
-```
-pip3 install dist/qns-<version>-none-any.whl
-```
+- This [documentation](https://ertuil.github.io/QuantNetSim/) many answer most questions.
+- Welcome to report bugs at [Github](https://github.com/ertuil/QuantNetSim).
 
 ## License
 
 > Copyright (C) 2021 Elliot Chen <elliot.98@outlook.com>
-
-This repo is under MIT License, please refer to `LICENSE` file

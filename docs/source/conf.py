@@ -21,7 +21,7 @@ print(sys.path)
 # -- Project information -----------------------------------------------------
 
 project = 'SimQN'
-copyright = '2021, Elliot Chen'
+copyright = '2022, Elliot Chen'
 author = 'Elliot Chen'
 
 # The full version, including alpha/beta/rc tags
