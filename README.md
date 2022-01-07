@@ -1,7 +1,7 @@
 # SimQN
 
 Welcome to SimQN's documentation. SimQN is a discrete-event based network simulation platform for quantum networks.
-SimQN enables large-scale investigations, including QKD protocols, entanglement distributions protocols, and routing algorithms, resource allocation schemas in quantum networks. For example, users can use SimQN to design routing algorithms for better QKD performance. For more information, please refer to the [Documents](https://ertuil.github.io/QuantNetSim/).
+SimQN enables large-scale investigations, including QKD protocols, entanglement distributions protocols, and routing algorithms, resource allocation schemas in quantum networks. For example, users can use SimQN to design routing algorithms for better QKD performance. For more information, please refer to the [Documents](https://ertuil.github.io/SimQN/).
 
 SimQN is a Python3 library for quantum networking simulation. It is designed to be general propose. It means that SimQN can be used for both QKD network, entanglement distribution network and other kinds of quantum networks' evaluation. The core idea is that SimQN makes no architecture assumption. Since there is currently no recognized network architecture in quantum networks investigations, SimQN stays flexible in this aspect.
 
@@ -9,8 +9,18 @@ SimQN provides high performance for large-scale network simulation. Besides the 
 
 ## Get Help
 
-- This [documentation](https://ertuil.github.io/QuantNetSim/) many answer most questions.
-- Welcome to report bugs at [Github](https://github.com/ertuil/QuantNetSim).
+- This [documentation](https://ertuil.github.io/SimQN/) many answer most questions.
+- Welcome to report bugs at [Github](https://github.com/ertuil/SimQN).
+
+## Installation
+
+Install and update using `pip`:
+```
+pip3 install -U qns
+```
+
+# Contributing
+Welcome to contribute through Github Issue or Pull Requests. Please refer to the develop guide.
 
 ## License
 

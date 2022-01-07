@@ -12,7 +12,7 @@ setup(
     long_description_content_type="text/markdown",
     packages=find_packages(),
     include_package_data=True,
-    url="https://github.com/ertuil/QuantNetSim",
+    url="https://github.com/ertuil/SimQN",
     exclude_package_data={'docs': ['.gitkeep']},
     setup_requires=["numpy"],
     install_requires=["numpy"],

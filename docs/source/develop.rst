@@ -1,4 +1,4 @@
-Develop Manual
+Develop Guide
 =======================================
 
 项目介绍
@@ -16,7 +16,7 @@ Develop Manual
 代码开发和合作规范
 ---------------------------
 
-我们代码和其他资料存放在 `Github <https://github.com/ertuil/QuantNetSim>`_ 上。
+我们代码和其他资料存放在 `Github <https://github.com/ertuil/SimQN>`_ 上。
 我们开发时候，请将代码上传到 ``dev`` 分支（非 `master` 分支）。
 
 Python代码的编码规范和变量命名请参考 `PEP 8 <https://www.python.org/dev/peps/pep-0008/>`_ 标准。

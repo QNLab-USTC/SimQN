@@ -16,8 +16,22 @@ Bootstrap is anther core feature when designing SimQN. SimQN provides several ne
 Module Design
 ---------------------------------------
 
-Why use SimQN
+The architecture of SimQN has several modules, includes:
+
+- `qns.simulator`, the discrete-event driven simulator.
+- `qns.models`, the physical model for qubits or entanglements.
+- `qns.entity`, basic entities in the quantum networks, including nodes, memories, channels.
+- `qns.network`, network auxiliary tools, such as topology generator, routing algorithms.
+- `qns.utils`, logging, random generator and other utilities.
+
+.. image:: _imgs/modules.png
+   :align: center
+   :alt: Moduels
+   :width: 400px
+
+Develop Status
 ---------------------------------------
 
-Development Status
----------------------------------------
+Currently, SimQN is in its initial version that we believe it can help the quantum network researches. We still contribute to enable more features and functionalities, that means APIs may still change. Besides, not all functions are well tested. As a result, SimQN can be used as early validation in this period.
+
+We encourage the community to report bugs, bring suggestions to us so that we can make SimQN as realistic as possible. The :doc:`develop` contains more information about this topic.
