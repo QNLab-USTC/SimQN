@@ -14,9 +14,9 @@ Get Help
 
 Having trouble? We’d like to help!
 
-- This `documentation <https://ertuil.github.io/QuantNetSim/>`_ many answer most questions.
+- This `documentation <https://ertuil.github.io/SimQN/>`_ many answer most questions.
 - Try the :ref:`modindex` or :ref:`genindex` the detailed table of contents.
-- Welcome to report bugs at `Github <https://github.com/ertuil/QuantNetSim>`_.
+- Welcome to report bugs at `Github <https://github.com/ertuil/SimQN>`_.
 
 .. toctree::
    :maxdepth: 2
