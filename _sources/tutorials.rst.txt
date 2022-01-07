@@ -1,4 +1,4 @@
-Tutorials and Usage Examples
+Tutorials
 ==============================
 
 More examples are in ``examples`` and ``test``.

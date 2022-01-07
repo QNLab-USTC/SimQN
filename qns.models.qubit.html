@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>qns.models.qubit package &mdash; QuantNetSim 0.1.0 documentation</title>
+  <title>qns.models.qubit package &mdash; SimQN 0.1.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -27,7 +27,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> QuantNetSim
+            <a href="index.html" class="icon icon-home"> SimQN
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -37,23 +37,13 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">qns</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="qns.html">qns package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="qns.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="qns.entity.html">qns.entity package</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="qns.models.html">qns.models package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="qns.network.html">qns.network package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="qns.simulator.html">qns.simulator package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="qns.utils.html">qns.utils package</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="qns.html#module-qns">Module contents</a></li>
-</ul>
-</li>
-</ul>
-</li>
+              <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="develop.html">Develop Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
 </ul>
 
         </div>
@@ -62,7 +52,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">QuantNetSim</a>
+          <a href="index.html">SimQN</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -70,8 +60,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="modules.html">qns</a> &raquo;</li>
-          <li><a href="qns.html">qns package</a> &raquo;</li>
+          <li><a href="modules.html">API Reference</a> &raquo;</li>
           <li><a href="qns.models.html">qns.models package</a> &raquo;</li>
       <li>qns.models.qubit package</li>
       <li class="wy-breadcrumbs-aside">
@@ -328,6 +317,17 @@ default is pauli X (CNOT)</p></li>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>QState is the state of one (or multiple) qubits</p>
 <dl class="py method">
+<dt class="sig sig-object py" id="qns.models.qubit.qubit.QState.equal">
+<span class="sig-name descname"><span class="pre">equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.QState" title="qns.models.qubit.qubit.QState"><span class="pre">qns.models.qubit.qubit.QState</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/qns/models/qubit/qubit.html#QState.equal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.qubit.QState.equal" title="Permalink to this definition"></a></dt>
+<dd><p>compare two state vectors, return True if they are the same</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other_state</strong> (<a class="reference internal" href="#qns.models.qubit.qubit.QState" title="qns.models.qubit.qubit.QState"><em>QState</em></a>) -- the second QState</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="qns.models.qubit.qubit.QState.measure">
 <span class="sig-name descname"><span class="pre">measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/qns/models/qubit/qubit.html#QState.measure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.qubit.QState.measure" title="Permalink to this definition"></a></dt>
 <dd><p>Measure this qubit using Z basis
@@ -540,6 +540,17 @@ default is pauli X (CNOT)</p></li>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.models.qubit.</span></span><span class="sig-name descname"><span class="pre">QState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">complex</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">array([[1.</span> <span class="pre">+</span> <span class="pre">0.j],</span> <span class="pre">[0.</span> <span class="pre">+</span> <span class="pre">0.j]])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/qubit.html#QState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.QState" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>QState is the state of one (or multiple) qubits</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.models.qubit.QState.equal">
+<span class="sig-name descname"><span class="pre">equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.QState" title="qns.models.qubit.qubit.QState"><span class="pre">qns.models.qubit.qubit.QState</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/qns/models/qubit/qubit.html#QState.equal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.QState.equal" title="Permalink to this definition"></a></dt>
+<dd><p>compare two state vectors, return True if they are the same</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other_state</strong> (<a class="reference internal" href="#qns.models.qubit.QState" title="qns.models.qubit.QState"><em>QState</em></a>) -- the second QState</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.models.qubit.QState.measure">
 <span class="sig-name descname"><span class="pre">measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/qns/models/qubit/qubit.html#QState.measure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.QState.measure" title="Permalink to this definition"></a></dt>
@@ -819,7 +830,7 @@ The default behavior is doing nothing</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021, Elliot Chen.</p>
+    <p>&#169; Copyright 2022, Elliot Chen.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>qns.network.protocol.bb84 &mdash; QuantNetSim 0.1.0 documentation</title>
+  <title>qns.network.protocol.bb84 &mdash; SimQN 0.1.0 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -24,7 +24,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../../index.html" class="icon icon-home"> QuantNetSim
+            <a href="../../../../index.html" class="icon icon-home"> SimQN
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -34,9 +34,13 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">qns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Install Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../develop.html">Develop Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
 </ul>
 
         </div>
@@ -45,7 +49,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../../index.html">QuantNetSim</a>
+          <a href="../../../../index.html">SimQN</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -75,13 +79,17 @@
 <span class="kn">from</span> <span class="nn">qns.models.qubit</span> <span class="kn">import</span> <span class="n">Qubit</span>
 
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 
 <div class="viewcode-block" id="QubitWithError"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.bb84.QubitWithError">[docs]</a><span class="k">class</span> <span class="nc">QubitWithError</span><span class="p">(</span><span class="n">Qubit</span><span class="p">):</span>
 <div class="viewcode-block" id="QubitWithError.transfer_error_model"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.bb84.QubitWithError.transfer_error_model">[docs]</a>    <span class="k">def</span> <span class="nf">transfer_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="c1"># lkm = length / 1000</span>
-        <span class="c1"># R(self, np.pi /4)</span>
-        <span class="k">pass</span></div></div>
+        <span class="n">lkm</span> <span class="o">=</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">1000</span>
+        <span class="n">standand_lkm</span> <span class="o">=</span> <span class="mf">50.0</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">*</span> <span class="n">lkm</span> <span class="o">/</span> <span class="n">standand_lkm</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span>
+        <span class="n">operation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="BB84SendApp"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.bb84.BB84SendApp">[docs]</a><span class="k">class</span> <span class="nc">BB84SendApp</span><span class="p">(</span><span class="n">Application</span><span class="p">):</span>
@@ -236,7 +244,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021, Elliot Chen.</p>
+    <p>&#169; Copyright 2022, Elliot Chen.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>qns.entity.memory.memory &mdash; QuantNetSim 0.1.0 documentation</title>
+  <title>qns.entity.memory.memory &mdash; SimQN 0.1.0 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -24,7 +24,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../../index.html" class="icon icon-home"> QuantNetSim
+            <a href="../../../../index.html" class="icon icon-home"> SimQN
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -34,9 +34,13 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">qns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Install Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../develop.html">Develop Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
 </ul>
 
         </div>
@@ -45,7 +49,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../../index.html">QuantNetSim</a>
+          <a href="../../../../index.html">SimQN</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -73,11 +77,11 @@
 <span class="kn">from</span> <span class="nn">qns.entity.node.node</span> <span class="kn">import</span> <span class="n">QNode</span>
 
 
-<div class="viewcode-block" id="OutOfMemoryException"><a class="viewcode-back" href="../../../../qns.entity.memory.html#qns.entity.memory.memory.OutOfMemoryException">[docs]</a><span class="k">class</span> <span class="nc">OutOfMemoryException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="OutOfMemoryException"><a class="viewcode-back" href="../../../../qns.entity.memory.html#qns.entity.OutOfMemoryException">[docs]</a><span class="k">class</span> <span class="nc">OutOfMemoryException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="QuantumMemory"><a class="viewcode-back" href="../../../../qns.entity.memory.html#qns.entity.memory.memory.QuantumMemory">[docs]</a><span class="k">class</span> <span class="nc">QuantumMemory</span><span class="p">(</span><span class="n">Entity</span><span class="p">):</span>
+<div class="viewcode-block" id="QuantumMemory"><a class="viewcode-back" href="../../../../qns.entity.memory.html#qns.entity.QuantumMemory">[docs]</a><span class="k">class</span> <span class="nc">QuantumMemory</span><span class="p">(</span><span class="n">Entity</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Quantum memory stores multiple `QuantumModel`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -96,7 +100,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">QuantumModel</span><span class="p">,</span> <span class="n">Time</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">store_error_model_args</span> <span class="o">=</span> <span class="n">store_error_model_args</span>
 
-<div class="viewcode-block" id="QuantumMemory.install"><a class="viewcode-back" href="../../../../qns.entity.memory.html#qns.entity.memory.memory.QuantumMemory.install">[docs]</a>    <span class="k">def</span> <span class="nf">install</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simulator</span><span class="p">:</span> <span class="n">Simulator</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="QuantumMemory.install"><a class="viewcode-back" href="../../../../qns.entity.memory.html#qns.entity.QuantumMemory.install">[docs]</a>    <span class="k">def</span> <span class="nf">install</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simulator</span><span class="p">:</span> <span class="n">Simulator</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">simulator</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">QuantumModel</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumModel</span><span class="p">]:</span>
@@ -116,7 +120,7 @@
                     <span class="k">break</span>
         <span class="k">return</span> <span class="n">ret</span><span class="p">,</span> <span class="n">ret_t</span>
 
-<div class="viewcode-block" id="QuantumMemory.get"><a class="viewcode-back" href="../../../../qns.entity.memory.html#qns.entity.memory.memory.QuantumMemory.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">QuantumModel</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumModel</span><span class="p">]:</span>
+<div class="viewcode-block" id="QuantumMemory.get"><a class="viewcode-back" href="../../../../qns.entity.memory.html#qns.entity.QuantumMemory.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">QuantumModel</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumModel</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        get a qubit from the memory but without removing it from the memory</span>
 
@@ -129,7 +133,7 @@
         <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="QuantumMemory.read"><a class="viewcode-back" href="../../../../qns.entity.memory.html#qns.entity.memory.memory.QuantumMemory.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">QuantumModel</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumModel</span><span class="p">]:</span>
+<div class="viewcode-block" id="QuantumMemory.read"><a class="viewcode-back" href="../../../../qns.entity.memory.html#qns.entity.QuantumMemory.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">QuantumModel</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumModel</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The API for reading a qubit from the memory</span>
 
@@ -146,7 +150,7 @@
         <span class="n">ret</span><span class="o">.</span><span class="n">storage_error_model</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="n">sec_diff</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">store_error_model_args</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ret</span></div>
 
-<div class="viewcode-block" id="QuantumMemory.write"><a class="viewcode-back" href="../../../../qns.entity.memory.html#qns.entity.memory.memory.QuantumMemory.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qm</span><span class="p">:</span> <span class="n">QuantumModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="QuantumMemory.write"><a class="viewcode-back" href="../../../../qns.entity.memory.html#qns.entity.QuantumMemory.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qm</span><span class="p">:</span> <span class="n">QuantumModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The API for storing a qubit to the memory</span>
 
@@ -157,13 +161,13 @@
             <span class="k">raise</span> <span class="n">OutOfMemoryException</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">qm</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">current_time</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="QuantumMemory.is_full"><a class="viewcode-back" href="../../../../qns.entity.memory.html#qns.entity.memory.memory.QuantumMemory.is_full">[docs]</a>    <span class="k">def</span> <span class="nf">is_full</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="QuantumMemory.is_full"><a class="viewcode-back" href="../../../../qns.entity.memory.html#qns.entity.QuantumMemory.is_full">[docs]</a>    <span class="k">def</span> <span class="nf">is_full</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        check whether the memory is full</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">capacity</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">capacity</span></div>
 
-<div class="viewcode-block" id="QuantumMemory.handle"><a class="viewcode-back" href="../../../../qns.entity.memory.html#qns.entity.memory.memory.QuantumMemory.handle">[docs]</a>    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="QuantumMemory.handle"><a class="viewcode-back" href="../../../../qns.entity.memory.html#qns.entity.QuantumMemory.handle">[docs]</a>    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span><span class="n">event</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -179,7 +183,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021, Elliot Chen.</p>
+    <p>&#169; Copyright 2022, Elliot Chen.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
