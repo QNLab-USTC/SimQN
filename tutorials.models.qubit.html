@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en,zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The qubit model &mdash; SimQN 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="The entanglement model" href="tutorials.models.epr.html" />
+    <link rel="prev" title="Physical models" href="tutorials.models.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> SimQN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorials.quickstart.html">Quickstart</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="tutorials.models.html">Physical models</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">The qubit model</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#quantum-operations">Quantum operations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#quantum-measurement">Quantum measurement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#error-models">Error models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example-of-entanglement-swapping">Example of entanglement swapping</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.models.epr.html">The entanglement model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.entity.html">Entities in quantum networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.network.html">Build quantum networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html">Capture date and monitors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html#random-generators">Random generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.simulator.html">The discrete-event simulator</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="develop.html">Develop Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SimQN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
+          <li><a href="tutorials.models.html">Physical models</a> &raquo;</li>
+      <li>The qubit model</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tutorials.models.qubit.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="the-qubit-model">
+<h1>The qubit model<a class="headerlink" href="#the-qubit-model" title="Permalink to this headline"></a></h1>
+<p>The qubit model is in package <code class="docutils literal notranslate"><span class="pre">qns.models.qubit</span></code>. <code class="docutils literal notranslate"><span class="pre">Qubit</span></code> is the class to represent a qubit. One or more qubits (entangled) qubits form a system <code class="docutils literal notranslate"><span class="pre">QState</span></code>, which uses a complex matrix to denote the current quantum state. It is easy to produce a qubit:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.models.qubit.qubit</span> <span class="kn">import</span> <span class="n">Qubit</span>
+<span class="kn">from</span> <span class="nn">qns.models.qubit.const</span> <span class="kn">import</span> <span class="n">QUBIT_STATE_0</span>
+
+<span class="n">q0</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">QUBIT_STATE_0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;q0&quot;</span><span class="p">)</span>
+<span class="n">q1</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">QUBIT_STATE_0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;q1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><cite>QUBIT_STATE_0</cite> is the pre-defined matrix for <a href="#id1"><span class="problematic" id="id2">|</span></a>0&gt;. Some states includes:</p>
+<ul class="simple">
+<li><p>QUBIT_STATE_0 = <span class="math notranslate nohighlight">\(\ket{0}\)</span></p></li>
+<li><p>QUBIT_STATE_1 = <span class="math notranslate nohighlight">\(\ket{1}\)</span></p></li>
+<li><p>QUBIT_STATE_P = <span class="math notranslate nohighlight">\(\frac{1}{2} (\ket{0}+\ket{1})\)</span></p></li>
+<li><p>QUBIT_STATE_N = <span class="math notranslate nohighlight">\(\frac{1}{2} (\ket{0}-\ket{1})\)</span></p></li>
+<li><p>QUBIT_STATE_R = <span class="math notranslate nohighlight">\(\frac{1}{2} (-i \ket{0}+\ket{1})\)</span></p></li>
+<li><p>QUBIT_STATE_L = <span class="math notranslate nohighlight">\(\frac{1}{2} (\ket{0} - i \ket{1})\)</span></p></li>
+</ul>
+<p>All states are numpy matrix, for example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">QUBIT_STATE_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="quantum-operations">
+<h2>Quantum operations<a class="headerlink" href="#quantum-operations" title="Permalink to this headline"></a></h2>
+<p>We implement some quantum gates. And those gates can change the qubit's state:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.models.qubit.gate</span> <span class="kn">import</span> <span class="n">H</span><span class="p">,</span> <span class="n">CNOT</span>
+
+<span class="n">H</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span> <span class="c1"># hadamard gate</span>
+<span class="n">CNOT</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span> <span class="c1"># controlled-not gate</span>
+</pre></div>
+</div>
+<p>Those gates includes Pauli I, X, Y, Z gate, HADAMARD gate, T gate, S gate, phase rotate gate, CNOT gate. The detailed functions of those gates can be found at <a class="reference internal" href="qns.models.qubit.html"><span class="doc">qns.models.qubit package</span></a>. Users can build their own quantum gates as well.</p>
+</section>
+<section id="quantum-measurement">
+<h2>Quantum measurement<a class="headerlink" href="#quantum-measurement" title="Permalink to this headline"></a></h2>
+<p>It is possible to measure the qubit's state (Pauli Z base measure) using <cite>measure</cite> function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">q0</span><span class="o">.</span><span class="n">measure</span><span class="p">())</span> <span class="c1"># 0 or 1</span>
+</pre></div>
+</div>
+<p>For not entangled single qubit, Pauli Y measure and Z measure is also available:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">q0</span><span class="o">.</span><span class="n">measureX</span><span class="p">()</span> <span class="c1"># X base measure</span>
+<span class="n">q0</span><span class="o">.</span><span class="n">measureY</span><span class="p">()</span> <span class="c1"># Y base measure</span>
+<span class="n">q0</span><span class="o">.</span><span class="n">measureZ</span><span class="p">()</span> <span class="c1"># Z base measure</span>
+</pre></div>
+</div>
+</section>
+<section id="error-models">
+<h2>Error models<a class="headerlink" href="#error-models" title="Permalink to this headline"></a></h2>
+<p>To present errors in storage or transmission, users can build their qubits models by implementing the <code class="docutils literal notranslate"><span class="pre">transfer_error_model</span></code> and <code class="docutils literal notranslate"><span class="pre">storage_error_model</span></code>. The following examples shows a qubit will suffer bit flip error during transmission:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">QubitWithError</span><span class="p">(</span><span class="n">Qubit</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">transfer_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">lkm</span> <span class="o">=</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">1000</span>
+        <span class="n">standand_lkm</span> <span class="o">=</span> <span class="mf">50.0</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">*</span> <span class="n">lkm</span> <span class="o">/</span> <span class="n">standand_lkm</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span>
+        <span class="n">operation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+
+<span class="n">qubit</span> <span class="o">=</span> <span class="n">QubitWithError</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">QUBIT_STATE_0</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="example-of-entanglement-swapping">
+<h2>Example of entanglement swapping<a class="headerlink" href="#example-of-entanglement-swapping" title="Permalink to this headline"></a></h2>
+<p>Finally, we present an example of entanglement swapping:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.models.qubit.qubit</span> <span class="kn">import</span> <span class="n">Qubit</span>
+<span class="kn">from</span> <span class="nn">qns.models.qubit.gate</span> <span class="kn">import</span> <span class="n">H</span><span class="p">,</span> <span class="n">CNOT</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Z</span>
+<span class="kn">from</span> <span class="nn">qns.models.qubit.const</span> <span class="kn">import</span> <span class="n">QUBIT_STATE_0</span>
+
+<span class="n">q0</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">QUBIT_STATE_0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;q0&quot;</span><span class="p">)</span>
+<span class="n">q1</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">QUBIT_STATE_0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;q1&quot;</span><span class="p">)</span>
+
+<span class="n">q2</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">QUBIT_STATE_0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;q2&quot;</span><span class="p">)</span>
+<span class="n">q3</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">QUBIT_STATE_0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;q3&quot;</span><span class="p">)</span>
+
+<span class="c1"># entangle q0 and q1</span>
+<span class="n">H</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span>
+<span class="n">CNOT</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
+
+<span class="c1"># entangle q0 and q1</span>
+<span class="n">H</span><span class="p">(</span><span class="n">q2</span><span class="p">)</span>
+<span class="n">CNOT</span><span class="p">(</span><span class="n">q2</span><span class="p">,</span> <span class="n">q3</span><span class="p">)</span>
+
+<span class="c1"># entanglement swapping</span>
+<span class="n">CNOT</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">)</span>
+<span class="n">H</span><span class="p">(</span><span class="n">q1</span><span class="p">)</span>
+
+<span class="c1"># measure q2 and q1</span>
+<span class="n">c0</span> <span class="o">=</span> <span class="n">q2</span><span class="o">.</span><span class="n">measure</span><span class="p">()</span>
+<span class="n">c1</span> <span class="o">=</span> <span class="n">q1</span><span class="o">.</span><span class="n">measure</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">c0</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">c1</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">X</span><span class="p">(</span><span class="n">q3</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">c0</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">c1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">Z</span><span class="p">(</span><span class="n">q3</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">c0</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">c1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">X</span><span class="p">(</span><span class="n">q3</span><span class="p">)</span>
+    <span class="n">Z</span><span class="p">(</span><span class="n">q3</span><span class="p">)</span>
+
+<span class="c1"># now q0 and q3 are entangled</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">q0</span><span class="o">.</span><span class="n">measure</span><span class="p">()</span> <span class="o">==</span> <span class="n">q3</span><span class="o">.</span><span class="n">measure</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorials.models.html" class="btn btn-neutral float-left" title="Physical models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorials.models.epr.html" class="btn btn-neutral float-right" title="The entanglement model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Elliot Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

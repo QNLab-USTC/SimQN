@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en,zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The entanglement model &mdash; SimQN 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Entities in quantum networks" href="tutorials.entity.html" />
+    <link rel="prev" title="The qubit model" href="tutorials.models.qubit.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> SimQN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorials.quickstart.html">Quickstart</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="tutorials.models.html">Physical models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="tutorials.models.qubit.html">The qubit model</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">The entanglement model</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#two-entanglement-models">Two entanglement models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#quantum-teleportation">Quantum teleportation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.entity.html">Entities in quantum networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.network.html">Build quantum networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html">Capture date and monitors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html#random-generators">Random generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.simulator.html">The discrete-event simulator</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="develop.html">Develop Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SimQN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
+          <li><a href="tutorials.models.html">Physical models</a> &raquo;</li>
+      <li>The entanglement model</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tutorials.models.epr.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="the-entanglement-model">
+<h1>The entanglement model<a class="headerlink" href="#the-entanglement-model" title="Permalink to this headline"></a></h1>
+<p>The entanglement model is a high level and simpler model for Bell state entanglements, which is common used in quantum networks. Instead of using matrix, entanglement models uses <code class="docutils literal notranslate"><span class="pre">fidelity</span></code> and other parameters to describe an entanglement. Also, this model provide basic quantum operations including entanglement swapping, distillation and teleportation. The advantage is that it simplifies the evaluation by hiding low-level operations and provides higher performance.</p>
+<section id="two-entanglement-models">
+<h2>Two entanglement models<a class="headerlink" href="#two-entanglement-models" title="Permalink to this headline"></a></h2>
+<p>We pre-defined two kinds of entanglements, i.e., the ideal Bell-state entanglement and the Werner state entanglement. Both of these entanglements are implemented from <code class="docutils literal notranslate"><span class="pre">BaseEntanglement</span></code>. That means that other entanglement models can also be produced by extend the original <code class="docutils literal notranslate"><span class="pre">BaseEntanglement</span></code>.</p>
+<p>The following codes shows how to produce an entanglement:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.models.epr</span> <span class="kn">import</span> <span class="n">WernerStateEntanglement</span>
+
+<span class="c1"># produce entanglements e1 and e2</span>
+<span class="n">e1</span> <span class="o">=</span> <span class="n">WernerStateEntanglement</span><span class="p">(</span><span class="n">fidelity</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;e1&quot;</span><span class="p">)</span>
+<span class="n">e2</span> <span class="o">=</span> <span class="n">WernerStateEntanglement</span><span class="p">(</span><span class="n">fidelity</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;e2&quot;</span><span class="p">)</span>
+
+<span class="c1"># entanglement swapping using e1 and e2</span>
+<span class="n">e3</span> <span class="o">=</span> <span class="n">e1</span><span class="o">.</span><span class="n">swapping</span><span class="p">(</span><span class="n">e2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">e3</span><span class="o">.</span><span class="n">fidelity</span><span class="p">)</span>
+
+<span class="c1"># produce entanglements e4 and e5</span>
+<span class="n">e4</span> <span class="o">=</span> <span class="n">WernerStateEntanglement</span><span class="p">(</span><span class="n">fidelity</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;e4&quot;</span><span class="p">)</span>
+<span class="n">e5</span> <span class="o">=</span> <span class="n">WernerStateEntanglement</span><span class="p">(</span><span class="n">fidelity</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;e5&quot;</span><span class="p">)</span>
+
+<span class="c1"># produce entanglements e4 and e5</span>
+<span class="n">e6</span> <span class="o">=</span> <span class="n">e4</span><span class="o">.</span><span class="n">swapping</span><span class="p">(</span><span class="n">e5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">e6</span><span class="o">.</span><span class="n">fidelity</span><span class="p">)</span>
+
+<span class="c1"># entanglement distillation (purification) using e3 and 36</span>
+<span class="n">e7</span> <span class="o">=</span> <span class="n">e3</span><span class="o">.</span><span class="n">distillation</span><span class="p">(</span><span class="n">e6</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">e7</span><span class="o">.</span><span class="n">fidelity</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Both <code class="docutils literal notranslate"><span class="pre">WernerStateEntanglement</span></code> and <code class="docutils literal notranslate"><span class="pre">BellStateEntanglement</span></code> fix the swapping and distillation model. In <code class="docutils literal notranslate"><span class="pre">BellStateEntanglement</span></code>, the quantum state is the max entangled state <span class="math notranslate nohighlight">\(\ket{\Phi^+}\)</span>, and the fidelity is fixed to 1 (indicates the max entangled state). The entanglement swapping has probability of success <code class="docutils literal notranslate"><span class="pre">p_swap</span></code>. For the <code class="docutils literal notranslate"><span class="pre">BellStateEntanglement</span></code>, no error is introduced during storing and transmission.</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">WernerStateEntanglement</span></code>, the the density matrix is</p>
+<div class="math notranslate nohighlight">
+\[\rho = w \ket{\Phi^+} \bra{\Phi^+} + \frac{1-w}{4} \mathbb{I}_4,\]</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">w</span></code> is the werner parameter and the fidelity is <span class="math notranslate nohighlight">\(f = (3w + 1) / 4\)</span>. The entanglement swapping protocol will produce a new entanglement (e3 in the above example), where <span class="math notranslate nohighlight">\(w_3 = w_1 w_2\)</span>. SimQN adopt the Bennett96 distillation protocol, where the success probability is</p>
+<div class="math notranslate nohighlight">
+\[f^2+\frac{2}{3}f(1-f) + \frac{5}{9} (1-f)^2\]</div>
+<p>, and the final fidelity is</p>
+<div class="math notranslate nohighlight">
+\[f' = \frac{f^2+\frac{1}{9}(1-f)^2}{f^2+\frac{2}{3}f(1-f) + \frac{5}{9} (1-f)^2}\]</div>
+<p>For <code class="docutils literal notranslate"><span class="pre">WernerStateEntanglement</span></code>, the werner parameter will drop during storing in quantum memories or transmitting though quantum channels. After storing for time <code class="docutils literal notranslate"><span class="pre">t</span></code>, the new state will be <span class="math notranslate nohighlight">\(w' = w \cdot e^{ - \alpha t}\)</span>, where <span class="math notranslate nohighlight">\(\alpha\)</span> is the decoy parameter (default is 0). Both <code class="docutils literal notranslate"><span class="pre">t</span></code> and <span class="math notranslate nohighlight">\(\alpha\)</span> are input parameter of the <code class="docutils literal notranslate"><span class="pre">storage_error_model</span></code>.</p>
+<p>For transmitting error, the new state will be <span class="math notranslate nohighlight">\(w' = w \cdot e^{ - \beta l}\)</span>, where <span class="math notranslate nohighlight">\(\beta\)</span> is the decoy parameter (default is 0) and <code class="docutils literal notranslate"><span class="pre">l</span></code> is the channel length. Both <code class="docutils literal notranslate"><span class="pre">l</span></code> and <span class="math notranslate nohighlight">\(\beta\)</span> are input parameter of the <cite>transfer_error_model</cite>.</p>
+<p>If the error models, swapping protocols and distillation protocols do not fit your need, it is easy to implement your own entanglement model by extend <code class="docutils literal notranslate"><span class="pre">BaseEntanglement</span></code>.</p>
+</section>
+<section id="quantum-teleportation">
+<h2>Quantum teleportation<a class="headerlink" href="#quantum-teleportation" title="Permalink to this headline"></a></h2>
+<p>Both models provides the teleportation protocol to transmit a qubit using the entanglement. Also, It is possible to change an entanglement model to two entangled qubits model:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.models.epr</span> <span class="kn">import</span> <span class="n">BellStateEntanglement</span>
+<span class="kn">from</span> <span class="nn">qns.models.qubit.qubit</span> <span class="kn">import</span> <span class="n">Qubit</span>
+<span class="kn">from</span> <span class="nn">qns.models.qubit.const</span> <span class="kn">import</span> <span class="n">QUBIT_STATE_0</span>
+
+<span class="n">e1</span> <span class="o">=</span> <span class="n">BellStateEntanglement</span><span class="p">(</span><span class="n">fidelity</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;e1&quot;</span><span class="p">)</span>
+
+<span class="c1"># change BellStateEntanglement model to Qubit model</span>
+<span class="n">q0</span><span class="p">,</span> <span class="n">q1</span> <span class="o">=</span> <span class="n">e1</span><span class="o">.</span><span class="n">to_qubits</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">q0</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+
+<span class="c1"># execute teleportation protocol to transmit a Qubit</span>
+<span class="n">q0</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">(</span><span class="n">QUBIT_STATE_0</span><span class="p">)</span> <span class="c1"># the transmitting qubit</span>
+<span class="n">e1</span> <span class="o">=</span> <span class="n">BellStateEntanglement</span><span class="p">(</span><span class="n">fidelity</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;e0&quot;</span><span class="p">)</span>
+
+<span class="n">q2</span> <span class="o">=</span> <span class="n">e1</span><span class="o">.</span><span class="n">teleportion</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span> <span class="c1"># The transmitted qubit</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">q2</span><span class="o">.</span><span class="n">measure</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>To present errors in storage or transmission, users can build their own entanglement models by implementing the <code class="docutils literal notranslate"><span class="pre">transfer_error_model</span></code> and <code class="docutils literal notranslate"><span class="pre">storage_error_model</span></code>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorials.models.qubit.html" class="btn btn-neutral float-left" title="The qubit model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorials.entity.html" class="btn btn-neutral float-right" title="Entities in quantum networks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Elliot Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

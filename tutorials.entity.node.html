@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en,zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quantum node: the end-point users, routers and repeaters &mdash; SimQN 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Quantum memory: the device to store qubits" href="tutorials.entity.memory.html" />
+    <link rel="prev" title="Entities in quantum networks" href="tutorials.entity.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> SimQN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorials.quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.models.html">Physical models</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="tutorials.entity.html">Entities in quantum networks</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Quantum node: the end-point users, routers and repeaters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#applications">Applications</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#initiate-and-event-handling-process">Initiate and event handling process</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.entity.memory.html">Quantum memory: the device to store qubits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.entity.qchannel.html">Quantum channel: the link to transmit qubits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.entity.cchannel.html">Classic channel: the link to transmit classic packets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.entity.other.html">Timers and build other entities</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.network.html">Build quantum networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html">Capture date and monitors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html#random-generators">Random generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.simulator.html">The discrete-event simulator</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="develop.html">Develop Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SimQN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
+          <li><a href="tutorials.entity.html">Entities in quantum networks</a> &raquo;</li>
+      <li>Quantum node: the end-point users, routers and repeaters</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tutorials.entity.node.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quantum-node-the-end-point-users-routers-and-repeaters">
+<h1>Quantum node: the end-point users, routers and repeaters<a class="headerlink" href="#quantum-node-the-end-point-users-routers-and-repeaters" title="Permalink to this headline"></a></h1>
+<p>Quantum nodes are the parties in the quantum network. They can be end-point users, quantum routers, switches and repeaters. Quantum nodes may equip devices for quantum measurement and operations. They can also have quantum memories and share quantum channel and classic channels.</p>
+<p>Quantum node can be generated, and they can also equip memories and channels:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.entity.node.node</span> <span class="kn">import</span> <span class="n">QNode</span>
+<span class="kn">from</span> <span class="nn">qns.entity.memory.memory</span> <span class="kn">import</span> <span class="n">QuantumMemory</span>
+<span class="kn">from</span> <span class="nn">qns.entity.qchannel.qchannel</span> <span class="kn">import</span> <span class="n">QuantumChannel</span>
+<span class="kn">from</span> <span class="nn">qns.entity.cchannel.cchannel</span> <span class="kn">import</span> <span class="n">ClassicChannel</span>
+
+<span class="n">n1</span> <span class="o">=</span> <span class="n">QNode</span><span class="p">(</span><span class="s2">&quot;n1&quot;</span><span class="p">)</span> <span class="c1"># a quantum node named &quot;n1&quot;</span>
+
+<span class="c1"># add quantum memory</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">QuantumMemory</span><span class="p">(</span><span class="s2">&quot;m1&quot;</span><span class="p">)</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">add_memory</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+<span class="c1"># add classic channel</span>
+<span class="n">cl1</span> <span class="o">=</span> <span class="n">ClassicChannel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;cl1&quot;</span><span class="p">,</span> <span class="n">bandwidth</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">drop_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">max_buffer_size</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">add_cchannel</span><span class="p">(</span><span class="n">cl1</span><span class="p">)</span>
+
+<span class="c1"># add quantum channel</span>
+<span class="n">ql1</span> <span class="o">=</span> <span class="n">QuantumChannel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;ql1&quot;</span><span class="p">,</span> <span class="n">bandwidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">drop_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">max_buffer_size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">add_qchannel</span><span class="p">(</span><span class="n">ql1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It is also possible to get the channel by the destination by <code class="docutils literal notranslate"><span class="pre">get_cchannel</span></code> or <code class="docutils literal notranslate"><span class="pre">get_channel</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">n1</span> <span class="o">=</span> <span class="n">QNode</span><span class="p">(</span><span class="s2">&quot;n1&quot;</span><span class="p">)</span>
+<span class="n">n2</span> <span class="o">=</span> <span class="n">QNode</span><span class="p">(</span><span class="s2">&quot;n2&quot;</span><span class="p">)</span>
+
+<span class="c1"># add a quantum channel</span>
+<span class="n">ql1</span> <span class="o">=</span> <span class="n">QuantumChannel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;ql1&quot;</span><span class="p">,</span> <span class="n">bandwidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">add_qchannel</span><span class="p">(</span><span class="n">ql1</span><span class="p">)</span>
+<span class="n">n2</span><span class="o">.</span><span class="n">add_qchannel</span><span class="p">(</span><span class="n">ql1</span><span class="p">)</span>
+
+<span class="c1"># get the quantum channel by destination</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">ql1</span> <span class="o">==</span> <span class="n">n1</span><span class="o">.</span><span class="n">get_qchannel</span><span class="p">(</span><span class="n">n2</span><span class="p">))</span>
+</pre></div>
+</div>
+<section id="applications">
+<h2>Applications<a class="headerlink" href="#applications" title="Permalink to this headline"></a></h2>
+<p>Quantum nodes may behavior differently. For example, some nodes may be the sender and other may be the receiver. Nodes in the quantum networks may be the routers or switches. Thus, quantum nodes can install different <code class="docutils literal notranslate"><span class="pre">Applications</span></code>. Applications are the programmes running on the quantum nodes.</p>
+<p>It is possible to install and get applications:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.network.protocol.entanglement_distribution</span> <span class="kn">import</span> <span class="n">EntanglementDistributionApp</span>
+<span class="kn">from</span> <span class="nn">qns.entity.node.node</span> <span class="kn">import</span> <span class="n">QNode</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">EntanglementDistributionApp</span><span class="p">()</span> <span class="c1"># the application</span>
+<span class="n">n1</span> <span class="o">=</span> <span class="n">QNode</span><span class="p">(</span><span class="s2">&quot;n1&quot;</span><span class="p">)</span>
+
+<span class="c1"># add an application</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">add_apps</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+
+<span class="c1"># get applications by the class</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">app</span> <span class="o">==</span> <span class="n">n1</span><span class="o">.</span><span class="n">get_apps</span><span class="p">(</span><span class="n">EntanglementDistributionApp</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># install application when generate the quantum node</span>
+<span class="n">n2</span> <span class="o">=</span> <span class="n">QNode</span><span class="p">(</span><span class="s2">&quot;n2&quot;</span><span class="p">,</span> <span class="n">apps</span> <span class="o">=</span> <span class="p">[</span><span class="n">EntanglementDistributionApp</span><span class="p">()])</span>
+</pre></div>
+</div>
+<p>The application can get the related node and simulator:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">node</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">get_node</span><span class="p">()</span>
+<span class="n">simulator</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">get_simulator</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The application needs to implements the following two methods:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">install</span></code>: initiate the application and inject initial events</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">handle</span></code>: handle the incoming events</p></li>
+</ul>
+<p>One example is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.entity.node.app</span> <span class="kn">import</span> <span class="n">Application</span>
+
+<span class="k">class</span> <span class="nc">PrintApp</span><span class="p">(</span><span class="n">Application</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">install</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">simulator</span><span class="p">:</span> <span class="n">Simulator</span><span class="p">):</span>
+        <span class="c1"># initiate the application</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">simulator</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;init&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">):</span>
+        <span class="c1"># called when the event happens</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;event </span><span class="si">{</span><span class="n">event</span><span class="si">}</span><span class="s2"> happens&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Other examples can be found at <code class="docutils literal notranslate"><span class="pre">qns.network.protocols</span></code>.</p>
+</section>
+<section id="initiate-and-event-handling-process">
+<h2>Initiate and event handling process<a class="headerlink" href="#initiate-and-event-handling-process" title="Permalink to this headline"></a></h2>
+<p>Both nodes and applications has <code class="docutils literal notranslate"><span class="pre">install</span></code> and <code class="docutils literal notranslate"><span class="pre">handle</span></code> methods. The relation is:</p>
+<ol class="arabic simple">
+<li><p>The nodes' <code class="docutils literal notranslate"><span class="pre">install</span></code> method will call every memories, channels and applications' <code class="docutils literal notranslate"><span class="pre">install</span></code> method to initiate every sub-entities and applications.</p></li>
+<li><p>The application's <code class="docutils literal notranslate"><span class="pre">install</span></code> method should be implemented by users and do the 'dirty work' to actually initiate the node's state.</p></li>
+<li><p>When an related event happends, the node' <code class="docutils literal notranslate"><span class="pre">handle</span></code> method will call all its applications' <code class="docutils literal notranslate"><span class="pre">handle</span></code> method to handle the event.</p></li>
+<li><p>The application's <code class="docutils literal notranslate"><span class="pre">handle</span></code> method should be implemented by users to actually handle the events</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorials.entity.html" class="btn btn-neutral float-left" title="Entities in quantum networks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorials.entity.memory.html" class="btn btn-neutral float-right" title="Quantum memory: the device to store qubits" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Elliot Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
