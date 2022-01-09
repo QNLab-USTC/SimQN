@@ -7,7 +7,8 @@ class Application(object):
     Application can be deployed on the quantum nodes.
     """
     def __init__(self):
-        pass
+        self._simulator = None
+        self._node = None
 
     def install(self, node, simulator: Simulator):
         """
@@ -29,3 +30,21 @@ class Application(object):
             event (Event): the event
         """
         pass
+
+    def get_node(self):
+        """
+        get the node that runs this application
+
+        Returns:
+            the quantum node
+        """
+        return self._node
+
+    def get_simulator(self):
+        """
+        get the simulator
+
+        Returns:
+            the simulator
+        """
+        return self._simulator

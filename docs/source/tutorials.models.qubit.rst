@@ -1,7 +1,7 @@
 The qubit model
 ======================
 
-The qubit model is in package `qns.models.qubit`. `Qubit` is the class to represent a qubit. One or more qubits (entangled) qubits form a system `QState`, which uses a complex matrix to denote the current quantum state. It is easy to produce a qubit:
+The qubit model is in package ``qns.models.qubit``. ``Qubit`` is the class to represent a qubit. One or more qubits (entangled) qubits form a system ``QState``, which uses a complex matrix to denote the current quantum state. It is easy to produce a qubit:
 
 .. code-block:: python
 
@@ -61,7 +61,7 @@ For not entangled single qubit, Pauli Y measure and Z measure is also available:
 Error models
 -------------------------
 
-To present errors in storage or transmission, users can build their qubits models by implementing the `transfer_error_model` and `storage_error_model`. The following examples shows a qubit will suffer bit flip error during transmission:
+To present errors in storage or transmission, users can build their qubits models by implementing the ``transfer_error_model`` and ``storage_error_model``. The following examples shows a qubit will suffer bit flip error during transmission:
 
 .. code-block:: python
 
