@@ -43,10 +43,9 @@
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Develop Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">项目介绍</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">代码开发和合作规范</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">代码运行和编译方法</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#api">构建API文档</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#code-requirements">Code requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#develop-and-compile-instruction">Develop and Compile Instruction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compile-api-documents">Compile API documents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
@@ -78,54 +77,49 @@
              
   <section id="develop-guide">
 <h1>Develop Guide<a class="headerlink" href="#develop-guide" title="Permalink to this headline"></a></h1>
-<section id="id1">
-<h2>项目介绍<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h2>
-<p>本项目是一个离散时间调度器和一个量子网络仿真器。项目使用Python编写，以来的Python版本是 &gt; 3.7.0。
-在开发过程中，我们使用  <a class="reference external" href="https://pypi.org/project/setuptools/">setuptools</a>
-库来完成代码库的打包和分发，需要首先安装这个依赖：</p>
+<p>We prefer a standard development method. To ensure this, this guide explains the development rules and instructions.</p>
+<section id="code-requirements">
+<h2>Code requirements<a class="headerlink" href="#code-requirements" title="Permalink to this headline"></a></h2>
+<p>Source code is hosted at <a class="reference external" href="https://github.com/ertuil/SimQN">Github</a>. Pull requests and issues are welcome.
+However, the following requirements need to be met:</p>
+<ol class="arabic simple">
+<li><p>Python codes and the variable's name should follow <a class="reference external" href="https://www.python.org/dev/peps/pep-0008/">PEP 8</a> standard. An automatic <cite>flake8</cite> check is developed, and all pull requests needs to pass the check.</p></li>
+<li><p>Expose APIs should have a <cite>docstrings</cite> to automatic generate API documents. <cite>docstrings</cite> should follow the <a class="reference external" href="https://google.github.io/styleguide/pyguide.html#s3.8-comments-and-docstrings">Google Style Python Guide</a>.</p></li>
+<li><p>Methods, Classes needs to provide enough tests (using <cite>pytest</cite>), and all tests needs to pass the automatic check in pull requests.</p></li>
+</ol>
+</section>
+<section id="develop-and-compile-instruction">
+<h2>Develop and Compile Instruction<a class="headerlink" href="#develop-and-compile-instruction" title="Permalink to this headline"></a></h2>
+<p>SimQN is a Python library for quantum networks evaluation. It requires Python &gt; 3.7.0. WE leverage <a class="reference external" href="https://pypi.org/project/setuptools/">setuptools</a> to build SimQN:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip3 install setuptools wheel twine
+pip3 install -r requirements
 </pre></div>
 </div>
-</section>
-<section id="id2">
-<h2>代码开发和合作规范<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h2>
-<p>我们代码和其他资料存放在 <a class="reference external" href="https://github.com/ertuil/SimQN">Github</a> 上。
-我们开发时候，请将代码上传到 <code class="docutils literal notranslate"><span class="pre">dev</span></code> 分支（非 <cite>master</cite> 分支）。</p>
-<p>Python代码的编码规范和变量命名请参考 <a class="reference external" href="https://www.python.org/dev/peps/pep-0008/">PEP 8</a> 标准。
-项目中每一个类、方法都需要存在注释（docstrings)，以便于文档自动生成工具可以快速生成API文档。
-具体格式可以参考 <code class="docutils literal notranslate"><span class="pre">scheduar</span></code> 模块下的注释的语法。</p>
-</section>
-<section id="id3">
-<h2>代码运行和编译方法<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h2>
-<p>我们的项目使用 <a class="reference external" href="https://pypi.org/project/setuptools/">setuptools</a> 进行打包。</p>
-<p>我们在开发的时候，可以使用命令</p>
+<p>To setup the development environments, the following command install SimQN into the python library so that we can do <cite>import qns</cite>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3 setup.py develop
 </pre></div>
 </div>
-<p>将整个 qns 库通过软连接的方式安装到系统的Python库中，这样我们就可以import qns 库了。
-这个时候，理论上 example 中的实例程序就可以正常运行了。</p>
-<p>当我们完成一个阶段开发的之后，我们可以将整个 qns 库打包成二进制进行分发（比如上传到 pypi 网站上，这样任何人都可以使用 pip 命令安装了）。我们使用</p>
+<p>To compile and build a SimQN package, we can use:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3 setup.py bdist_wheel
 </pre></div>
 </div>
-<p>命令就可以在 dist 文件夹中看到打包好的库文件`qns-&lt;version&gt;-py3-none-any.whl`了。</p>
-<p>任何人只需要拿到这个 whl 文件，然后使用 pip 命令就可以将这个包安装到系统中：</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip3 install qns-&lt;version&gt;-py3-none-any.whl
-</pre></div>
-</div>
+<p>Now the SimQN package is <cite>qns-&lt;version&gt;-py3-none-any.whl</cite> in <cite>dist</cite> directory. To further install this package, you can use <cite>pip</cite>:</p>
+<blockquote>
+<div><p>pip3 install qns-&lt;version&gt;-py3-none-any.whl</p>
+</div></blockquote>
 </section>
-<section id="api">
-<h2>构建API文档<a class="headerlink" href="#api" title="Permalink to this headline"></a></h2>
-<p>我们使用 sphinx 来自动构建API文档，需要首先安装 sphinx 库:</p>
+<section id="compile-api-documents">
+<h2>Compile API documents<a class="headerlink" href="#compile-api-documents" title="Permalink to this headline"></a></h2>
+<p>We adopt <cite>sphinx</cite> to build our documents, and the first thing is to install it:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip3 install sphinx sphinx_rtd_theme sphinx-autobuild
 </pre></div>
 </div>
-<p>之后，在 docs 文件夹下运行命令</p>
+<p>To automatic generate the API documents, use the following command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sphinx-apidoc -o docs/source qns
-make html
 </pre></div>
 </div>
-<p>即可编译生成静态文档。最后，使用下面的命令将其 push 到 github pages 上：</p>
+<p>To build document website, use the command:</p>
+<p>Now, the compiled static website is built. Our documents is hosted on the <cite>gh-pages</cite> branch. Use the following command to publish new documents:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git subtree push --prefix docs/build/html origin gh-pages
 </pre></div>
 </div>
