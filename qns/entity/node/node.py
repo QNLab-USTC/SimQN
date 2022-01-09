@@ -1,5 +1,5 @@
 from typing import List
-from qns.simulator import simulator
+from qns.simulator import Simulator
 from qns.simulator import Event
 from qns.entity import Entity
 from qns.entity.node.app import Application
@@ -29,7 +29,7 @@ class QNode(Entity):
         else:
             self.apps: List[Application] = apps
 
-    def install(self, simulator: simulator) -> None:
+    def install(self, simulator: Simulator) -> None:
         super().install(simulator)
         # initiate sub-entities
         for cchannel in self.cchannels:
