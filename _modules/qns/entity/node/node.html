@@ -37,9 +37,9 @@
               <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Install Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Install Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tutorials.html">Tutorials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../develop.html">Develop Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../develop.html">Develop Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
 </ul>
 
@@ -69,7 +69,7 @@
              
   <h1>Source code for qns.entity.node.node</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">qns.simulator</span> <span class="kn">import</span> <span class="n">simulator</span>
+<span class="kn">from</span> <span class="nn">qns.simulator</span> <span class="kn">import</span> <span class="n">Simulator</span>
 <span class="kn">from</span> <span class="nn">qns.simulator</span> <span class="kn">import</span> <span class="n">Event</span>
 <span class="kn">from</span> <span class="nn">qns.entity</span> <span class="kn">import</span> <span class="n">Entity</span>
 <span class="kn">from</span> <span class="nn">qns.entity.node.app</span> <span class="kn">import</span> <span class="n">Application</span>
@@ -99,7 +99,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">apps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Application</span><span class="p">]</span> <span class="o">=</span> <span class="n">apps</span>
 
-<div class="viewcode-block" id="QNode.install"><a class="viewcode-back" href="../../../../qns.entity.node.html#qns.entity.QNode.install">[docs]</a>    <span class="k">def</span> <span class="nf">install</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simulator</span><span class="p">:</span> <span class="n">simulator</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="QNode.install"><a class="viewcode-back" href="../../../../qns.entity.node.html#qns.entity.QNode.install">[docs]</a>    <span class="k">def</span> <span class="nf">install</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simulator</span><span class="p">:</span> <span class="n">Simulator</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">simulator</span><span class="p">)</span>
         <span class="c1"># initiate sub-entities</span>
         <span class="k">for</span> <span class="n">cchannel</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cchannels</span><span class="p">:</span>
