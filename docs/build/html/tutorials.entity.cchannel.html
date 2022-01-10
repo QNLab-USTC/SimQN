@@ -49,7 +49,8 @@
 <li class="toctree-l3"><a class="reference internal" href="tutorials.entity.memory.html">Quantum memory: the device to store qubits</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tutorials.entity.qchannel.html">Quantum channel: the link to transmit qubits</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Classic channel: the link to transmit classic packets</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#send-and-receive-qubits">Send and receive qubits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#classic-packets">Classic packets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#send-and-receive-classic-packets">Send and receive classic packets</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="tutorials.entity.other.html">Timers and build other entities</a></li>
@@ -99,9 +100,9 @@ It has the following attributions:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: the channel's name.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">length</span></code>: the physcial length of the channel. Default length is 0</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">delay</span></code>: the propagation delay. The time delay from sending to receiving. Default delay is 0s.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">drop_rate</span></code>: the probability of losing the transmitting qubit. Default drop rate is 0.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">bandwidth</span></code>: the number of qubits to be sent per second. If the <code class="docutils literal notranslate"><span class="pre">bandwidth</span></code> is reached, further qubits will be put into a buffer (and causes a buffer delay). Default bandwidth is <code class="docutils literal notranslate"><span class="pre">None</span></code> (infinite).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">max_buffer_size</span></code>: the maximum send buffer size. If the buffer is full, further qubits will be dropped. Default buffer size is <code class="docutils literal notranslate"><span class="pre">None</span></code> (infinite).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">drop_rate</span></code>: the probability of losing the packets. Default drop rate is 0.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bandwidth</span></code>: The bandwidth is the maximum sending bytes per second. If the <code class="docutils literal notranslate"><span class="pre">bandwidth</span></code> is reached, further packets will be put into a buffer (and causes a buffer delay). Default bandwidth is <code class="docutils literal notranslate"><span class="pre">None</span></code> (infinite).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_buffer_size</span></code>: the maximum send buffer size in bytes. If the buffer is full, further packets will be dropped. Default buffer size is <code class="docutils literal notranslate"><span class="pre">None</span></code> (infinite).</p></li>
 </ul>
 <p>Since SimQN focus on the quantum network, it is reasonable to assume that the classic channel is reliable. No errors will occur during the transmitting or errors will be checked. The following codes shows how to generate a classic channel:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.entity.node.node</span> <span class="kn">import</span> <span class="n">QNode</span>
@@ -115,42 +116,48 @@ It has the following attributions:</p>
 <span class="n">n1</span><span class="o">.</span><span class="n">add_cchannel</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
 <span class="n">n2</span><span class="o">.</span><span class="n">add_cchannel</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
 
-<span class="c1"># get_cchannel can return the quantum channel by its destination</span>
+<span class="c1"># get_cchannel can return the classic channel by its destination</span>
 <span class="k">assert</span><span class="p">(</span><span class="n">l1</span> <span class="o">==</span> <span class="n">n1</span><span class="o">.</span><span class="n">get_cchannel</span><span class="p">(</span><span class="n">n2</span><span class="p">))</span>
 </pre></div>
 </div>
-<section id="send-and-receive-qubits">
-<h2>Send and receive qubits<a class="headerlink" href="#send-and-receive-qubits" title="Permalink to this headline"></a></h2>
-<p>It is easy to send a qubit using <code class="docutils literal notranslate"><span class="pre">send</span></code> method:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">n1</span> <span class="o">=</span> <span class="n">QNode</span><span class="p">(</span><span class="s2">&quot;n1&quot;</span><span class="p">)</span>
-<span class="n">n2</span> <span class="o">=</span> <span class="n">QNode</span><span class="p">(</span><span class="s2">&quot;n2&quot;</span><span class="p">)</span>
+<section id="classic-packets">
+<h2>Classic packets<a class="headerlink" href="#classic-packets" title="Permalink to this headline"></a></h2>
+<p>The classic packets is implemented in class <cite>ClassicPacket</cite>, with the following fields:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">src</span></code>: the sending node</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dest</span></code>: the destination node</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">msg</span></code>: the sending message.</p></li>
+</ul>
+<p>The message can be a <code class="docutils literal notranslate"><span class="pre">str</span></code>, <code class="docutils literal notranslate"><span class="pre">bytes</span></code> and any python object that can be dumped to a <code class="docutils literal notranslate"><span class="pre">json</span></code> string. If the message is a <code class="docutils literal notranslate"><span class="pre">str</span></code> or <code class="docutils literal notranslate"><span class="pre">bytes</span></code> object, the message length equals to the string or bytes length. Otherwise, the object will be firstly dumped to a json string and the packet length is the json string's length.</p>
+<p><code class="docutils literal notranslate"><span class="pre">get</span></code> method will recovery the python object if the message is dumped to json. Or, it will return the messages as it is.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.entity.cchannel.cchannel</span> <span class="kn">import</span> <span class="n">ClassicPacket</span>
 
-<span class="n">l1</span> <span class="o">=</span> <span class="n">QuantumChannel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;l1&quot;</span><span class="p">)</span>
-<span class="n">n1</span><span class="o">.</span><span class="n">add_qchannel</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
-<span class="n">n2</span><span class="o">.</span><span class="n">add_qchannel</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
+<span class="n">packet1</span> <span class="o">=</span> <span class="n">ClassicPacket</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s2">&quot;hello,world&quot;</span><span class="p">)</span>
+<span class="n">msg1</span> <span class="o">=</span> <span class="n">packet1</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="c1"># msg1 = &quot;hello,world&quot;</span>
 
-<span class="c1"># install and initiate the simulator</span>
-<span class="c1"># ...</span>
-
-<span class="n">qubit</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">()</span>
-
-<span class="c1"># use the send method to send qubit</span>
-<span class="n">l1</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">qubit</span> <span class="o">=</span> <span class="n">qubit</span><span class="p">,</span> <span class="n">next_hop</span> <span class="o">=</span> <span class="n">n2</span><span class="p">)</span>
+<span class="n">packet2</span> <span class="o">=</span> <span class="n">ClassicPacket</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">})</span>
+<span class="n">msg2</span> <span class="o">=</span> <span class="n">packet2</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="c1"># msg2 = {&quot;key&quot;: &quot;value&quot;}</span>
 </pre></div>
 </div>
-<p>The receiving may be complex. The destination node will be noticed by an event called <code class="docutils literal notranslate"><span class="pre">RecvQubitPacket</span></code>. It has the following fields:</p>
+<p>SimQN provides the automatic json dump and load process for classic messages so that users will not worry about the
+tedious details of encoding of packets. <code class="docutils literal notranslate"><span class="pre">ClassicPacket</span></code> can transmit python <code class="docutils literal notranslate"><span class="pre">dict</span></code> as packets, and it is enough to express control the instructions.</p>
+</section>
+<section id="send-and-receive-classic-packets">
+<h2>Send and receive classic packets<a class="headerlink" href="#send-and-receive-classic-packets" title="Permalink to this headline"></a></h2>
+<p>It is easy to send classic packets using <code class="docutils literal notranslate"><span class="pre">send</span></code> method of the classic channel. For the receiver, it will be noticed by an event called <code class="docutils literal notranslate"><span class="pre">RecvClassicPacket</span></code>. This event has the following fields:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">t</span></code>: the receiving time</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">qchannel</span></code>: the related quantum channel</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">qubit</span></code>: the receiving qubit</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cchannel</span></code>: the related classic channel</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">packet</span></code>: the receiving classic packet</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">dest</span></code>: the destination</p></li>
 </ul>
-<p>This packet needs to be processed in the <code class="docutils literal notranslate"><span class="pre">handle</span></code> method of the applications:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SendApp</span><span class="p">(</span><span class="n">Application</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dest</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">qchannel</span><span class="p">:</span> <span class="n">QuantumChannel</span><span class="p">,</span> <span class="n">send_rate</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+<p>This packet needs to be processed in the <code class="docutils literal notranslate"><span class="pre">handle</span></code> method of the receiving applications:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># the send application</span>
+<span class="k">class</span> <span class="nc">SendApp</span><span class="p">(</span><span class="n">Application</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dest</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">cchannel</span><span class="p">:</span> <span class="n">ClassicChannel</span><span class="p">,</span> <span class="n">send_rate</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dest</span> <span class="o">=</span> <span class="n">dest</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">qchannel</span> <span class="o">=</span> <span class="n">qchannel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cchannel</span> <span class="o">=</span> <span class="n">cchannel</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">send_rate</span> <span class="o">=</span> <span class="n">send_rate</span>
 
     <span class="c1"># initiate: generate the first send event</span>
@@ -158,48 +165,51 @@ It has the following attributions:</p>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">simulator</span><span class="p">)</span>
 
         <span class="c1"># get start time</span>
-        <span class="n">time_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">simulator</span><span class="o">.</span><span class="n">ts</span><span class="p">)</span>
-
         <span class="n">t</span> <span class="o">=</span> <span class="n">simulator</span><span class="o">.</span><span class="n">ts</span>
-        <span class="n">event</span> <span class="o">=</span> <span class="n">func_to_event</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_qubit</span><span class="p">)</span>
+        <span class="n">event</span> <span class="o">=</span> <span class="n">func_to_event</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_packet</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">add_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">send_qubit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># generate a qubit</span>
-        <span class="n">qubit</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">send_packet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># generate a packet</span>
+        <span class="n">packet</span> <span class="o">=</span> <span class="n">ClassicPacket</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s2">&quot;Hello,world&quot;</span><span class="p">,</span> <span class="n">src</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_node</span><span class="p">(),</span> <span class="n">dest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dest</span><span class="p">)</span>
 
-        <span class="c1"># send the qubit</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">qchannel</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">qubit</span><span class="o">=</span><span class="n">qubit</span><span class="p">,</span> <span class="n">next_hop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dest</span><span class="p">)</span>
+        <span class="c1"># send the classic packet</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cchannel</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">packet</span> <span class="o">=</span> <span class="n">packet</span><span class="p">,</span> <span class="n">next_hop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dest</span><span class="p">)</span>
 
         <span class="c1"># calculate the next sending time</span>
         <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">current_time</span> <span class="o">+</span> \
             <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="n">sec</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_rate</span><span class="p">)</span>
 
         <span class="c1"># insert the next send event to the simulator</span>
-        <span class="n">event</span> <span class="o">=</span> <span class="n">func_to_event</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_qubit</span><span class="p">)</span>
+        <span class="n">event</span> <span class="o">=</span> <span class="n">func_to_event</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_packet</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">add_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
 
+
+<span class="c1"># the receiving application</span>
 <span class="k">class</span> <span class="nc">RecvApp</span><span class="p">(</span><span class="n">Application</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">RecvQubitPacket</span><span class="p">):</span>
-            <span class="n">qubit</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">qubit</span>
-            <span class="n">qchannel</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">qchannel</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">RecvClassicPacket</span><span class="p">):</span>
+            <span class="n">packet</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">packet</span>
+            <span class="n">cchannel</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">cchannel</span>
             <span class="n">recv_time</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">t</span>
 
-            <span class="c1"># handling the receiving qubit</span>
+            <span class="c1"># get the packet message</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">packet</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+            <span class="c1"># handling the receiving packet</span>
             <span class="c1"># ...</span>
 
 <span class="c1"># generate quantum nodes</span>
 <span class="n">n1</span> <span class="o">=</span> <span class="n">QNode</span><span class="p">(</span><span class="s2">&quot;n1&quot;</span><span class="p">)</span>
 <span class="n">n2</span> <span class="o">=</span> <span class="n">QNode</span><span class="p">(</span><span class="s2">&quot;n2&quot;</span><span class="p">)</span> <span class="c1"># add the RecvApp</span>
 
-<span class="c1"># generate a quantum channel</span>
-<span class="n">l1</span> <span class="o">=</span> <span class="n">QuantumChannel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;l1&quot;</span><span class="p">)</span>
-<span class="n">n1</span><span class="o">.</span><span class="n">add_qchannel</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
-<span class="n">n2</span><span class="o">.</span><span class="n">add_qchannel</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
+<span class="c1"># generate a classic channel</span>
+<span class="n">l1</span> <span class="o">=</span> <span class="n">ClassicChannel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;l1&quot;</span><span class="p">)</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">add_cchannel</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
+<span class="n">n2</span><span class="o">.</span><span class="n">add_cchannel</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
 
 <span class="c1"># add apps</span>
-<span class="n">n1</span><span class="o">.</span><span class="n">add_apps</span><span class="p">(</span><span class="n">SendApp</span><span class="p">(</span><span class="n">dest</span> <span class="o">=</span> <span class="n">n2</span><span class="p">,</span> <span class="n">qchannel</span> <span class="o">=</span> <span class="n">l1</span><span class="p">))</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">add_apps</span><span class="p">(</span><span class="n">SendApp</span><span class="p">(</span><span class="n">dest</span> <span class="o">=</span> <span class="n">n2</span><span class="p">,</span> <span class="n">cchannel</span> <span class="o">=</span> <span class="n">l1</span><span class="p">))</span>
 <span class="n">n2</span><span class="o">.</span><span class="n">add_apps</span><span class="p">(</span><span class="n">RecvApp</span><span class="p">())</span>
 
 <span class="c1"># initiate the simulator</span>

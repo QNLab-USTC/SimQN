@@ -90,6 +90,58 @@
              
   <section id="timers-and-build-other-entities">
 <h1>Timers and build other entities<a class="headerlink" href="#timers-and-build-other-entities" title="Permalink to this headline"></a></h1>
+<p>We provides a common API for building other entities in the networks, even if it is an virtual entity. All entities must inherit the <code class="docutils literal notranslate"><span class="pre">qns.entity.entity.Entity</span></code> class and implements the <code class="docutils literal notranslate"><span class="pre">install</span></code> and <code class="docutils literal notranslate"><span class="pre">handle</span></code> methods.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">install</span></code> takes the simulator as the input parameter. It can generate some initial events.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">handle</span></code> will be called by the events that influence the entity. It takes the event as the input parameter.</p></li>
+</ul>
+<p>An example is the <code class="docutils literal notranslate"><span class="pre">Timer</span></code> virtual entity. It will generate a <code class="docutils literal notranslate"><span class="pre">TimerEvent</span></code> one-shot or periodically. By passing a <code class="docutils literal notranslate"><span class="pre">trigger_func</span></code> function, users can do anything one time or periodically during the simulator. For example, users can log the network status 10 times per second to monitor the network.</p>
+<p>The source code of the timer is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Timer</span><span class="p">(</span><span class="n">Entity</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">start_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">end_time</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="n">step_time</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">trigger_func</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            name: the timer&#39;s name</span>
+<span class="sd">            start_time (float): the start time of the first event</span>
+<span class="sd">            end_time (float): the time of the final trigger event.</span>
+<span class="sd">                If `end_time` is 0, it will be trigger only once.</span>
+<span class="sd">            step_time (float): the period of trigger events. Default value is 1 second.</span>
+<span class="sd">            trigger_func: the function that will be triggered.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">start_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span> <span class="o">=</span> <span class="n">end_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">step_time</span> <span class="o">=</span> <span class="n">step_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trigger_func</span> <span class="o">=</span> <span class="n">trigger_func</span>
+
+    <span class="k">def</span> <span class="nf">install</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simulator</span><span class="p">:</span> <span class="n">Simulator</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_installed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span> <span class="o">=</span> <span class="n">simulator</span>
+
+            <span class="n">time_list</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">time_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Time</span><span class="p">(</span><span class="n">sec</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span>
+                <span class="k">while</span> <span class="n">t</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span><span class="p">:</span>
+                    <span class="n">time_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                    <span class="n">t</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">step_time</span>
+
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">time_list</span><span class="p">:</span>
+                <span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="n">sec</span><span class="o">=</span><span class="n">t</span><span class="p">)</span>
+                <span class="n">event</span> <span class="o">=</span> <span class="n">TimerEvent</span><span class="p">(</span><span class="n">timer</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">add_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_is_installed</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">trigger</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">trigger_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">trigger_func</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+</pre></div>
+</div>
 </section>
 
 
