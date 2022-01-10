@@ -10,6 +10,8 @@ SimQN provides high performance for large-scale network simulation. Besides the 
 ## Get Help
 
 - This [documentation](https://ertuil.github.io/SimQN/) many answer most questions.
+    - The [tutorial](https://ertuil.github.io/SimQN/tutorials.html) here presents how to use SimQN.
+    - The [API manual](https://ertuil.github.io/SimQN/modules.html) shows more detailed information.
 - Welcome to report bugs at [Github](https://github.com/ertuil/SimQN).
 
 ## Installation
@@ -64,7 +66,7 @@ Here is an example of using SimQN.
     # build the routing table
     net.build_route()
 
-    # randomly select multiple sessions (SD-paris)
+    # randomly select multiple sessions (SD-pars)
     net.random_requests(requests_number, attr={"send_rate": send_rate})
 
     # all entities in the network will install the simulator and do initiate works.

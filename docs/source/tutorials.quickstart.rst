@@ -120,7 +120,7 @@ First, we generate the simulator and produce the network produce:
     # build the routing table
     net.build_route()
 
-    # randomly select multiple sessions (SD-paris)
+    # randomly select multiple sessions (SD-pars)
     net.random_requests(requests_number, attr={"send_rate": send_rate})
 
     # all entities in the network will install the simulator and do initiate works.
