@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en,zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Routing algorithm &mdash; SimQN 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Request management" href="tutorials.network.request.html" />
+    <link rel="prev" title="Topology generator" href="tutorials.network.topology.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> SimQN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorials.quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.models.html">Physical models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.entity.html">Entities in quantum networks</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="tutorials.network.html">Construct large-scale networks</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="tutorials.network.topology.html">Topology generator</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Routing algorithm</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#the-routing-algorithm-interface">The routing algorithm interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-dijkstra-s-algorithm">The Dijkstra's algorithm</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.network.request.html">Request management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.network.protocol.html">Quantum network protocols</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html">Capture date and monitors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html#random-generators">Random generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.simulator.html">The discrete-event simulator</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="develop.html">Develop Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SimQN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
+          <li><a href="tutorials.network.html">Construct large-scale networks</a> &raquo;</li>
+      <li>Routing algorithm</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tutorials.network.route.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="routing-algorithm">
+<h1>Routing algorithm<a class="headerlink" href="#routing-algorithm" title="Permalink to this headline"></a></h1>
+<p>SimQN network module also provides a routing algorithm interface and implements the default algorithm based on the Dijkstra's algorithm.</p>
+<section id="the-routing-algorithm-interface">
+<h2>The routing algorithm interface<a class="headerlink" href="#the-routing-algorithm-interface" title="Permalink to this headline"></a></h2>
+<p>The routing algorithm interface is <code class="docutils literal notranslate"><span class="pre">RouteImpl</span></code> with two methods:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">build</span></code> will generate a centralized routing tables. The input is a list of quantum nodes and a list of quantum channels.</p></li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">query</span></code> will returns the routing query results. The input is a source node and a destionation node. The result is a list of the following result format:</dt><dd><ul>
+<li><p>metric: the routing result's metric (e.g. the total path's length)</p></li>
+<li><p>next hop: the next hop after the source node</p></li>
+<li><p>path: the whole path, a list of nodes on this path</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="p">[</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n5</span><span class="p">]],</span> <span class="c1"># first option, metric=3, next hop=n2, path=[n1, n2, n5]</span>
+    <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="p">[</span><span class="n">n1</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="n">n4</span><span class="p">,</span> <span class="n">n5</span><span class="p">]]</span> <span class="c1"># second option</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="the-dijkstra-s-algorithm">
+<h2>The Dijkstra's algorithm<a class="headerlink" href="#the-dijkstra-s-algorithm" title="Permalink to this headline"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">DijkstraRouteAlgorithm</span></code> implements the <code class="docutils literal notranslate"><span class="pre">RouteImpl</span></code> based on the Dijkstra's algorithm. It has a optional injectable metric function <code class="docutils literal notranslate"><span class="pre">metric_func</span></code>. Its input is the quantum channel and returns the channels' metric. By default, the <code class="docutils literal notranslate"><span class="pre">metric_func</span></code> returns 1. But users can provide their own <code class="docutils literal notranslate"><span class="pre">metric_func</span></code>, such as the bandwidth or the congestion of the channel.</p>
+<p>An example of using this algorithm is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.network.topology</span> <span class="kn">import</span> <span class="n">RandomTopology</span><span class="p">,</span> <span class="n">ClassicTopology</span>
+<span class="kn">from</span> <span class="nn">qns.network.network</span> <span class="kn">import</span> <span class="n">QuantumNetwork</span>
+<span class="kn">from</span> <span class="nn">qns.network.route</span> <span class="kn">import</span> <span class="n">DijkstraRouteAlgorithm</span>
+
+<span class="n">topo</span> <span class="o">=</span> <span class="n">RandomTopology</span><span class="p">(</span>
+    <span class="n">nodes_number</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">lines_number</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">qchannel_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;delay&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span> <span class="s2">&quot;bandwidth&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
+    <span class="n">cchannel_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;delay&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">},</span>
+    <span class="n">memory_args</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;capacity&quot;</span><span class="p">:</span> <span class="n">memory_capacity</span><span class="p">}],</span>
+    <span class="n">nodes_apps</span><span class="o">=</span><span class="p">[</span><span class="n">EntanglementDistributionApp</span><span class="p">(</span><span class="n">init_fidelity</span><span class="o">=</span><span class="n">init_fidelity</span><span class="p">)])</span>
+
+<span class="c1"># use the ``DijkstraRouteAlgorithm``, using the bandwidth as the ``metric_func``</span>
+<span class="n">route</span> <span class="o">=</span> <span class="n">DijkstraRouteAlgorithm</span><span class="p">(</span><span class="n">metric_func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">qchannel</span><span class="p">:</span> <span class="n">qchannel</span><span class="o">.</span><span class="n">bandwidth</span><span class="p">)</span>
+
+<span class="c1"># build the network, classic topology follows the quantum topology</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">QuantumNetwork</span><span class="p">(</span><span class="n">topo</span><span class="o">=</span><span class="n">topo</span><span class="p">,</span> <span class="n">route</span> <span class="o">=</span> <span class="n">route</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">QuantuNetwork</span></code> provides two methods: <code class="docutils literal notranslate"><span class="pre">build_route</span></code> will build the routing tables, and <code class="docutils literal notranslate"><span class="pre">query_route</span></code> will query the routing result.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">n1</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="s2">&quot;n1&quot;</span><span class="p">)</span>
+<span class="n">n5</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="s2">&quot;n5&quot;</span><span class="p">)</span>
+
+<span class="c1"># build the routing tables</span>
+<span class="n">net</span><span class="o">.</span><span class="n">build_route</span><span class="p">()</span>
+
+<span class="c1"># query the routing result</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">query_route</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n5</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorials.network.topology.html" class="btn btn-neutral float-left" title="Topology generator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorials.network.request.html" class="btn btn-neutral float-right" title="Request management" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Elliot Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en,zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Topology generator &mdash; SimQN 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Routing algorithm" href="tutorials.network.route.html" />
+    <link rel="prev" title="Construct large-scale networks" href="tutorials.network.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> SimQN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorials.quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.models.html">Physical models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.entity.html">Entities in quantum networks</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="tutorials.network.html">Construct large-scale networks</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Topology generator</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#build-quantum-network-topology">Build quantum network topology</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-classic-topology">Build classic topology</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#manage-the-network">Manage the network</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.network.route.html">Routing algorithm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.network.request.html">Request management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.network.protocol.html">Quantum network protocols</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html">Capture date and monitors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html#random-generators">Random generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.simulator.html">The discrete-event simulator</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="develop.html">Develop Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SimQN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
+          <li><a href="tutorials.network.html">Construct large-scale networks</a> &raquo;</li>
+      <li>Topology generator</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tutorials.network.topology.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="topology-generator">
+<h1>Topology generator<a class="headerlink" href="#topology-generator" title="Permalink to this headline"></a></h1>
+<section id="build-quantum-network-topology">
+<h2>Build quantum network topology<a class="headerlink" href="#build-quantum-network-topology" title="Permalink to this headline"></a></h2>
+<p>SimQN provides a interface (<code class="docutils literal notranslate"><span class="pre">qns.network.topology.topo.Topology</span></code>) for topology generators. All topology has the following initiate variables:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">nodes_number</span></code>: the number of nodes in the network</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nodes_apps</span></code>: a list of applications that will be added to all nodes</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">qchannel_args</span></code>: the common attribution directory of quantum channels. Its key is the initiate variable's name of <code class="docutils literal notranslate"><span class="pre">QuantumChannel</span></code>, for example: <code class="code docutils literal notranslate"><span class="pre">{&quot;delay&quot;:</span> <span class="pre">0.3,</span> <span class="pre">&quot;bandwidth&quot;:</span> <span class="pre">10}</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">qchannel_args</span></code>: the common attribution directory of classic channels. Its key is the initiate variable's name of <code class="docutils literal notranslate"><span class="pre">ClassicChannel</span></code>, for example: <code class="code docutils literal notranslate"><span class="pre">{&quot;delay&quot;:</span> <span class="pre">0.3,</span> <span class="pre">&quot;bandwidth&quot;:</span> <span class="pre">10}</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">memory_args</span></code>: a list of the common attributions directory of the quantum memories. Its key is the initiate variable's name of <code class="docutils literal notranslate"><span class="pre">QuantumMemory</span></code>, for example: <code class="code docutils literal notranslate"><span class="pre">[{&quot;capacity&quot;:</span> <span class="pre">10},</span> <span class="pre">{&quot;capacity&quot;:</span> <span class="pre">10,</span> <span class="pre">&quot;store_error_model_args&quot;:</span> <span class="pre">{&quot;t_coh&quot;:</span> <span class="pre">1}}]</span></code></p></li>
+</ul>
+<p>Topology generators may have more parameters. The following example shows how to use the random topology generator, and it has an optional parameter <code class="docutils literal notranslate"><span class="pre">lines_number</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.network.topology</span> <span class="kn">import</span> <span class="n">RandomTopology</span>
+<span class="kn">from</span> <span class="nn">qns.network.network</span> <span class="kn">import</span> <span class="n">QuantumNetwork</span>
+
+<span class="n">topo</span> <span class="o">=</span> <span class="n">RandomTopology</span><span class="p">(</span>
+    <span class="n">nodes_number</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">lines_number</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">qchannel_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;delay&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">},</span>
+    <span class="n">cchannel_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;delay&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">},</span>
+    <span class="n">memory_args</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;capacity&quot;</span><span class="p">:</span> <span class="n">memory_capacity</span><span class="p">}],</span>
+    <span class="n">nodes_apps</span><span class="o">=</span><span class="p">[</span><span class="n">EntanglementDistributionApp</span><span class="p">(</span><span class="n">init_fidelity</span><span class="o">=</span><span class="n">init_fidelity</span><span class="p">)])</span>
+
+<span class="c1"># build the network</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">QuantumNetwork</span><span class="p">(</span><span class="n">topo</span><span class="o">=</span><span class="n">topo</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>SimQn provides several topology generators:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">BasicTopology</span></code> generates several quantum nodes but no quantum channels. All nodes are not connected with each other.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LineTopology</span></code> connects all nodes to from a line topology.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GridTopology</span></code> forms a square grid topology. <code class="docutils literal notranslate"><span class="pre">nodes_number</span></code> should be a perfect square number.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TreeTopology</span></code> generates a tree topology. It has an additional parameter <code class="docutils literal notranslate"><span class="pre">children_number</span></code>. Each parent node will connect to  <code class="docutils literal notranslate"><span class="pre">children_number</span></code> child nodes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RandomTopology</span></code> generates a connected random topology based on the spanning tree. It has an additional parameter <code class="docutils literal notranslate"><span class="pre">lines_number</span></code> indicating the number of quantum channels.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">WaxmanTopology</span></code> is another random topology generator based on the Waxman's algorithm. It has three additional parameters, <code class="docutils literal notranslate"><span class="pre">size</span></code>, <code class="docutils literal notranslate"><span class="pre">alpha</span></code>, and <code class="docutils literal notranslate"><span class="pre">bete</span></code>. The topology is in a <span class="math notranslate nohighlight">\(size*size\)</span> area. Both <code class="docutils literal notranslate"><span class="pre">alpha</span></code> and <code class="docutils literal notranslate"><span class="pre">bete</span></code> are parameters of the Waxman's algorithm.</p></li>
+</ul>
+<p>Users can build their own topology by inheriting the <code class="docutils literal notranslate"><span class="pre">Topology</span></code> class and implement the <code class="docutils literal notranslate"><span class="pre">build</span></code> method.</p>
+</section>
+<section id="build-classic-topology">
+<h2>Build classic topology<a class="headerlink" href="#build-classic-topology" title="Permalink to this headline"></a></h2>
+<p>SimQN is able to generate classic topologies as well. The classic topology is indicated by the variable <code class="docutils literal notranslate"><span class="pre">classic_topo</span></code>. It is an <code class="docutils literal notranslate"><span class="pre">Enum</span></code> with the following options:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ClassicTopology.All</span></code>, all nodes are connected directly by a classic channels</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClassicTopology.Empty</span></code>, no classic topology will be built</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ClassicTopology.Follow</span></code>, the classic topology will be the same to the quantum topology</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.network.topology</span> <span class="kn">import</span> <span class="n">RandomTopology</span><span class="p">,</span> <span class="n">ClassicTopology</span>
+<span class="kn">from</span> <span class="nn">qns.network.network</span> <span class="kn">import</span> <span class="n">QuantumNetwork</span>
+
+<span class="n">topo</span> <span class="o">=</span> <span class="n">RandomTopology</span><span class="p">(</span>
+    <span class="n">nodes_number</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">lines_number</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">qchannel_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;delay&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">},</span>
+    <span class="n">cchannel_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;delay&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">},</span>
+    <span class="n">memory_args</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;capacity&quot;</span><span class="p">:</span> <span class="n">memory_capacity</span><span class="p">}],</span>
+    <span class="n">nodes_apps</span><span class="o">=</span><span class="p">[</span><span class="n">EntanglementDistributionApp</span><span class="p">(</span><span class="n">init_fidelity</span><span class="o">=</span><span class="n">init_fidelity</span><span class="p">)])</span>
+
+<span class="c1"># build the network, classic topology follows the quantum topology</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">QuantumNetwork</span><span class="p">(</span><span class="n">topo</span><span class="o">=</span><span class="n">topo</span><span class="p">,</span> <span class="n">classic_topo</span><span class="o">=</span><span class="n">ClassicTopology</span><span class="o">.</span><span class="n">Follow</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="manage-the-network">
+<h2>Manage the network<a class="headerlink" href="#manage-the-network" title="Permalink to this headline"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">QuantumNetwork</span></code> provides the following APIs to get or add nodes, channels, memories and applications:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">install</span></code>, initiate all nodes, channels, memories and applications in one step</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">add_node</span></code>, add a new node</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_node</span></code>, get a quantum nodes by its name</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">add_qchannel</span></code>, add a new quantum channel</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_qchannel</span></code>, get a quantum channel by its name</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">add_cchannel</span></code>, add a new classic channel</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_cchannel</span></code>, get a classic channel by its name</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">add_memories</span></code>, add new quantum memories to all nodes</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># get node by its name</span>
+<span class="n">n1</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="s2">&quot;n1&quot;</span><span class="p">)</span>
+
+<span class="c1"># add a new node</span>
+<span class="n">n2</span> <span class="o">=</span> <span class="n">QNode</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;n2&quot;</span><span class="p">)</span>
+<span class="n">net</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">n2</span><span class="p">)</span>
+
+<span class="c1"># get a quantum channel by its name</span>
+<span class="n">l1</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">get_qchannel</span><span class="p">(</span><span class="s2">&quot;l1&quot;</span><span class="p">)</span>
+
+<span class="c1"># add a quantum channel</span>
+<span class="n">l2</span> <span class="o">=</span> <span class="n">QuantumChannel</span><span class="p">(</span><span class="s2">&quot;l2&quot;</span><span class="p">)</span>
+<span class="n">net</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">l2</span><span class="p">)</span>
+
+<span class="n">node_list</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">nodes</span> <span class="c1"># get all nodes</span>
+<span class="n">qchannel_list</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">qchannels</span> <span class="c1"># get all quantum channels</span>
+<span class="n">cchannel_list</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">cchannels</span> <span class="c1"># get all classic channels</span>
+
+<span class="c1"># produce a simulator</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+
+<span class="c1"># initiate the whole network</span>
+<span class="n">net</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+<span class="n">s</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorials.network.html" class="btn btn-neutral float-left" title="Construct large-scale networks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorials.network.route.html" class="btn btn-neutral float-right" title="Routing algorithm" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Elliot Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

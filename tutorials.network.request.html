@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en,zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Request management &mdash; SimQN 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Capture date and monitors" href="tutorials.util.html" />
+    <link rel="prev" title="Routing algorithm" href="tutorials.network.route.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> SimQN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorials.quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.models.html">Physical models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.entity.html">Entities in quantum networks</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="tutorials.network.html">Construct large-scale networks</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="tutorials.network.topology.html">Topology generator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.network.route.html">Routing algorithm</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Request management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-applications-and-protocols">Example applications and protocols</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html">Capture date and monitors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html#random-generators">Random generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.simulator.html">The discrete-event simulator</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="develop.html">Develop Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SimQN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
+          <li><a href="tutorials.network.html">Construct large-scale networks</a> &raquo;</li>
+      <li>Request management</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tutorials.network.request.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="request-management">
+<h1>Request management<a class="headerlink" href="#request-management" title="Permalink to this headline"></a></h1>
+<p>The request management module can select several sessions (a source node and destination node) randomly for large-scale evaluation. A <code class="docutils literal notranslate"><span class="pre">Request</span></code> includes the following attributions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">src</span></code>: the source node</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dest</span></code>: the destination node</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">attr</span></code>: the attributions of this session, such as the fidelity requirement, the QoS or the bandwidth requirement.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">QuantumNetwork</span></code> provides <code class="docutils literal notranslate"><span class="pre">add_request</span></code> to manually add a new request and <code class="docutils literal notranslate"><span class="pre">random_requests</span></code> to randomly generate several requests:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># randomly generate 5 requests</span>
+<span class="n">net</span><span class="o">.</span><span class="n">random_requests</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># random generate 5 requests, but nodes can have multiple requests (allow overlay)</span>
+<span class="n">net</span><span class="o">.</span><span class="n">random_requests</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">allow_overlay</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># random generate 5 requests, with certain attributions</span>
+<span class="n">net</span><span class="o">.</span><span class="n">random_requests</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;qos&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">})</span>
+
+<span class="c1"># manually add a request</span>
+<span class="n">net</span><span class="o">.</span><span class="n">add_request</span><span class="p">(</span><span class="n">Request</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">n1</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">n3</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;qos&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">}))</span>
+</pre></div>
+</div>
+<p>The network object and the nodes can query the related requests:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">requests</span> <span class="c1"># get all requests</span>
+
+<span class="n">n1</span><span class="o">.</span><span class="n">requests</span> <span class="c1"># get all requests related to n1</span>
+
+<span class="n">n1</span><span class="o">.</span><span class="n">clear_request</span><span class="p">()</span> <span class="c1"># remote all requests on n1</span>
+</pre></div>
+</div>
+</section>
+<section id="example-applications-and-protocols">
+<h1>Example applications and protocols<a class="headerlink" href="#example-applications-and-protocols" title="Permalink to this headline"></a></h1>
+<p>SimQN provides two example applications at <code class="docutils literal notranslate"><span class="pre">qns.network.protocol</span></code>. <code class="docutils literal notranslate"><span class="pre">BB84SendApp</span></code> and <code class="docutils literal notranslate"><span class="pre">BB84RecvApp</span></code> is the simple demonstration protocol for BB84 QKD protocol without the after procedures, including error detecting, information reconciliation, and privacy amplification. <code class="docutils literal notranslate"><span class="pre">EntanglementDistributionApp</span></code> provides a hop-by-hop entanglement distribution protocol, where the source distribute entanglements to the destination at a fixed rate.</p>
+<p>Those examples may be helpful for users to implement their own protocols. SimQN is working on providing more internal protocols for more scenarios.</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorials.network.route.html" class="btn btn-neutral float-left" title="Routing algorithm" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorials.util.html" class="btn btn-neutral float-right" title="Capture date and monitors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Elliot Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

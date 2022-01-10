@@ -10,5 +10,5 @@ This tutorial will explain how to use SimQN for quantum network researches. SimQ
    tutorials.models
    tutorials.entity
    tutorials.network
-   tutorials.util
    tutorials.simulator
+   tutorials.util

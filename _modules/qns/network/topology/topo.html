@@ -37,9 +37,9 @@
               <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Install Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Install Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tutorials.html">Tutorials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../develop.html">Develop Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../develop.html">Develop Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
 </ul>
 
@@ -139,8 +139,13 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">memory_args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nl</span><span class="p">):</span>
-            <span class="n">m</span> <span class="o">=</span> <span class="n">QuantumMemory</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;m</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">memory_args</span><span class="p">)</span>
-            <span class="n">n</span><span class="o">.</span><span class="n">add_memory</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memory_args</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">margs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">memory_args</span><span class="p">:</span>
+                    <span class="n">m</span> <span class="o">=</span> <span class="n">QuantumMemory</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;m</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="o">**</span><span class="n">margs</span><span class="p">)</span>
+                    <span class="n">n</span><span class="o">.</span><span class="n">add_memory</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">QuantumMemory</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;m</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">memory_args</span><span class="p">)</span>
+                <span class="n">n</span><span class="o">.</span><span class="n">add_memory</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Topology.add_cchannels"><a class="viewcode-back" href="../../../../qns.network.topology.html#qns.network.Topology.add_cchannels">[docs]</a>    <span class="k">def</span> <span class="nf">add_cchannels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classic_topo</span><span class="p">:</span> <span class="n">ClassicTopology</span> <span class="o">=</span> <span class="n">ClassicTopology</span><span class="o">.</span><span class="n">Empty</span><span class="p">,</span>
                       <span class="n">nl</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">ll</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">QuantumChannel</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
