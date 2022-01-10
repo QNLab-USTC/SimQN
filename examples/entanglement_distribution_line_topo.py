@@ -29,9 +29,9 @@ for nodes_number in range(5, 21):
         topo = LineTopology(nodes_number=nodes_number,
                             qchannel_args={"delay": delay},
                             cchannel_args={"delay": delay},
-                            memory_args={
+                            memory_args=[{
                                 "capacity": memory_capacity,
-                                "store_error_model_args": {"a": 0.2}},
+                                "store_error_model_args": {"a": 0.2}}],
                             nodes_apps=[EntanglementDistributionApp(init_fidelity=init_fidelity)])
 
         net = QuantumNetwork(

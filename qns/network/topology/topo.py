@@ -69,8 +69,13 @@ class Topology(object):
         if self.memory_args is None:
             return
         for idx, n in enumerate(nl):
-            m = QuantumMemory(name=f"m{idx}", node=n, **self.memory_args)
-            n.add_memory(m)
+            if isinstance(self.memory_args, list):
+                for margs in self.memory_args:
+                    m = QuantumMemory(name=f"m{idx}", node=n, **margs)
+                    n.add_memory(m)
+            else:
+                m = QuantumMemory(name=f"m{idx}", node=n, **self.memory_args)
+                n.add_memory(m)
 
     def add_cchannels(self, classic_topo: ClassicTopology = ClassicTopology.Empty,
                       nl: List[QNode] = [], ll: Optional[List[QuantumChannel]] = None):

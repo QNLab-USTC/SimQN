@@ -15,11 +15,12 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Develop Guide" href="develop.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="tutorials.network.html" /> 
+    <link rel="next" title="Capture date and monitors" href="tutorials.util.html" />
+    <link rel="prev" title="Request management" href="tutorials.network.request.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,9 +43,18 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install Guide</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorials.quickstart.html">Quickstart</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials.models.html">Physical models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials.entity.html">Entities in quantum networks</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">The discrete-event simulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.network.html">Construct large-scale networks</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">The discrete-event simulator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#time-structure">Time structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#events-in-simulation">Events in simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-simulator">The Simulator</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html">Capture date and monitors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html#random-generators">Random generators</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="develop.html">Develop Guide</a></li>
@@ -78,14 +88,104 @@
              
   <section id="the-discrete-event-simulator">
 <h1>The discrete-event simulator<a class="headerlink" href="#the-discrete-event-simulator" title="Permalink to this headline"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">qns.simulator</span></code> modules provides a discrete-event driven simulator. The simulator organize many events and invokes these events at a pacific time to drive the simulation. Events are bound to a discrete occur time. We start from introducing the time structure.</p>
+<section id="time-structure">
+<h2>Time structure<a class="headerlink" href="#time-structure" title="Permalink to this headline"></a></h2>
+<p>The time is discrete in SimQN, that is, the smallest time slot is <span class="math notranslate nohighlight">\(1/accuracy\)</span>, where <code class="docutils literal notranslate"><span class="pre">accuracy</span></code> is the number of time slots per second. In SimQN, the <code class="docutils literal notranslate"><span class="pre">accuracy</span></code> can be set to meet the simulation's need. Usually, a larger <code class="docutils literal notranslate"><span class="pre">accuracy</span></code> brings more simulation overhead.</p>
+<p>The discrete time in SimQN is a <code class="docutils literal notranslate"><span class="pre">Time</span></code> object, and it can be described in seconds and number of time slots:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.simulator.ts</span> <span class="kn">import</span> <span class="n">Time</span>
+
+<span class="n">default_time_accuracy</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="mi">000</span>
+
+<span class="n">t1</span> <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># time slot 1, a.k.a 1/1,000,000 second</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="n">sec</span><span class="o">=</span><span class="mf">1.1</span><span class="p">)</span> <span class="c1"># time 1.1 seconds, a.k.a 1,100,000 time slots</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">sec</span><span class="p">)</span> <span class="c1"># output: 1e-6</span>
+</pre></div>
+</div>
+<p>Also, <code class="docutils literal notranslate"><span class="pre">Time</span></code> is comparable.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span><span class="p">(</span><span class="n">t1</span> <span class="o">&lt;</span> <span class="n">t2</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">t1</span> <span class="o">&lt;=</span> <span class="n">t2</span><span class="p">)</span>
+
+<span class="n">t3</span> <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">000</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">t1</span> <span class="o">==</span> <span class="n">t3</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="events-in-simulation">
+<h2>Events in simulation<a class="headerlink" href="#events-in-simulation" title="Permalink to this headline"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Event</span></code> has a occur time <code class="docutils literal notranslate"><span class="pre">t</span></code> and an <code class="docutils literal notranslate"><span class="pre">invoke</span></code> function. The <code class="docutils literal notranslate"><span class="pre">invoke</span></code> function will be called at time <code class="docutils literal notranslate"><span class="pre">t</span></code>. Just like <code class="docutils literal notranslate"><span class="pre">Time</span></code>, <a href="#id1"><span class="problematic" id="id2">``</span></a>Event``s are also comparable based on the occur time.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.simulator.event</span> <span class="kn">import</span> <span class="n">Event</span>
+
+<span class="c1"># PrintEvent will print &quot;event happened&quot; if invoked</span>
+<span class="k">class</span> <span class="nc">PrintEvent</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;event happened&quot;</span><span class="p">)</span>
+
+<span class="c1"># te will happen at 1 second</span>
+<span class="n">te</span> <span class="o">=</span> <span class="n">PrintEvent</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="n">Time</span><span class="p">(</span><span class="n">sec</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;test event&quot;</span><span class="p">)</span>
+
+<span class="c1"># get te&#39;s occur time</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">te</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+
+<span class="c1"># invoke the event manually</span>
+<span class="n">te</span><span class="o">.</span><span class="n">invoke</span><span class="p">()</span> <span class="c1"># invoke the event</span>
+
+<span class="c1"># cannel the event</span>
+<span class="n">te</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span> <span class="c1"># cancel the event</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">te</span><span class="o">.</span><span class="n">is_cancelled</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># The events are comparable</span>
+<span class="n">te2</span> <span class="o">=</span> <span class="n">PrintEvent</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="n">Time</span><span class="p">(</span><span class="n">sec</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;test event 2&quot;</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">te</span> <span class="o">&lt;</span> <span class="n">te2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To make it easier of building an event, function <code class="docutils literal notranslate"><span class="pre">func_to_event</span></code> can wrap any functions to an event.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.simulator.event</span> <span class="kn">import</span> <span class="n">Event</span><span class="p">,</span> <span class="n">func_to_event</span>
+
+<span class="c1"># this is a function to print message</span>
+<span class="k">def</span> <span class="nf">print_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+<span class="c1"># func_to_event wrap the print_msg to an event. It is invoked at 6 seconds, and the msg is &quot;hello, world&quot;</span>
+<span class="n">print_event</span> <span class="o">=</span> <span class="n">func_to_event</span><span class="p">(</span><span class="n">Time</span><span class="p">(</span><span class="n">sec</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">print_msg</span><span class="p">,</span> <span class="s2">&quot;hello, world&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="the-simulator">
+<h2>The Simulator<a class="headerlink" href="#the-simulator" title="Permalink to this headline"></a></h2>
+<p>The simulator maintains an event pool that can get the most recent event in order, then the simulator invokes this event. After every events is handled, the simulation finishes. By default, the event pool is implemented from a minimum heap so that getting the most recent event and inserting events can be done quickly.</p>
+<p>The simulator is initiated by a start time <code class="docutils literal notranslate"><span class="pre">ts</span></code>, an end time <code class="docutils literal notranslate"><span class="pre">te</span></code>, and the optional time accuracy. The simulation will run between <code class="docutils literal notranslate"><span class="pre">ts</span></code> and <code class="docutils literal notranslate"><span class="pre">te</span></code>. During the simulation, the current time is in variable <code class="docutils literal notranslate"><span class="pre">tc</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># start time is 0 second, end time is 60 seconds.</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">ts</span> <span class="c1"># get the start time</span>
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">te</span> <span class="c1"># get the end time</span>
+<span class="n">current_time</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">tc</span> <span class="c1"># get the current time</span>
+</pre></div>
+</div>
+<p>It is possible to insert an event to the simulator by method <code class="docutils literal notranslate"><span class="pre">add_event</span></code>, and the simulation can start by method <code class="docutils literal notranslate"><span class="pre">run</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># start time is 0 second, end time is 60 seconds.</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+
+<span class="n">print_event</span> <span class="o">=</span> <span class="n">func_to_event</span><span class="p">(</span><span class="n">Time</span><span class="p">(</span><span class="n">sec</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">print_msg</span><span class="p">,</span> <span class="s2">&quot;hello, world&quot;</span><span class="p">))</span>
+
+<span class="c1"># add a new event</span>
+<span class="n">s</span><span class="o">.</span><span class="n">add_event</span><span class="p">(</span><span class="n">print_event</span><span class="p">)</span>
+
+<span class="c1"># run the simulation</span>
+<span class="n">s</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="tutorials.network.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="develop.html" class="btn btn-neutral float-right" title="Develop Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="tutorials.network.request.html" class="btn btn-neutral float-left" title="Request management" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorials.util.html" class="btn btn-neutral float-right" title="Capture date and monitors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

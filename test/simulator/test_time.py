@@ -6,6 +6,8 @@ def test_time():
     t2 = Time(sec=1.1)
     t3 = Time()
 
+    print(t1.sec)
+
     assert(t1 == t1)
     assert(t2 >= t1)
     assert(t1 <= t2)

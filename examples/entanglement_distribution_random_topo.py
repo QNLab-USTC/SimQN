@@ -33,7 +33,7 @@ for requests_number in [10, 20, 30, 40]:
                               lines_number=lines_number,
                               qchannel_args={"delay": qchannel_delay},
                               cchannel_args={"delay": cchannel_delay},
-                              memory_args={"capacity": memory_capacity},
+                              memory_args=[{"capacity": memory_capacity}],
                               nodes_apps=[EntanglementDistributionApp(init_fidelity=init_fidelity)])
 
         net = QuantumNetwork(
