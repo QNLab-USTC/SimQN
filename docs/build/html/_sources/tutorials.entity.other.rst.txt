@@ -56,3 +56,24 @@ The source code of the timer is:
             else:
                 raise NotImplementedError
 
+The timer will trigger ``triggler_func`` from ``start_time`` to ``end_time``. If ``end_time`` is ``None``, the timer will be triggered only one. Otherwise, it will trigger periodically depending on the ``step_time``. The ``install`` function will calculate all trigger timer and generate related trigger event.
+
+Here is an example of using ``Timer``:
+
+.. code-block:: python
+
+    from qns.simulator.simulator import Simulator
+    from qns.entity.timer.timer import Timer
+
+    s = Simulator(0, 10, 1000)
+
+    # the trigger function is print the simulation time
+    def trigger_func():
+        print(s.current_time)
+
+    # generate the timer and install it with the simulator
+    t1 = Timer("t1", 0, 10, 0.5, trigger_func)
+    t1.install(s)
+
+    # run the simulation
+    s.run()

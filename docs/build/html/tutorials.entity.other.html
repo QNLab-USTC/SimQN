@@ -142,6 +142,25 @@
             <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 </pre></div>
 </div>
+<p>The timer will trigger <code class="docutils literal notranslate"><span class="pre">triggler_func</span></code> from <code class="docutils literal notranslate"><span class="pre">start_time</span></code> to <code class="docutils literal notranslate"><span class="pre">end_time</span></code>. If <code class="docutils literal notranslate"><span class="pre">end_time</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>, the timer will be triggered only one. Otherwise, it will trigger periodically depending on the <code class="docutils literal notranslate"><span class="pre">step_time</span></code>. The <code class="docutils literal notranslate"><span class="pre">install</span></code> function will calculate all trigger timer and generate related trigger event.</p>
+<p>Here is an example of using <code class="docutils literal notranslate"><span class="pre">Timer</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.simulator.simulator</span> <span class="kn">import</span> <span class="n">Simulator</span>
+<span class="kn">from</span> <span class="nn">qns.entity.timer.timer</span> <span class="kn">import</span> <span class="n">Timer</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+
+<span class="c1"># the trigger function is print the simulation time</span>
+<span class="k">def</span> <span class="nf">trigger_func</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">current_time</span><span class="p">)</span>
+
+<span class="c1"># generate the timer and install it with the simulator</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">Timer</span><span class="p">(</span><span class="s2">&quot;t1&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">trigger_func</span><span class="p">)</span>
+<span class="n">t1</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+<span class="c1"># run the simulation</span>
+<span class="n">s</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
 </section>
 
 
