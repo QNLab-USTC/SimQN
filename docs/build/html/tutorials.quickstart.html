@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quickstart &mdash; SimQN 0.1.0 documentation</title>
+  <title>Quick start &mdash; SimQN 0.1.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -42,13 +42,16 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install Guide</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Quickstart</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Quick start</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#qkd-simulation-with-manual-network-construction">QKD simulation with manual network construction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#entanglement-distribution-with-topology-generator">Entanglement distribution with topology generator</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials.models.html">Physical models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials.entity.html">Entities in quantum networks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials.network.html">Build quantum networks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html">Capture date and monitors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html#random-generators">Random generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.network.html">Construct large-scale networks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials.simulator.html">The discrete-event simulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html">Logging and random generator</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="develop.html">Develop Guide</a></li>
@@ -70,7 +73,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
-      <li>Quickstart</li>
+      <li>Quick start</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/tutorials.quickstart.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -80,8 +83,132 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="quickstart">
-<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline"></a></h1>
+  <section id="quick-start">
+<h1>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline"></a></h1>
+<p>In this guide, users can start a quantum network simulation in a few lines of code. We present two examples to give a overall sense of SimQN.</p>
+<section id="qkd-simulation-with-manual-network-construction">
+<h2>QKD simulation with manual network construction<a class="headerlink" href="#qkd-simulation-with-manual-network-construction" title="Permalink to this headline"></a></h2>
+<p>The first experiments, we will carry out a BB84 protocol between two nodes. <code class="docutils literal notranslate"><span class="pre">BB84SendApp</span></code> and <code class="docutils literal notranslate"><span class="pre">BB84RecvApp</span></code> provided by SimQN implements the major protocol. First, we instantiate  the simulator:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.simulator.simulator</span> <span class="kn">import</span> <span class="n">Simulator</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">accuracy</span><span class="o">=</span><span class="mi">10000000000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The simulation is last for 10 seconds and the <code class="docutils literal notranslate"><span class="pre">accuracy</span></code> is 10,000,000,000 slots in one second. Then, we generate two nodes and connect them with a quantum channel and a classic channel:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.entity.cchannel.cchannel</span> <span class="kn">import</span> <span class="n">ClassicChannel</span>
+<span class="kn">from</span> <span class="nn">qns.entity.qchannel.qchannel</span> <span class="kn">import</span> <span class="n">QuantumChannel</span>
+<span class="kn">from</span> <span class="nn">qns.entity</span> <span class="kn">import</span> <span class="n">QNode</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">light_speed</span> <span class="o">=</span> <span class="mi">299791458</span>
+<span class="n">length</span> <span class="o">=</span> <span class="mi">100000</span> <span class="c1"># 100,000 km</span>
+
+<span class="k">def</span> <span class="nf">drop_rate</span><span class="p">(</span><span class="n">length</span><span class="p">):</span>
+    <span class="c1"># drop 0.2 db/KM</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">50000</span><span class="p">)</span>
+
+<span class="c1"># generate quantum nodes</span>
+<span class="n">n1</span> <span class="o">=</span> <span class="n">QNode</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;n1&quot;</span><span class="p">)</span>
+<span class="n">n2</span> <span class="o">=</span> <span class="n">QNode</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;n2&quot;</span><span class="p">)</span>
+
+<span class="c1"># generate quantum channels and classic channels</span>
+<span class="n">qlink</span> <span class="o">=</span> <span class="n">QuantumChannel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;l1&quot;</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="n">length</span> <span class="o">/</span> <span class="n">light_speed</span><span class="p">,</span>
+    <span class="n">drop_rate</span><span class="o">=</span><span class="n">drop_rate</span><span class="p">(</span><span class="n">length</span><span class="p">))</span>
+
+<span class="n">clink</span> <span class="o">=</span> <span class="n">ClassicChannel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;c1&quot;</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="n">length</span> <span class="o">/</span> <span class="n">light_speed</span><span class="p">)</span>
+
+<span class="c1"># add channels to the nodes</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">add_cchannel</span><span class="p">(</span><span class="n">clink</span><span class="p">)</span>
+<span class="n">n2</span><span class="o">.</span><span class="n">add_cchannel</span><span class="p">(</span><span class="n">clink</span><span class="p">)</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">add_qchannel</span><span class="p">(</span><span class="n">qlink</span><span class="p">)</span>
+<span class="n">n2</span><span class="o">.</span><span class="n">add_qchannel</span><span class="p">(</span><span class="n">qlink</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally, we add <code class="docutils literal notranslate"><span class="pre">BB84SendApp</span></code> to <code class="docutils literal notranslate"><span class="pre">n1</span></code>, it will generate qubits with random bases and send the qubit to n2. <code class="docutils literal notranslate"><span class="pre">BB84RecvApp</span></code> will be installed on <code class="docutils literal notranslate"><span class="pre">n2</span></code>, it will receive the qubits and measure the qubits with random bases.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.network.protocol.bb84</span> <span class="kn">import</span> <span class="n">BB84RecvApp</span><span class="p">,</span> <span class="n">BB84SendApp</span>
+
+<span class="n">sp</span> <span class="o">=</span> <span class="n">BB84SendApp</span><span class="p">(</span><span class="n">n2</span><span class="p">,</span> <span class="n">qlink</span><span class="p">,</span> <span class="n">clink</span><span class="p">,</span> <span class="n">send_rate</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">rp</span> <span class="o">=</span> <span class="n">BB84RecvApp</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">qlink</span><span class="p">,</span> <span class="n">clink</span><span class="p">)</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">add_apps</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span>
+<span class="n">n2</span><span class="o">.</span><span class="n">add_apps</span><span class="p">(</span><span class="n">rp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We set the sending rate to 1000 qubits/second. We install the simulator to all nodes (automatically initiate all channels and applications). Finally, we run the simulation and get the results.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># install all nodes</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="n">n2</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+<span class="c1"># run the simulation</span>
+<span class="n">s</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># BB84RecvApp&#39;s succ_key_pool counts the number of success key distribution</span>
+<span class="c1"># the rate is succ_key_pool/ simulation_time (10s)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rp</span><span class="o">.</span><span class="n">succ_key_pool</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="entanglement-distribution-with-topology-generator">
+<h2>Entanglement distribution with topology generator<a class="headerlink" href="#entanglement-distribution-with-topology-generator" title="Permalink to this headline"></a></h2>
+<p>To further reduce user's work, SimQN provides the network module to build large-scale networks. In this experiment, we will use <code class="docutils literal notranslate"><span class="pre">EntanglementDistributionApp</span></code> to distribute entanglements from remote nodes.</p>
+<p>First, we generate the simulator and produce the network produce:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.simulator.simulator</span> <span class="kn">import</span> <span class="n">Simulator</span>
+<span class="kn">from</span> <span class="nn">qns.network.topology</span> <span class="kn">import</span> <span class="n">RandomTopology</span>
+<span class="kn">from</span> <span class="nn">qns.network.protocol.entanglement_distribution</span> <span class="kn">import</span> <span class="n">EntanglementDistributionApp</span>
+<span class="kn">from</span> <span class="nn">qns.network</span> <span class="kn">import</span> <span class="n">QuantumNetwork</span>
+<span class="kn">from</span> <span class="nn">qns.network.route.dijkstra</span> <span class="kn">import</span> <span class="n">DijkstraRouteAlgorithm</span>
+<span class="kn">from</span> <span class="nn">qns.network.topology.topo</span> <span class="kn">import</span> <span class="n">ClassicTopology</span>
+<span class="kn">import</span> <span class="nn">qns.utils.log</span> <span class="k">as</span> <span class="nn">log</span>
+
+<span class="n">init_fidelity</span> <span class="o">=</span> <span class="mf">0.99</span> <span class="c1"># the initial entanglement&#39;s fidelity</span>
+<span class="n">nodes_number</span> <span class="o">=</span> <span class="mi">150</span> <span class="c1"># the number of nodes</span>
+<span class="n">lines_number</span> <span class="o">=</span> <span class="mi">450</span> <span class="c1"># the number of quantum channels</span>
+<span class="n">qchannel_delay</span> <span class="o">=</span> <span class="mf">0.05</span> <span class="c1"># the delay of quantum channels</span>
+<span class="n">cchannel_delay</span> <span class="o">=</span> <span class="mf">0.05</span> <span class="c1"># the delay of classic channels</span>
+<span class="n">memory_capacity</span> <span class="o">=</span> <span class="mi">50</span> <span class="c1"># the size of quantum memories</span>
+<span class="n">send_rate</span> <span class="o">=</span> <span class="mi">10</span> <span class="c1"># the send rate</span>
+<span class="n">requests_number</span> <span class="o">=</span> <span class="mi">10</span> <span class="c1"># the number of sessions (SD-pairs)</span>
+
+<span class="c1"># generate the simulator</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">accuracy</span><span class="o">=</span><span class="mi">1000000</span><span class="p">)</span>
+
+<span class="c1"># set the log&#39;s level</span>
+<span class="n">log</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+<span class="n">log</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+<span class="c1"># generate a random topology using the parameters above</span>
+<span class="c1"># each node will install EntanglementDistributionApp for hop-by-hop entanglement distribution</span>
+<span class="n">topo</span> <span class="o">=</span> <span class="n">RandomTopology</span><span class="p">(</span><span class="n">nodes_number</span><span class="o">=</span><span class="n">nodes_number</span><span class="p">,</span>
+    <span class="n">lines_number</span><span class="o">=</span><span class="n">lines_number</span><span class="p">,</span>
+    <span class="n">qchannel_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;delay&quot;</span><span class="p">:</span> <span class="n">qchannel_delay</span><span class="p">},</span>
+    <span class="n">cchannel_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;delay&quot;</span><span class="p">:</span> <span class="n">cchannel_delay</span><span class="p">},</span>
+    <span class="n">memory_args</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;capacity&quot;</span><span class="p">:</span> <span class="n">memory_capacity</span><span class="p">}],</span>
+    <span class="n">nodes_apps</span><span class="o">=</span><span class="p">[</span><span class="n">EntanglementDistributionApp</span><span class="p">(</span><span class="n">init_fidelity</span><span class="o">=</span><span class="n">init_fidelity</span><span class="p">)])</span>
+
+<span class="c1"># build the network, with Dijkstra&#39;s routing algorithm</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">QuantumNetwork</span><span class="p">(</span> <span class="n">topo</span><span class="o">=</span><span class="n">topo</span><span class="p">,</span> <span class="n">classic_topo</span><span class="o">=</span><span class="n">ClassicTopology</span><span class="o">.</span><span class="n">All</span><span class="p">,</span> <span class="n">route</span><span class="o">=</span><span class="n">DijkstraRouteAlgorithm</span><span class="p">())</span>
+
+<span class="c1"># build the routing table</span>
+<span class="n">net</span><span class="o">.</span><span class="n">build_route</span><span class="p">()</span>
+
+<span class="c1"># randomly select multiple sessions (SD-paris)</span>
+<span class="n">net</span><span class="o">.</span><span class="n">random_requests</span><span class="p">(</span><span class="n">requests_number</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;send_rate&quot;</span><span class="p">:</span> <span class="n">send_rate</span><span class="p">})</span>
+
+<span class="c1"># all entities in the network will install the simulator and do initiate works.</span>
+<span class="n">net</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now, it is possible to run the simulation and get the results:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># run simulation</span>
+<span class="n">s</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># count the number of successful entanglement distribution for each session</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">src</span><span class="o">.</span><span class="n">apps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">success_count</span> <span class="k">for</span> <span class="n">req</span> <span class="ow">in</span> <span class="n">net</span><span class="o">.</span><span class="n">requests</span><span class="p">]</span>
+
+<span class="c1"># log the results</span>
+<span class="n">log</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="n">requests_number</span><span class="p">,</span> <span class="n">nodes_number</span><span class="p">,</span> <span class="n">results</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">time_spend</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 
