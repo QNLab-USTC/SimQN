@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Capture date and monitors &mdash; SimQN 0.1.0 documentation</title>
+  <title>Logging and random generator &mdash; SimQN 0.1.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -17,7 +17,9 @@
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Develop Guide" href="develop.html" />
+    <link rel="prev" title="The discrete-event simulator" href="tutorials.simulator.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -36,10 +38,22 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorials.quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.models.html">Physical models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.entity.html">Entities in quantum networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.network.html">Construct large-scale networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.simulator.html">The discrete-event simulator</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Logging and random generator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-logging-module">The logging module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#random-generator-s-seed">Random generator's seed</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="develop.html">Develop Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
 </ul>
@@ -58,7 +72,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Capture date and monitors</li>
+          <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
+      <li>Logging and random generator</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/tutorials.util.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -68,17 +83,74 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="capture-date-and-monitors">
-<h1>Capture date and monitors<a class="headerlink" href="#capture-date-and-monitors" title="Permalink to this headline"></a></h1>
+  <section id="logging-and-random-generator">
+<h1>Logging and random generator<a class="headerlink" href="#logging-and-random-generator" title="Permalink to this headline"></a></h1>
+<section id="the-logging-module">
+<h2>The logging module<a class="headerlink" href="#the-logging-module" title="Permalink to this headline"></a></h2>
+<p>SimQN uses the Python logging package as the logging and data monitor tools. To providing the simulator's internal states (especially the time), SimQN warps the logging. Users can use the <code class="docutils literal notranslate"><span class="pre">logger</span></code> from:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">qns.utils.log</span> <span class="k">as</span> <span class="nn">log</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">()</span>
+
+<span class="c1"># install the log to the simulator to get simulator&#39;s internal status</span>
+<span class="n">log</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Users can set the logging level and record logs:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">log</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;debug message&quot;</span><span class="p">)</span>
+<span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;info message&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+<span class="n">log</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;warn message&quot;</span><span class="p">,</span> <span class="n">a</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;error message&quot;</span><span class="p">)</span>
+<span class="n">log</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;critical message&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally, SimQN provides <code class="docutils literal notranslate"><span class="pre">monitor()</span></code> for date output. <code class="docutils literal notranslate"><span class="pre">sep</span></code> sets the separator, the default separator is &quot;,&quot; (like csv files). <code class="docutils literal notranslate"><span class="pre">with_time</span></code> is a boolean indicating whether add a column to record the simulator's current time.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">log</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="n">data1</span><span class="p">,</span> <span class="n">date2</span><span class="p">,</span> <span class="n">date3</span><span class="p">,</span> <span class="n">with_date</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="c1"># output: time, date1, date2, date3</span>
+</pre></div>
+</div>
+<p>With the <code class="docutils literal notranslate"><span class="pre">Timer</span></code> entity provided by SimQN, it is easy to print the network's status periodically.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.simulator.simulator</span> <span class="kn">import</span> <span class="n">Simulator</span>
+<span class="kn">from</span> <span class="nn">qns.entity.timer.timer</span> <span class="kn">import</span> <span class="n">Timer</span>
+<span class="kn">import</span> <span class="nn">qns.utils.log</span> <span class="k">as</span> <span class="nn">log</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">log</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+<span class="c1"># the trigger function is log network status</span>
+<span class="k">def</span> <span class="nf">trigger_func</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;network status&quot;</span><span class="p">)</span>
+
+<span class="c1"># set the timer with a period</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">Timer</span><span class="p">(</span><span class="s2">&quot;t1&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">trigger_func</span><span class="p">)</span>
+<span class="n">t1</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+<span class="c1"># run the simulation</span>
+<span class="n">s</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
 </section>
-<section id="random-generators">
-<h1>Random generators<a class="headerlink" href="#random-generators" title="Permalink to this headline"></a></h1>
+<section id="random-generator-s-seed">
+<h2>Random generator's seed<a class="headerlink" href="#random-generator-s-seed" title="Permalink to this headline"></a></h2>
+<p>SimQN uses <code class="docutils literal notranslate"><span class="pre">random</span></code> library from both Python standard library and <code class="docutils literal notranslate"><span class="pre">numpy</span></code> when measuring qubits or generating random topologies. To make the simulation results reproducible, SimQN provides <code class="docutils literal notranslate"><span class="pre">set_seed()</span></code> to fix the random generator's seed:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.utils.random</span> <span class="kn">import</span> <span class="n">set_seed</span>
+
+<span class="n">set_seed</span><span class="p">(</span><span class="mi">1641801012</span><span class="p">)</span> <span class="c1"># fix the random generator&#39;s seed</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorials.simulator.html" class="btn btn-neutral float-left" title="The discrete-event simulator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="develop.html" class="btn btn-neutral float-right" title="Develop Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
