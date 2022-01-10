@@ -47,7 +47,11 @@
 <li class="toctree-l2 current"><a class="reference internal" href="tutorials.entity.html">Entities in quantum networks</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="tutorials.entity.node.html">Quantum node: the end-point users, routers and repeaters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tutorials.entity.memory.html">Quantum memory: the device to store qubits</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Quantum channel: the link to transmit qubits</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Quantum channel: the link to transmit qubits</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#send-and-receive-qubits">Send and receive qubits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#error-models-in-transmission">Error models in transmission</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="tutorials.entity.cchannel.html">Classic channel: the link to transmit classic packets</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tutorials.entity.other.html">Timers and build other entities</a></li>
 </ul>
@@ -90,6 +94,167 @@
              
   <section id="quantum-channel-the-link-to-transmit-qubits">
 <h1>Quantum channel: the link to transmit qubits<a class="headerlink" href="#quantum-channel-the-link-to-transmit-qubits" title="Permalink to this headline"></a></h1>
+<p>Quantum channels can transmit a <code class="docutils literal notranslate"><span class="pre">QuantumModel</span></code> (qubit) from a node to another.
+It has the following attributions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: the channel's name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">length</span></code>: the physcial length of the channel. Default length is 0</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">delay</span></code>: the propagation delay. The time delay from sending to receiving. Default delay is 0s.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">drop_rate</span></code>: the probability of losing the transmitting qubit. Default drop rate is 0.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bandwidth</span></code>: the number of qubits to be sent per second. If the <code class="docutils literal notranslate"><span class="pre">bandwidth</span></code> is reached, further qubits will be put into a buffer (and causes a buffer delay). Default bandwidth is <code class="docutils literal notranslate"><span class="pre">None</span></code> (infinite).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_buffer_size</span></code>: the maximum send buffer size. If the buffer is full, further qubits will be dropped. Default buffer size is <code class="docutils literal notranslate"><span class="pre">None</span></code> (infinite).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">transfer_error_model_args</span></code>: attributions for the error model.</p></li>
+</ul>
+<p>It is easy to generate a quantum channel:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.entity.node.node</span> <span class="kn">import</span> <span class="n">QNode</span>
+<span class="kn">from</span> <span class="nn">qns.entity.qchannel.qchannel</span> <span class="kn">import</span> <span class="n">QuantumChannel</span>
+
+<span class="n">n2</span> <span class="o">=</span> <span class="n">QNode</span><span class="p">(</span><span class="s2">&quot;n2&quot;</span><span class="p">)</span>
+<span class="n">n1</span> <span class="o">=</span> <span class="n">QNode</span><span class="p">(</span><span class="s2">&quot;n1&quot;</span><span class="p">)</span>
+<span class="n">l1</span> <span class="o">=</span> <span class="n">QuantumChannel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;l1&quot;</span><span class="p">,</span> <span class="n">bandwidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">drop_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">max_buffer_size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># add the qchannel</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">add_qchannel</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
+<span class="n">n2</span><span class="o">.</span><span class="n">add_qchannel</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
+
+<span class="c1"># get_qchannel can return the quantum channel by its destination</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">l1</span> <span class="o">==</span> <span class="n">n1</span><span class="o">.</span><span class="n">get_qchannel</span><span class="p">(</span><span class="n">n2</span><span class="p">))</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="c1"># install QNodes will also install all channels</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="n">n2</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="n">s</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<section id="send-and-receive-qubits">
+<h2>Send and receive qubits<a class="headerlink" href="#send-and-receive-qubits" title="Permalink to this headline"></a></h2>
+<p>It is easy to send a qubit using <code class="docutils literal notranslate"><span class="pre">send</span></code> method:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">n1</span> <span class="o">=</span> <span class="n">QNode</span><span class="p">(</span><span class="s2">&quot;n1&quot;</span><span class="p">)</span>
+<span class="n">n2</span> <span class="o">=</span> <span class="n">QNode</span><span class="p">(</span><span class="s2">&quot;n2&quot;</span><span class="p">)</span>
+
+<span class="n">l1</span> <span class="o">=</span> <span class="n">QuantumChannel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;l1&quot;</span><span class="p">)</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">add_qchannel</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
+<span class="n">n2</span><span class="o">.</span><span class="n">add_qchannel</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
+
+<span class="c1"># install and initiate the simulator</span>
+<span class="c1"># ...</span>
+
+<span class="n">qubit</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">()</span>
+
+<span class="c1"># use the send method to send qubit</span>
+<span class="n">l1</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">qubit</span> <span class="o">=</span> <span class="n">qubit</span><span class="p">,</span> <span class="n">next_hop</span> <span class="o">=</span> <span class="n">n2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The receiving may be complex. The destination node will be noticed by an event called <code class="docutils literal notranslate"><span class="pre">RecvQubitPacket</span></code>. It has the following fields:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">t</span></code>: the receiving time</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">qchannel</span></code>: the related quantum channel</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">qubit</span></code>: the receiving qubit</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dest</span></code>: the destination</p></li>
+</ul>
+<p>This packet needs to be processed in the <code class="docutils literal notranslate"><span class="pre">handle</span></code> method of the applications:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SendApp</span><span class="p">(</span><span class="n">Application</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dest</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">qchannel</span><span class="p">:</span> <span class="n">QuantumChannel</span><span class="p">,</span> <span class="n">send_rate</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dest</span> <span class="o">=</span> <span class="n">dest</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qchannel</span> <span class="o">=</span> <span class="n">qchannel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_rate</span> <span class="o">=</span> <span class="n">send_rate</span>
+
+    <span class="c1"># initiate: generate the first send event</span>
+    <span class="k">def</span> <span class="nf">install</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">simulator</span><span class="p">:</span> <span class="n">Simulator</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">simulator</span><span class="p">)</span>
+
+        <span class="c1"># get start time</span>
+        <span class="n">time_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">simulator</span><span class="o">.</span><span class="n">ts</span><span class="p">)</span>
+
+        <span class="n">t</span> <span class="o">=</span> <span class="n">simulator</span><span class="o">.</span><span class="n">ts</span>
+        <span class="n">event</span> <span class="o">=</span> <span class="n">func_to_event</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_qubit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">add_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_qubit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># generate a qubit</span>
+        <span class="n">qubit</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">()</span>
+
+        <span class="c1"># send the qubit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qchannel</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">qubit</span><span class="o">=</span><span class="n">qubit</span><span class="p">,</span> <span class="n">next_hop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dest</span><span class="p">)</span>
+
+        <span class="c1"># calculate the next sending time</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">current_time</span> <span class="o">+</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="n">sec</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_rate</span><span class="p">)</span>
+
+        <span class="c1"># insert the next send event to the simulator</span>
+        <span class="n">event</span> <span class="o">=</span> <span class="n">func_to_event</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_qubit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">add_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">RecvApp</span><span class="p">(</span><span class="n">Application</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">RecvQubitPacket</span><span class="p">):</span>
+            <span class="n">qubit</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">qubit</span>
+            <span class="n">qchannel</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">qchannel</span>
+            <span class="n">recv_time</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">t</span>
+
+            <span class="c1"># handling the receiving qubit</span>
+            <span class="c1"># ...</span>
+
+<span class="c1"># generate quantum nodes</span>
+<span class="n">n1</span> <span class="o">=</span> <span class="n">QNode</span><span class="p">(</span><span class="s2">&quot;n1&quot;</span><span class="p">)</span>
+<span class="n">n2</span> <span class="o">=</span> <span class="n">QNode</span><span class="p">(</span><span class="s2">&quot;n2&quot;</span><span class="p">)</span> <span class="c1"># add the RecvApp</span>
+
+<span class="c1"># generate a quantum channel</span>
+<span class="n">l1</span> <span class="o">=</span> <span class="n">QuantumChannel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;l1&quot;</span><span class="p">)</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">add_qchannel</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
+<span class="n">n2</span><span class="o">.</span><span class="n">add_qchannel</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
+
+<span class="c1"># add apps</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">add_apps</span><span class="p">(</span><span class="n">SendApp</span><span class="p">(</span><span class="n">dest</span> <span class="o">=</span> <span class="n">n2</span><span class="p">,</span> <span class="n">qchannel</span> <span class="o">=</span> <span class="n">l1</span><span class="p">))</span>
+<span class="n">n2</span><span class="o">.</span><span class="n">add_apps</span><span class="p">(</span><span class="n">RecvApp</span><span class="p">())</span>
+
+<span class="c1"># initiate the simulator</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span> <span class="c1"># from  0 to 10 seconds</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="n">n2</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+<span class="c1"># run the simulation</span>
+<span class="n">s</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="error-models-in-transmission">
+<h2>Error models in transmission<a class="headerlink" href="#error-models-in-transmission" title="Permalink to this headline"></a></h2>
+<p>Errors can be introduced during sending qubits. The error is handled in function <code class="docutils literal notranslate"><span class="pre">transfer_error_model</span></code>, which takes the channel <code class="docutils literal notranslate"><span class="pre">length</span></code> and other parameters as input. Those parameters shows the quantum channel's attributions (such as the optical fiber's decay), and they can be set using <code class="docutils literal notranslate"><span class="pre">transfer_error_model_args</span></code>. This parameter should be in the directory form.</p>
+<p>Here is an example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extend the qubit model to handle transfer error</span>
+<span class="k">class</span> <span class="nc">QubitWithError</span><span class="p">(</span><span class="n">Qubit</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">transfer_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="c1"># get the decay attribution</span>
+        <span class="n">decay</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;decay&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># handle error</span>
+        <span class="n">lkm</span> <span class="o">=</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">1000</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">*</span> <span class="n">lkm</span> <span class="o">*</span> <span class="n">decay</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span>
+        <span class="n">operation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+
+        <span class="c1"># change the state vector</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+
+<span class="n">n1</span> <span class="o">=</span> <span class="n">QNode</span><span class="p">(</span><span class="s2">&quot;n1&quot;</span><span class="p">)</span>
+<span class="n">n2</span> <span class="o">=</span> <span class="n">QNode</span><span class="p">(</span><span class="s2">&quot;n2&quot;</span><span class="p">)</span>
+
+<span class="c1"># the error model attribution: decay 0.2db/KM</span>
+<span class="n">l1</span> <span class="o">=</span> <span class="n">QuantumChannel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;l1&quot;</span><span class="p">,</span> <span class="n">transfer_error_model_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;decay&quot;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">})</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">add_qchannel</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
+<span class="n">n2</span><span class="o">.</span><span class="n">add_qchannel</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
+
+<span class="c1"># generate a qubit in ``QubitWithError`` model</span>
+<span class="n">qubit</span> <span class="o">=</span> <span class="n">QubitWithError</span><span class="p">()</span>
+
+<span class="c1"># send the qubit</span>
+<span class="n">l1</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">qubit</span><span class="o">=</span><span class="n">qubit</span><span class="p">,</span> <span class="n">next_hop</span><span class="o">=</span><span class="n">n2</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 
