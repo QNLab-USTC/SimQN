@@ -81,8 +81,4 @@ Here is an example of using SimQN.
 ```
 
 # Contributing
-Welcome to contribute through Github Issue or Pull Requests. Please refer to the develop guide.
-
-## License
-
-> Copyright (C) 2021 Elliot Chen <elliot.98@outlook.com>
+Welcome to contribute through Github Issue or Pull Requests. Please refer to the [develop guide](https://ertuil.github.io/SimQN/develop.html).
