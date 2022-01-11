@@ -37,7 +37,7 @@ class WernerStateEntanglement(BaseEntanglement, QuantumModel):
         Use `self` and `epr` to perfrom swapping and distribute a new entanglement
 
         Args:
-            epr (BaseEntanglement): another entanglement
+            epr (WernerEntanglement): another entanglement
             name (str): the name of the new entanglement
         Returns:
             the new distributed entanglement
@@ -57,12 +57,12 @@ class WernerStateEntanglement(BaseEntanglement, QuantumModel):
         Using Bennett 96 protocol and estimate lower bound.
 
         Args:
-            epr (BaseEntanglement): another entanglement
+            epr (WernerEntanglement): another entanglement
             name (str): the name of the new entanglement
         Returns:
             the new distributed entanglement
         """
-        ne = BellStateEntanglement()
+        ne = WernerStateEntanglement()
         if self.is_decoherenced or epr.is_decoherenced:
             ne.is_decoherenced = True
             ne.fidelity = 0
