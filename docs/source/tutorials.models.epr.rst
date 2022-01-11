@@ -77,10 +77,10 @@ The third entanglement model is the most general one, as any 2 qubit entanglemen
 and the fidelity equals to :math:`a`. After an entanglement swapping, the new state is:
 
 .. math::
-    a' = a_1 a_2 + b_1 b_2 + c_1 c_2 + d_1 d_2
-    b' = a_1 b_2 + b_1 a_2 + c_1 d_2 + d_1 c_2
-    c' = a_1 c_2 + b_1 d_2 + c_1 a_2 + d_1 b_2
-    d' = a_1 d_2 + b_1 c_2 + c_1 d_2 + d_1 a_2
+    a' = a_1 a_2 + b_1 b_2 + c_1 c_2 + d_1 d_2 \\
+    b' = a_1 b_2 + b_1 a_2 + c_1 d_2 + d_1 c_2 \\
+    c' = a_1 c_2 + b_1 d_2 + c_1 a_2 + d_1 b_2 \\
+    d' = a_1 d_2 + b_1 c_2 + c_1 d_2 + d_1 a_2 \\
 
 The distillation protocol has the success probability of 
 
@@ -92,10 +92,10 @@ The final state after distillation is:
 
 .. math::
 
-    a' = (a_1 a_2 + d_1 d_2)/p
-    b' = (b_1 b_2 + c_1 c_2)/p
-    c' = (b_1 c_2 + c_1 b_2)/p
-    d' = (a_1 d_2 + d_1 a_2)/p
+    a' = (a_1 a_2 + d_1 d_2)/p \\
+    b' = (b_1 b_2 + c_1 c_2)/p \\
+    c' = (b_1 c_2 + c_1 b_2)/p \\
+    d' = (a_1 d_2 + d_1 a_2)/p \\
 
 The error models for mixed state entanglement is :math:`x = 0.25 + (x-0.25)e^{\alpha t}`, where `x` can be `a`, `b`, `c`, and `d`. After enough time, it will decoherence. The transmission error is also `x = 0.25 + (x-0.25)e^{\beta l}`, where `l` is the channel length. Both :math:`\alpha` and :math:`\beta` is the attributions of the memories or the channels.
 
