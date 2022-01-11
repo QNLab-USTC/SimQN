@@ -65,6 +65,7 @@ class BaseEntanglement(object):
         qs = QState([q0, q1], state=np.array([[a], [b], [b], [a]]))
         q0.state = qs
         q1.state = qs
+        self.is_decoherenced = True
         return [q0, q1]
 
     def teleportion(self, qubit: Qubit) -> Qubit:
@@ -193,9 +194,9 @@ class WernerStateEntanglement(BaseEntanglement, QuantumModel):
         epr.is_decoherenced = True
         self.is_decoherenced = True
         ne.w = self.w * epr.w
-        if self.fidelity <= 0.5:
-            self.fidelity = 0.5
-            self.is_decoherenced = True
+        # if self.fidelity <= 0.5:
+        #     self.fidelity = 0.5
+        #     self.is_decoherenced = True
         return ne
 
     def distillation(self, epr: "BellStateEntanglement", name: Optional[str] = None):

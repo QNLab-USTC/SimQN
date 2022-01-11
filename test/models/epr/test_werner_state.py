@@ -14,4 +14,6 @@ def test_werner_state():
     print(e6.fidelity)
 
     e7 = e3.distillation(e6)
+    if e7 is None:
+        print("distillation failed")
     print(e7.fidelity)
