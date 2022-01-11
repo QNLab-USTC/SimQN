@@ -136,3 +136,48 @@ This packet needs to be processed in the ``handle`` method of the receiving appl
 
     # run the simulation
     s.run()
+
+Forward classic packets
+---------------------------
+
+It is common that classic packets needs to be forwarded to the destination. SimQN provides ``ClassicPacketForwardApp`` to forward all classic packets if the node is not the destination. The classic routing table is generated from any ``RouteImpl`` object. In most cases, the ``DijkstraRouteAlgorithm`` is good enough.
+
+.. note::
+    The ``ClassicPacketForwardApp`` must be add to nodes before other applications so that it will handle all incoming classic packets first.
+
+Here is an example of using the routing and forwarding classic packets:
+
+.. code:: Python
+
+    from qns.entity.cchannel.cchannel import ClassicPacket
+    from qns.network.network import QuantumNetwork
+    from qns.network.protocol.classicforward import ClassicPacketForwardApp
+    from qns.network.route.dijkstra import DijkstraRouteAlgorithm
+    from qns.network.topology.linetopo import LineTopology
+    from qns.network.topology.topo import ClassicTopology
+    from qns.simulator.simulator import Simulator
+
+    s = Simulator(0, 10, accuracy=10000000)
+
+    # the quantum network topology generator
+    topo = LineTopology(nodes_number=10,
+                        qchannel_args={"delay": 0.1},
+                        cchannel_args={"delay": 0.1})
+
+    # ``ClassicTopology.Follow`` means that the classic topology will follow the quantum topology
+    net = QuantumNetwork(topo=topo, classic_topo=ClassicTopology.Follow)
+
+    # build quantum routing table
+    net.build_route()
+
+    # generate the classic routing module
+    classic_route = DijkstraRouteAlgorithm(name="classic route")
+
+    # build classic routing table
+    classic_route.build(net.nodes, net.cchannels)
+
+    print(classic_route.route_table)
+
+    # install the classic packet forward app to all nodes
+    for n in net.nodes:
+        n.add_apps(ClassicPacketForwardApp(classic_route))

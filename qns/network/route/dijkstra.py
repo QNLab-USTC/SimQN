@@ -1,7 +1,8 @@
-from typing import Callable, Dict, List, Tuple
+from typing import Callable, Dict, List, Tuple, Union
 
 from qns.entity.node.node import QNode
 from qns.entity.qchannel.qchannel import QuantumChannel
+from qns.entity.cchannel.cchannel import ClassicChannel
 from qns.network.route.route import RouteImpl, NetworkRouteError
 
 
@@ -11,21 +12,21 @@ class DijkstraRouteAlgorithm(RouteImpl):
     """
 
     def __init__(self, name: str = "dijkstra",
-                 metric_func: Callable[[QuantumChannel], float] = None) -> None:
+                 metric_func: Callable[[Union[QuantumChannel, ClassicChannel]], float] = None) -> None:
         """
         Args:
             name: the routing algorithm's name
-            metric_func: the function that returns the metric for each QuantumChannel.
+            metric_func: the function that returns the metric for each channel.
                 The default is the const function m(l)=1
         """
         self.name = name
         self.route_table = {}
         if metric_func is None:
-            self.metric_func = lambda x: 1
+            self.metric_func = lambda _: 1
         else:
             self.metric_func = metric_func
 
-    def build(self, nodes: List[QNode], qchannels: List[QuantumChannel]):
+    def build(self, nodes: List[QNode], channels: List[Union[QuantumChannel, ClassicChannel]]):
         INF = 999999
 
         for n in nodes:
@@ -52,7 +53,7 @@ class DijkstraRouteAlgorithm(RouteImpl):
                 selected.append(ms)
                 unselected.remove(ms)
 
-                for link in qchannels:
+                for link in channels:
                     if ms not in link.node_list:
                         continue
                     if len(link.node_list) < 2:

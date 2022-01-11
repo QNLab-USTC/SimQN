@@ -1,7 +1,8 @@
 
-from typing import List, Tuple
+from typing import List, Tuple, Union
 from qns.entity import QNode
 from qns.entity.qchannel.qchannel import QuantumChannel
+from qns.entity.cchannel.cchannel import ClassicChannel
 
 
 class NetworkRouteError(Exception):
@@ -16,9 +17,12 @@ class RouteImpl():
     def __init__(self, name: str = "route") -> None:
         self.name = name
 
-    def build(self, nodes: List[QNode], qchannels: List[QuantumChannel]):
+    def build(self, nodes: List[QNode], channels: List[Union[QuantumChannel, ClassicChannel]]):
         """
         build static route tables for each nodes
+
+        args:
+            channels: a list of quantum channels or classic channels
         """
         raise NotImplementedError
 

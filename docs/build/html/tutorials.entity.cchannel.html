@@ -42,7 +42,7 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install Guide</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="tutorials.quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.quickstart.html">Quick start</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials.models.html">Physical models</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="tutorials.entity.html">Entities in quantum networks</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="tutorials.entity.node.html">Quantum node: the end-point users, routers and repeaters</a></li>
@@ -51,15 +51,15 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Classic channel: the link to transmit classic packets</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#classic-packets">Classic packets</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#send-and-receive-classic-packets">Send and receive classic packets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#forward-classic-packets">Forward classic packets</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="tutorials.entity.other.html">Timers and build other entities</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials.network.html">Build quantum networks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html">Capture date and monitors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html#random-generators">Random generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.network.html">Construct large-scale networks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials.simulator.html">The discrete-event simulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html">Logging and random generator</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="develop.html">Develop Guide</a></li>
@@ -219,6 +219,49 @@ tedious details of encoding of packets. <code class="docutils literal notranslat
 
 <span class="c1"># run the simulation</span>
 <span class="n">s</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="forward-classic-packets">
+<h2>Forward classic packets<a class="headerlink" href="#forward-classic-packets" title="Permalink to this headline"></a></h2>
+<p>It is common that classic packets needs to be forwarded to the destination. SimQN provides <code class="docutils literal notranslate"><span class="pre">ClassicPacketForwardApp</span></code> to forward all classic packets if the node is not the destination. The classic routing table is generated from any <code class="docutils literal notranslate"><span class="pre">RouteImpl</span></code> object. In most cases, the <code class="docutils literal notranslate"><span class="pre">DijkstraRouteAlgorithm</span></code> is good enough.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">ClassicPacketForwardApp</span></code> must be add to nodes before other applications so that it will handle all incoming classic packets first.</p>
+</div>
+<p>Here is an example of using the routing and forwarding classic packets:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.entity.cchannel.cchannel</span> <span class="kn">import</span> <span class="n">ClassicPacket</span>
+<span class="kn">from</span> <span class="nn">qns.network.network</span> <span class="kn">import</span> <span class="n">QuantumNetwork</span>
+<span class="kn">from</span> <span class="nn">qns.network.protocol.classicforward</span> <span class="kn">import</span> <span class="n">ClassicPacketForwardApp</span>
+<span class="kn">from</span> <span class="nn">qns.network.route.dijkstra</span> <span class="kn">import</span> <span class="n">DijkstraRouteAlgorithm</span>
+<span class="kn">from</span> <span class="nn">qns.network.topology.linetopo</span> <span class="kn">import</span> <span class="n">LineTopology</span>
+<span class="kn">from</span> <span class="nn">qns.network.topology.topo</span> <span class="kn">import</span> <span class="n">ClassicTopology</span>
+<span class="kn">from</span> <span class="nn">qns.simulator.simulator</span> <span class="kn">import</span> <span class="n">Simulator</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">accuracy</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+
+<span class="c1"># the quantum network topology generator</span>
+<span class="n">topo</span> <span class="o">=</span> <span class="n">LineTopology</span><span class="p">(</span><span class="n">nodes_number</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                    <span class="n">qchannel_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;delay&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">},</span>
+                    <span class="n">cchannel_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;delay&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">})</span>
+
+<span class="c1"># ``ClassicTopology.Follow`` means that the classic topology will follow the quantum topology</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">QuantumNetwork</span><span class="p">(</span><span class="n">topo</span><span class="o">=</span><span class="n">topo</span><span class="p">,</span> <span class="n">classic_topo</span><span class="o">=</span><span class="n">ClassicTopology</span><span class="o">.</span><span class="n">Follow</span><span class="p">)</span>
+
+<span class="c1"># build quantum routing table</span>
+<span class="n">net</span><span class="o">.</span><span class="n">build_route</span><span class="p">()</span>
+
+<span class="c1"># generate the classic routing module</span>
+<span class="n">classic_route</span> <span class="o">=</span> <span class="n">DijkstraRouteAlgorithm</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;classic route&quot;</span><span class="p">)</span>
+
+<span class="c1"># build classic routing table</span>
+<span class="n">classic_route</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">nodes</span><span class="p">,</span> <span class="n">net</span><span class="o">.</span><span class="n">cchannels</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">classic_route</span><span class="o">.</span><span class="n">route_table</span><span class="p">)</span>
+
+<span class="c1"># install the classic packet forward app to all nodes</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">net</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+    <span class="n">n</span><span class="o">.</span><span class="n">add_apps</span><span class="p">(</span><span class="n">ClassicPacketForwardApp</span><span class="p">(</span><span class="n">classic_route</span><span class="p">))</span>
 </pre></div>
 </div>
 </section>

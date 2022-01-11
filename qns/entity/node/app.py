@@ -1,3 +1,4 @@
+from typing import Optional
 from qns.simulator.simulator import Simulator
 from qns.simulator import Event
 
@@ -21,13 +22,16 @@ class Application(object):
         self._simulator = simulator
         self._node = node
 
-    def handle(self, node, event: Event):
+    def handle(self, node, event: Event) -> Optional[bool]:
         """
         process the event on the node.
 
         Args:
             node (QNode): the node that will handle this event
             event (Event): the event
+
+        Return:
+            skip (bool, None): if skip is True, further applications will not handle this event
         """
         pass
 

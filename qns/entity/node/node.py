@@ -58,7 +58,9 @@ class QNode(Entity):
             event (Event): the event that happens on this QNode
         """
         for app in self.apps:
-            app.handle(self, event)
+            skip = app.handle(self, event)
+            if skip:
+                break
 
     def add_apps(self, app: Application):
         """
