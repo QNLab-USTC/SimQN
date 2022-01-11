@@ -1,6 +1,6 @@
 
 from typing import Optional, List
-from qns.models.epr.entanglement import BaseEntanglement, BellStateEntanglement
+from qns.models.epr.entanglement import BaseEntanglement
 from qns.models.core.backend import QuantumModel
 from qns.models.qubit.qubit import Qubit, QState
 from qns.models.qubit.const import QUBIT_STATE_0, QUBIT_STATE_P
