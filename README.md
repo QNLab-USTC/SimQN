@@ -1,5 +1,8 @@
 # SimQN
 
+![Pytest](https://github.com/ertuil/SimQN/actions/workflows/pytest.yml/badge.svg) 
+![Flake8](https://github.com/ertuil/SimQN/actions/workflows/flake8.yml/badge.svg) 
+
 Welcome to SimQN's documentation. SimQN is a discrete-event based network simulation platform for quantum networks.
 SimQN enables large-scale investigations, including QKD protocols, entanglement distributions protocols, and routing algorithms, resource allocation schemas in quantum networks. For example, users can use SimQN to design routing algorithms for better QKD performance. For more information, please refer to the [Documents](https://ertuil.github.io/SimQN/).
 
