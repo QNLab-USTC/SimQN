@@ -143,7 +143,7 @@ Forward classic packets
 It is common that classic packets needs to be forwarded to the destination. SimQN provides ``ClassicPacketForwardApp`` to forward all classic packets if the node is not the destination. The classic routing table is generated from any ``RouteImpl`` object. In most cases, the ``DijkstraRouteAlgorithm`` is good enough.
 
 .. note::
-    The ``ClassicPacketForwardApp`` must be add to nodes before other applications so that it will handle all incoming classic packets first.
+    The ``ClassicPacketForwardApp`` must be added to nodes before other applications so that it will handle all incoming classic packets first.
 
 Here is an example of using the routing and forwarding classic packets:
 

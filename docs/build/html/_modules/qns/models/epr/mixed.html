@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en,zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>qns.models.epr.mixed &mdash; SimQN 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> SimQN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Install Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../develop.html">Develop Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">SimQN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>qns.models.epr.mixed</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for qns.models.epr.mixed</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">qns.models.core.backend</span> <span class="kn">import</span> <span class="n">QuantumModel</span>
+<span class="kn">from</span> <span class="nn">qns.models.epr.entanglement</span> <span class="kn">import</span> <span class="n">BaseEntanglement</span>
+<span class="kn">from</span> <span class="nn">qns.models.qubit.const</span> <span class="kn">import</span> <span class="n">QUBIT_STATE_0</span><span class="p">,</span> <span class="n">QUBIT_STATE_P</span>
+<span class="kn">from</span> <span class="nn">qns.models.qubit.qubit</span> <span class="kn">import</span> <span class="n">QState</span><span class="p">,</span> <span class="n">Qubit</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="MixedStateEntanglement"><a class="viewcode-back" href="../../../../qns.models.epr.html#qns.models.epr.MixedStateEntanglement">[docs]</a><span class="k">class</span> <span class="nc">MixedStateEntanglement</span><span class="p">(</span><span class="n">BaseEntanglement</span><span class="p">,</span> <span class="n">QuantumModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    `MixedStateEntanglement` is a pair of entangled qubits in mixed State with a hidden-variable.</span>
+<span class="sd">    rho = A * Phi^+ + B * Psi^+ + C * Psi^- + D * Phi^-</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fidelity</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">c</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        generate an entanglement with certain fidelity</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fidelity (float): the fidelity, equals to the probability of Phi^+</span>
+<span class="sd">            b (float): probability of Psi^+</span>
+<span class="sd">            c (float): probability of Psi^-</span>
+<span class="sd">            d (float): probability of Phi^-</span>
+<span class="sd">            name (str): the entanglement name</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fidelity</span> <span class="o">=</span> <span class="n">fidelity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span> <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">fidelity</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">c</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">fidelity</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">d</span> <span class="k">if</span> <span class="n">d</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">fidelity</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">a</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        a equals to the fidelity</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fidelity</span>
+
+    <span class="nd">@a</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">a</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fidelity</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fidelity</span> <span class="o">=</span> <span class="n">fidelity</span>
+
+<div class="viewcode-block" id="MixedStateEntanglement.normalized"><a class="viewcode-back" href="../../../../qns.models.epr.html#qns.models.epr.MixedStateEntanglement.normalized">[docs]</a>    <span class="k">def</span> <span class="nf">normalized</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span>
+        <span class="c1"># Normalized: a + b + c + d = 1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">/</span><span class="n">total</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">/</span><span class="n">total</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">/</span><span class="n">total</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">total</span></div>
+
+<div class="viewcode-block" id="MixedStateEntanglement.swapping"><a class="viewcode-back" href="../../../../qns.models.epr.html#qns.models.epr.MixedStateEntanglement.swapping">[docs]</a>    <span class="k">def</span> <span class="nf">swapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epr</span><span class="p">:</span> <span class="s2">&quot;MixedStateEntanglement&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use `self` and `epr` to perfrom swapping and distribute a new entanglement</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            epr (MixedEntanglement): another entanglement</span>
+<span class="sd">            name (str): the name of the new entanglement</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            the new distributed entanglement</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ne</span> <span class="o">=</span> <span class="n">MixedStateEntanglement</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="ow">or</span> <span class="n">epr</span><span class="o">.</span><span class="n">is_decoherenced</span><span class="p">:</span>
+            <span class="n">ne</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">ne</span><span class="o">.</span><span class="n">fidelity</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">epr</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="n">ne</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">d</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">b</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">d</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">c</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">d</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">a</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">b</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">d</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">d</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">a</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">normalized</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">ne</span></div>
+
+<div class="viewcode-block" id="MixedStateEntanglement.distillation"><a class="viewcode-back" href="../../../../qns.models.epr.html#qns.models.epr.MixedStateEntanglement.distillation">[docs]</a>    <span class="k">def</span> <span class="nf">distillation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epr</span><span class="p">:</span> <span class="s2">&quot;MixedStateEntanglement&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use `self` and `epr` to perfrom distillation and distribute a new entanglement.</span>
+<span class="sd">        Using BBPSSW protocol.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            epr (BaseEntanglement): another entanglement</span>
+<span class="sd">            name (str): the name of the new entanglement</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            the new distributed entanglement</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ne</span> <span class="o">=</span> <span class="n">MixedStateEntanglement</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="ow">or</span> <span class="n">epr</span><span class="o">.</span><span class="n">is_decoherenced</span><span class="p">:</span>
+            <span class="n">ne</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">ne</span><span class="o">.</span><span class="n">fidelity</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">return</span>
+        <span class="n">epr</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">p_succ</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">epr</span><span class="o">.</span><span class="n">a</span><span class="o">+</span><span class="n">epr</span><span class="o">.</span><span class="n">d</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">epr</span><span class="o">.</span><span class="n">c</span> <span class="o">+</span> <span class="n">epr</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">p_succ</span><span class="p">:</span>
+            <span class="n">ne</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">ne</span><span class="o">.</span><span class="n">fidelity</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">return</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">a</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">d</span><span class="p">)</span><span class="o">/</span><span class="n">p_succ</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">b</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">c</span><span class="p">)</span><span class="o">/</span><span class="n">p_succ</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">c</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">b</span><span class="p">)</span><span class="o">/</span><span class="n">p_succ</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">d</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="o">*</span><span class="n">epr</span><span class="o">.</span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="n">p_succ</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">normalized</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">ne</span></div>
+
+<div class="viewcode-block" id="MixedStateEntanglement.storage_error_model"><a class="viewcode-back" href="../../../../qns.models.epr.html#qns.models.epr.MixedStateEntanglement.storage_error_model">[docs]</a>    <span class="k">def</span> <span class="nf">storage_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The default error model for storing this entangled pair in a quantum memory.</span>
+<span class="sd">        The default behavior is: a = 0.25 + (a-0.25)*e^{a*t}, default a = 0</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            t: the time stored in a quantum memory. The unit it second.</span>
+<span class="sd">            kwargs: other parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">-</span><span class="mf">0.25</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">a</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">-</span><span class="mf">0.25</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">a</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">-</span><span class="mf">0.25</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">a</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="o">-</span><span class="mf">0.25</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">a</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MixedStateEntanglement.transfer_error_model"><a class="viewcode-back" href="../../../../qns.models.epr.html#qns.models.epr.MixedStateEntanglement.transfer_error_model">[docs]</a>    <span class="k">def</span> <span class="nf">transfer_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The default error model for transmitting this entanglement.</span>
+<span class="sd">        The success possibility of transmitting is: 0.25 + (a-0.25)*e^{b*l}, default b = 0</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            length (float): the length of the channel</span>
+<span class="sd">            kwargs: other parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">-</span><span class="mf">0.25</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">b</span> <span class="o">*</span> <span class="n">length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">-</span><span class="mf">0.25</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">b</span> <span class="o">*</span> <span class="n">length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">-</span><span class="mf">0.25</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">b</span> <span class="o">*</span> <span class="n">length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="o">-</span><span class="mf">0.25</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">b</span> <span class="o">*</span> <span class="n">length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MixedStateEntanglement.to_qubits"><a class="viewcode-back" href="../../../../qns.models.epr.html#qns.models.epr.MixedStateEntanglement.to_qubits">[docs]</a>    <span class="k">def</span> <span class="nf">to_qubits</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Qubit</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_decoherenced</span><span class="p">:</span>
+            <span class="n">q0</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">QUBIT_STATE_P</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;q0&quot;</span><span class="p">)</span>
+            <span class="n">q1</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">QUBIT_STATE_P</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;q1&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">]</span>
+
+        <span class="n">q0</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">QUBIT_STATE_0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;q0&quot;</span><span class="p">)</span>
+        <span class="n">q1</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">QUBIT_STATE_0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;q1&quot;</span><span class="p">)</span>
+
+        <span class="n">qs</span> <span class="o">=</span> <span class="n">QState</span><span class="p">([</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">],</span> <span class="n">state</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">],</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">],</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">],</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">]]))</span>
+        <span class="n">q0</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">qs</span>
+        <span class="n">q1</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">qs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">]</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Elliot Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -3,10 +3,11 @@ The entanglement model
 
 The entanglement model is a high level and simpler model for Bell state entanglements, which is common used in quantum networks. Instead of using matrix, entanglement models uses ``fidelity`` and other parameters to describe an entanglement. Also, this model provide basic quantum operations including entanglement swapping, distillation and teleportation. The advantage is that it simplifies the evaluation by hiding low-level operations and provides higher performance.
 
-Two entanglement models
+Three entanglement models
 --------------------------------
 
-We pre-defined two kinds of entanglements, i.e., the ideal Bell-state entanglement and the Werner state entanglement. Both of these entanglements are implemented from ``BaseEntanglement``. That means that other entanglement models can also be produced by extend the original ``BaseEntanglement``.
+We pre-defined three kinds of entanglements, i.e., the ideal Bell-state entanglement, the Werner state entanglement, and the mixed state entanglement. All models fix the swapping and distillation protocol.
+Since all of these entanglements are implemented from ``BaseEntanglement``, other entanglement models can also be produced by extend the original ``BaseEntanglement``.
 
 The following codes shows how to produce an entanglement:
 
@@ -34,7 +35,14 @@ The following codes shows how to produce an entanglement:
     e7 = e3.distillation(e6)
     print(e7.fidelity)
 
-Both ``WernerStateEntanglement`` and ``BellStateEntanglement`` fix the swapping and distillation model. In ``BellStateEntanglement``, the quantum state is the max entangled state :math:`\ket{\Phi^+}`, and the fidelity is fixed to 1 (indicates the max entangled state). The entanglement swapping has probability of success ``p_swap``. For the ``BellStateEntanglement``, no error is introduced during storing and transmission.
+
+Ideal Bell State entanglement
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In ``BellStateEntanglement``, the quantum state is the max entangled state :math:`\ket{\Phi^+}`, and the fidelity is fixed to 1 (indicates the max entangled state). The entanglement swapping has probability of success ``p_swap``. For the ``BellStateEntanglement``, no error is introduced during storing and transmission.
+
+Werner State entanglement
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In ``WernerStateEntanglement``, the the density matrix is
 
@@ -53,9 +61,44 @@ where ``w`` is the werner parameter and the fidelity is :math:`f = (3w + 1) / 4`
 
    f' = \frac{f^2+\frac{1}{9}(1-f)^2}{f^2+\frac{2}{3}f(1-f) + \frac{5}{9} (1-f)^2}
 
-For ``WernerStateEntanglement``, the werner parameter will drop during storing in quantum memories or transmitting though quantum channels. After storing for time ``t``, the new state will be :math:`w' = w \cdot e^{ - \alpha t}`, where :math:`\alpha` is the decoy parameter (default is 0). Both ``t`` and :math:`\alpha` are input parameter of the ``storage_error_model``.
+For ``WernerStateEntanglement``, the werner parameter will drop during storing in quantum memories or transmitting though quantum channels. After storing for time ``t``, the new state will be :math:`w' = w \cdot e^{ - \alpha t}`, where :math:`\alpha` is the decoy 
+parameter (default is 0). Both ``t`` and :math:`\alpha` are input parameter of the ``storage_error_model``.
 
 For transmitting error, the new state will be :math:`w' = w \cdot e^{ - \beta l}`, where :math:`\beta` is the decoy parameter (default is 0) and ``l`` is the channel length. Both ``l`` and :math:`\beta` are input parameter of the `transfer_error_model`.
+
+Most general mixed state entanglement
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The third entanglement model is the most general one, as any 2 qubit entanglement can be presented as a mixed state entanglement. A mixed state entanglements has the density matrix as:
+
+.. math::
+    \rho = a \ket{\Phi^+} \bra{\Phi^+} + b \ket{\Psi^+} \bra{\Psi^+} + c \ket{\Psi^-} \bra{\Psi^-} + d \ket{\Phi^-} \bra{\Phi^-},
+
+and the fidelity equals to :math:`a`. After an entanglement swapping, the new state is:
+
+.. math::
+    a' = a_1 a_2 + b_1 b_2 + c_1 c_2 + d_1 d_2
+    b' = a_1 b_2 + b_1 a_2 + c_1 d_2 + d_1 c_2
+    c' = a_1 c_2 + b_1 d_2 + c_1 a_2 + d_1 b_2
+    d' = a_1 d_2 + b_1 c_2 + c_1 d_2 + d_1 a_2
+
+The distillation protocol has the success probability of 
+
+.. math::
+
+   p = (a_1+d_1)(a_2+d_2) + (b_1+c_1)(b_2+c_2)
+
+The final state after distillation is:
+
+.. math::
+
+    a' = (a_1 a_2 + d_1 d_2)/p
+    b' = (b_1 b_2 + c_1 c_2)/p
+    c' = (b_1 c_2 + c_1 b_2)/p
+    d' = (a_1 d_2 + d_1 a_2)/p
+
+The error models for mixed state entanglement is :math:`x = 0.25 + (x-0.25)e^{\alpha t}`, where `x` can be `a`, `b`, `c`, and `d`. After enough time, it will decoherence. The transmission error is also `x = 0.25 + (x-0.25)e^{\beta l}`, where `l` is the channel length. Both :math:`\alpha` and :math:`\beta` is the attributions of the memories or the channels.
+
 
 If the error models, swapping protocols and distillation protocols do not fit your need, it is easy to implement your own entanglement model by extend ``BaseEntanglement``.
 

@@ -43,21 +43,20 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install Guide</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="tutorials.quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.quickstart.html">Quick start</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="tutorials.models.html">Physical models</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="tutorials.models.qubit.html">The qubit model</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">The entanglement model</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#two-entanglement-models">Two entanglement models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#three-entanglement-models">Three entanglement models</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#quantum-teleportation">Quantum teleportation</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials.entity.html">Entities in quantum networks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials.network.html">Build quantum networks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html">Capture date and monitors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html#random-generators">Random generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.network.html">Construct large-scale networks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials.simulator.html">The discrete-event simulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html">Logging and random generator</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="develop.html">Develop Guide</a></li>
@@ -93,9 +92,10 @@
   <section id="the-entanglement-model">
 <h1>The entanglement model<a class="headerlink" href="#the-entanglement-model" title="Permalink to this headline"></a></h1>
 <p>The entanglement model is a high level and simpler model for Bell state entanglements, which is common used in quantum networks. Instead of using matrix, entanglement models uses <code class="docutils literal notranslate"><span class="pre">fidelity</span></code> and other parameters to describe an entanglement. Also, this model provide basic quantum operations including entanglement swapping, distillation and teleportation. The advantage is that it simplifies the evaluation by hiding low-level operations and provides higher performance.</p>
-<section id="two-entanglement-models">
-<h2>Two entanglement models<a class="headerlink" href="#two-entanglement-models" title="Permalink to this headline"></a></h2>
-<p>We pre-defined two kinds of entanglements, i.e., the ideal Bell-state entanglement and the Werner state entanglement. Both of these entanglements are implemented from <code class="docutils literal notranslate"><span class="pre">BaseEntanglement</span></code>. That means that other entanglement models can also be produced by extend the original <code class="docutils literal notranslate"><span class="pre">BaseEntanglement</span></code>.</p>
+<section id="three-entanglement-models">
+<h2>Three entanglement models<a class="headerlink" href="#three-entanglement-models" title="Permalink to this headline"></a></h2>
+<p>We pre-defined three kinds of entanglements, i.e., the ideal Bell-state entanglement, the Werner state entanglement, and the mixed state entanglement. All models fix the swapping and distillation protocol.
+Since all of these entanglements are implemented from <code class="docutils literal notranslate"><span class="pre">BaseEntanglement</span></code>, other entanglement models can also be produced by extend the original <code class="docutils literal notranslate"><span class="pre">BaseEntanglement</span></code>.</p>
 <p>The following codes shows how to produce an entanglement:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.models.epr</span> <span class="kn">import</span> <span class="n">WernerStateEntanglement</span>
 
@@ -120,7 +120,12 @@
 <span class="nb">print</span><span class="p">(</span><span class="n">e7</span><span class="o">.</span><span class="n">fidelity</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Both <code class="docutils literal notranslate"><span class="pre">WernerStateEntanglement</span></code> and <code class="docutils literal notranslate"><span class="pre">BellStateEntanglement</span></code> fix the swapping and distillation model. In <code class="docutils literal notranslate"><span class="pre">BellStateEntanglement</span></code>, the quantum state is the max entangled state <span class="math notranslate nohighlight">\(\ket{\Phi^+}\)</span>, and the fidelity is fixed to 1 (indicates the max entangled state). The entanglement swapping has probability of success <code class="docutils literal notranslate"><span class="pre">p_swap</span></code>. For the <code class="docutils literal notranslate"><span class="pre">BellStateEntanglement</span></code>, no error is introduced during storing and transmission.</p>
+<section id="ideal-bell-state-entanglement">
+<h3>Ideal Bell State entanglement<a class="headerlink" href="#ideal-bell-state-entanglement" title="Permalink to this headline"></a></h3>
+<p>In <code class="docutils literal notranslate"><span class="pre">BellStateEntanglement</span></code>, the quantum state is the max entangled state <span class="math notranslate nohighlight">\(\ket{\Phi^+}\)</span>, and the fidelity is fixed to 1 (indicates the max entangled state). The entanglement swapping has probability of success <code class="docutils literal notranslate"><span class="pre">p_swap</span></code>. For the <code class="docutils literal notranslate"><span class="pre">BellStateEntanglement</span></code>, no error is introduced during storing and transmission.</p>
+</section>
+<section id="werner-state-entanglement">
+<h3>Werner State entanglement<a class="headerlink" href="#werner-state-entanglement" title="Permalink to this headline"></a></h3>
 <p>In <code class="docutils literal notranslate"><span class="pre">WernerStateEntanglement</span></code>, the the density matrix is</p>
 <div class="math notranslate nohighlight">
 \[\rho = w \ket{\Phi^+} \bra{\Phi^+} + \frac{1-w}{4} \mathbb{I}_4,\]</div>
@@ -130,9 +135,33 @@
 <p>, and the final fidelity is</p>
 <div class="math notranslate nohighlight">
 \[f' = \frac{f^2+\frac{1}{9}(1-f)^2}{f^2+\frac{2}{3}f(1-f) + \frac{5}{9} (1-f)^2}\]</div>
-<p>For <code class="docutils literal notranslate"><span class="pre">WernerStateEntanglement</span></code>, the werner parameter will drop during storing in quantum memories or transmitting though quantum channels. After storing for time <code class="docutils literal notranslate"><span class="pre">t</span></code>, the new state will be <span class="math notranslate nohighlight">\(w' = w \cdot e^{ - \alpha t}\)</span>, where <span class="math notranslate nohighlight">\(\alpha\)</span> is the decoy parameter (default is 0). Both <code class="docutils literal notranslate"><span class="pre">t</span></code> and <span class="math notranslate nohighlight">\(\alpha\)</span> are input parameter of the <code class="docutils literal notranslate"><span class="pre">storage_error_model</span></code>.</p>
+<p>For <code class="docutils literal notranslate"><span class="pre">WernerStateEntanglement</span></code>, the werner parameter will drop during storing in quantum memories or transmitting though quantum channels. After storing for time <code class="docutils literal notranslate"><span class="pre">t</span></code>, the new state will be <span class="math notranslate nohighlight">\(w' = w \cdot e^{ - \alpha t}\)</span>, where <span class="math notranslate nohighlight">\(\alpha\)</span> is the decoy
+parameter (default is 0). Both <code class="docutils literal notranslate"><span class="pre">t</span></code> and <span class="math notranslate nohighlight">\(\alpha\)</span> are input parameter of the <code class="docutils literal notranslate"><span class="pre">storage_error_model</span></code>.</p>
 <p>For transmitting error, the new state will be <span class="math notranslate nohighlight">\(w' = w \cdot e^{ - \beta l}\)</span>, where <span class="math notranslate nohighlight">\(\beta\)</span> is the decoy parameter (default is 0) and <code class="docutils literal notranslate"><span class="pre">l</span></code> is the channel length. Both <code class="docutils literal notranslate"><span class="pre">l</span></code> and <span class="math notranslate nohighlight">\(\beta\)</span> are input parameter of the <cite>transfer_error_model</cite>.</p>
+</section>
+<section id="most-general-mixed-state-entanglement">
+<h3>Most general mixed state entanglement<a class="headerlink" href="#most-general-mixed-state-entanglement" title="Permalink to this headline"></a></h3>
+<p>The third entanglement model is the most general one, as any 2 qubit entanglement can be presented as a mixed state entanglement. A mixed state entanglements has the density matrix as:</p>
+<div class="math notranslate nohighlight">
+\[\rho = a \ket{\Phi^+} \bra{\Phi^+} + b \ket{\Psi^+} \bra{\Psi^+} + c \ket{\Psi^-} \bra{\Psi^-} + d \ket{\Phi^-} \bra{\Phi^-},\]</div>
+<p>and the fidelity equals to <span class="math notranslate nohighlight">\(a\)</span>. After an entanglement swapping, the new state is:</p>
+<div class="math notranslate nohighlight">
+\[a' = a_1 a_2 + b_1 b_2 + c_1 c_2 + d_1 d_2
+b' = a_1 b_2 + b_1 a_2 + c_1 d_2 + d_1 c_2
+c' = a_1 c_2 + b_1 d_2 + c_1 a_2 + d_1 b_2
+d' = a_1 d_2 + b_1 c_2 + c_1 d_2 + d_1 a_2\]</div>
+<p>The distillation protocol has the success probability of</p>
+<div class="math notranslate nohighlight">
+\[p = (a_1+d_1)(a_2+d_2) + (b_1+c_1)(b_2+c_2)\]</div>
+<p>The final state after distillation is:</p>
+<div class="math notranslate nohighlight">
+\[a' = (a_1 a_2 + d_1 d_2)/p
+b' = (b_1 b_2 + c_1 c_2)/p
+c' = (b_1 c_2 + c_1 b_2)/p
+d' = (a_1 d_2 + d_1 a_2)/p\]</div>
+<p>The error models for mixed state entanglement is <span class="math notranslate nohighlight">\(x = 0.25 + (x-0.25)e^{\alpha t}\)</span>, where <cite>x</cite> can be <cite>a</cite>, <cite>b</cite>, <cite>c</cite>, and <cite>d</cite>. After enough time, it will decoherence. The transmission error is also <cite>x = 0.25 + (x-0.25)e^{beta l}</cite>, where <cite>l</cite> is the channel length. Both <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> is the attributions of the memories or the channels.</p>
 <p>If the error models, swapping protocols and distillation protocols do not fit your need, it is easy to implement your own entanglement model by extend <code class="docutils literal notranslate"><span class="pre">BaseEntanglement</span></code>.</p>
+</section>
 </section>
 <section id="quantum-teleportation">
 <h2>Quantum teleportation<a class="headerlink" href="#quantum-teleportation" title="Permalink to this headline"></a></h2>
