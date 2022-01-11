@@ -1,4 +1,4 @@
-from build.lib.qns.entity.cchannel.cchannel import ClassicChannel
+from qns.entity.cchannel.cchannel import ClassicChannel
 from qns.entity.cchannel.cchannel import RecvClassicPacket
 from qns.entity.node.app import Application
 from qns.entity.node.node import QNode
