@@ -68,7 +68,8 @@
            <div itemprop="articleBody">
              
   <h1>Source code for qns.entity.node.app</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">qns.simulator.simulator</span> <span class="kn">import</span> <span class="n">Simulator</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">qns.simulator.simulator</span> <span class="kn">import</span> <span class="n">Simulator</span>
 <span class="kn">from</span> <span class="nn">qns.simulator</span> <span class="kn">import</span> <span class="n">Event</span>
 
 
@@ -91,13 +92,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span> <span class="o">=</span> <span class="n">simulator</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_node</span> <span class="o">=</span> <span class="n">node</span></div>
 
-<div class="viewcode-block" id="Application.handle"><a class="viewcode-back" href="../../../../qns.entity.node.html#qns.entity.node.app.Application.handle">[docs]</a>    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">):</span>
+<div class="viewcode-block" id="Application.handle"><a class="viewcode-back" href="../../../../qns.entity.node.html#qns.entity.node.app.Application.handle">[docs]</a>    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        process the event on the node.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            node (QNode): the node that will handle this event</span>
 <span class="sd">            event (Event): the event</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            skip (bool, None): if skip is True, further applications will not handle this event</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 

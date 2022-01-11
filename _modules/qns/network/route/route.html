@@ -37,9 +37,9 @@
               <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Install Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Install Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tutorials.html">Tutorials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../develop.html">Develop Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../develop.html">Develop Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
 </ul>
 
@@ -69,9 +69,10 @@
              
   <h1>Source code for qns.network.route.route</h1><div class="highlight"><pre>
 <span></span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">from</span> <span class="nn">qns.entity</span> <span class="kn">import</span> <span class="n">QNode</span>
 <span class="kn">from</span> <span class="nn">qns.entity.qchannel.qchannel</span> <span class="kn">import</span> <span class="n">QuantumChannel</span>
+<span class="kn">from</span> <span class="nn">qns.entity.cchannel.cchannel</span> <span class="kn">import</span> <span class="n">ClassicChannel</span>
 
 
 <div class="viewcode-block" id="NetworkRouteError"><a class="viewcode-back" href="../../../../qns.network.route.html#qns.network.NetworkRouteError">[docs]</a><span class="k">class</span> <span class="nc">NetworkRouteError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
@@ -86,9 +87,12 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;route&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 
-<div class="viewcode-block" id="RouteImpl.build"><a class="viewcode-back" href="../../../../qns.network.route.html#qns.network.RouteImpl.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">],</span> <span class="n">qchannels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QuantumChannel</span><span class="p">]):</span>
+<div class="viewcode-block" id="RouteImpl.build"><a class="viewcode-back" href="../../../../qns.network.route.html#qns.network.RouteImpl.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">],</span> <span class="n">channels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">QuantumChannel</span><span class="p">,</span> <span class="n">ClassicChannel</span><span class="p">]]):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        build static route tables for each nodes</span>
+
+<span class="sd">        args:</span>
+<span class="sd">            channels: a list of quantum channels or classic channels</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 

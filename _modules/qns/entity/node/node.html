@@ -128,7 +128,9 @@
 <span class="sd">            event (Event): the event that happens on this QNode</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">app</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">apps</span><span class="p">:</span>
-            <span class="n">app</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span></div>
+            <span class="n">skip</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">skip</span><span class="p">:</span>
+                <span class="k">break</span></div>
 
 <div class="viewcode-block" id="QNode.add_apps"><a class="viewcode-back" href="../../../../qns.entity.node.html#qns.entity.QNode.add_apps">[docs]</a>    <span class="k">def</span> <span class="nf">add_apps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="n">Application</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

@@ -37,9 +37,9 @@
               <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Install Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Install Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tutorials.html">Tutorials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../develop.html">Develop Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../develop.html">Develop Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
 </ul>
 
@@ -68,10 +68,11 @@
            <div itemprop="articleBody">
              
   <h1>Source code for qns.network.route.dijkstra</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">qns.entity.node.node</span> <span class="kn">import</span> <span class="n">QNode</span>
 <span class="kn">from</span> <span class="nn">qns.entity.qchannel.qchannel</span> <span class="kn">import</span> <span class="n">QuantumChannel</span>
+<span class="kn">from</span> <span class="nn">qns.entity.cchannel.cchannel</span> <span class="kn">import</span> <span class="n">ClassicChannel</span>
 <span class="kn">from</span> <span class="nn">qns.network.route.route</span> <span class="kn">import</span> <span class="n">RouteImpl</span><span class="p">,</span> <span class="n">NetworkRouteError</span>
 
 
@@ -81,21 +82,21 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;dijkstra&quot;</span><span class="p">,</span>
-                 <span class="n">metric_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">QuantumChannel</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+                 <span class="n">metric_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Union</span><span class="p">[</span><span class="n">QuantumChannel</span><span class="p">,</span> <span class="n">ClassicChannel</span><span class="p">]],</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            name: the routing algorithm&#39;s name</span>
-<span class="sd">            metric_func: the function that returns the metric for each QuantumChannel.</span>
+<span class="sd">            metric_func: the function that returns the metric for each channel.</span>
 <span class="sd">                The default is the const function m(l)=1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">route_table</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="n">metric_func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">metric_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metric_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">metric_func</span> <span class="o">=</span> <span class="n">metric_func</span>
 
-<div class="viewcode-block" id="DijkstraRouteAlgorithm.build"><a class="viewcode-back" href="../../../../qns.network.route.html#qns.network.DijkstraRouteAlgorithm.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">],</span> <span class="n">qchannels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QuantumChannel</span><span class="p">]):</span>
+<div class="viewcode-block" id="DijkstraRouteAlgorithm.build"><a class="viewcode-back" href="../../../../qns.network.route.html#qns.network.DijkstraRouteAlgorithm.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">],</span> <span class="n">channels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">QuantumChannel</span><span class="p">,</span> <span class="n">ClassicChannel</span><span class="p">]]):</span>
         <span class="n">INF</span> <span class="o">=</span> <span class="mi">999999</span>
 
         <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
@@ -122,7 +123,7 @@
                 <span class="n">selected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ms</span><span class="p">)</span>
                 <span class="n">unselected</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">ms</span><span class="p">)</span>
 
-                <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">qchannels</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">channels</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">ms</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">link</span><span class="o">.</span><span class="n">node_list</span><span class="p">:</span>
                         <span class="k">continue</span>
                     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">node_list</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
