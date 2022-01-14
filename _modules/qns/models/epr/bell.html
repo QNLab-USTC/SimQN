@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en,zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>qns.models.epr.bell &mdash; SimQN 0.1.3 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> SimQN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Install Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../develop.html">Develop Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">SimQN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>qns.models.epr.bell</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for qns.models.epr.bell</h1><div class="highlight"><pre>
+<span></span><span class="c1">#    SimQN: a discrete-event simulator for the quantum networks</span>
+<span class="c1">#    Copyright (C) 2021-2022 Lutong Chen, Jian Li, Kaiping Xue</span>
+<span class="c1">#    University of Science and Technology of China, USTC.</span>
+<span class="c1">#</span>
+<span class="c1">#    This program is free software: you can redistribute it and/or modify</span>
+<span class="c1">#    it under the terms of the GNU General Public License as published by</span>
+<span class="c1">#    the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1">#    (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1">#    This program is distributed in the hope that it will be useful,</span>
+<span class="c1">#    but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1">#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1">#    GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1">#    You should have received a copy of the GNU General Public License</span>
+<span class="c1">#    along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="kn">from</span> <span class="nn">qns.models.core.backend</span> <span class="kn">import</span> <span class="n">QuantumModel</span>
+<span class="kn">from</span> <span class="nn">qns.models.epr.entanglement</span> <span class="kn">import</span> <span class="n">BaseEntanglement</span>
+
+
+<div class="viewcode-block" id="BellStateEntanglement"><a class="viewcode-back" href="../../../../qns.models.epr.html#qns.models.epr.BellStateEntanglement">[docs]</a><span class="k">class</span> <span class="nc">BellStateEntanglement</span><span class="p">(</span><span class="n">BaseEntanglement</span><span class="p">,</span> <span class="n">QuantumModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    `BellStateEntanglement` is the ideal max entangled qubits. Its fidelity is always 1.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fidelity</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">p_swap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">fidelity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p_swap</span> <span class="o">=</span> <span class="n">p_swap</span>
+
+<div class="viewcode-block" id="BellStateEntanglement.swapping"><a class="viewcode-back" href="../../../../qns.models.epr.html#qns.models.epr.BellStateEntanglement.swapping">[docs]</a>    <span class="k">def</span> <span class="nf">swapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epr</span><span class="p">:</span> <span class="s2">&quot;BellStateEntanglement&quot;</span><span class="p">):</span>
+        <span class="n">ne</span> <span class="o">=</span> <span class="n">BellStateEntanglement</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="ow">or</span> <span class="n">epr</span><span class="o">.</span><span class="n">is_decoherenced</span><span class="p">:</span>
+            <span class="n">ne</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">ne</span><span class="o">.</span><span class="n">fidelity</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p_swap</span><span class="p">,</span> <span class="n">epr</span><span class="o">.</span><span class="n">p_swap</span><span class="p">):</span>
+            <span class="n">ne</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">ne</span><span class="o">.</span><span class="n">fidelity</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">epr</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">ne</span></div>
+
+<div class="viewcode-block" id="BellStateEntanglement.distillation"><a class="viewcode-back" href="../../../../qns.models.epr.html#qns.models.epr.BellStateEntanglement.distillation">[docs]</a>    <span class="k">def</span> <span class="nf">distillation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epr</span><span class="p">:</span> <span class="s2">&quot;BellStateEntanglement&quot;</span><span class="p">):</span>
+        <span class="n">ne</span> <span class="o">=</span> <span class="n">BellStateEntanglement</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="ow">or</span> <span class="n">epr</span><span class="o">.</span><span class="n">is_decoherenced</span><span class="p">:</span>
+            <span class="n">ne</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">ne</span><span class="o">.</span><span class="n">fidelity</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">epr</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">ne</span></div>
+
+<div class="viewcode-block" id="BellStateEntanglement.storage_error_model"><a class="viewcode-back" href="../../../../qns.models.epr.html#qns.models.epr.BellStateEntanglement.storage_error_model">[docs]</a>    <span class="k">def</span> <span class="nf">storage_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The default error model for storing this entangled pair in a quantum memory.</span>
+<span class="sd">        The default behavior is doing nothing</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            t: the time stored in a quantum memory. The unit it second.</span>
+<span class="sd">            kwargs: other parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="BellStateEntanglement.transfer_error_model"><a class="viewcode-back" href="../../../../qns.models.epr.html#qns.models.epr.BellStateEntanglement.transfer_error_model">[docs]</a>    <span class="k">def</span> <span class="nf">transfer_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The default error model for transmitting this entanglement.</span>
+<span class="sd">        The default behavior is doing nothing</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            length (float): the length of the channel</span>
+<span class="sd">            kwargs: other parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Elliot Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The entanglement model &mdash; SimQN 0.1.0 documentation</title>
+  <title>The entanglement model &mdash; SimQN 0.1.3 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -92,6 +92,7 @@
   <section id="the-entanglement-model">
 <h1>The entanglement model<a class="headerlink" href="#the-entanglement-model" title="Permalink to this headline"></a></h1>
 <p>The entanglement model is a high level and simpler model for Bell state entanglements, which is common used in quantum networks. Instead of using matrix, entanglement models uses <code class="docutils literal notranslate"><span class="pre">fidelity</span></code> and other parameters to describe an entanglement. Also, this model provide basic quantum operations including entanglement swapping, distillation and teleportation. The advantage is that it simplifies the evaluation by hiding low-level operations and provides higher performance.</p>
+<p>In SimQN, multiple quantum nodes may hold the same reference of an entanglement object. For example, if two nodes have the reference of the same entanglement, it means that each of them has a qubit that in this entangled state. Users needs to maintain the fact that an entanglement can not be referenced by more than 2 quantum nodes by themselves.</p>
 <section id="three-entanglement-models">
 <h2>Three entanglement models<a class="headerlink" href="#three-entanglement-models" title="Permalink to this headline"></a></h2>
 <p>We pre-defined three kinds of entanglements, i.e., the ideal Bell-state entanglement, the Werner state entanglement, and the mixed state entanglement. All models fix the swapping and distillation protocol.
@@ -146,19 +147,19 @@ parameter (default is 0). Both <code class="docutils literal notranslate"><span 
 \[\rho = a \ket{\Phi^+} \bra{\Phi^+} + b \ket{\Psi^+} \bra{\Psi^+} + c \ket{\Psi^-} \bra{\Psi^-} + d \ket{\Phi^-} \bra{\Phi^-},\]</div>
 <p>and the fidelity equals to <span class="math notranslate nohighlight">\(a\)</span>. After an entanglement swapping, the new state is:</p>
 <div class="math notranslate nohighlight">
-\[a' = a_1 a_2 + b_1 b_2 + c_1 c_2 + d_1 d_2
-b' = a_1 b_2 + b_1 a_2 + c_1 d_2 + d_1 c_2
-c' = a_1 c_2 + b_1 d_2 + c_1 a_2 + d_1 b_2
-d' = a_1 d_2 + b_1 c_2 + c_1 d_2 + d_1 a_2\]</div>
+\[\begin{split}a' = a_1 a_2 + b_1 b_2 + c_1 c_2 + d_1 d_2 \\
+b' = a_1 b_2 + b_1 a_2 + c_1 d_2 + d_1 c_2 \\
+c' = a_1 c_2 + b_1 d_2 + c_1 a_2 + d_1 b_2 \\
+d' = a_1 d_2 + b_1 c_2 + c_1 d_2 + d_1 a_2 \\\end{split}\]</div>
 <p>The distillation protocol has the success probability of</p>
 <div class="math notranslate nohighlight">
 \[p = (a_1+d_1)(a_2+d_2) + (b_1+c_1)(b_2+c_2)\]</div>
 <p>The final state after distillation is:</p>
 <div class="math notranslate nohighlight">
-\[a' = (a_1 a_2 + d_1 d_2)/p
-b' = (b_1 b_2 + c_1 c_2)/p
-c' = (b_1 c_2 + c_1 b_2)/p
-d' = (a_1 d_2 + d_1 a_2)/p\]</div>
+\[\begin{split}a' = (a_1 a_2 + d_1 d_2)/p \\
+b' = (b_1 b_2 + c_1 c_2)/p \\
+c' = (b_1 c_2 + c_1 b_2)/p \\
+d' = (a_1 d_2 + d_1 a_2)/p \\\end{split}\]</div>
 <p>The error models for mixed state entanglement is <span class="math notranslate nohighlight">\(x = 0.25 + (x-0.25)e^{\alpha t}\)</span>, where <cite>x</cite> can be <cite>a</cite>, <cite>b</cite>, <cite>c</cite>, and <cite>d</cite>. After enough time, it will decoherence. The transmission error is also <cite>x = 0.25 + (x-0.25)e^{beta l}</cite>, where <cite>l</cite> is the channel length. Both <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> is the attributions of the memories or the channels.</p>
 <p>If the error models, swapping protocols and distillation protocols do not fit your need, it is easy to implement your own entanglement model by extend <code class="docutils literal notranslate"><span class="pre">BaseEntanglement</span></code>.</p>
 </section>

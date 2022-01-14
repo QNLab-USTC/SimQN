@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>qns.models.epr.mixed &mdash; SimQN 0.1.0 documentation</title>
+  <title>qns.models.epr.mixed &mdash; SimQN 0.1.3 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -68,7 +68,24 @@
            <div itemprop="articleBody">
              
   <h1>Source code for qns.models.epr.mixed</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span></span><span class="c1">#    SimQN: a discrete-event simulator for the quantum networks</span>
+<span class="c1">#    Copyright (C) 2021-2022 Lutong Chen, Jian Li, Kaiping Xue</span>
+<span class="c1">#    University of Science and Technology of China, USTC.</span>
+<span class="c1">#</span>
+<span class="c1">#    This program is free software: you can redistribute it and/or modify</span>
+<span class="c1">#    it under the terms of the GNU General Public License as published by</span>
+<span class="c1">#    the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1">#    (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1">#    This program is distributed in the hope that it will be useful,</span>
+<span class="c1">#    but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1">#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1">#    GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1">#    You should have received a copy of the GNU General Public License</span>
+<span class="c1">#    along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 <span class="kn">from</span> <span class="nn">qns.models.core.backend</span> <span class="kn">import</span> <span class="n">QuantumModel</span>
 <span class="kn">from</span> <span class="nn">qns.models.epr.entanglement</span> <span class="kn">import</span> <span class="n">BaseEntanglement</span>
 <span class="kn">from</span> <span class="nn">qns.models.qubit.const</span> <span class="kn">import</span> <span class="n">QUBIT_STATE_0</span><span class="p">,</span> <span class="n">QUBIT_STATE_P</span>
