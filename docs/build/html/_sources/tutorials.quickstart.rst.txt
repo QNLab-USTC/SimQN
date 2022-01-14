@@ -70,7 +70,7 @@ We set the sending rate to 1000 qubits/second. We install the simulator to all n
 
     # BB84RecvApp's succ_key_pool counts the number of success key distribution
     # the rate is succ_key_pool/ simulation_time (10s)
-    print(rp.succ_key_pool / 10)
+    print(len(rp.succ_key_pool) / 10)
 
 Entanglement distribution with topology generator
 -----------------------------------------------------

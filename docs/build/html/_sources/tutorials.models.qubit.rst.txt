@@ -96,7 +96,7 @@ Finally, we present an example of entanglement swapping:
     H(q0)
     CNOT(q0, q1)
 
-    # entangle q0 and q1
+    # entangle q2 and q3
     H(q2)
     CNOT(q2, q3)
 

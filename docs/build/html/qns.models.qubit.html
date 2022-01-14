@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>qns.models.qubit package &mdash; SimQN 0.1.0 documentation</title>
+  <title>qns.models.qubit package &mdash; SimQN 0.1.3 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -84,15 +84,103 @@
 <span class="sig-prename descclassname"><span class="pre">qns.models.qubit.const.</span></span><span class="sig-name descname"><span class="pre">OPERATOR_PHASE_SHIFT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/const.html#OPERATOR_PHASE_SHIFT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.const.OPERATOR_PHASE_SHIFT" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.const.OPERATOR_RX">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.const.</span></span><span class="sig-name descname"><span class="pre">OPERATOR_RX</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/const.html#OPERATOR_RX"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.const.OPERATOR_RX" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.const.OPERATOR_RY">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.const.</span></span><span class="sig-name descname"><span class="pre">OPERATOR_RY</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/const.html#OPERATOR_RY"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.const.OPERATOR_RY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.const.OPERATOR_RZ">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.const.</span></span><span class="sig-name descname"><span class="pre">OPERATOR_RZ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/const.html#OPERATOR_RZ"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.const.OPERATOR_RZ" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </section>
 <section id="module-qns.models.qubit.gate">
 <span id="qns-models-qubit-gate-module"></span><h2>qns.models.qubit.gate module<a class="headerlink" href="#module-qns.models.qubit.gate" title="Permalink to this headline"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="qns.models.qubit.gate.CNOT">
-<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.gate.</span></span><span class="sig-name descname"><span class="pre">CNOT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">array([[0.</span> <span class="pre">+</span> <span class="pre">0.j,</span> <span class="pre">1.</span> <span class="pre">+</span> <span class="pre">0.j],</span> <span class="pre">[1.</span> <span class="pre">+</span> <span class="pre">0.j,</span> <span class="pre">0.</span> <span class="pre">+</span> <span class="pre">0.j]])</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#CNOT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.gate.CNOT" title="Permalink to this definition"></a></dt>
-<dd><p>The R gate (phase shift gate):</p>
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.gate.</span></span><span class="sig-name descname"><span class="pre">CNOT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#CNOT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.gate.CNOT" title="Permalink to this definition"></a></dt>
+<dd><p>The controlled Pauli-X gate:</p>
 <blockquote>
 <div><p>[[I_2, 0][0, X]]</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qubit1</strong> (<a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><em>Qubit</em></a>) -- the first qubit (controller)</p></li>
+<li><p><strong>qubit2</strong> (<a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><em>Qubit</em></a>) -- the second qubit</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateOperatorNotMatchError" title="qns.models.qubit.gate.QGateOperatorNotMatchError"><strong>QGateOperatorNotMatchError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateQubitNotInStateError" title="qns.models.qubit.gate.QGateQubitNotInStateError"><strong>QGateQubitNotInStateError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateStateJointError" title="qns.models.qubit.gate.QGateStateJointError"><strong>QGateStateJointError</strong></a> -- </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.gate.CR">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.gate.</span></span><span class="sig-name descname"><span class="pre">CR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.7853981633974483</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#CR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.gate.CR" title="Permalink to this definition"></a></dt>
+<dd><p>The controlled Rotate gate:</p>
+<blockquote>
+<div><p>[[I_2, 0][0, R(theta)]]</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qubit1</strong> (<a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><em>Qubit</em></a>) -- the first qubit (controller)</p></li>
+<li><p><strong>qubit2</strong> (<a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><em>Qubit</em></a>) -- the second qubit</p></li>
+<li><p><strong>theta</strong> -- the rotation degree</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateOperatorNotMatchError" title="qns.models.qubit.gate.QGateOperatorNotMatchError"><strong>QGateOperatorNotMatchError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateQubitNotInStateError" title="qns.models.qubit.gate.QGateQubitNotInStateError"><strong>QGateQubitNotInStateError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateStateJointError" title="qns.models.qubit.gate.QGateStateJointError"><strong>QGateStateJointError</strong></a> -- </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.gate.CZ">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.gate.</span></span><span class="sig-name descname"><span class="pre">CZ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#CZ"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.gate.CZ" title="Permalink to this definition"></a></dt>
+<dd><p>The controlled Pauli-Z gate:</p>
+<blockquote>
+<div><p>[[I_2, 0][0, Z]]</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qubit1</strong> (<a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><em>Qubit</em></a>) -- the first qubit (controller)</p></li>
+<li><p><strong>qubit2</strong> (<a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><em>Qubit</em></a>) -- the second qubit</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateOperatorNotMatchError" title="qns.models.qubit.gate.QGateOperatorNotMatchError"><strong>QGateOperatorNotMatchError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateQubitNotInStateError" title="qns.models.qubit.gate.QGateQubitNotInStateError"><strong>QGateQubitNotInStateError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateStateJointError" title="qns.models.qubit.gate.QGateStateJointError"><strong>QGateStateJointError</strong></a> -- </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.gate.ControlledGate">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.gate.</span></span><span class="sig-name descname"><span class="pre">ControlledGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">array([[0.</span> <span class="pre">+</span> <span class="pre">0.j,</span> <span class="pre">1.</span> <span class="pre">+</span> <span class="pre">0.j],</span> <span class="pre">[1.</span> <span class="pre">+</span> <span class="pre">0.j,</span> <span class="pre">0.</span> <span class="pre">+</span> <span class="pre">0.j]])</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#ControlledGate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.gate.ControlledGate" title="Permalink to this definition"></a></dt>
+<dd><p>The controlled  gate:</p>
+<blockquote>
+<div><p>[[I_2, 0][0, operator]]</p>
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -193,6 +281,78 @@ default is pauli X (CNOT)</p></li>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.gate.RX">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.gate.</span></span><span class="sig-name descname"><span class="pre">RX</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.7853981633974483</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#RX"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.gate.RX" title="Permalink to this definition"></a></dt>
+<dd><p>The Rx gate (X rotate gate):</p>
+<blockquote>
+<div><p>[[cos(theta/2), -j * sin(theta/2)],
+[-j * sin(theta/2), cos(theta/2)]]</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qubit</strong> (<a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><em>Qubit</em></a>) -- the operating qubit</p></li>
+<li><p><strong>theta</strong> (<em>float</em>) -- the rotation degree</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateOperatorNotMatchError" title="qns.models.qubit.gate.QGateOperatorNotMatchError"><strong>QGateOperatorNotMatchError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateQubitNotInStateError" title="qns.models.qubit.gate.QGateQubitNotInStateError"><strong>QGateQubitNotInStateError</strong></a> -- </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.gate.RY">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.gate.</span></span><span class="sig-name descname"><span class="pre">RY</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.7853981633974483</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#RY"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.gate.RY" title="Permalink to this definition"></a></dt>
+<dd><p>The Ry gate (Y rotate gate):</p>
+<blockquote>
+<div><p>[[cos(theta/2), -sin(theta/2)],
+[sin(theta/2), cos(theta/2)]]</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qubit</strong> (<a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><em>Qubit</em></a>) -- the operating qubit</p></li>
+<li><p><strong>theta</strong> (<em>float</em>) -- the rotation degree</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateOperatorNotMatchError" title="qns.models.qubit.gate.QGateOperatorNotMatchError"><strong>QGateOperatorNotMatchError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateQubitNotInStateError" title="qns.models.qubit.gate.QGateQubitNotInStateError"><strong>QGateQubitNotInStateError</strong></a> -- </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.gate.RZ">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.gate.</span></span><span class="sig-name descname"><span class="pre">RZ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.7853981633974483</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#RZ"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.gate.RZ" title="Permalink to this definition"></a></dt>
+<dd><p>The Rz gate (Z rotate gate):</p>
+<blockquote>
+<div><p>[[e^(-0.5j * theta), 0],
+[0, e^(0.5j * theta)]]</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qubit</strong> (<a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><em>Qubit</em></a>) -- the operating qubit</p></li>
+<li><p><strong>theta</strong> (<em>float</em>) -- the rotation degree</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateOperatorNotMatchError" title="qns.models.qubit.gate.QGateOperatorNotMatchError"><strong>QGateOperatorNotMatchError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateQubitNotInStateError" title="qns.models.qubit.gate.QGateQubitNotInStateError"><strong>QGateQubitNotInStateError</strong></a> -- </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="qns.models.qubit.gate.S">
 <span class="sig-prename descclassname"><span class="pre">qns.models.qubit.gate.</span></span><span class="sig-name descname"><span class="pre">S</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#S"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.gate.S" title="Permalink to this definition"></a></dt>
 <dd><p>The S gate：</p>
@@ -214,12 +374,79 @@ default is pauli X (CNOT)</p></li>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.gate.Swap">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.gate.</span></span><span class="sig-name descname"><span class="pre">Swap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#Swap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.gate.Swap" title="Permalink to this definition"></a></dt>
+<dd><p>The swap gate, swap the states of qubit1 and qubit2</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qubit1</strong> (<a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><em>Qubit</em></a>) -- the first qubit (controller)</p></li>
+<li><p><strong>qubit2</strong> (<a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><em>Qubit</em></a>) -- the second qubit</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateOperatorNotMatchError" title="qns.models.qubit.gate.QGateOperatorNotMatchError"><strong>QGateOperatorNotMatchError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateQubitNotInStateError" title="qns.models.qubit.gate.QGateQubitNotInStateError"><strong>QGateQubitNotInStateError</strong></a> -- </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="qns.models.qubit.gate.T">
 <span class="sig-prename descclassname"><span class="pre">qns.models.qubit.gate.</span></span><span class="sig-name descname"><span class="pre">T</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#T"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.gate.T" title="Permalink to this definition"></a></dt>
 <dd><p>The T gate (pi/4 shift gate)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>qubit</strong> (<a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><em>Qubit</em></a>) -- the operating qubit</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateOperatorNotMatchError" title="qns.models.qubit.gate.QGateOperatorNotMatchError"><strong>QGateOperatorNotMatchError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateQubitNotInStateError" title="qns.models.qubit.gate.QGateQubitNotInStateError"><strong>QGateQubitNotInStateError</strong></a> -- </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.gate.Toffoli">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.gate.</span></span><span class="sig-name descname"><span class="pre">Toffoli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit3</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">array([[0.</span> <span class="pre">+</span> <span class="pre">0.j,</span> <span class="pre">1.</span> <span class="pre">+</span> <span class="pre">0.j],</span> <span class="pre">[1.</span> <span class="pre">+</span> <span class="pre">0.j,</span> <span class="pre">0.</span> <span class="pre">+</span> <span class="pre">0.j]])</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#Toffoli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.gate.Toffoli" title="Permalink to this definition"></a></dt>
+<dd><p>The controlled-controlled (Toffoli) gate:</p>
+<blockquote>
+<div><p>[[I_6, 0][0, operator]]</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qubit1</strong> (<a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><em>Qubit</em></a>) -- the first controll qubit</p></li>
+<li><p><strong>qubit2</strong> (<a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><em>Qubit</em></a>) -- the second controll qubit</p></li>
+<li><p><strong>qubit3</strong> (<a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><em>Qubit</em></a>) -- the operation qubit</p></li>
+<li><p><strong>operator</strong> (<em>np.ndarray</em>) -- the gate on the third qubit if both the first and the second qubit is 1,
+default is pauli X (CNOT)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateOperatorNotMatchError" title="qns.models.qubit.gate.QGateOperatorNotMatchError"><strong>QGateOperatorNotMatchError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateQubitNotInStateError" title="qns.models.qubit.gate.QGateQubitNotInStateError"><strong>QGateQubitNotInStateError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateStateJointError" title="qns.models.qubit.gate.QGateStateJointError"><strong>QGateStateJointError</strong></a> -- </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.gate.U">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.gate.</span></span><span class="sig-name descname"><span class="pre">U</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#U"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.gate.U" title="Permalink to this definition"></a></dt>
+<dd><p>The arbitrary single qubit operation gate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qubit</strong> (<a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><em>Qubit</em></a>) -- the operating qubit</p></li>
+<li><p><strong>operator</strong> (<em>np.ndarray</em>) -- a 2x2 operation matrix</p></li>
+</ul>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
@@ -477,10 +704,83 @@ The default behavior is doing nothing</p>
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qns.models.qubit" title="Permalink to this headline"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="qns.models.qubit.CNOT">
-<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.</span></span><span class="sig-name descname"><span class="pre">CNOT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">array([[0.</span> <span class="pre">+</span> <span class="pre">0.j,</span> <span class="pre">1.</span> <span class="pre">+</span> <span class="pre">0.j],</span> <span class="pre">[1.</span> <span class="pre">+</span> <span class="pre">0.j,</span> <span class="pre">0.</span> <span class="pre">+</span> <span class="pre">0.j]])</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#CNOT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.CNOT" title="Permalink to this definition"></a></dt>
-<dd><p>The R gate (phase shift gate):</p>
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.</span></span><span class="sig-name descname"><span class="pre">CNOT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#CNOT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.CNOT" title="Permalink to this definition"></a></dt>
+<dd><p>The controlled Pauli-X gate:</p>
 <blockquote>
 <div><p>[[I_2, 0][0, X]]</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qubit1</strong> (<a class="reference internal" href="#qns.models.qubit.Qubit" title="qns.models.qubit.Qubit"><em>Qubit</em></a>) -- the first qubit (controller)</p></li>
+<li><p><strong>qubit2</strong> (<a class="reference internal" href="#qns.models.qubit.Qubit" title="qns.models.qubit.Qubit"><em>Qubit</em></a>) -- the second qubit</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateOperatorNotMatchError" title="qns.models.qubit.gate.QGateOperatorNotMatchError"><strong>QGateOperatorNotMatchError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateQubitNotInStateError" title="qns.models.qubit.gate.QGateQubitNotInStateError"><strong>QGateQubitNotInStateError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateStateJointError" title="qns.models.qubit.gate.QGateStateJointError"><strong>QGateStateJointError</strong></a> -- </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.CR">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.</span></span><span class="sig-name descname"><span class="pre">CR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.7853981633974483</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#CR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.CR" title="Permalink to this definition"></a></dt>
+<dd><p>The controlled Rotate gate:</p>
+<blockquote>
+<div><p>[[I_2, 0][0, R(theta)]]</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qubit1</strong> (<a class="reference internal" href="#qns.models.qubit.Qubit" title="qns.models.qubit.Qubit"><em>Qubit</em></a>) -- the first qubit (controller)</p></li>
+<li><p><strong>qubit2</strong> (<a class="reference internal" href="#qns.models.qubit.Qubit" title="qns.models.qubit.Qubit"><em>Qubit</em></a>) -- the second qubit</p></li>
+<li><p><strong>theta</strong> -- the rotation degree</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateOperatorNotMatchError" title="qns.models.qubit.gate.QGateOperatorNotMatchError"><strong>QGateOperatorNotMatchError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateQubitNotInStateError" title="qns.models.qubit.gate.QGateQubitNotInStateError"><strong>QGateQubitNotInStateError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateStateJointError" title="qns.models.qubit.gate.QGateStateJointError"><strong>QGateStateJointError</strong></a> -- </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.CZ">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.</span></span><span class="sig-name descname"><span class="pre">CZ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#CZ"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.CZ" title="Permalink to this definition"></a></dt>
+<dd><p>The controlled Pauli-Z gate:</p>
+<blockquote>
+<div><p>[[I_2, 0][0, Z]]</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qubit1</strong> (<a class="reference internal" href="#qns.models.qubit.Qubit" title="qns.models.qubit.Qubit"><em>Qubit</em></a>) -- the first qubit (controller)</p></li>
+<li><p><strong>qubit2</strong> (<a class="reference internal" href="#qns.models.qubit.Qubit" title="qns.models.qubit.Qubit"><em>Qubit</em></a>) -- the second qubit</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateOperatorNotMatchError" title="qns.models.qubit.gate.QGateOperatorNotMatchError"><strong>QGateOperatorNotMatchError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateQubitNotInStateError" title="qns.models.qubit.gate.QGateQubitNotInStateError"><strong>QGateQubitNotInStateError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateStateJointError" title="qns.models.qubit.gate.QGateStateJointError"><strong>QGateStateJointError</strong></a> -- </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.ControlledGate">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.</span></span><span class="sig-name descname"><span class="pre">ControlledGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">array([[0.</span> <span class="pre">+</span> <span class="pre">0.j,</span> <span class="pre">1.</span> <span class="pre">+</span> <span class="pre">0.j],</span> <span class="pre">[1.</span> <span class="pre">+</span> <span class="pre">0.j,</span> <span class="pre">0.</span> <span class="pre">+</span> <span class="pre">0.j]])</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#ControlledGate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.ControlledGate" title="Permalink to this definition"></a></dt>
+<dd><p>The controlled  gate:</p>
+<blockquote>
+<div><p>[[I_2, 0][0, operator]]</p>
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -708,6 +1008,78 @@ The default behavior is doing nothing</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.RX">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.</span></span><span class="sig-name descname"><span class="pre">RX</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.7853981633974483</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#RX"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.RX" title="Permalink to this definition"></a></dt>
+<dd><p>The Rx gate (X rotate gate):</p>
+<blockquote>
+<div><p>[[cos(theta/2), -j * sin(theta/2)],
+[-j * sin(theta/2), cos(theta/2)]]</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qubit</strong> (<a class="reference internal" href="#qns.models.qubit.Qubit" title="qns.models.qubit.Qubit"><em>Qubit</em></a>) -- the operating qubit</p></li>
+<li><p><strong>theta</strong> (<em>float</em>) -- the rotation degree</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateOperatorNotMatchError" title="qns.models.qubit.gate.QGateOperatorNotMatchError"><strong>QGateOperatorNotMatchError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateQubitNotInStateError" title="qns.models.qubit.gate.QGateQubitNotInStateError"><strong>QGateQubitNotInStateError</strong></a> -- </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.RY">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.</span></span><span class="sig-name descname"><span class="pre">RY</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.7853981633974483</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#RY"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.RY" title="Permalink to this definition"></a></dt>
+<dd><p>The Ry gate (Y rotate gate):</p>
+<blockquote>
+<div><p>[[cos(theta/2), -sin(theta/2)],
+[sin(theta/2), cos(theta/2)]]</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qubit</strong> (<a class="reference internal" href="#qns.models.qubit.Qubit" title="qns.models.qubit.Qubit"><em>Qubit</em></a>) -- the operating qubit</p></li>
+<li><p><strong>theta</strong> (<em>float</em>) -- the rotation degree</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateOperatorNotMatchError" title="qns.models.qubit.gate.QGateOperatorNotMatchError"><strong>QGateOperatorNotMatchError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateQubitNotInStateError" title="qns.models.qubit.gate.QGateQubitNotInStateError"><strong>QGateQubitNotInStateError</strong></a> -- </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.RZ">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.</span></span><span class="sig-name descname"><span class="pre">RZ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.7853981633974483</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#RZ"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.RZ" title="Permalink to this definition"></a></dt>
+<dd><p>The Rz gate (Z rotate gate):</p>
+<blockquote>
+<div><p>[[e^(-0.5j * theta), 0],
+[0, e^(0.5j * theta)]]</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qubit</strong> (<a class="reference internal" href="#qns.models.qubit.Qubit" title="qns.models.qubit.Qubit"><em>Qubit</em></a>) -- the operating qubit</p></li>
+<li><p><strong>theta</strong> (<em>float</em>) -- the rotation degree</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateOperatorNotMatchError" title="qns.models.qubit.gate.QGateOperatorNotMatchError"><strong>QGateOperatorNotMatchError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateQubitNotInStateError" title="qns.models.qubit.gate.QGateQubitNotInStateError"><strong>QGateQubitNotInStateError</strong></a> -- </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="qns.models.qubit.S">
 <span class="sig-prename descclassname"><span class="pre">qns.models.qubit.</span></span><span class="sig-name descname"><span class="pre">S</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#S"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.S" title="Permalink to this definition"></a></dt>
 <dd><p>The S gate：</p>
@@ -729,12 +1101,79 @@ The default behavior is doing nothing</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.Swap">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.</span></span><span class="sig-name descname"><span class="pre">Swap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#Swap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.Swap" title="Permalink to this definition"></a></dt>
+<dd><p>The swap gate, swap the states of qubit1 and qubit2</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qubit1</strong> (<a class="reference internal" href="#qns.models.qubit.Qubit" title="qns.models.qubit.Qubit"><em>Qubit</em></a>) -- the first qubit (controller)</p></li>
+<li><p><strong>qubit2</strong> (<a class="reference internal" href="#qns.models.qubit.Qubit" title="qns.models.qubit.Qubit"><em>Qubit</em></a>) -- the second qubit</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateOperatorNotMatchError" title="qns.models.qubit.gate.QGateOperatorNotMatchError"><strong>QGateOperatorNotMatchError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateQubitNotInStateError" title="qns.models.qubit.gate.QGateQubitNotInStateError"><strong>QGateQubitNotInStateError</strong></a> -- </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="qns.models.qubit.T">
 <span class="sig-prename descclassname"><span class="pre">qns.models.qubit.</span></span><span class="sig-name descname"><span class="pre">T</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#T"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.T" title="Permalink to this definition"></a></dt>
 <dd><p>The T gate (pi/4 shift gate)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>qubit</strong> (<a class="reference internal" href="#qns.models.qubit.Qubit" title="qns.models.qubit.Qubit"><em>Qubit</em></a>) -- the operating qubit</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateOperatorNotMatchError" title="qns.models.qubit.gate.QGateOperatorNotMatchError"><strong>QGateOperatorNotMatchError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateQubitNotInStateError" title="qns.models.qubit.gate.QGateQubitNotInStateError"><strong>QGateQubitNotInStateError</strong></a> -- </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.Toffoli">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.</span></span><span class="sig-name descname"><span class="pre">Toffoli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit3</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">array([[0.</span> <span class="pre">+</span> <span class="pre">0.j,</span> <span class="pre">1.</span> <span class="pre">+</span> <span class="pre">0.j],</span> <span class="pre">[1.</span> <span class="pre">+</span> <span class="pre">0.j,</span> <span class="pre">0.</span> <span class="pre">+</span> <span class="pre">0.j]])</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#Toffoli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.Toffoli" title="Permalink to this definition"></a></dt>
+<dd><p>The controlled-controlled (Toffoli) gate:</p>
+<blockquote>
+<div><p>[[I_6, 0][0, operator]]</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qubit1</strong> (<a class="reference internal" href="#qns.models.qubit.Qubit" title="qns.models.qubit.Qubit"><em>Qubit</em></a>) -- the first controll qubit</p></li>
+<li><p><strong>qubit2</strong> (<a class="reference internal" href="#qns.models.qubit.Qubit" title="qns.models.qubit.Qubit"><em>Qubit</em></a>) -- the second controll qubit</p></li>
+<li><p><strong>qubit3</strong> (<a class="reference internal" href="#qns.models.qubit.Qubit" title="qns.models.qubit.Qubit"><em>Qubit</em></a>) -- the operation qubit</p></li>
+<li><p><strong>operator</strong> (<em>np.ndarray</em>) -- the gate on the third qubit if both the first and the second qubit is 1,
+default is pauli X (CNOT)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateOperatorNotMatchError" title="qns.models.qubit.gate.QGateOperatorNotMatchError"><strong>QGateOperatorNotMatchError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateQubitNotInStateError" title="qns.models.qubit.gate.QGateQubitNotInStateError"><strong>QGateQubitNotInStateError</strong></a> -- </p></li>
+<li><p><a class="reference internal" href="#qns.models.qubit.gate.QGateStateJointError" title="qns.models.qubit.gate.QGateStateJointError"><strong>QGateStateJointError</strong></a> -- </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.U">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.</span></span><span class="sig-name descname"><span class="pre">U</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#qns.models.qubit.qubit.Qubit" title="qns.models.qubit.qubit.Qubit"><span class="pre">qns.models.qubit.qubit.Qubit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/gate.html#U"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.U" title="Permalink to this definition"></a></dt>
+<dd><p>The arbitrary single qubit operation gate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qubit</strong> (<a class="reference internal" href="#qns.models.qubit.Qubit" title="qns.models.qubit.Qubit"><em>Qubit</em></a>) -- the operating qubit</p></li>
+<li><p><strong>operator</strong> (<em>np.ndarray</em>) -- a 2x2 operation matrix</p></li>
+</ul>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
