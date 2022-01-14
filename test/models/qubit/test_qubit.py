@@ -7,10 +7,13 @@ import numpy as np
 def test_qubit():
     q0 = Qubit(state=QUBIT_STATE_0, name="q0")
     q1 = Qubit(state=QUBIT_STATE_0, name="q1")
-
     H(q0)
     CNOT(q0, q1)
-
+    print(q0.state.rho)
+    c0 = q0.measure()
+    print(q1.state.rho)
+    c1 = q1.measure()
+    print(c0 , c1, q0.state.rho, q1.state.rho)
     assert(q0.measure() == q1.measure())
 
 

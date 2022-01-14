@@ -6,7 +6,6 @@ from qns.models.qubit.qubit import Qubit
 def test_mixed_state():
 
     e1 = MixedStateEntanglement(fidelity=0.95, name="e1")
-    print(e1.a, e1.b, e1.c, e1.d)
     e2 = MixedStateEntanglement(fidelity=0.95, name="e2")
     e3 = e1.swapping(e2)
     print(e3.fidelity)
@@ -31,7 +30,7 @@ def test_mixed_state():
 
     q_in = Qubit(QUBIT_STATE_0)
     q_out = e9.teleportion(q_in)
-    print(q_out.state.state)
+    print(q_out.state.rho)
 
 
 if __name__ == "__main__":

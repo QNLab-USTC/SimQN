@@ -70,24 +70,10 @@ def joint(qubit1: Qubit, qubit2: Qubit) -> None:
     if len(set(qubit1.state.qubits) & set(qubit2.state.qubits)) > 0:
         raise QGateStateJointError
 
-    nq = QState(qubit1.state.qubits + qubit2.state.qubits,
-                np.kron(qubit1.state.state, qubit2.state.state))
+    nq = QState(qubit1.state.qubits+qubit2.state.qubits,
+                rho=np.kron(qubit1.state.rho, qubit2.state.rho))
     for q in nq.qubits:
         q.state = nq
-    return
-
-
-def swap(qubit: Qubit, pos1: int, pos2: int) -> None:
-    """
-    Swap the state vector on pos1-th line and pos2-th line
-
-    Args:
-        qubit (Qubit): the swapping qubit
-        pos1 (int): the first position
-        pos2 (int): the second position
-    """
-    qubit.state.state[pos1][0], qubit.state.state[pos2][0]\
-        = qubit.state.state[pos2][0], qubit.state.state[pos1][0]
 
 
 def X(qubit: Qubit) -> None:
@@ -102,7 +88,7 @@ def X(qubit: Qubit) -> None:
         QGateQubitNotInStateError
     """
     full_operation = _single_gate_expand(qubit, OPERATOR_PAULI_X)
-    qubit.state.state = np.dot(full_operation, qubit.state.state)
+    qubit.state.operate(full_operation)
 
 
 def Y(qubit: Qubit) -> None:
@@ -117,7 +103,7 @@ def Y(qubit: Qubit) -> None:
         QGateQubitNotInStateError
     """
     full_operation = _single_gate_expand(qubit, OPERATOR_PAULI_Y)
-    qubit.state.state = np.dot(full_operation, qubit.state.state)
+    qubit.state.operate(full_operation)
 
 
 def Z(qubit: Qubit) -> None:
@@ -132,7 +118,7 @@ def Z(qubit: Qubit) -> None:
         QGateQubitNotInStateError
     """
     full_operation = _single_gate_expand(qubit, OPERATOR_PAULI_Z)
-    qubit.state.state = np.dot(full_operation, qubit.state.state)
+    qubit.state.operate(full_operation)
 
 
 def I(qubit: Qubit) -> None:
@@ -147,7 +133,7 @@ def I(qubit: Qubit) -> None:
         QGateQubitNotInStateError
     """
     full_operation = _single_gate_expand(qubit, OPERATOR_PAULI_I)
-    qubit.state.state = np.dot(full_operation, qubit.state.state)
+    qubit.state.operate(full_operation)
 
 
 def H(qubit: Qubit) -> None:
@@ -162,7 +148,7 @@ def H(qubit: Qubit) -> None:
         QGateQubitNotInStateError
     """
     full_operation = _single_gate_expand(qubit, OPERATOR_HADAMARD)
-    qubit.state.state = np.dot(full_operation, qubit.state.state)
+    qubit.state.operate(full_operation)
 
 
 def T(qubit: Qubit) -> None:
@@ -177,7 +163,7 @@ def T(qubit: Qubit) -> None:
         QGateQubitNotInStateError
     """
     full_operation = _single_gate_expand(qubit, OPERATOR_T)
-    qubit.state.state = np.dot(full_operation, qubit.state.state)
+    qubit.state.operate(full_operation)
 
 
 def S(qubit: Qubit) -> None:
@@ -195,7 +181,7 @@ def S(qubit: Qubit) -> None:
         QGateQubitNotInStateError
     """
     full_operation = _single_gate_expand(qubit, OPERATOR_S)
-    qubit.state.state = np.dot(full_operation, qubit.state.state)
+    qubit.state.operate(full_operation)
 
 
 def R(qubit: Qubit, theta: float = np.pi / 4) -> None:
@@ -214,7 +200,7 @@ def R(qubit: Qubit, theta: float = np.pi / 4) -> None:
         QGateQubitNotInStateError
     """
     full_operation = _single_gate_expand(qubit, OPERATOR_PHASE_SHIFT(theta))
-    qubit.state.state = np.dot(full_operation, qubit.state.state)
+    qubit.state.operate(full_operation)
 
 
 def RX(qubit: Qubit, theta: float = np.pi / 4) -> None:
@@ -233,7 +219,7 @@ def RX(qubit: Qubit, theta: float = np.pi / 4) -> None:
         QGateQubitNotInStateError
     """
     full_operation = _single_gate_expand(qubit, OPERATOR_RX(theta))
-    qubit.state.state = np.dot(full_operation, qubit.state.state)
+    qubit.state.operate(full_operation)
 
 
 def RY(qubit: Qubit, theta: float = np.pi / 4) -> None:
@@ -252,7 +238,7 @@ def RY(qubit: Qubit, theta: float = np.pi / 4) -> None:
         QGateQubitNotInStateError
     """
     full_operation = _single_gate_expand(qubit, OPERATOR_RY(theta))
-    qubit.state.state = np.dot(full_operation, qubit.state.state)
+    qubit.state.operate(full_operation)
 
 
 def RZ(qubit: Qubit, theta: float = np.pi / 4) -> None:
@@ -271,7 +257,7 @@ def RZ(qubit: Qubit, theta: float = np.pi / 4) -> None:
         QGateQubitNotInStateError
     """
     full_operation = _single_gate_expand(qubit, OPERATOR_RZ(theta))
-    qubit.state.state = np.dot(full_operation, qubit.state.state)
+    qubit.state.operate(full_operation)
 
 
 def U(qubit: Qubit, operator: np.ndarray):
@@ -289,7 +275,7 @@ def U(qubit: Qubit, operator: np.ndarray):
     if operator.shape != (2, 2):
         raise QGateOperatorNotMatchError
     full_operation = _single_gate_expand(qubit, operator)
-    qubit.state.state = np.dot(full_operation, qubit.state.state)
+    qubit.state.operate(full_operation)
 
 
 def ControlledGate(qubit1: Qubit, qubit2: Qubit, operator: np.ndarray = OPERATOR_PAULI_X):
@@ -339,7 +325,7 @@ def ControlledGate(qubit1: Qubit, qubit2: Qubit, operator: np.ndarray = OPERATOR
             full_operator_part_0 = np.kron(full_operator_part_0, OPERATOR_PAULI_I)
             full_operator_part_1 = np.kron(full_operator_part_1, OPERATOR_PAULI_I)
     full_operator = full_operator_part_0 + full_operator_part_1
-    state.state = np.dot(full_operator, state.state)
+    qubit1.state.operate(full_operator)
     return
 
 
@@ -488,4 +474,4 @@ def Toffoli(qubit1: Qubit, qubit2: Qubit, qubit3: Qubit, operator: np.ndarray = 
             full_operator_part_10 = np.kron(full_operator_part_10, OPERATOR_PAULI_I)
             full_operator_part_11 = np.kron(full_operator_part_11, OPERATOR_PAULI_I)
     full_operator = full_operator_part_00 + full_operator_part_01 + full_operator_part_10 + full_operator_part_11
-    state.state = np.dot(full_operator, state.state)
+    qubit1.state.operate(full_operator)

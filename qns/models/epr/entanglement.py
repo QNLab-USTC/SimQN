@@ -19,8 +19,8 @@ from typing import List, Optional
 import numpy as np
 
 from qns.models.qubit.qubit import Qubit, QState
-from qns.models.qubit.gate import H, X, Y, Z, CNOT
-from qns.models.qubit.const import QUBIT_STATE_0, QUBIT_STATE_P
+from qns.models.qubit.gate import H, X, Y, Z, CNOT, U
+from qns.models.qubit.const import OPERATOR_PAULI_I, QUBIT_STATE_0, QUBIT_STATE_P
 
 
 class BaseEntanglement(object):
@@ -103,7 +103,7 @@ class BaseEntanglement(object):
             Z(q2)
         elif c1 == 1 and c0 == 1:
             Y(q2)
-            q2.state.state = 1j * q2.state.state
+            U(q2, 1j * OPERATOR_PAULI_I)
         self.is_decoherenced = True
         return q2
 

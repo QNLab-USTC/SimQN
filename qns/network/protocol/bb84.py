@@ -36,7 +36,7 @@ class QubitWithError(Qubit):
         standand_lkm = 50.0
         theta = random.random() * lkm / standand_lkm * np.pi / 4
         operation = np.array([[np.cos(theta), - np.sin(theta)], [np.sin(theta), np.cos(theta)]], dtype=np.complex128)
-        self.state.state = np.dot(operation, self.state.state)
+        self.state.operate(operator=operation)
 
 
 class BB84SendApp(Application):

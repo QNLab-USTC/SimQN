@@ -128,10 +128,10 @@ class WernerStateEntanglement(BaseEntanglement, QuantumModel):
         q0 = Qubit(state=QUBIT_STATE_0, name="q0")
         q1 = Qubit(state=QUBIT_STATE_0, name="q1")
 
-        a = self.w
-        b = (1 - self.w)/3
+        phi_p = 1/np.sqrt(2) * np.array([[1], [0], [0], [1]])
+        rho = self.w * np.dot(phi_p, phi_p.T.conjugate()) + (1-self.w) * np.identity(4)
 
-        qs = QState([q0, q1], state=np.array([[a+b], [2*b], [self.b-self.c], [a-b]]))
+        qs = QState([q0, q1], rho=rho)
         q0.state = qs
         q1.state = qs
         self.is_decoherenced = True
