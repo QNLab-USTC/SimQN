@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en,zh-CN" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
@@ -48,6 +48,7 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Quantum node: the end-point users, routers and repeaters</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#applications">Applications</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#initiate-and-event-handling-process">Initiate and event handling process</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#processing-delay-on-quantum-nodes">Processing delay on quantum nodes</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="tutorials.entity.memory.html">Quantum memory: the device to store qubits</a></li>
@@ -181,11 +182,29 @@
 <h2>Initiate and event handling process<a class="headerlink" href="#initiate-and-event-handling-process" title="Permalink to this headline"></a></h2>
 <p>Both nodes and applications has <code class="docutils literal notranslate"><span class="pre">install</span></code> and <code class="docutils literal notranslate"><span class="pre">handle</span></code> methods. The relation is:</p>
 <ol class="arabic simple">
-<li><p>The nodes' <code class="docutils literal notranslate"><span class="pre">install</span></code> method will call every memories, channels and applications' <code class="docutils literal notranslate"><span class="pre">install</span></code> method to initiate every sub-entities and applications.</p></li>
-<li><p>The application's <code class="docutils literal notranslate"><span class="pre">install</span></code> method should be implemented by users and do the 'dirty work' to actually initiate the node's state.</p></li>
-<li><p>When an related event happends, the node' <code class="docutils literal notranslate"><span class="pre">handle</span></code> method will call all its applications' <code class="docutils literal notranslate"><span class="pre">handle</span></code> method to handle the event.</p></li>
-<li><p>The application's <code class="docutils literal notranslate"><span class="pre">handle</span></code> method should be implemented by users to actually handle the events</p></li>
+<li><p>The nodes’ <code class="docutils literal notranslate"><span class="pre">install</span></code> method will call every memories, channels and applications’ <code class="docutils literal notranslate"><span class="pre">install</span></code> method to initiate every sub-entities and applications.</p></li>
+<li><p>The application’s <code class="docutils literal notranslate"><span class="pre">install</span></code> method should be implemented by users and do the ‘dirty work’ to actually initiate the node’s state.</p></li>
+<li><p>When an related event happends, the node’ <code class="docutils literal notranslate"><span class="pre">handle</span></code> method will call all its applications’ <code class="docutils literal notranslate"><span class="pre">handle</span></code> method to handle the event.</p></li>
+<li><p>The application’s <code class="docutils literal notranslate"><span class="pre">handle</span></code> method should be implemented by users to actually handle the events</p></li>
 </ol>
+</section>
+<section id="processing-delay-on-quantum-nodes">
+<h2>Processing delay on quantum nodes<a class="headerlink" href="#processing-delay-on-quantum-nodes" title="Permalink to this headline"></a></h2>
+<p>It is possible to add a processing delay on quantum nodes whenever they receive certain events. It is implemented in <code class="docutils literal notranslate"><span class="pre">NodeProcessDelayApp</span></code>. Here is an example:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">NodeProcessDelayApp</span></code> must be added to nodes before other applications so that it will handle all incoming events first.</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.entity.node.app</span> <span class="kn">import</span> <span class="n">Application</span>
+<span class="kn">from</span> <span class="nn">qns.network.protocol.node_process_delay</span> <span class="kn">import</span> <span class="n">NodeProcessDelayApp</span>
+
+<span class="c1"># Once receive ``ProcessEvent`` or ``RecvQubitPacket``, the process delay is set to 0.5s</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">add_apps</span><span class="p">(</span><span class="n">NodeProcessDelayApp</span><span class="p">(</span><span class="n">delay</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">delay_event_list</span><span class="o">=</span><span class="p">(</span><span class="n">ProcessEvent</span><span class="p">,</span> <span class="n">RecvQubitPacket</span><span class="p">)</span> <span class="p">))</span>
+
+<span class="c1"># Once receive a ``RecvClassicPacket``, the delay is set to 0.1s</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">add_apps</span><span class="p">(</span><span class="n">NodeProcessDelayApp</span><span class="p">(</span><span class="n">delay</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">delay_event_list</span><span class="o">=</span><span class="p">(</span><span class="n">RecvClassicPacket</span><span class="p">,)</span> <span class="p">))</span>
+</pre></div>
+</div>
 </section>
 </section>
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en,zh-CN" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
@@ -96,7 +96,7 @@
 <p>Quantum channels can transmit a <code class="docutils literal notranslate"><span class="pre">QuantumModel</span></code> (qubit) from a node to another.
 It has the following attributions:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: the channel's name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: the channel’s name.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">length</span></code>: the physcial length of the channel. Default length is 0</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">delay</span></code>: the propagation delay. The time delay from sending to receiving. Default delay is 0s.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">drop_rate</span></code>: the probability of losing the transmitting qubit. Default drop rate is 0.</p></li>
@@ -221,7 +221,7 @@ It has the following attributions:</p>
 </section>
 <section id="error-models-in-transmission">
 <h2>Error models in transmission<a class="headerlink" href="#error-models-in-transmission" title="Permalink to this headline"></a></h2>
-<p>Errors can be introduced during sending qubits. The error is handled in function <code class="docutils literal notranslate"><span class="pre">transfer_error_model</span></code>, which takes the channel <code class="docutils literal notranslate"><span class="pre">length</span></code> and other parameters as input. Those parameters shows the quantum channel's attributions (such as the optical fiber's decay), and they can be set using <code class="docutils literal notranslate"><span class="pre">transfer_error_model_args</span></code>. This parameter should be in the directory form.</p>
+<p>Errors can be introduced during sending qubits. The error is handled in function <code class="docutils literal notranslate"><span class="pre">transfer_error_model</span></code>, which takes the channel <code class="docutils literal notranslate"><span class="pre">length</span></code> and other parameters as input. Those parameters shows the quantum channel’s attributions (such as the optical fiber’s decay), and they can be set using <code class="docutils literal notranslate"><span class="pre">transfer_error_model_args</span></code>. This parameter should be in the directory form.</p>
 <p>Here is an example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extend the qubit model to handle transfer error</span>
 <span class="k">class</span> <span class="nc">QubitWithError</span><span class="p">(</span><span class="n">Qubit</span><span class="p">):</span>

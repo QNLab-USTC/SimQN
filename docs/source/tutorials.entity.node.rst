@@ -107,3 +107,22 @@ Both nodes and applications has ``install`` and ``handle`` methods. The relation
 2. The application's ``install`` method should be implemented by users and do the 'dirty work' to actually initiate the node's state.
 3. When an related event happends, the node' ``handle`` method will call all its applications' ``handle`` method to handle the event.
 4. The application's ``handle`` method should be implemented by users to actually handle the events
+
+Processing delay on quantum nodes
+-------------------------------------
+
+It is possible to add a processing delay on quantum nodes whenever they receive certain events. It is implemented in ``NodeProcessDelayApp``. Here is an example:
+
+.. note::
+    The ``NodeProcessDelayApp`` must be added to nodes before other applications so that it will handle all incoming events first.
+
+.. code-block:: python
+
+    from qns.entity.node.app import Application
+    from qns.network.protocol.node_process_delay import NodeProcessDelayApp
+
+    # Once receive ``ProcessEvent`` or ``RecvQubitPacket``, the process delay is set to 0.5s
+    n1.add_apps(NodeProcessDelayApp(delay=0.5, delay_event_list=(ProcessEvent, RecvQubitPacket) ))
+
+    # Once receive a ``RecvClassicPacket``, the delay is set to 0.1s
+    n1.add_apps(NodeProcessDelayApp(delay=0.1, delay_event_list=(RecvClassicPacket,) ))

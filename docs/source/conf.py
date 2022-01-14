@@ -64,5 +64,5 @@ html_static_path = ['_static', '_imgs']
 
 # -- Extension configuration -------------------------------------------------
 
-language = "en,zh_CN"
+language = "en"
 todo_include_todos = True
