@@ -119,7 +119,11 @@
 </section>
 <section id="example-applications-and-protocols">
 <h1>Example applications and protocols<a class="headerlink" href="#example-applications-and-protocols" title="Permalink to this headline"></a></h1>
-<p>SimQN provides two example applications at <code class="docutils literal notranslate"><span class="pre">qns.network.protocol</span></code>. <code class="docutils literal notranslate"><span class="pre">BB84SendApp</span></code> and <code class="docutils literal notranslate"><span class="pre">BB84RecvApp</span></code> is the simple demonstration protocol for BB84 QKD protocol without the after procedures, including error detecting, information reconciliation, and privacy amplification. <code class="docutils literal notranslate"><span class="pre">EntanglementDistributionApp</span></code> provides a hop-by-hop entanglement distribution protocol, where the source distribute entanglements to the destination at a fixed rate.</p>
+<p>SimQN provides internal applications in <code class="docutils literal notranslate"><span class="pre">qns.network.protocol</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">BB84SendApp</span></code> and <code class="docutils literal notranslate"><span class="pre">BB84RecvApp</span></code> is the simple demonstration protocol for BB84 QKD protocol without the after procedures, including error detecting, information reconciliation, and privacy amplification.</p>
+<p><code class="docutils literal notranslate"><span class="pre">EntanglementDistributionApp</span></code> provides a hop-by-hop entanglement distribution protocol, where the source distribute entanglements to the destination at a fixed rate.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ClassicPacketForwardApp</span></code> can automatically forward all classic messages if the destination is not the current node. It will use the routing module (<code class="docutils literal notranslate"><span class="pre">qns.network.route</span></code>) to build classic routing tables.</p>
+<p><code class="docutils literal notranslate"><span class="pre">NodeProcessDelayApp</span></code> can add processing delay on quantum nodes if they receive certain events.</p>
 <p>Those examples may be helpful for users to implement their own protocols. SimQN is working on providing more internal protocols for more scenarios.</p>
 </section>
 
