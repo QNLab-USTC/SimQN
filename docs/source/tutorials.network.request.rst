@@ -36,7 +36,15 @@ The network object and the nodes can query the related requests:
 Example applications and protocols
 ========================================
 
-SimQN provides two example applications at ``qns.network.protocol``. ``BB84SendApp`` and ``BB84RecvApp`` is the simple demonstration protocol for BB84 QKD protocol without the after procedures, including error detecting, information reconciliation, and privacy amplification. ``EntanglementDistributionApp`` provides a hop-by-hop entanglement distribution protocol, where the source distribute entanglements to the destination at a fixed rate.
+SimQN provides internal applications in ``qns.network.protocol``.
+
+``BB84SendApp`` and ``BB84RecvApp`` is the simple demonstration protocol for BB84 QKD protocol without the after procedures, including error detecting, information reconciliation, and privacy amplification.
+
+``EntanglementDistributionApp`` provides a hop-by-hop entanglement distribution protocol, where the source distribute entanglements to the destination at a fixed rate.
+
+``ClassicPacketForwardApp`` can automatically forward all classic messages if the destination is not the current node. It will use the routing module (``qns.network.route``) to build classic routing tables.
+
+``NodeProcessDelayApp`` can add processing delay on quantum nodes if they receive certain events.
 
 Those examples may be helpful for users to implement their own protocols. SimQN is working on providing more internal protocols for more scenarios.
 
