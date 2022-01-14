@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en,zh-CN" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
@@ -116,7 +116,7 @@
 </div>
 <section id="quantum-operations">
 <h2>Quantum operations<a class="headerlink" href="#quantum-operations" title="Permalink to this headline"></a></h2>
-<p>We implement some quantum gates. And those gates can change the qubit's state:</p>
+<p>We implement some quantum gates. And those gates can change the qubit’s state:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.models.qubit.gate</span> <span class="kn">import</span> <span class="n">H</span><span class="p">,</span> <span class="n">CNOT</span>
 
 <span class="n">H</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span> <span class="c1"># hadamard gate</span>
@@ -127,7 +127,7 @@
 </section>
 <section id="quantum-measurement">
 <h2>Quantum measurement<a class="headerlink" href="#quantum-measurement" title="Permalink to this headline"></a></h2>
-<p>It is possible to measure the qubit's state (Pauli Z base measure) using <cite>measure</cite> function:</p>
+<p>It is possible to measure the qubit’s state (Pauli Z base measure) using <cite>measure</cite> function:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">q0</span><span class="o">.</span><span class="n">measure</span><span class="p">())</span> <span class="c1"># 0 or 1</span>
 </pre></div>
 </div>

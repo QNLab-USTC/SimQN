@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en,zh-CN" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
@@ -49,7 +49,7 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorials.simulator.html">The discrete-event simulator</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Logging and random generator</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#the-logging-module">The logging module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#random-generator-s-seed">Random generator's seed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#random-generator-s-seed">Random generator’s seed</a></li>
 </ul>
 </li>
 </ul>
@@ -87,7 +87,7 @@
 <h1>Logging and random generator<a class="headerlink" href="#logging-and-random-generator" title="Permalink to this headline"></a></h1>
 <section id="the-logging-module">
 <h2>The logging module<a class="headerlink" href="#the-logging-module" title="Permalink to this headline"></a></h2>
-<p>SimQN uses the Python logging package as the logging and data monitor tools. To providing the simulator's internal states (especially the time), SimQN warps the logging. Users can use the <code class="docutils literal notranslate"><span class="pre">logger</span></code> from:</p>
+<p>SimQN uses the Python logging package as the logging and data monitor tools. To providing the simulator’s internal states (especially the time), SimQN warps the logging. Users can use the <code class="docutils literal notranslate"><span class="pre">logger</span></code> from:</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">qns.utils.log</span> <span class="k">as</span> <span class="nn">log</span>
 
 <span class="n">s</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">()</span>
@@ -107,12 +107,12 @@
 <span class="n">log</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;critical message&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Finally, SimQN provides <code class="docutils literal notranslate"><span class="pre">monitor()</span></code> for date output. <code class="docutils literal notranslate"><span class="pre">sep</span></code> sets the separator, the default separator is &quot;,&quot; (like csv files). <code class="docutils literal notranslate"><span class="pre">with_time</span></code> is a boolean indicating whether add a column to record the simulator's current time.</p>
+<p>Finally, SimQN provides <code class="docutils literal notranslate"><span class="pre">monitor()</span></code> for date output. <code class="docutils literal notranslate"><span class="pre">sep</span></code> sets the separator, the default separator is “,” (like csv files). <code class="docutils literal notranslate"><span class="pre">with_time</span></code> is a boolean indicating whether add a column to record the simulator’s current time.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">log</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="n">data1</span><span class="p">,</span> <span class="n">date2</span><span class="p">,</span> <span class="n">date3</span><span class="p">,</span> <span class="n">with_date</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 <span class="c1"># output: time, date1, date2, date3</span>
 </pre></div>
 </div>
-<p>With the <code class="docutils literal notranslate"><span class="pre">Timer</span></code> entity provided by SimQN, it is easy to print the network's status periodically.</p>
+<p>With the <code class="docutils literal notranslate"><span class="pre">Timer</span></code> entity provided by SimQN, it is easy to print the network’s status periodically.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.simulator.simulator</span> <span class="kn">import</span> <span class="n">Simulator</span>
 <span class="kn">from</span> <span class="nn">qns.entity.timer.timer</span> <span class="kn">import</span> <span class="n">Timer</span>
 <span class="kn">import</span> <span class="nn">qns.utils.log</span> <span class="k">as</span> <span class="nn">log</span>
@@ -134,8 +134,8 @@
 </div>
 </section>
 <section id="random-generator-s-seed">
-<h2>Random generator's seed<a class="headerlink" href="#random-generator-s-seed" title="Permalink to this headline"></a></h2>
-<p>SimQN uses <code class="docutils literal notranslate"><span class="pre">random</span></code> library from both Python standard library and <code class="docutils literal notranslate"><span class="pre">numpy</span></code> when measuring qubits or generating random topologies. To make the simulation results reproducible, SimQN provides <code class="docutils literal notranslate"><span class="pre">set_seed()</span></code> to fix the random generator's seed:</p>
+<h2>Random generator’s seed<a class="headerlink" href="#random-generator-s-seed" title="Permalink to this headline"></a></h2>
+<p>SimQN uses <code class="docutils literal notranslate"><span class="pre">random</span></code> library from both Python standard library and <code class="docutils literal notranslate"><span class="pre">numpy</span></code> when measuring qubits or generating random topologies. To make the simulation results reproducible, SimQN provides <code class="docutils literal notranslate"><span class="pre">set_seed()</span></code> to fix the random generator’s seed:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.utils.random</span> <span class="kn">import</span> <span class="n">set_seed</span>
 
 <span class="n">set_seed</span><span class="p">(</span><span class="mi">1641801012</span><span class="p">)</span> <span class="c1"># fix the random generator&#39;s seed</span>

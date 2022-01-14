@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en,zh-CN" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
@@ -97,7 +97,7 @@
 <p>Classic channels can transmit classic packets (<code class="docutils literal notranslate"><span class="pre">ClassicPacket</span></code>) from a node to another node.
 It has the following attributions:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: the channel's name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: the channel’s name.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">length</span></code>: the physcial length of the channel. Default length is 0</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">delay</span></code>: the propagation delay. The time delay from sending to receiving. Default delay is 0s.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">drop_rate</span></code>: the probability of losing the packets. Default drop rate is 0.</p></li>
@@ -128,7 +128,7 @@ It has the following attributions:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">dest</span></code>: the destination node</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">msg</span></code>: the sending message.</p></li>
 </ul>
-<p>The message can be a <code class="docutils literal notranslate"><span class="pre">str</span></code>, <code class="docutils literal notranslate"><span class="pre">bytes</span></code> and any python object that can be dumped to a <code class="docutils literal notranslate"><span class="pre">json</span></code> string. If the message is a <code class="docutils literal notranslate"><span class="pre">str</span></code> or <code class="docutils literal notranslate"><span class="pre">bytes</span></code> object, the message length equals to the string or bytes length. Otherwise, the object will be firstly dumped to a json string and the packet length is the json string's length.</p>
+<p>The message can be a <code class="docutils literal notranslate"><span class="pre">str</span></code>, <code class="docutils literal notranslate"><span class="pre">bytes</span></code> and any python object that can be dumped to a <code class="docutils literal notranslate"><span class="pre">json</span></code> string. If the message is a <code class="docutils literal notranslate"><span class="pre">str</span></code> or <code class="docutils literal notranslate"><span class="pre">bytes</span></code> object, the message length equals to the string or bytes length. Otherwise, the object will be firstly dumped to a json string and the packet length is the json string’s length.</p>
 <p><code class="docutils literal notranslate"><span class="pre">get</span></code> method will recovery the python object if the message is dumped to json. Or, it will return the messages as it is.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.entity.cchannel.cchannel</span> <span class="kn">import</span> <span class="n">ClassicPacket</span>
 

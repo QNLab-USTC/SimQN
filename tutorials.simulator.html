@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en,zh-CN" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
@@ -90,7 +90,7 @@
 <p>The <code class="docutils literal notranslate"><span class="pre">qns.simulator</span></code> modules provides a discrete-event driven simulator. The simulator organize many events and invokes these events at a pacific time to drive the simulation. Events are bound to a discrete occur time. We start from introducing the time structure.</p>
 <section id="time-structure">
 <h2>Time structure<a class="headerlink" href="#time-structure" title="Permalink to this headline"></a></h2>
-<p>The time is discrete in SimQN, that is, the smallest time slot is <span class="math notranslate nohighlight">\(1/accuracy\)</span>, where <code class="docutils literal notranslate"><span class="pre">accuracy</span></code> is the number of time slots per second. In SimQN, the <code class="docutils literal notranslate"><span class="pre">accuracy</span></code> can be set to meet the simulation's need. Usually, a larger <code class="docutils literal notranslate"><span class="pre">accuracy</span></code> brings more simulation overhead.</p>
+<p>The time is discrete in SimQN, that is, the smallest time slot is <span class="math notranslate nohighlight">\(1/accuracy\)</span>, where <code class="docutils literal notranslate"><span class="pre">accuracy</span></code> is the number of time slots per second. In SimQN, the <code class="docutils literal notranslate"><span class="pre">accuracy</span></code> can be set to meet the simulation’s need. Usually, a larger <code class="docutils literal notranslate"><span class="pre">accuracy</span></code> brings more simulation overhead.</p>
 <p>The discrete time in SimQN is a <code class="docutils literal notranslate"><span class="pre">Time</span></code> object, and it can be described in seconds and number of time slots:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.simulator.ts</span> <span class="kn">import</span> <span class="n">Time</span>
 

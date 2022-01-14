@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en,zh-CN" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
@@ -128,7 +128,7 @@
 <dd><p>add a ClassicChannel into this network.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>cchannel</strong> (<a class="reference internal" href="qns.entity.cchannel.html#qns.entity.cchannel.cchannel.ClassicChannel" title="qns.entity.cchannel.cchannel.ClassicChannel"><em>qns.entity.cchannel.cchannel.ClassicChannel</em></a>) -- the inserting ClassicChannel</p>
+<dd class="field-odd"><p><strong>cchannel</strong> (<a class="reference internal" href="qns.entity.cchannel.html#qns.entity.cchannel.cchannel.ClassicChannel" title="qns.entity.cchannel.cchannel.ClassicChannel"><em>qns.entity.cchannel.cchannel.ClassicChannel</em></a>) – the inserting ClassicChannel</p>
 </dd>
 </dl>
 </dd></dl>
@@ -140,8 +140,8 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>capacity</strong> (<em>int</em>) -- the capacity of the quantum memory</p></li>
-<li><p><strong>store_error_model_args</strong> -- the arguments for store_error_model</p></li>
+<li><p><strong>capacity</strong> (<em>int</em>) – the capacity of the quantum memory</p></li>
+<li><p><strong>store_error_model_args</strong> – the arguments for store_error_model</p></li>
 </ul>
 </dd>
 </dl>
@@ -153,7 +153,7 @@
 <dd><p>add a QNode into this network.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>node</strong> (<a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><em>qns.entity.node.node.QNode</em></a>) -- the inserting node</p>
+<dd class="field-odd"><p><strong>node</strong> (<a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><em>qns.entity.node.node.QNode</em></a>) – the inserting node</p>
 </dd>
 </dl>
 </dd></dl>
@@ -164,7 +164,7 @@
 <dd><p>add a QuantumChannel into this network.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>qchannel</strong> (<a class="reference internal" href="qns.entity.qchannel.html#qns.entity.qchannel.qchannel.QuantumChannel" title="qns.entity.qchannel.qchannel.QuantumChannel"><em>qns.entity.qchannel.qchannel.QuantumChannel</em></a>) -- the inserting QuantumChannel</p>
+<dd class="field-odd"><p><strong>qchannel</strong> (<a class="reference internal" href="qns.entity.qchannel.html#qns.entity.qchannel.qchannel.QuantumChannel" title="qns.entity.qchannel.qchannel.QuantumChannel"><em>qns.entity.qchannel.qchannel.QuantumChannel</em></a>) – the inserting QuantumChannel</p>
 </dd>
 </dl>
 </dd></dl>
@@ -176,9 +176,9 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> -- the source node</p></li>
-<li><p><strong>dest</strong> -- the destination node</p></li>
-<li><p><strong>attr</strong> -- other attributions</p></li>
+<li><p><strong>src</strong> – the source node</p></li>
+<li><p><strong>dest</strong> – the destination node</p></li>
+<li><p><strong>attr</strong> – other attributions</p></li>
 </ul>
 </dd>
 </dl>
@@ -196,7 +196,7 @@
 <dd><p>get the ClassicChannel by its name</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) -- its name</p>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – its name</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>the ClassicChannel</p>
@@ -210,7 +210,7 @@
 <dd><p>get the QNode by its name</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) -- its name</p>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – its name</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>the QNode</p>
@@ -224,7 +224,7 @@
 <dd><p>get the QuantumChannel by its name</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) -- its name</p>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – its name</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>the QuantumChannel</p>
@@ -238,7 +238,7 @@
 <dd><p>install all nodes (including channels, memories and applications) in this network</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> (<a class="reference internal" href="qns.simulator.html#qns.simulator.simulator.Simulator" title="qns.simulator.simulator.Simulator"><em>qns.simulator.simulator.Simulator</em></a>) -- the simulator</p>
+<dd class="field-odd"><p><strong>simulator</strong> (<a class="reference internal" href="qns.simulator.html#qns.simulator.simulator.Simulator" title="qns.simulator.simulator.Simulator"><em>qns.simulator.simulator.Simulator</em></a>) – the simulator</p>
 </dd>
 </dl>
 </dd></dl>
@@ -250,8 +250,8 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> -- the source node</p></li>
-<li><p><strong>dest</strong> -- the destination node</p></li>
+<li><p><strong>src</strong> – the source node</p></li>
+<li><p><strong>dest</strong> – the destination node</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -268,9 +268,9 @@ The element is a tuple containing: metric, the next-hop and the whole path.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>number</strong> (<em>int</em>) -- the number of requests</p></li>
-<li><p><strong>allow_overlay</strong> (<em>bool</em>) -- allow a node to be the source or destination in multiple requests</p></li>
-<li><p><strong>attr</strong> (<em>Dict</em>) -- request attributions</p></li>
+<li><p><strong>number</strong> (<em>int</em>) – the number of requests</p></li>
+<li><p><strong>allow_overlay</strong> (<em>bool</em>) – allow a node to be the source or destination in multiple requests</p></li>
+<li><p><strong>attr</strong> (<em>Dict</em>) – request attributions</p></li>
 </ul>
 </dd>
 </dl>
@@ -320,7 +320,7 @@ The element is a tuple containing: metric, the next-hop and the whole path.</p>
 <dd><p>build static route tables for each nodes</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>channels</strong> -- a list of quantum channels or classic channels</p>
+<dd class="field-odd"><p><strong>channels</strong> – a list of quantum channels or classic channels</p>
 </dd>
 </dl>
 </dd></dl>
@@ -332,8 +332,8 @@ The element is a tuple containing: metric, the next-hop and the whole path.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> -- the source node</p></li>
-<li><p><strong>dest</strong> -- the destination node</p></li>
+<li><p><strong>src</strong> – the source node</p></li>
+<li><p><strong>dest</strong> – the destination node</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -405,7 +405,7 @@ The topology is a square grid pattern, where each node has 4 neighbors.</p>
 <dd><p>add a ClassicChannel into this network.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>cchannel</strong> (<a class="reference internal" href="qns.entity.cchannel.html#qns.entity.cchannel.cchannel.ClassicChannel" title="qns.entity.cchannel.cchannel.ClassicChannel"><em>qns.entity.cchannel.cchannel.ClassicChannel</em></a>) -- the inserting ClassicChannel</p>
+<dd class="field-odd"><p><strong>cchannel</strong> (<a class="reference internal" href="qns.entity.cchannel.html#qns.entity.cchannel.cchannel.ClassicChannel" title="qns.entity.cchannel.cchannel.ClassicChannel"><em>qns.entity.cchannel.cchannel.ClassicChannel</em></a>) – the inserting ClassicChannel</p>
 </dd>
 </dl>
 </dd></dl>
@@ -417,8 +417,8 @@ The topology is a square grid pattern, where each node has 4 neighbors.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>capacity</strong> (<em>int</em>) -- the capacity of the quantum memory</p></li>
-<li><p><strong>store_error_model_args</strong> -- the arguments for store_error_model</p></li>
+<li><p><strong>capacity</strong> (<em>int</em>) – the capacity of the quantum memory</p></li>
+<li><p><strong>store_error_model_args</strong> – the arguments for store_error_model</p></li>
 </ul>
 </dd>
 </dl>
@@ -430,7 +430,7 @@ The topology is a square grid pattern, where each node has 4 neighbors.</p>
 <dd><p>add a QNode into this network.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>node</strong> (<a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><em>qns.entity.node.node.QNode</em></a>) -- the inserting node</p>
+<dd class="field-odd"><p><strong>node</strong> (<a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><em>qns.entity.node.node.QNode</em></a>) – the inserting node</p>
 </dd>
 </dl>
 </dd></dl>
@@ -441,7 +441,7 @@ The topology is a square grid pattern, where each node has 4 neighbors.</p>
 <dd><p>add a QuantumChannel into this network.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>qchannel</strong> (<a class="reference internal" href="qns.entity.qchannel.html#qns.entity.qchannel.qchannel.QuantumChannel" title="qns.entity.qchannel.qchannel.QuantumChannel"><em>qns.entity.qchannel.qchannel.QuantumChannel</em></a>) -- the inserting QuantumChannel</p>
+<dd class="field-odd"><p><strong>qchannel</strong> (<a class="reference internal" href="qns.entity.qchannel.html#qns.entity.qchannel.qchannel.QuantumChannel" title="qns.entity.qchannel.qchannel.QuantumChannel"><em>qns.entity.qchannel.qchannel.QuantumChannel</em></a>) – the inserting QuantumChannel</p>
 </dd>
 </dl>
 </dd></dl>
@@ -453,9 +453,9 @@ The topology is a square grid pattern, where each node has 4 neighbors.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> -- the source node</p></li>
-<li><p><strong>dest</strong> -- the destination node</p></li>
-<li><p><strong>attr</strong> -- other attributions</p></li>
+<li><p><strong>src</strong> – the source node</p></li>
+<li><p><strong>dest</strong> – the destination node</p></li>
+<li><p><strong>attr</strong> – other attributions</p></li>
 </ul>
 </dd>
 </dl>
@@ -473,7 +473,7 @@ The topology is a square grid pattern, where each node has 4 neighbors.</p>
 <dd><p>get the ClassicChannel by its name</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) -- its name</p>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – its name</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>the ClassicChannel</p>
@@ -487,7 +487,7 @@ The topology is a square grid pattern, where each node has 4 neighbors.</p>
 <dd><p>get the QNode by its name</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) -- its name</p>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – its name</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>the QNode</p>
@@ -501,7 +501,7 @@ The topology is a square grid pattern, where each node has 4 neighbors.</p>
 <dd><p>get the QuantumChannel by its name</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) -- its name</p>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – its name</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>the QuantumChannel</p>
@@ -515,7 +515,7 @@ The topology is a square grid pattern, where each node has 4 neighbors.</p>
 <dd><p>install all nodes (including channels, memories and applications) in this network</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>simulator</strong> (<a class="reference internal" href="qns.simulator.html#qns.simulator.simulator.Simulator" title="qns.simulator.simulator.Simulator"><em>qns.simulator.simulator.Simulator</em></a>) -- the simulator</p>
+<dd class="field-odd"><p><strong>simulator</strong> (<a class="reference internal" href="qns.simulator.html#qns.simulator.simulator.Simulator" title="qns.simulator.simulator.Simulator"><em>qns.simulator.simulator.Simulator</em></a>) – the simulator</p>
 </dd>
 </dl>
 </dd></dl>
@@ -527,8 +527,8 @@ The topology is a square grid pattern, where each node has 4 neighbors.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> -- the source node</p></li>
-<li><p><strong>dest</strong> -- the destination node</p></li>
+<li><p><strong>src</strong> – the source node</p></li>
+<li><p><strong>dest</strong> – the destination node</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -545,9 +545,9 @@ The element is a tuple containing: metric, the next-hop and the whole path.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>number</strong> (<em>int</em>) -- the number of requests</p></li>
-<li><p><strong>allow_overlay</strong> (<em>bool</em>) -- allow a node to be the source or destination in multiple requests</p></li>
-<li><p><strong>attr</strong> (<em>Dict</em>) -- request attributions</p></li>
+<li><p><strong>number</strong> (<em>int</em>) – the number of requests</p></li>
+<li><p><strong>allow_overlay</strong> (<em>bool</em>) – allow a node to be the source or destination in multiple requests</p></li>
+<li><p><strong>attr</strong> (<em>Dict</em>) – request attributions</p></li>
 </ul>
 </dd>
 </dl>
@@ -591,7 +591,7 @@ The element is a tuple containing: metric, the next-hop and the whole path.</p>
 <dd><p>build static route tables for each nodes</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>channels</strong> -- a list of quantum channels or classic channels</p>
+<dd class="field-odd"><p><strong>channels</strong> – a list of quantum channels or classic channels</p>
 </dd>
 </dl>
 </dd></dl>
@@ -603,8 +603,8 @@ The element is a tuple containing: metric, the next-hop and the whole path.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> -- the source node</p></li>
-<li><p><strong>dest</strong> -- the destination node</p></li>
+<li><p><strong>src</strong> – the source node</p></li>
+<li><p><strong>dest</strong> – the destination node</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -628,12 +628,12 @@ The element is a tuple containing: metric, the next-hop and the whole path.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>classic_topo</strong> (<a class="reference internal" href="qns.network.topology.html#qns.network.topology.topo.ClassicTopology" title="qns.network.topology.topo.ClassicTopology"><em>ClassicTopology</em></a>) -- Classic topology,
+<li><p><strong>classic_topo</strong> (<a class="reference internal" href="qns.network.topology.html#qns.network.topology.topo.ClassicTopology" title="qns.network.topology.topo.ClassicTopology"><em>ClassicTopology</em></a>) – Classic topology,
 ClassicTopology.Empty -&gt; no connection
 ClassicTopology.All -&gt; every nodes are connected directly
 ClassicTopology.Follow -&gt; follow the quantum topology</p></li>
-<li><p><strong>nl</strong> (<em>List</em><em>[</em><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><em>qns.entity.node.node.QNode</em></a><em>]</em>) -- a list of quantum nodes</p></li>
-<li><p><strong>ll</strong> (<em>List</em><em>[</em><em>qns.entity.cchannel.cchannel.QuantumChannel</em><em>]</em>) -- a list of quantum channels</p></li>
+<li><p><strong>nl</strong> (<em>List</em><em>[</em><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><em>qns.entity.node.node.QNode</em></a><em>]</em>) – a list of quantum nodes</p></li>
+<li><p><strong>ll</strong> (<em>List</em><em>[</em><em>qns.entity.cchannel.cchannel.QuantumChannel</em><em>]</em>) – a list of quantum channels</p></li>
 </ul>
 </dd>
 </dl>
@@ -675,7 +675,7 @@ The topology is a tree pattern, where each parent has <cite>children_num</cite> 
 <dt class="sig sig-object py" id="qns.network.WaxmanTopology">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.network.</span></span><span class="sig-name descname"><span class="pre">WaxmanTopology</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_apps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.app.Application" title="qns.entity.node.app.Application"><span class="pre">qns.entity.node.app.Application</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qchannel_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cchannel_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/network/topology/waxmantopo.html#WaxmanTopology"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.WaxmanTopology" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="qns.network.topology.html#qns.network.topology.topo.Topology" title="qns.network.topology.topo.Topology"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.network.topology.topo.Topology</span></code></a></p>
-<p>WaxmanTopology is the random topology generator using Waxman's model.</p>
+<p>WaxmanTopology is the random topology generator using Waxman’s model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.network.WaxmanTopology.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.node.html#qns.entity.node.node.QNode" title="qns.entity.node.node.QNode"><span class="pre">qns.entity.node.node.QNode</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.entity.qchannel.html#qns.entity.qchannel.qchannel.QuantumChannel" title="qns.entity.qchannel.qchannel.QuantumChannel"><span class="pre">qns.entity.qchannel.qchannel.QuantumChannel</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/qns/network/topology/waxmantopo.html#WaxmanTopology.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.network.WaxmanTopology.build" title="Permalink to this definition"></a></dt>
