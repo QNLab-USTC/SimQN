@@ -3,6 +3,8 @@ The entanglement model
 
 The entanglement model is a high level and simpler model for Bell state entanglements, which is common used in quantum networks. Instead of using matrix, entanglement models uses ``fidelity`` and other parameters to describe an entanglement. Also, this model provide basic quantum operations including entanglement swapping, distillation and teleportation. The advantage is that it simplifies the evaluation by hiding low-level operations and provides higher performance.
 
+In SimQN, multiple quantum nodes may hold the same reference of an entanglement object. For example, if two nodes have the reference of the same entanglement, it means that each of them has a qubit that in this entangled state. Users needs to maintain the fact that an entanglement can not be referenced by more than 2 quantum nodes by themselves.
+
 Three entanglement models
 --------------------------------
 

@@ -19,6 +19,7 @@ import numpy as np
 from qns.models.qubit.const import OPERATOR_HADAMARD, OPERATOR_PAULI_I,\
                                    OPERATOR_PAULI_X, OPERATOR_PAULI_Y, \
                                    OPERATOR_PAULI_Z, OPERATOR_PHASE_SHIFT,\
+                                   OPERATOR_RX, OPERATOR_RY, OPERATOR_RZ,\
                                    OPERATOR_S, OPERATOR_T
 from qns.models.qubit.qubit import QState, Qubit
 
@@ -216,11 +217,86 @@ def R(qubit: Qubit, theta: float = np.pi / 4) -> None:
     qubit.state.state = np.dot(full_operation, qubit.state.state)
 
 
-def CNOT(qubit1: Qubit, qubit2: Qubit, operator: np.ndarray = OPERATOR_PAULI_X):
+def RX(qubit: Qubit, theta: float = np.pi / 4) -> None:
     """
-    The R gate (phase shift gate):
+    The Rx gate (X rotate gate):
 
-        [[I_2, 0][0, X]]
+        [[cos(theta/2), -j * sin(theta/2)],
+        [-j * sin(theta/2), cos(theta/2)]]
+
+    Args:
+        qubit (Qubit): the operating qubit
+        theta (float): the rotation degree
+
+    Raises:
+        QGateOperatorNotMatchError
+        QGateQubitNotInStateError
+    """
+    full_operation = _single_gate_expand(qubit, OPERATOR_RX(theta))
+    qubit.state.state = np.dot(full_operation, qubit.state.state)
+
+
+def RY(qubit: Qubit, theta: float = np.pi / 4) -> None:
+    """
+    The Ry gate (Y rotate gate):
+
+        [[cos(theta/2), -sin(theta/2)],
+        [sin(theta/2), cos(theta/2)]]
+
+    Args:
+        qubit (Qubit): the operating qubit
+        theta (float): the rotation degree
+
+    Raises:
+        QGateOperatorNotMatchError
+        QGateQubitNotInStateError
+    """
+    full_operation = _single_gate_expand(qubit, OPERATOR_RY(theta))
+    qubit.state.state = np.dot(full_operation, qubit.state.state)
+
+
+def RZ(qubit: Qubit, theta: float = np.pi / 4) -> None:
+    """
+    The Rz gate (Z rotate gate):
+
+        [[e^(-0.5j * theta), 0],
+        [0, e^(0.5j * theta)]]
+
+    Args:
+        qubit (Qubit): the operating qubit
+        theta (float): the rotation degree
+
+    Raises:
+        QGateOperatorNotMatchError
+        QGateQubitNotInStateError
+    """
+    full_operation = _single_gate_expand(qubit, OPERATOR_RZ(theta))
+    qubit.state.state = np.dot(full_operation, qubit.state.state)
+
+
+def U(qubit: Qubit, operator: np.ndarray):
+    """
+    The arbitrary single qubit operation gate.
+
+    Args:
+        qubit (Qubit): the operating qubit
+        operator (np.ndarray): a 2x2 operation matrix
+
+    Raises:
+        QGateOperatorNotMatchError
+        QGateQubitNotInStateError
+    """
+    if operator.shape != (2, 2):
+        raise QGateOperatorNotMatchError
+    full_operation = _single_gate_expand(qubit, operator)
+    qubit.state.state = np.dot(full_operation, qubit.state.state)
+
+
+def ControlledGate(qubit1: Qubit, qubit2: Qubit, operator: np.ndarray = OPERATOR_PAULI_X):
+    """
+    The controlled  gate:
+
+        [[I_2, 0][0, operator]]
 
     Args:
         qubit1 (Qubit): the first qubit (controller)
@@ -265,3 +341,151 @@ def CNOT(qubit1: Qubit, qubit2: Qubit, operator: np.ndarray = OPERATOR_PAULI_X):
     full_operator = full_operator_part_0 + full_operator_part_1
     state.state = np.dot(full_operator, state.state)
     return
+
+
+def CNOT(qubit1: Qubit, qubit2: Qubit):
+    """
+    The controlled Pauli-X gate:
+
+        [[I_2, 0][0, X]]
+
+    Args:
+        qubit1 (Qubit): the first qubit (controller)
+        qubit2 (Qubit): the second qubit
+
+    Raises:
+        QGateOperatorNotMatchError
+        QGateQubitNotInStateError
+        QGateStateJointError
+    """
+    return ControlledGate(qubit1=qubit1, qubit2=qubit2)
+
+
+def CZ(qubit1: Qubit, qubit2: Qubit):
+    """
+    The controlled Pauli-Z gate:
+
+        [[I_2, 0][0, Z]]
+
+    Args:
+        qubit1 (Qubit): the first qubit (controller)
+        qubit2 (Qubit): the second qubit
+
+    Raises:
+        QGateOperatorNotMatchError
+        QGateQubitNotInStateError
+        QGateStateJointError
+    """
+    return ControlledGate(qubit1=qubit1, qubit2=qubit2, operator=OPERATOR_PAULI_Z)
+
+
+def CR(qubit1: Qubit, qubit2: Qubit, theta: float = np.pi/4):
+    """
+    The controlled Rotate gate:
+
+        [[I_2, 0][0, R(theta)]]
+
+    Args:
+        qubit1 (Qubit): the first qubit (controller)
+        qubit2 (Qubit): the second qubit
+        theta: the rotation degree
+
+    Raises:
+        QGateOperatorNotMatchError
+        QGateQubitNotInStateError
+        QGateStateJointError
+    """
+    return ControlledGate(qubit1=qubit1, qubit2=qubit2, operator=OPERATOR_PHASE_SHIFT(theta))
+
+
+def Swap(qubit1: Qubit, qubit2: Qubit):
+    """
+    The swap gate, swap the states of qubit1 and qubit2
+
+    Args:
+        qubit1 (Qubit): the first qubit (controller)
+        qubit2 (Qubit): the second qubit
+
+    Raises:
+        QGateOperatorNotMatchError
+        QGateQubitNotInStateError
+    """
+    if qubit1 == qubit2:
+        return
+    joint(qubit1, qubit2)
+
+    state = qubit1.state
+    # single qubit operate
+    try:
+        idx1 = state.qubits.index(qubit1)
+        idx2 = state.qubits.index(qubit2)
+    except ValueError:
+        raise QGateQubitNotInStateError
+
+    state.qubits[idx1], state.qubits[idx2] = state.qubits[idx2], state.qubits[idx1]
+
+
+def Toffoli(qubit1: Qubit, qubit2: Qubit, qubit3: Qubit, operator: np.ndarray = OPERATOR_PAULI_X):
+    """
+    The controlled-controlled (Toffoli) gate:
+
+        [[I_6, 0][0, operator]]
+
+    Args:
+        qubit1 (Qubit): the first controll qubit
+        qubit2 (Qubit): the second controll qubit
+        qubit3 (Qubit): the operation qubit
+        operator (np.ndarray): the gate on the third qubit if both the first and the second qubit is 1,
+            default is pauli X (CNOT)
+
+    Raises:
+        QGateOperatorNotMatchError
+        QGateQubitNotInStateError
+        QGateStateJointError
+    """
+    if qubit1 == qubit2 or qubit1 == qubit3 or qubit2 == qubit3:
+        return
+    joint(qubit1, qubit2)
+    joint(qubit2, qubit3)
+
+    state = qubit1.state
+
+    if operator.shape != (2, 2):
+        raise QGateOperatorNotMatchError
+
+    # single qubit operate
+    try:
+        idx1 = state.qubits.index(qubit1)
+        idx2 = state.qubits.index(qubit2)
+        idx3 = state.qubits.index(qubit3)
+    except ValueError:
+        raise QGateQubitNotInStateError
+
+    full_operator_part_00 = np.array([1])  # |0> <0|
+    full_operator_part_01 = np.array([1])  # |1> <1|
+    full_operator_part_10 = np.array([1])  # |0> <0|
+    full_operator_part_11 = np.array([1])  # |1> <1|
+
+    for i in range(state.num):
+        if i == idx1:
+            full_operator_part_00 = np.kron(full_operator_part_00, np.array([[1, 0], [0, 0]]))
+            full_operator_part_01 = np.kron(full_operator_part_01, np.array([[1, 0], [0, 0]]))
+            full_operator_part_10 = np.kron(full_operator_part_10, np.array([[0, 0], [0, 1]]))
+            full_operator_part_11 = np.kron(full_operator_part_11, np.array([[0, 0], [0, 1]]))
+        elif i == idx2:
+            full_operator_part_00 = np.kron(full_operator_part_00, np.array([[1, 0], [0, 0]]))
+            full_operator_part_10 = np.kron(full_operator_part_10, np.array([[1, 0], [0, 0]]))
+            full_operator_part_01 = np.kron(full_operator_part_01, np.array([[0, 0], [0, 1]]))
+            full_operator_part_11 = np.kron(full_operator_part_11, np.array([[0, 0], [0, 1]]))
+        elif i == idx3:
+            full_operator_part_00 = np.kron(full_operator_part_00, OPERATOR_PAULI_I)
+            full_operator_part_01 = np.kron(full_operator_part_01, OPERATOR_PAULI_I)
+            full_operator_part_10 = np.kron(full_operator_part_10, OPERATOR_PAULI_I)
+            full_operator_part_11 = np.kron(full_operator_part_11, operator)
+        else:
+            full_operator_part_00 = np.kron(full_operator_part_00, OPERATOR_PAULI_I)
+            full_operator_part_01 = np.kron(full_operator_part_01, OPERATOR_PAULI_I)
+            full_operator_part_10 = np.kron(full_operator_part_10, OPERATOR_PAULI_I)
+            full_operator_part_11 = np.kron(full_operator_part_11, OPERATOR_PAULI_I)
+    full_operator = full_operator_part_00 + full_operator_part_01 + full_operator_part_10 + full_operator_part_11
+    state.state = np.dot(full_operator, state.state)

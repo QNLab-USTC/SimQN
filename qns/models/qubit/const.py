@@ -36,6 +36,21 @@ OPERATOR_PAULI_Y = np.array([[0, -1j], [1j, 0]], dtype=np.complex128)
 OPERATOR_PAULI_Z = np.array([[1, 0], [0, -1]], dtype=np.complex128)
 
 
+def OPERATOR_RX(theta: float):
+    return np.array([[np.cos(theta/2), -1j * np.sin(theta/2)],
+                     [-1j * np.sin(theta/2), np.cos(theta/2)]], dtype=np.complex128)
+
+
+def OPERATOR_RY(theta: float):
+    return np.array([[np.cos(theta/2), -np.sin(theta/2)],
+                     [np.sin(theta/2), np.cos(theta/2)]], dtype=np.complex128)
+
+
+def OPERATOR_RZ(theta: float):
+    return np.array([[np.e**(-0.5j * theta), 0],
+                     [0, np.e**(0.5j * theta)]], dtype=np.complex128)
+
+
 def OPERATOR_PHASE_SHIFT(theta: float):
     return np.array([[1, 0], [0, np.e**(1j * theta)]], dtype=np.complex128)
 

@@ -16,6 +16,9 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from qns.models.qubit.qubit import Qubit, QState
-from qns.models.qubit.gate import X, Y, Z, H, S, T, R, I, CNOT, swap, joint
+from qns.models.qubit.gate import X, Y, Z, H, S, T, R, I, CNOT, swap, joint,\
+                                  RX, RY, RZ, U, CZ, CR, ControlledGate, Swap, Toffoli
 
-__all__ = ["Qubit", "QState", "X", "Y", "Z", "H", "S", "T", "R", "I", "CNOT", "swap", "joint"]
+__all__ = ["Qubit", "QState", "X", "Y", "Z", "H", "S",
+           "T", "R", "I", "CNOT", "swap", "joint", "RX", "RY", "RZ", "U",
+           "CZ", "CR", "ControlledGate", "Swap", "Toffoli"]
