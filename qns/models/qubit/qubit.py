@@ -35,8 +35,7 @@ def partial_trace(rho: np.ndarray, idx: int) -> np.ndarray:
         idx (int): the index of removing qubit
 
     Returns:
-    -------
-    rho_res: the left density matric
+        rho_res: the left density matric
     """
 
     num_qubit = int(np.log2(rho.shape[0]))
@@ -59,6 +58,13 @@ class QState(object):
     """
     def __init__(self, qubits: List["Qubit"] = [], state: Optional[np.ndarray] = QUBIT_STATE_0,
                  rho: Optional[np.ndarray] = None, name: Optional[str] = None):
+        """
+        Args:
+            qubits (List[Qubit]): a list of qubits in this quantum state
+            state: the state vector of this state, either ``state`` or ``rho`` can be used to present a state
+            rho: the density matrix of this state, either ``state`` or ``rho`` can be used to present a state
+            name (str): the name of this state
+        """
         self.num = len(qubits)
         self.name = name
         self.qubits = qubits
@@ -173,8 +179,28 @@ class QState(object):
         """
         return np.all(self.rho == other_state.rho)
 
-    def is_pure_state(self) -> bool:
-        return np.trace(self.rho.H * self.rho) == 1
+    def is_pure_state(self, eps: float = 0.000_001) -> bool:
+        """
+        Args:
+            eps: the accuracy
+
+        Returns:
+            bool, if the state is a pure state
+        """
+        return abs(np.trace(np.dot(self.rho, self.rho)) - 1) <= eps
+
+    def state(self) -> np.ndarray:
+        """
+        If the state is a pure state, return the state vector, or return None
+
+        Returns:
+            The pure state vector
+        """
+        if not self.is_pure_state():
+            print(self.rho.T.conjugate() * self.rho)
+            return None
+        evs = np.linalg.eig(self.rho)
+        return evs[1][:, 0].reshape((2**self.num, 1))
 
     def __repr__(self) -> str:
         if self.name is not None:

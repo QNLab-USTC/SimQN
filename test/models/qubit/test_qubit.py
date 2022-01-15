@@ -13,7 +13,7 @@ def test_qubit():
     c0 = q0.measure()
     print(q1.state.rho)
     c1 = q1.measure()
-    print(c0 , c1, q0.state.rho, q1.state.rho)
+    print(c0, c1, q0.state.rho, q1.state.rho)
     assert(q0.measure() == q1.measure())
 
 
