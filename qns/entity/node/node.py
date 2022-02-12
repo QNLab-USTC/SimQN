@@ -37,6 +37,7 @@ class QNode(Entity):
         self.cchannels = []
         self.qchannels = []
         self.memories = []
+        self.operators = []
 
         self.croute_table = []
         self.qroute_table = []
@@ -61,6 +62,10 @@ class QNode(Entity):
             from qns.entity import QuantumMemory
             assert(isinstance(memory, QuantumMemory))
             memory.install(simulator)
+        for operator in self.operators:
+            from qns.entity import QuantumOperator
+            assert(isinstance(operator, QuantumOperator))
+            operator.install(simulator)
 
         # initiate applications
         for app in self.apps:
@@ -106,6 +111,16 @@ class QNode(Entity):
         """
         memory.node = self
         self.memories.append(memory)
+
+    def add_operator(self, operator):
+        """
+        Add a quantum operator in this node
+
+        Args:
+            operator (QuantumOperator): the quantum operator
+        """
+        operator.set_own(self)
+        self.operators.append(operator)
 
     def add_cchannel(self, cchannel):
         """
