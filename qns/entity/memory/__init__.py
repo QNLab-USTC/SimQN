@@ -14,3 +14,11 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+
+from qns.entity.memory.memory import QuantumMemory
+from qns.entity.memory.event import MemoryReadRequestEvent, MemoryReadResponseEvent, \
+                                    MemoryWriteRequestEvent, MemoryWriteResponseEvent
+
+__all__ = ["QuantumMemory", "MemoryReadRequestEvent", "MemoryReadResponseEvent",
+           "MemoryWriteRequestEvent", "MemoryWriteResponseEvent"]

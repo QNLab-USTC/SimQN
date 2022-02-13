@@ -25,16 +25,16 @@ from qns.simulator.event import Event, func_to_event
 from qns.simulator.simulator import Simulator
 from qns.models.qubit import Qubit
 
-from random import choice
-import random
 import numpy as np
+
+from qns.utils.random import get_rand, get_choice
 
 
 class QubitWithError(Qubit):
     def transfer_error_model(self, length: float, **kwargs):
         lkm = length / 1000
         standand_lkm = 50.0
-        theta = random.random() * lkm / standand_lkm * np.pi / 4
+        theta = get_rand() * lkm / standand_lkm * np.pi / 4
         operation = np.array([[np.cos(theta), - np.sin(theta)], [np.sin(theta), np.cos(theta)]], dtype=np.complex128)
         self.state.operate(operator=operation)
 
@@ -100,8 +100,8 @@ class BB84SendApp(Application):
     def send_qubit(self):
 
         # randomly generate a qubit
-        state = choice([QUBIT_STATE_0, QUBIT_STATE_1,
-                       QUBIT_STATE_P, QUBIT_STATE_N])
+        state = get_choice([QUBIT_STATE_0, QUBIT_STATE_1,
+                            QUBIT_STATE_P, QUBIT_STATE_N])
         qubit = QubitWithError(state=state)
         basis = BASIS_Z if (state == QUBIT_STATE_0).all() or (
             state == QUBIT_STATE_1).all() else BASIS_X
@@ -170,7 +170,7 @@ class BB84RecvApp(Application):
     def recv(self, event: RecvQubitPacket):
         qubit: Qubit = event.qubit
         # randomly choose X,Z basis
-        basis = choice([BASIS_Z, BASIS_X])
+        basis = get_choice([BASIS_Z, BASIS_X])
         basis_msg = "Z" if (basis == BASIS_Z).all() else "X"
         ret = qubit.measureZ() if (basis == BASIS_Z).all() else qubit.measureX()
         self.qubit_list[qubit.id] = qubit

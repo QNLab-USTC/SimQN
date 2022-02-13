@@ -19,7 +19,7 @@ from typing import Dict, Optional
 import uuid
 
 from qns.entity.cchannel.cchannel import ClassicChannel, ClassicPacket, RecvClassicPacket
-from qns.entity.memory.memory import OutOfMemoryException, QuantumMemory
+from qns.entity.memory.memory import QuantumMemory
 from qns.entity.node.app import Application
 from qns.entity.node.node import QNode
 from qns.entity.qchannel.qchannel import QuantumChannel, RecvQubitPacket
@@ -99,20 +99,17 @@ class EntanglementDistributionApp(Application):
         log.debug(f"{self.own}: start new request")
 
         # generate new entanglement
-        try:
-            epr = self.generate_qubit(self.own, self.dst, None)
-            log.debug(f"{self.own}: generate epr {epr.name}")
+        epr = self.generate_qubit(self.own, self.dst, None)
+        log.debug(f"{self.own}: generate epr {epr.name}")
 
-            self.state[epr.transmit_id] = Transmit(
-                id=epr.transmit_id,
-                src=self.own,
-                dst=self.dst,
-                second_epr_name=epr.name)
+        self.state[epr.transmit_id] = Transmit(
+            id=epr.transmit_id,
+            src=self.own,
+            dst=self.dst,
+            second_epr_name=epr.name)
 
-            log.debug(
-                f"{self.own}: generate transmit {self.state[epr.transmit_id]}")
-            self.memory.write(epr)
-        except OutOfMemoryException:
+        log.debug(f"{self.own}: generate transmit {self.state[epr.transmit_id]}")
+        if not self.memory.write(epr):
             self.memory.read(epr)
             self.state[epr.transmit_id] = None
         self.send_count += 1
@@ -169,12 +166,10 @@ class EntanglementDistributionApp(Application):
         log.debug(
             f"{self.own}: generate transmit {self.state[epr.transmit_id]}")
 
-        try:
-            # try to restore those entanglements
-            log.debug(f"{self.own}: store {epr.name} and {next_epr.name}")
-            self.memory.write(epr)
-            self.memory.write(next_epr)
-        except OutOfMemoryException:
+        log.debug(f"{self.own}: store {epr.name} and {next_epr.name}")
+        ret1 = self.memory.write(epr)
+        ret2 = self.memory.write(next_epr)
+        if not ret1 or not ret2:
             log.debug(f"{self.own}: store fail, destory {epr} and {next_epr}")
             # if failed (memory is full), destory all entanglements
             self.memory.read(epr)

@@ -20,10 +20,10 @@ from qns.entity.qchannel.qchannel import QuantumChannel
 from qns.entity.node.node import QNode
 from typing import Dict, List, Optional, Tuple
 from qns.network.topology import Topology
-
-import random
 import itertools
 import numpy as np
+
+from qns.utils.random import get_rand
 
 
 class WaxmanTopology(Topology):
@@ -56,8 +56,8 @@ class WaxmanTopology(Topology):
         for i in range(self.nodes_number):
             n = QNode(f"n{i+1}")
             nl.append(n)
-            x = random.random() * self.size
-            y = random.random() * self.size
+            x = get_rand() * self.size
+            y = get_rand() * self.size
             location_table[n] = (x, y)
 
         L = 0
@@ -74,7 +74,7 @@ class WaxmanTopology(Topology):
                 continue
             d = distance_table[(n1, n2)]
             p = self.alpha * np.exp(-d / (self.beta * L))
-            if random.random() < p:
+            if get_rand() < p:
                 link = QuantumChannel(name=f"l{n1}-{n2}", length=d, **self.qchannel_args)
                 ll.append(link)
                 n1.add_qchannel(link)

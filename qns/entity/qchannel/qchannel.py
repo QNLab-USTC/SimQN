@@ -15,7 +15,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import random
 from typing import List, Optional
 
 from qns.entity.entity import Entity
@@ -25,6 +24,7 @@ from qns.simulator.ts import Time
 from qns.simulator.event import Event
 from qns.models.core.backend import QuantumModel
 import qns.utils.log as log
+from qns.utils.random import get_rand
 
 
 class QuantumChannel(Entity):
@@ -101,7 +101,7 @@ class QuantumChannel(Entity):
             send_time = self._simulator.current_time
 
         # random drop
-        if random.random() < self.drop_rate:
+        if get_rand() < self.drop_rate:
             log.debug(f"qchannel {self}: drop qubit {qubit} due to drop rate")
             return
 

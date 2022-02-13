@@ -20,8 +20,9 @@ from qns.models.core.backend import QuantumModel
 from qns.models.epr.entanglement import BaseEntanglement
 from qns.models.qubit.const import QUBIT_STATE_0, QUBIT_STATE_P
 from qns.models.qubit.qubit import QState, Qubit
-import random
 import numpy as np
+
+from qns.utils.random import get_rand
 
 
 class MixedStateEntanglement(BaseEntanglement, QuantumModel):
@@ -113,7 +114,7 @@ class MixedStateEntanglement(BaseEntanglement, QuantumModel):
         self.is_decoherenced = True
         p_succ = (self.a+self.d)*(epr.a+epr.d) + (self.b+self.c)*(epr.c + epr.b)
 
-        if random.random() > p_succ:
+        if get_rand() > p_succ:
             ne.is_decoherenced = True
             ne.fidelity = 0
             return

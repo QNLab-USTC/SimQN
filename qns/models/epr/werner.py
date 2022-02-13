@@ -20,8 +20,9 @@ from qns.models.epr.entanglement import BaseEntanglement
 from qns.models.core.backend import QuantumModel
 from qns.models.qubit.qubit import Qubit, QState
 from qns.models.qubit.const import QUBIT_STATE_0, QUBIT_STATE_P
-import random
 import numpy as np
+
+from qns.utils.random import get_rand
 
 
 class WernerStateEntanglement(BaseEntanglement, QuantumModel):
@@ -87,7 +88,7 @@ class WernerStateEntanglement(BaseEntanglement, QuantumModel):
         self.is_decoherenced = True
         fmin = min(self.fidelity, epr.fidelity)
 
-        if random.random() > (fmin ** 2 + 5 / 9 * (1 - fmin) ** 2 + 2 / 3 * fmin * (1 - fmin)):
+        if get_rand() > (fmin ** 2 + 5 / 9 * (1 - fmin) ** 2 + 2 / 3 * fmin * (1 - fmin)):
             ne.is_decoherenced = True
             ne.fidelity = 0
             return

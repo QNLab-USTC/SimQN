@@ -20,10 +20,9 @@ from qns.entity import QNode, QuantumChannel, QuantumMemory, ClassicChannel
 from qns.network.topology import Topology
 from qns.network.route import RouteImpl, DijkstraRouteAlgorithm
 from qns.network.requests import Request
-import random
-
 from qns.network.topology.topo import ClassicTopology
 from qns.simulator.simulator import Simulator
+from qns.utils.random import get_randint
 
 
 class QuantumNetwork(object):
@@ -210,8 +209,8 @@ class QuantumNetwork(object):
 
         for _ in range(number):
             while True:
-                src_idx = random.randint(0, nnodes - 1)
-                dest_idx = random.randint(0, nnodes - 1)
+                src_idx = get_randint(0, nnodes - 1)
+                dest_idx = get_randint(0, nnodes - 1)
                 if src_idx == dest_idx:
                     continue
                 if not allow_overlay and src_idx in used_nodes:

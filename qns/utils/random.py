@@ -31,3 +31,35 @@ def set_seed(seed: Optional[int] = None):
         return
     random.seed(seed)
     np.random.seed(seed)
+
+
+def get_rand() -> float:
+    """
+    Get a random number from [0,1)
+    """
+    return np.random.random()
+
+
+def get_randint(low: int, high: int) -> float:
+    """
+    Get a random integer from [low,high]
+
+    Args:
+        low (int): the low bound
+        high (int): the high bound
+    """
+    if low != int(low):
+        raise ValueError("input low")
+    if low > high:
+        raise ValueError("low should smaller than high")
+    return np.random.randint(low, high+1)
+
+
+def get_choice(a):
+    """
+    return an random element from a list
+
+    Args:
+        a: a iterable object
+    """
+    return a[get_randint(0, len(a)-1)]

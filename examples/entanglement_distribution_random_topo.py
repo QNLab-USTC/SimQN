@@ -19,12 +19,12 @@ memory_capacity = 50
 send_rate = 10
 requests_number = 10
 
-# set a fixed random seed
 log.logger.setLevel(logging.INFO)
 
 for requests_number in [10, 20, 30, 40]:
     for nodes_number in range(20, 201, 10):
         lines_number = 3 * nodes_number
+        # set a fixed random seed
         set_seed(100)
         s = Simulator(0, 10, accuracy=1000000)
         log.install(s)

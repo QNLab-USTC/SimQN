@@ -17,7 +17,6 @@
 
 from typing import Optional, Union
 from qns.entity.node.node import QNode
-from qns.entity.timer.timer import Timer
 from qns.models.core.backend import QuantumModel
 from qns.simulator.event import Event
 from qns.simulator.ts import Time
@@ -43,10 +42,11 @@ class OperateResponseEvent(Event):
     ``OperateResponseEvent`` is the event that returns the operating result
     """
     def __init__(self, node: QNode, result: Union[int, list[int]] = None,
-                 t: Optional[Time] = None, name: Optional[str] = None):
+                 request: OperateRequestEvent = None, t: Optional[Time] = None, name: Optional[str] = None):
         super().__init__(t=t, name=name)
         self.node = node
         self.result = result
+        self.request = request
 
     def invoke(self) -> None:
         self.node.handle(self)

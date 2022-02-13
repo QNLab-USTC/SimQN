@@ -25,25 +25,34 @@ from qns.entity.node.node import QNode
 
 
 class OutOfMemoryException(Exception):
+    """
+    The exception that the memory is full
+    """
     pass
 
 
 class QuantumMemory(Entity):
     """
-    Quantum memory stores multiple `QuantumModel`
+    Quantum memory stores qubits or entangled pairs.
+
+    It has two modes:
+        Synchronous mode, users can use the ``read`` and ``write`` function to operate the memory directly without delay
+        Asynchronous mode, users can use events to operate memories asynchronously
     """
     def __init__(self, name: str = None, node: QNode = None,
-                 capacity: int = 0, store_error_model_args: dict = {}):
+                 capacity: int = 0, store_error_model_args: dict = {}, delay: float = 0):
         """
         Args:
             name (str): its name
             node (QNode): the quantum node that equips this memory
             capacity (int): the capacity of this quantum memory. 0 presents unlimited.
-            store_error_model_args （dict): the parameters that will pass to the storage_error_model
+            delay (float): the read and write delay in second
+            store_error_model_args (dict): the parameters that will pass to the storage_error_model
         """
         super().__init__(name=name)
         self.node = node
         self.capacity = capacity
+        self.delay = delay
         self.memory: List[Tuple[QuantumModel, Time]] = []
         self.store_error_model_args = store_error_model_args
 
@@ -97,16 +106,20 @@ class QuantumMemory(Entity):
         ret.storage_error_model(t=sec_diff, **self.store_error_model_args)
         return ret
 
-    def write(self, qm: QuantumModel) -> None:
+    def write(self, qm: QuantumModel) -> bool:
         """
         The API for storing a qubit to the memory
 
         Args:
             qm (QuantumModel): the `QuantumModel`, could be a qubit or an entangled pair
+
+        Returns:
+            bool: whether the qubit is stored successfully
         """
-        if self.capacity > 0 and len(self.memory) >= self.capacity:
-            raise OutOfMemoryException
+        if self.is_full():
+            return False
         self.memory.append((qm, self._simulator.current_time))
+        return True
 
     def is_full(self) -> bool:
         """
@@ -115,7 +128,22 @@ class QuantumMemory(Entity):
         return self.capacity > 0 and len(self.memory) >= self.capacity
 
     def handle(self, event: Event) -> None:
-        return super().handle(event)
+        from qns.entity.memory.event import MemoryReadRequestEvent, MemoryReadResponseEvent, \
+                                            MemoryWriteRequestEvent, MemoryWriteResponseEvent
+        if isinstance(event, MemoryReadRequestEvent):
+            key = event.key
+            # operate qubits and get measure results
+            result = self.read(key)
+
+            t = self._simulator.tc + self._simulator.time(sec=self.delay)
+            response = MemoryReadResponseEvent(node=self.node, result=result, request=event, t=t)
+            self._simulator.add_event(response)
+        elif isinstance(event, MemoryWriteRequestEvent):
+            qubit = event.qubit
+            result = self.write(qubit)
+            t = self._simulator.tc + self._simulator.time(sec=self.delay)
+            response = MemoryWriteResponseEvent(node=self.node, result=result, request=event, t=t)
+            self._simulator.add_event(response)
 
     def __repr__(self) -> str:
         if self.name is not None:

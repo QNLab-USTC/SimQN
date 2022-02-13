@@ -17,13 +17,13 @@
 
 from typing import List, Optional
 import numpy as np
-import random
 
 from qns.models.qubit.const import QUBIT_STATE_0, QUBIT_STATE_1,\
         QUBIT_STATE_P, QUBIT_STATE_N, QUBIT_STATE_L, QUBIT_STATE_R
 from qns.models.core.backend import QuantumModel
 from qns.models.qubit.errors import QStateBaseError, QStateQubitNotInStateError,\
                                     QStateSizeNotMatchError, OperatorNotMatchError
+from qns.utils.random import get_rand
 
 
 def partial_trace(rho: np.ndarray, idx: int) -> np.ndarray:
@@ -134,7 +134,7 @@ class QState(object):
                 Full_M_1 = np.kron(Full_M_1, np.array([[1, 0], [0, 1]]))
 
         poss_0 = np.trace(np.dot(Full_M_0.T.conjugate(), np.dot(Full_M_0, self.rho)))
-        rn = random.random()
+        rn = get_rand()
 
         if rn < poss_0:
             ret = 0

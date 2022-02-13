@@ -16,10 +16,9 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from typing import Optional
-import random
-
 from qns.models.core.backend import QuantumModel
 from qns.models.epr.entanglement import BaseEntanglement
+from qns.utils.random import get_rand
 
 
 class BellStateEntanglement(BaseEntanglement, QuantumModel):
@@ -37,7 +36,7 @@ class BellStateEntanglement(BaseEntanglement, QuantumModel):
             ne.is_decoherenced = True
             ne.fidelity = 0
 
-        r = random.random()
+        r = get_rand()
         if r > min(self.p_swap, epr.p_swap):
             ne.is_decoherenced = True
             ne.fidelity = 0
