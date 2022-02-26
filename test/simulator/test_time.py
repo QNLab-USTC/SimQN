@@ -35,4 +35,3 @@ def test_simulator_time():
     assert (print_event.t.accuracy == 1000)
 
 
-test_simulator_time()

@@ -15,7 +15,7 @@ def test_event_normal():
     assert (not te.is_canceled)
     te.cancel()
     assert (te.is_canceled)
-test_event_normal()
+
 
 def Print():
     print("event happened")
@@ -27,5 +27,3 @@ def test_event_simple():
 
     te.invoke()
 
-
-test_event_simple()
