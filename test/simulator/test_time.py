@@ -30,6 +30,7 @@ def test_simulator_time():
     from qns.simulator.simulator import Simulator
     from qns.simulator.event import func_to_event
     s = Simulator(1, 10, 1000)
+    s.run()
     print_event = func_to_event(Time(sec=1), print_msg, "hello world")
     print(print_event.t.accuracy)
     assert (print_event.t.accuracy == 1000)

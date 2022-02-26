@@ -201,7 +201,7 @@ class QState(object):
             return None
         evs = np.linalg.eig(self.rho)
         max_idx = 0
-        for idx,i in enumerate(evs[0]):
+        for idx, i in enumerate(evs[0]):
             if i > evs[0][max_idx]:
                 max_idx = idx
         return evs[1][:, max_idx].reshape((2**self.num, 1))
