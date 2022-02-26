@@ -200,7 +200,11 @@ class QState(object):
             print(self.rho.T.conjugate() * self.rho)
             return None
         evs = np.linalg.eig(self.rho)
-        return evs[1][:, 0].reshape((2**self.num, 1))
+        max_idx = 0
+        for idx, i in enumerate(evs[0]):
+            if i > evs[0][max_idx]:
+                max_idx = idx
+        return evs[1][:, max_idx].reshape((2**self.num, 1))
 
     def __repr__(self) -> str:
         if self.name is not None:
