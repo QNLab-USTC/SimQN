@@ -8,6 +8,7 @@ def test_time():
     t4 = Time(1100000)
 
     print(t1.sec)
+    print(t4)
 
     assert (t1 == t1)
     assert (t2 >= t1)
@@ -33,5 +34,3 @@ def test_simulator_time():
     print_event = func_to_event(Time(sec=1), print_msg, "hello world")
     print(print_event.t.accuracy)
     assert (print_event.t.accuracy == 1000)
-
-
