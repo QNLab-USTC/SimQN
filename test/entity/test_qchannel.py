@@ -1,10 +1,11 @@
 from typing import Optional
 from qns.simulator.simulator import Simulator
-from qns.simulator.event import Event
+from qns.simulator.event import Event, func_to_event
 from qns.simulator.ts import Time
 from qns.models.qubit.qubit import Qubit
 from qns.entity.node.node import QNode
 from qns.entity.qchannel.qchannel import QuantumChannel, RecvQubitPacket
+from qns.entity.node.app import Application
 
 
 class QuantumRecvNode(QNode):
@@ -45,7 +46,7 @@ class SendEvent(Event):
         self.node.send()
 
 
-def test_qchannel():
+def test_qchannel_first():
     n2 = QuantumRecvNode("n2")
     n1 = QuantumSendNode("n1", dest=n2)
     l1 = QuantumChannel(name="l1", bandwidth=3, delay=0.2, drop_rate=0.1, max_buffer_size=5)
@@ -56,3 +57,49 @@ def test_qchannel():
     n1.install(s)
     n2.install(s)
     s.run()
+
+
+class SendApp(Application):
+    def __init__(self, dest: QNode, qchannel: QuantumChannel, send_rate=1):
+        super().__init__()
+        self.dest = dest
+        self.qchannel = qchannel
+        self.send_rate = send_rate
+
+    def install(self, node, simulator: Simulator):
+        super().install(node=node, simulator=simulator)
+        t = simulator.ts
+        event = func_to_event(t, self.send)
+        self._simulator.add_event(event)
+
+    def send(self):
+        qubit = Qubit()
+        self.qchannel.send(qubit=qubit, next_hop=self.dest)
+        t = self._simulator.current_time + self._simulator.time(sec=1 / self.send_rate)
+        event = func_to_event(t, self.send)
+        self._simulator.add_event(event)
+
+
+class RecvApp(Application):
+    def handle(self, node, event: Event) -> Optional[bool]:
+        if isinstance(event, RecvQubitPacket):
+            recv_time = event.t
+            print("recv_time:{}".format(recv_time))
+
+
+def test_qchannel_second():
+    n1 = QNode(name="n_1")
+    n2 = QNode(name="n_2")
+    l1 = QuantumChannel(name="l_1")
+    # l2 = QuantumChannel(name="l2", bandwidth=5, delay=0.5, drop_rate=0.2, max_buffer_size=5)
+    n1.add_qchannel(l1)
+    n2.add_qchannel(l1)
+    s = Simulator(1, 5, 1000)
+    n1.add_apps(SendApp(dest=n2,qchannel=l1))
+    n2.add_apps(RecvApp())
+    n1.install(s)
+    n2.install(s)
+    s.run()
+
+
+test_qchannel_second()

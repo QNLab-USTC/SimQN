@@ -79,7 +79,7 @@ class Event(object):
         return "Event()"
 
 
-def func_to_event(t: Time, fn, *args, **kwargs):
+def func_to_event(t: Time, name, fn, *args, **kwargs):
     """
     Convert a function to an event, the function `fn` will be called at `t`.
     It is a simple method to wrap a function to an event.
@@ -90,9 +90,10 @@ def func_to_event(t: Time, fn, *args, **kwargs):
         *args: the function's parameters
         **kwargs: the function's parameters
     """
+
     class WrapperEvent(Event):
-        def __init__(self, t: Optional[Time] = t, name: Optional[str] = None):
-            super().__init__(t=t, name=name)
+        def __init__(self, t: Optional[Time] = t, name_event = name):
+            super().__init__(t=t, name=name_event)
 
         def invoke(self) -> None:
             fn(*args, **kwargs)

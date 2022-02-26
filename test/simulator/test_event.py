@@ -1,4 +1,4 @@
-from qns.simulator.event import Event
+from qns.simulator.event import Event, func_to_event
 from qns.simulator.ts import Time
 
 
@@ -7,12 +7,25 @@ class PrintEvent(Event):
         print("event happened")
 
 
-def test_event():
-
+def test_event_normal():
     te = PrintEvent(t=Time(sec=1), name="test event")
     print(te)
 
     te.invoke()
-    assert(not te.is_canceled)
+    assert (not te.is_canceled)
     te.cancel()
-    assert(te.is_canceled)
+    assert (te.is_canceled)
+test_event_normal()
+
+def Print():
+    print("event happened")
+
+
+def test_event_simple():
+    te = func_to_event(t=Time(sec=1), name="test event", fn=Print)
+    print(te)
+
+    te.invoke()
+
+
+test_event_simple()

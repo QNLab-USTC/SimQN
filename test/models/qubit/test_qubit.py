@@ -75,3 +75,10 @@ def test_toffoli():
             assert(c2 == 1)
         else:
             assert(c2 == 0)
+
+# w,v = np.linalg.eig(np.array([[-1, 1, 0], [-4, 3, 0], [1, 0, 2]]))
+# print('w: ',w)
+# print('v: ',v)
+from qns.models.qubit.const import QUBIT_STATE_P,QUBIT_STATE_N
+q0 = Qubit(state=QUBIT_STATE_N,name='q0')
+q0.state.state()

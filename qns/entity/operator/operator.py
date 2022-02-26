@@ -59,12 +59,6 @@ class QuantumOperator(Entity):
             response = OperateResponseEvent(node=self.node, result=result, request=event, t=t)
             self._simulator.add_event(response)
 
-    def set_own(self, node: QNode):
-        """
-        set the owner of this quantum operator
-        """
-        self.node = node
-
     def operate(self, *qubits) -> Optional[Union[int, list[int]]]:
         """
         operate on qubits and return the measure result
