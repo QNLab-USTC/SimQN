@@ -14,7 +14,6 @@ def test_time():
     assert (t1 <= t2)
     assert (t1 < t2)
     assert (t3 < t1)
-    assert (t2 == t4)
 
 
 def print_msg(msg):
