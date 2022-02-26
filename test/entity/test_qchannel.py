@@ -69,14 +69,14 @@ class SendApp(Application):
     def install(self, node, simulator: Simulator):
         super().install(node=node, simulator=simulator)
         t = simulator.ts
-        event = func_to_event(t, self.send)
+        event = func_to_event(t,"send_event", self.send)
         self._simulator.add_event(event)
 
     def send(self):
         qubit = Qubit()
         self.qchannel.send(qubit=qubit, next_hop=self.dest)
         t = self._simulator.current_time + self._simulator.time(sec=1 / self.send_rate)
-        event = func_to_event(t, self.send)
+        event = func_to_event(t, "send_event", self.send)
         self._simulator.add_event(event)
 
 
