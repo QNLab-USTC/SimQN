@@ -14,7 +14,7 @@ class TimerEvent(Event):
         return f"<{self.name}-{self.t}>"
 
 
-def test_simulator():
+def test_simulator_with_log():
     s = Simulator(0, 15, 1000)
     t = 0
     while t <= 12:
@@ -27,4 +27,5 @@ def test_simulator():
         e = TimerEvent(t=s.time(sec=t), name="t2")
         s.add_event(e)
         t += 1
+    log.install(s)
     s.run()

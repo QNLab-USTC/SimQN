@@ -31,7 +31,7 @@ class Time(object):
             sec (float): the timestamp in second
             accuracy: time slots per second
         '''
-        self.accuracy = accuracy
+        self.accuracy = default_accuracy
         if time_slot != 0:
             self.time_slot = time_slot
         else:
