@@ -15,11 +15,28 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from qns.models.qubit.qubit import Qubit, QState
-from qns.models.qubit.gate import X, Y, Z, H, S, T, R, I, CNOT, joint,\
-                                  RX, RY, RZ, U, CZ, CR, ControlledGate, Swap, Toffoli
-from qns.models.qubit.utils import single_gate_expand
+import numpy as np
+from qns.models.qubit.const import OPERATOR_PAULI_I
 
-__all__ = ["Qubit", "QState", "X", "Y", "Z", "H", "S",
-           "T", "R", "I", "CNOT", "joint", "RX", "RY", "RZ", "U",
-           "CZ", "CR", "ControlledGate", "Swap", "Toffoli", "single_gate_expand"]
+
+class OperatorError(Exception):
+    pass
+
+
+def single_gate_expand(qubit: "Qubit", operator: np.ndarray) -> np.ndarray:
+    state = qubit.state
+    if operator.shape != (2, 2):
+        raise OperatorError
+
+    # single qubit operate
+    try:
+        idx = state.qubits.index(qubit)
+    except ValueError:
+        raise OperatorError
+    full_operator = np.array([1])
+    for i in range(state.num):
+        if i == idx:
+            full_operator = np.kron(full_operator, operator)
+        else:
+            full_operator = np.kron(full_operator, OPERATOR_PAULI_I)
+    return full_operator

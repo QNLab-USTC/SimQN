@@ -21,7 +21,7 @@ memory_capacity = 50
 send_rate = 10
 
 nodes_number = 10
-for nodes_number in range(2, 21):
+for nodes_number in range(5, 21):
     result = []
     for delay in [0.1, 0.07, 0.05, 0.03]:
         s = Simulator(0, 30, accuracy=10000000)

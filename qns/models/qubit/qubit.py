@@ -15,11 +15,12 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from typing import List, Optional
+from typing import Callable, List, Optional, Union
 import numpy as np
 
 from qns.models.qubit.const import QUBIT_STATE_0, QUBIT_STATE_1,\
         QUBIT_STATE_P, QUBIT_STATE_N, QUBIT_STATE_L, QUBIT_STATE_R
+from qns.models.qubit.utils import single_gate_expand
 from qns.models.core.backend import QuantumModel
 from qns.models.qubit.errors import QStateBaseError, QStateQubitNotInStateError,\
                                     QStateSizeNotMatchError, OperatorNotMatchError
@@ -170,6 +171,39 @@ class QState(object):
             raise OperatorNotMatchError
         self.rho = np.dot(full_operator, np.dot(self.rho, full_operator.T.conjugate()))
 
+    def stochastic_operate(self, list_operators: List[np.ndarray] = [], list_p: List[float] = []):
+        """
+        A stochastic operate progess. It usually turns a pure state into a mixed state.
+
+        Args:
+            list_operators (List[np.ndarray]): a list of operators
+            list_p (List[float]): a list of possibility
+        Raises:
+            OperatorNotMatchError
+        """
+        new_state = np.zeros((2**self.num, 2**self.num), dtype=complex)
+
+        if len(list_operators) != len(list_p):
+            raise OperatorNotMatchError("Not match number between operators and possibilities")
+
+        sum = 0.0
+        for p in list_p:
+            if p < 0 or p > 1:
+                raise OperatorNotMatchError("possibility not in range")
+            sum += p
+
+        if abs(1-sum) >= 1e-6:
+            raise OperatorNotMatchError("Probabilities are not normalized")
+
+        for idx, operator in enumerate(list_operators):
+            operator_size = operator.shape
+            if operator_size == (2**self.num, 2**self.num):
+                full_operator = operator
+            else:
+                raise OperatorNotMatchError
+            new_state += list_p[idx] * np.dot(full_operator, np.dot(self.rho, full_operator.T.conjugate()))
+        self.rho = new_state
+
     def equal(self, other_state: "QState") -> bool:
         """
         compare two state vectors, return True if they are the same
@@ -264,6 +298,35 @@ class Qubit(QuantumModel):
             1: QUBIT_STATE_1 state
         """
         return self.measure()
+
+    def operate(self, operator: Union[Callable[["Qubit"], None], np.ndarray]) -> None:
+        """
+        Perfrom a operate on this qubit
+
+        Args:
+            operator (Union[Callable[["Qubit"], None], np.ndarray]): an operator matrix, or a quantum gate in qubit.gate
+        """
+        if callable(operator):
+            operator(self)
+        full_operator = single_gate_expand(self, operator)
+        self.state.operate(full_operator)
+
+    def stochastic_operate(self, list_operators: List[np.ndarray] = [], list_p: List[float] = []):
+        """
+        A stochastic operate on this qubit. It usually turns a pure state into a mixed state.
+
+        Args:
+            list_operators (List[np.ndarray]): a list of operators
+            list_p (List[float]): a list of possibility
+        Raises:
+            OperatorNotMatchError
+        """
+        print(0, list_operators)
+        full_operators_list = []
+        for operator in list_operators:
+            print(1, operator)
+            full_operators_list.append(single_gate_expand(self, operator))
+        self.state.stochastic_operate(full_operators_list, list_p)
 
     def __repr__(self) -> str:
         if self.name is not None:

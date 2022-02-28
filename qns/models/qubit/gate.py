@@ -45,25 +45,6 @@ class QGateStateJointError(Exception):
     pass
 
 
-def _single_gate_expand(qubit: Qubit, operator: np.ndarray) -> np.ndarray:
-    state = qubit.state
-    if operator.shape != (2, 2):
-        raise QGateOperatorNotMatchError
-
-    # single qubit operate
-    try:
-        idx = state.qubits.index(qubit)
-    except ValueError:
-        raise QGateQubitNotInStateError
-    full_operator = np.array([1])
-    for i in range(state.num):
-        if i == idx:
-            full_operator = np.kron(full_operator, operator)
-        else:
-            full_operator = np.kron(full_operator, OPERATOR_PAULI_I)
-    return full_operator
-
-
 def joint(qubit1: Qubit, qubit2: Qubit) -> None:
     if qubit1.state == qubit2.state:
         return
@@ -87,8 +68,7 @@ def X(qubit: Qubit) -> None:
         QGateOperatorNotMatchError
         QGateQubitNotInStateError
     """
-    full_operation = _single_gate_expand(qubit, OPERATOR_PAULI_X)
-    qubit.state.operate(full_operation)
+    qubit.operate(OPERATOR_PAULI_X)
 
 
 def Y(qubit: Qubit) -> None:
@@ -102,8 +82,7 @@ def Y(qubit: Qubit) -> None:
         QGateOperatorNotMatchError
         QGateQubitNotInStateError
     """
-    full_operation = _single_gate_expand(qubit, OPERATOR_PAULI_Y)
-    qubit.state.operate(full_operation)
+    qubit.operate(OPERATOR_PAULI_Y)
 
 
 def Z(qubit: Qubit) -> None:
@@ -117,8 +96,7 @@ def Z(qubit: Qubit) -> None:
         QGateOperatorNotMatchError
         QGateQubitNotInStateError
     """
-    full_operation = _single_gate_expand(qubit, OPERATOR_PAULI_Z)
-    qubit.state.operate(full_operation)
+    qubit.operate(OPERATOR_PAULI_Z)
 
 
 def I(qubit: Qubit) -> None:
@@ -132,8 +110,7 @@ def I(qubit: Qubit) -> None:
         QGateOperatorNotMatchError
         QGateQubitNotInStateError
     """
-    full_operation = _single_gate_expand(qubit, OPERATOR_PAULI_I)
-    qubit.state.operate(full_operation)
+    qubit.operate(OPERATOR_PAULI_I)
 
 
 def H(qubit: Qubit) -> None:
@@ -147,8 +124,7 @@ def H(qubit: Qubit) -> None:
         QGateOperatorNotMatchError
         QGateQubitNotInStateError
     """
-    full_operation = _single_gate_expand(qubit, OPERATOR_HADAMARD)
-    qubit.state.operate(full_operation)
+    qubit.operate(OPERATOR_HADAMARD)
 
 
 def T(qubit: Qubit) -> None:
@@ -162,8 +138,7 @@ def T(qubit: Qubit) -> None:
         QGateOperatorNotMatchError
         QGateQubitNotInStateError
     """
-    full_operation = _single_gate_expand(qubit, OPERATOR_T)
-    qubit.state.operate(full_operation)
+    qubit.operate(OPERATOR_T)
 
 
 def S(qubit: Qubit) -> None:
@@ -180,8 +155,7 @@ def S(qubit: Qubit) -> None:
         QGateOperatorNotMatchError
         QGateQubitNotInStateError
     """
-    full_operation = _single_gate_expand(qubit, OPERATOR_S)
-    qubit.state.operate(full_operation)
+    qubit.operate(OPERATOR_S)
 
 
 def R(qubit: Qubit, theta: float = np.pi / 4) -> None:
@@ -199,8 +173,7 @@ def R(qubit: Qubit, theta: float = np.pi / 4) -> None:
         QGateOperatorNotMatchError
         QGateQubitNotInStateError
     """
-    full_operation = _single_gate_expand(qubit, OPERATOR_PHASE_SHIFT(theta))
-    qubit.state.operate(full_operation)
+    qubit.operate(OPERATOR_PHASE_SHIFT(theta))
 
 
 def RX(qubit: Qubit, theta: float = np.pi / 4) -> None:
@@ -218,8 +191,7 @@ def RX(qubit: Qubit, theta: float = np.pi / 4) -> None:
         QGateOperatorNotMatchError
         QGateQubitNotInStateError
     """
-    full_operation = _single_gate_expand(qubit, OPERATOR_RX(theta))
-    qubit.state.operate(full_operation)
+    qubit.operate(OPERATOR_RX(theta))
 
 
 def RY(qubit: Qubit, theta: float = np.pi / 4) -> None:
@@ -237,8 +209,7 @@ def RY(qubit: Qubit, theta: float = np.pi / 4) -> None:
         QGateOperatorNotMatchError
         QGateQubitNotInStateError
     """
-    full_operation = _single_gate_expand(qubit, OPERATOR_RY(theta))
-    qubit.state.operate(full_operation)
+    qubit.operate(OPERATOR_RY(theta))
 
 
 def RZ(qubit: Qubit, theta: float = np.pi / 4) -> None:
@@ -256,8 +227,7 @@ def RZ(qubit: Qubit, theta: float = np.pi / 4) -> None:
         QGateOperatorNotMatchError
         QGateQubitNotInStateError
     """
-    full_operation = _single_gate_expand(qubit, OPERATOR_RZ(theta))
-    qubit.state.operate(full_operation)
+    qubit.operate(OPERATOR_RZ(theta))
 
 
 def U(qubit: Qubit, operator: np.ndarray):
@@ -274,8 +244,7 @@ def U(qubit: Qubit, operator: np.ndarray):
     """
     if operator.shape != (2, 2):
         raise QGateOperatorNotMatchError
-    full_operation = _single_gate_expand(qubit, operator)
-    qubit.state.operate(full_operation)
+    qubit.operate(operator=operator)
 
 
 def ControlledGate(qubit1: Qubit, qubit2: Qubit, operator: np.ndarray = OPERATOR_PAULI_X):

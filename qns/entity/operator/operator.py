@@ -15,7 +15,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from typing import Callable, Optional, Union
+from typing import Callable, List, Optional, Union
 from qns.entity.entity import Entity
 from qns.entity.node.node import QNode
 from qns.simulator.event import Event
@@ -31,7 +31,7 @@ class QuantumOperator(Entity):
     """
 
     def __init__(self, name: str = None, node: QNode = None,
-                 gate: Callable[..., Union[None, int, list[int]]] = None, delay: float = 0):
+                 gate: Callable[..., Union[None, int, List[int]]] = None, delay: float = 0):
         """
         Args:
             name (str): its name
@@ -65,7 +65,7 @@ class QuantumOperator(Entity):
         """
         self.node = node
 
-    def operate(self, *qubits) -> Optional[Union[int, list[int]]]:
+    def operate(self, *qubits) -> Optional[Union[int, List[int]]]:
         """
         operate on qubits and return the measure result
 
