@@ -64,6 +64,9 @@ class EntanglementDistributionApp(Application):
         self.success_count = 0
         self.send_count = 0
 
+        self.add_handler(self.RecvQubitHandler, [RecvQubitPacket])
+        self.add_handler(self.RecvClassicPacketHandler, [RecvClassicPacket])
+
     def install(self, node: QNode, simulator: Simulator):
         super().install(node, simulator)
         self.own: QNode = self._node
@@ -85,11 +88,11 @@ class EntanglementDistributionApp(Application):
             event = func_to_event(t, self.new_distribution, by=self)
             self._simulator.add_event(event)
 
-    def handle(self, node: QNode, event: Event):
-        if isinstance(event, RecvQubitPacket):
-            self.response_distribution(event)
-        elif isinstance(event, RecvClassicPacket):
-            self.handle_response(event)
+    def RecvQubitHandler(self, node: QNode, event: Event):
+        self.response_distribution(event)
+
+    def RecvClassicPacketHandler(self, node: QNode, event: Event):
+        self.handle_response(event)
 
     def new_distribution(self):
         # insert the next send event

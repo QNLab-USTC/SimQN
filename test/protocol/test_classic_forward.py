@@ -49,13 +49,16 @@ class SendApp(Application):
 
 # the receiving application
 class RecvApp(Application):
-    def handle(self, node: QNode, event: Event):
-        if isinstance(event, RecvClassicPacket):
-            packet = event.packet
-            msg = packet.get()
-            output = f"{node} recv packet: {msg} from {packet.src}->{packet.dest}"
-            print(output)
-            assert(output == "<node n10> recv packet: Hello,world from <node n1> from <node n1>-><node n10>")
+    def __init__(self):
+        super().__init__()
+        self.add_handler(self.RecvClassicPacketHandler, [RecvClassicPacket], [])
+
+    def RecvClassicPacketHandler(self, node: QNode, event: Event):
+        packet = event.packet
+        msg = packet.get()
+        output = f"{node} recv packet: {msg} from {packet.src}->{packet.dest}"
+        print(output)
+        assert(output == "<node n10> recv packet: Hello,world from <node n1> from <node n1>-><node n10>")
 
 
 def test_classic_forward():

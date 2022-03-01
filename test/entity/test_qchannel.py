@@ -83,10 +83,13 @@ class SendApp(Application):
 
 
 class RecvApp(Application):
-    def handle(self, node, event: Event) -> Optional[bool]:
-        if isinstance(event, RecvQubitPacket):
-            recv_time = event.t
-            print("recv_time:{}".format(recv_time))
+    def __init__(self):
+        super().__init__()
+        self.add_handler(self.RecvQubitHandler, [RecvQubitPacket])
+
+    def RecvQubitHandler(self, node, event: Event) -> Optional[bool]:
+        recv_time = event.t
+        print("recv_time:{}".format(recv_time))
 
 
 def test_qchannel_second():

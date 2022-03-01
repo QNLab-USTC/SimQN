@@ -36,7 +36,8 @@ class ClassicSendNode(QNode):
 
 
 class SendEvent(Event):
-    def __init__(self, t: Optional[Time] = None, name: Optional[str] = None, by:Optional[Any] = None,node: QNode = None):
+    def __init__(self, t: Optional[Time] = None, node: QNode = None,
+                 name: Optional[str] = None, by: Optional[Any] = None):
         super().__init__(t=t, name=name, by=by)
         self.node: ClassicSendNode = node
 

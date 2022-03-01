@@ -56,6 +56,8 @@ class BB84SendApp(Application):
         self.succ_key_pool = {}
         self.fail_number = 0
 
+        self.add_handler(self.handleClassicPacket, [RecvClassicPacket], [self.cchannel])
+
     def install(self, node: QNode, simulator: Simulator):
         super().install(node, simulator)
 
@@ -72,10 +74,8 @@ class BB84SendApp(Application):
         #     event = func_to_event(t, self.send_qubit)
         #     self._simulator.add_event(event)
 
-    def handle(self, node: QNode, event: Event):
-        super().handle(node, event)
-        if isinstance(event, RecvClassicPacket) and self.cchannel == event.cchannel:
-            self.check_basis(event)
+    def handleClassicPacket(self, node: QNode, event: Event):
+        self.check_basis(event)
 
     def check_basis(self, event: RecvClassicPacket):
         packet = event.packet
@@ -140,13 +140,14 @@ class BB84RecvApp(Application):
         self.succ_key_pool = {}
         self.fail_number = 0
 
-    def handle(self, node: QNode, event: Event):
-        if isinstance(event, RecvQubitPacket) and self.qchannel == event.qchannel:
-            # receive a qubit
-            return self.recv(event)
-        elif isinstance(event, RecvClassicPacket) and self.cchannel == event.cchannel:
-            return self.check_basis(event)
-        return super().handle(node, event)
+        self.add_handler(self.handleQuantumPacket, [RecvQubitPacket], [self.qchannel])
+        self.add_handler(self.handleClassicPacket, [RecvClassicPacket], [self.cchannel])
+
+    def handleQuantumPacket(self, node: QNode, event: Event):
+        return self.recv(event)
+
+    def handleClassicPacket(self, node: QNode, event: Event):
+        return self.check_basis(event)
 
     def check_basis(self, event: RecvClassicPacket):
         packet = event.packet

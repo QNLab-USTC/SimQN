@@ -37,16 +37,12 @@ class ClassicPacketForwardApp(Application):
         """
         super().__init__()
         self.route = route
+        self.add_handler(self.handleClassicPacket, [RecvClassicPacket], [])
 
     def install(self, node: QNode, simulator: Simulator):
         super().install(node, simulator)
 
-    def handle(self, node: QNode, event: Event):
-        if not isinstance(event, RecvClassicPacket):
-            # the event is not receiving a classic packet
-            # pass
-            return False
-
+    def handleClassicPacket(self, node: QNode, event: Event):
         packet = event.packet
         self_node: QNode = self.get_node()
 

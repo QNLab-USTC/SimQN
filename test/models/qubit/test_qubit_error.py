@@ -52,20 +52,25 @@ def test_qubit_memory():
     Qubit = QubitFactory(store_error_model=DepolarStorageErrorModel)
 
     class MemoryReadResponseApp(Application):
-        def handle(self, node, event: Event) -> Optional[bool]:
-            if isinstance(event, MemoryReadResponseEvent):
-                result = event.result
-                print("self._simulator.tc.sec: {}".format(self._simulator.tc))
-                print("result: {}".format(result))
-                assert (self._simulator.tc.sec == 1.5)
-                assert (result is not None)
-                print(result.state)
-            elif isinstance(event, MemoryWriteResponseEvent):
-                result = event.result
-                print("self._simulator.tc.sec: {}".format(self._simulator.tc))
-                print("result: {}".format(result))
-                assert (self._simulator.tc.sec == 0.5)
-                assert (result)
+        def __init__(self):
+            super().__init__()
+            self.add_handler(self.MemoryReadResponseHandler, [MemoryReadResponseEvent])
+            self.add_handler(self.MemoryWriteResponseHandler, [MemoryWriteResponseEvent])
+
+        def MemoryReadResponseHandler(self, node, event: Event) -> Optional[bool]:
+            result = event.result
+            print("self._simulator.tc.sec: {}".format(self._simulator.tc))
+            print("result: {}".format(result))
+            assert (self._simulator.tc.sec == 1.5)
+            assert (result is not None)
+            print(result.state)
+
+        def MemoryWriteResponseHandler(self, node, event: Event) -> Optional[bool]:
+            result = event.result
+            print("self._simulator.tc.sec: {}".format(self._simulator.tc))
+            print("result: {}".format(result))
+            assert (self._simulator.tc.sec == 0.5)
+            assert (result)
 
     n1 = QNode("n1")
     app = MemoryReadResponseApp()
@@ -89,20 +94,25 @@ def test_qubit_memory_2():
     Qubit = QubitFactory(store_error_model=DephaseStorageErrorModel)
 
     class MemoryReadResponseApp(Application):
-        def handle(self, node, event: Event) -> Optional[bool]:
-            if isinstance(event, MemoryReadResponseEvent):
-                result = event.result
-                print("self._simulator.tc.sec: {}".format(self._simulator.tc))
-                print("result: {}".format(result))
-                assert (self._simulator.tc.sec == 1.5)
-                assert (result is not None)
-                print(result.state)
-            elif isinstance(event, MemoryWriteResponseEvent):
-                result = event.result
-                print("self._simulator.tc.sec: {}".format(self._simulator.tc))
-                print("result: {}".format(result))
-                assert (self._simulator.tc.sec == 0.5)
-                assert (result)
+        def __init__(self):
+            super().__init__()
+            self.add_handler(self.MemoryReadResponseHandler, [MemoryReadResponseEvent])
+            self.add_handler(self.MemoryWriteResponseHandler, [MemoryWriteResponseEvent])
+
+        def MemoryReadResponseHandler(self, node, event: Event) -> Optional[bool]:
+            result = event.result
+            print("self._simulator.tc.sec: {}".format(self._simulator.tc))
+            print("result: {}".format(result))
+            assert (self._simulator.tc.sec == 1.5)
+            assert (result is not None)
+            print(result.state)
+
+        def MemoryWriteResponseHandler(self, node, event: Event) -> Optional[bool]:
+            result = event.result
+            print("self._simulator.tc.sec: {}".format(self._simulator.tc))
+            print("result: {}".format(result))
+            assert (self._simulator.tc.sec == 0.5)
+            assert (result)
 
     n1 = QNode("n1")
     app = MemoryReadResponseApp()

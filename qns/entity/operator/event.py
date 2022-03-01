@@ -41,7 +41,7 @@ class OperateResponseEvent(Event):
     """
     ``OperateResponseEvent`` is the event that returns the operating result
     """
-    def __init__(self, node: QNode, result: Union[int, List[int]] = None, 
+    def __init__(self, node: QNode, result: Union[int, List[int]] = None,
                  request: OperateRequestEvent = None, t: Optional[Time] = None, name: Optional[str] = None,
                  by: Optional[Any] = None):
         super().__init__(t=t, name=name, by=by)

@@ -1,3 +1,4 @@
+import logging
 from qns.network.route.dijkstra import DijkstraRouteAlgorithm
 from qns.network.topology.topo import ClassicTopology
 from qns.simulator.simulator import Simulator
@@ -20,6 +21,7 @@ nodes_number = 10
 def test_epr_distribution():
     s = Simulator(0, 10, accuracy=10000000)
     log.install(s)
+    log.logger.setLevel(logging.DEBUG)
     topo = LineTopology(nodes_number=nodes_number,
                         qchannel_args={"delay": delay},
                         cchannel_args={"delay": delay},

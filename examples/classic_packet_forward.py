@@ -49,11 +49,14 @@ class SendApp(Application):
 
 # the receiving application
 class RecvApp(Application):
-    def handle(self, node: QNode, event: Event):
-        if isinstance(event, RecvClassicPacket):
-            packet = event.packet
-            msg = packet.get()
-            print(f"{node} recv packet: {msg} from {packet.src}->{packet.dest}")
+    def __init__(self):
+        super().__init__()
+        self.add_handler(self.ClassicPacketHandler, [RecvClassicPacket], [])
+
+    def ClassicPacketHandler(self, node: QNode, event: Event):
+        packet = event.packet
+        msg = packet.get()
+        print(f"{node} recv packet: {msg} from {packet.src}->{packet.dest}")
 
 
 def main():

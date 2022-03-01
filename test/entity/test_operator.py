@@ -31,11 +31,14 @@ def test_operator_sync():
 
 
 class RecvOperateApp(Application):
-    def handle(self, node, event: Event) -> Optional[bool]:
-        if isinstance(event, OperateResponseEvent):
-            result = event.result
-            assert(self._simulator.tc.sec == 0.5)
-            assert(result in [0, 1])
+    def __init__(self):
+        super().__init__()
+        self.add_handler(self.OperateResponseEventhandler, [OperateResponseEvent], [])
+
+    def OperateResponseEventhandler(self, node, event: Event) -> Optional[bool]:
+        result = event.result
+        assert(self._simulator.tc.sec == 0.5)
+        assert(result in [0, 1])
 
 
 def test_operator_async():
