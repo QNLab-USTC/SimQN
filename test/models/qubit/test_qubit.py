@@ -1,6 +1,6 @@
 from qns.models.qubit.qubit import Qubit
-from qns.models.qubit.gate import H, CNOT, RX, RY, RZ, U, CZ, CR, Swap, Toffoli
-from qns.models.qubit.const import QUBIT_STATE_0, QUBIT_STATE_1, OPERATOR_RX, OPERATOR_RZ, OPERATOR_RY
+from qns.models.qubit.gate import H, CNOT, RX, RY, U, CZ, CR, Swap, Toffoli
+from qns.models.qubit.const import QUBIT_STATE_0, QUBIT_STATE_1, OPERATOR_RX, OPERATOR_RY
 import numpy as np
 
 
@@ -9,12 +9,17 @@ def test_qubit():
     q1 = Qubit(state=QUBIT_STATE_0, name="q1")
     H(q0)
     CNOT(q0, q1)
-    print(q0.state.rho)
     c0 = q0.measure()
-    print(q1.state.rho)
     c1 = q1.measure()
-    print(c0, c1, q0.state.rho, q1.state.rho)
-    assert (q0.measure() == q1.measure())
+    assert (c0 == c1)
+
+    q0 = Qubit(state=QUBIT_STATE_0, name="q0")
+    q1 = Qubit(state=QUBIT_STATE_0, name="q1")
+    q0.operate(H)
+    CNOT(q0, q1)
+    c0 = q0.measure()
+    c1 = q1.measure()
+    assert (c0 == c1)
 
 
 def test_qubit_rotate():
@@ -30,23 +35,20 @@ def test_qubit_rotate():
     U(q1, OPERATOR_RY(theta=np.pi / 4))
     assert (q0.state.equal(q1.state))
 
-    q0 = Qubit(state=QUBIT_STATE_0, name="q0")
-    q1 = Qubit(state=QUBIT_STATE_0, name="q1")
-    RZ(q0)
-    U(q1, OPERATOR_RZ(theta=np.pi / 4))
-    assert (q0.state.equal(q1.state))
-
 
 def test_2qubit():
     q0 = Qubit(state=QUBIT_STATE_0, name="q0")
     q1 = Qubit(state=QUBIT_STATE_0, name="q1")
     H(q0)
     CZ(q0, q1)
-
     q0 = Qubit(state=QUBIT_STATE_0, name="q0")
-    q1 = Qubit(state=QUBIT_STATE_0, name="q1")
+    q1 = Qubit(state=QUBIT_STATE_1, name="q1")
     H(q0)
-    CR(q0, q1, theta=np.pi / 4)
+    CR(q0, q1, theta=np.pi/4)
+    q0 = Qubit(state=QUBIT_STATE_0, name="q0")
+    q1 = Qubit(state=QUBIT_STATE_1, name="q1")
+    H(q0)
+    CR(q0, q1, theta=np.pi/2)
 
 
 def test_swap():

@@ -16,5 +16,6 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from qns.entity.qchannel.qchannel import QuantumChannel, RecvQubitPacket
+from qns.entity.qchannel.losschannel import QubitLossChannel
 
-__all__ = ["QuantumChannel", "RecvQubitPacket"]
+__all__ = ["QuantumChannel", "QubitLossChannel", "RecvQubitPacket"]

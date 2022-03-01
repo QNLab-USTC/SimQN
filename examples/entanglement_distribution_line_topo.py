@@ -31,7 +31,7 @@ for nodes_number in range(2, 21):
                             cchannel_args={"delay": delay},
                             memory_args=[{
                                 "capacity": memory_capacity,
-                                "store_error_model_args": {"a": 0.2}}],
+                                "decoherence_rage": 0.2}],
                             nodes_apps=[EntanglementDistributionApp(init_fidelity=init_fidelity)])
 
         net = QuantumNetwork(

@@ -24,7 +24,7 @@ def test_memory_sync_qubit():
 
 
 def test_memory_sync_epr():
-    m = QuantumMemory(name="m1", capacity=10, store_error_model_args={"a": 0.2})
+    m = QuantumMemory(name="m1", capacity=10, decoherence_rate=0.2)
     n1 = QNode("n1")
     n1.add_memory(m)
     epr = WernerStateEntanglement(name="epr1", fidelity=1.0)
@@ -33,7 +33,7 @@ def test_memory_sync_epr():
     m.write(epr)
     s.run()
     after_epr = m.read("epr1")
-    print(after_epr.fidelity)
+    print("final fidelity", after_epr.fidelity)
 
 
 def test_memory_async_qubit():
@@ -63,8 +63,8 @@ def test_memory_async_qubit():
     n1.install(s)
 
     q1 = Qubit(name="q1")
-    write_reqeust = MemoryWriteRequestEvent(memory=m, qubit=q1, t=s.time(sec=0))
+    write_request = MemoryWriteRequestEvent(memory=m, qubit=q1, t=s.time(sec=0))
     read_request = MemoryReadRequestEvent(memory=m, key="q1", t=s.time(sec=1))
-    s.add_event(write_reqeust)
+    s.add_event(write_request)
     s.add_event(read_request)
     s.run()

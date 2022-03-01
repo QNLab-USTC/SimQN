@@ -15,42 +15,16 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from typing import Callable, List, Optional, Union
+from typing import Any, List, Optional
 import numpy as np
 
 from qns.models.qubit.const import QUBIT_STATE_0, QUBIT_STATE_1,\
         QUBIT_STATE_P, QUBIT_STATE_N, QUBIT_STATE_L, QUBIT_STATE_R
-from qns.models.qubit.utils import single_gate_expand
+from qns.models.qubit.utils import single_gate_expand, partial_trace
 from qns.models.core.backend import QuantumModel
 from qns.models.qubit.errors import QStateBaseError, QStateQubitNotInStateError,\
                                     QStateSizeNotMatchError, OperatorNotMatchError
 from qns.utils.random import get_rand
-
-
-def partial_trace(rho: np.ndarray, idx: int) -> np.ndarray:
-    """
-    Calculate the partial trace
-
-    Args:
-        rho: the density matrix
-        idx (int): the index of removing qubit
-
-    Returns:
-        rho_res: the left density matric
-    """
-
-    num_qubit = int(np.log2(rho.shape[0]))
-    qubit_axis = [(idx, num_qubit + idx)]
-    minus_factor = [(i, 2 * i) for i in range(len(qubit_axis))]
-    minus_qubit_axis = [(q[0] - m[0], q[1] - m[1])
-                        for q, m in zip(qubit_axis, minus_factor)]
-    rho_res = np.reshape(rho, [2, 2] * num_qubit)
-    qubit_left = num_qubit - len(qubit_axis)
-    for i, j in minus_qubit_axis:
-        rho_res = np.trace(rho_res, axis1=i, axis2=j)
-    if qubit_left > 1:
-        rho_res = np.reshape(rho_res, [2 ** qubit_left] * 2)
-    return rho_res
 
 
 class QState(object):
@@ -269,17 +243,18 @@ class Qubit(QuantumModel):
             0: QUBIT_STATE_0 state
             1: QUBIT_STATE_1 state
         """
+        self.measure_error_model()
         return self.state.measure(self)
 
     def measureX(self):
         """
         Measure this qubit using X basis.
-        Only for not entangled qubits.
 
         Returns:
             0: QUBIT_STATE_P state
             1: QUBIT_STATE_N state
         """
+        self.measure_error_model()
         return self.state.measure(self, "X")
 
     def measureY(self):
@@ -291,6 +266,7 @@ class Qubit(QuantumModel):
             0: QUBIT_STATE_R state
             1: QUBIT_STATE_L state
         """
+        self.measure_error_model()
         return self.state.measure(self, "Y")
 
     def measureZ(self):
@@ -301,17 +277,35 @@ class Qubit(QuantumModel):
             0: QUBIT_STATE_0 state
             1: QUBIT_STATE_1 state
         """
+        self.measure_error_model()
         return self.measure()
 
-    def operate(self, operator: Union[Callable[["Qubit"], None], np.ndarray]) -> None:
+    def operate(self, operator: Any) -> None:
         """
         Perfrom a operate on this qubit
 
         Args:
-            operator (Union[Callable[["Qubit"], None], np.ndarray]): an operator matrix, or a quantum gate in qubit.gate
+            operator (Union[SingleQubitGate, np.ndarray]): an operator matrix, or a quantum gate in qubit.gate
         """
-        if callable(operator):
+        self.operating_error_model()
+        from qns.models.qubit.gate import SingleQubitGate
+        if isinstance(operator, SingleQubitGate):
             operator(self)
+            return
+        full_operator = single_gate_expand(self, operator)
+        self.state.operate(full_operator)
+
+    def _operate_without_error(self, operator: Any) -> None:
+        """
+        Perfrom a operate on this qubit
+
+        Args:
+            operator (Union[SingleQubitGate, np.ndarray]): an operator matrix, or a quantum gate in qubit.gate
+        """
+        from qns.models.qubit.gate import SingleQubitGate
+        if isinstance(operator, SingleQubitGate):
+            operator(self)
+            return
         full_operator = single_gate_expand(self, operator)
         self.state.operate(full_operator)
 
@@ -325,11 +319,13 @@ class Qubit(QuantumModel):
         Raises:
             OperatorNotMatchError
         """
-        print(0, list_operators)
+        from qns.models.qubit.gate import SingleQubitGate
         full_operators_list = []
         for operator in list_operators:
-            print(1, operator)
-            full_operators_list.append(single_gate_expand(self, operator))
+            if isinstance(operator, SingleQubitGate):
+                full_operators_list.append(single_gate_expand(self, operator._operator))
+            else:
+                full_operators_list.append(single_gate_expand(self, operator))
         self.state.stochastic_operate(full_operators_list, list_p)
 
     def __repr__(self) -> str:
@@ -348,13 +344,36 @@ class Qubit(QuantumModel):
         """
         pass
 
-    def transfer_error_model(self, length: float, **kwargs):
+    def transfer_error_model(self, length: float, decoherence_rate: Optional[float] = 0, **kwargs):
         """
         The default error model for transmitting this qubit
         The default behavior is doing nothing
 
         Args:
             length (float): the length of the channel
+            decoherence_rate (float): the decoherence rate
+            kwargs: other parameters
+        """
+        pass
+
+    def operate_error_model(self, decoherence_rate: Optional[float] = 0, **kwargs):
+        """
+        The error model for operating a qubit.
+        This function will change the quantum state.
+
+        Args:
+            decoherence_rate (float): the decoherency rate
+            kwargs: other parameters
+        """
+        pass
+
+    def measure_error_model(self, decoherence_rate: Optional[float] = 0, **kwargs):
+        """
+        The error model for measuring a qubit.
+        This function will change the quantum state.
+
+        Args:
+            decoherence_rate (float): the decoherency rate
             kwargs: other parameters
         """
         pass

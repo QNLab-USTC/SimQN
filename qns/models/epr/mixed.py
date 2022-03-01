@@ -125,36 +125,44 @@ class MixedStateEntanglement(BaseEntanglement, QuantumModel):
         ne.normalized()
         return ne
 
-    def storage_error_model(self, t: float, **kwargs):
+    def storage_error_model(self, t: Optional[float] = 0, decoherence_rate: Optional[float] = 0, **kwargs):
         """
         The default error model for storing this entangled pair in a quantum memory.
-        The default behavior is: a = 0.25 + (a-0.25)*e^{a*t}, default a = 0
+        The default behavior is:
+            a = 0.25 + (a-0.25)*e^{decoherence_rate*t}
+            b = 0.25 + (b-0.25)*e^{decoherence_rate*t}
+            c = 0.25 + (c-0.25)*e^{decoherence_rate*t}
+            d = 0.25 + (d-0.25)*e^{decoherence_rate*t}
 
         Args:
             t: the time stored in a quantum memory. The unit it second.
+            decoherence_rate: the decoherence rate, equals to 1/T_coh, where T_coh is the coherence time.
             kwargs: other parameters
         """
-        a = kwargs.get("a", 0)
-        self.a = 0.25 + (self.a-0.25) * np.exp(-a * t)
-        self.b = 0.25 + (self.b-0.25) * np.exp(-a * t)
-        self.c = 0.25 + (self.c-0.25) * np.exp(-a * t)
-        self.d = 0.25 + (self.d-0.25) * np.exp(-a * t)
+        self.a = 0.25 + (self.a-0.25) * np.exp(-decoherence_rate * t)
+        self.b = 0.25 + (self.b-0.25) * np.exp(-decoherence_rate * t)
+        self.c = 0.25 + (self.c-0.25) * np.exp(-decoherence_rate * t)
+        self.d = 0.25 + (self.d-0.25) * np.exp(-decoherence_rate * t)
         self.normalized()
 
-    def transfer_error_model(self, length: float, **kwargs):
+    def transfer_error_model(self, length: float, decoherence_rate: Optional[float] = 0, **kwargs):
         """
         The default error model for transmitting this entanglement.
-        The success possibility of transmitting is: 0.25 + (a-0.25)*e^{b*l}, default b = 0
+        The success possibility of transmitting is:
+            a = 0.25 + (a-0.25)*e^{decoherence_rate*length}
+            b = 0.25 + (b-0.25)*e^{decoherence_rate*length}
+            c = 0.25 + (c-0.25)*e^{decoherence_rate*length}
+            d = 0.25 + (d-0.25)*e^{decoherence_rate*length}
 
         Args:
             length (float): the length of the channel
+            decoherence_rate (float): the decoherency rate
             kwargs: other parameters
         """
-        b = kwargs.get("b", 0)
-        self.a = 0.25 + (self.a-0.25) * np.exp(-b * length)
-        self.b = 0.25 + (self.b-0.25) * np.exp(-b * length)
-        self.c = 0.25 + (self.c-0.25) * np.exp(-b * length)
-        self.d = 0.25 + (self.d-0.25) * np.exp(-b * length)
+        self.a = 0.25 + (self.a-0.25) * np.exp(-decoherence_rate * length)
+        self.b = 0.25 + (self.b-0.25) * np.exp(-decoherence_rate * length)
+        self.c = 0.25 + (self.c-0.25) * np.exp(-decoherence_rate * length)
+        self.d = 0.25 + (self.d-0.25) * np.exp(-decoherence_rate * length)
         self.normalized()
 
     def to_qubits(self) -> List[Qubit]:

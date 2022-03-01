@@ -1,4 +1,5 @@
 from typing import Optional
+from qns.entity.qchannel.losschannel import QubitLossChannel
 from qns.simulator.simulator import Simulator
 from qns.simulator.event import Event, func_to_event
 from qns.simulator.ts import Time
@@ -102,4 +103,16 @@ def test_qchannel_second():
     s.run()
 
 
-test_qchannel_second()
+def test_qubit_loss_channel():
+    n1 = QNode(name="n_1")
+    n2 = QNode(name="n_2")
+    l1 = QubitLossChannel(name="loss_channel_1", p_init=0.1, attenuation_rate=0.02, length=100)
+    print(l1.drop_rate)
+    n1.add_qchannel(l1)
+    n2.add_qchannel(l1)
+    s = Simulator(1, 5, 1000)
+    n1.add_apps(SendApp(dest=n2, qchannel=l1))
+    n2.add_apps(RecvApp())
+    n1.install(s)
+    n2.install(s)
+    s.run()

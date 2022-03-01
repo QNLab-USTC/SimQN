@@ -96,29 +96,28 @@ class WernerStateEntanglement(BaseEntanglement, QuantumModel):
                       (fmin ** 2 + 5 / 9 * (1 - fmin) ** 2 + 2 / 3 * fmin * (1 - fmin))
         return ne
 
-    def storage_error_model(self, t: float, **kwargs):
+    def storage_error_model(self, t: float, decoherence_rate: Optional[float] = 0, **kwargs):
         """
         The default error model for storing this entangled pair in a quantum memory.
-        The default behavior is: w = w*e^{-a*t}, default a = 0
+        The default behavior is: w = w*e^{-decoherence_rate*t}, default a = 0
 
         Args:
             t: the time stored in a quantum memory. The unit it second.
+            decoherence_rate: the decoherence rate, equals to 1/T_coh, where T_coh is the coherence time.
             kwargs: other parameters
         """
-        a = kwargs.get("a", 0)
-        self.w = self.w * np.exp(-a * t)
+        self.w = self.w * np.exp(-decoherence_rate * t)
 
-    def transfer_error_model(self, length: float, **kwargs):
+    def transfer_error_model(self, length: float, decoherence_rate: Optional[float] = 0, **kwargs):
         """
         The default error model for transmitting this entanglement.
-        The success possibility of transmitting is: p = 10^{-b*D}, default b = 0
+        The success possibility of transmitting is: w = w* e^{decoherence_rate * length}
 
         Args:
             length (float): the length of the channel
             kwargs: other parameters
         """
-        b = kwargs.get("b", 0)
-        self.w = self.w * np.exp(-b * length)
+        self.w = self.w * np.exp(-decoherence_rate * length)
 
     def to_qubits(self) -> List[Qubit]:
         if self.is_decoherenced:

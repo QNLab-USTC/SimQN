@@ -31,7 +31,7 @@ from qns.utils.random import get_rand, get_choice
 
 
 class QubitWithError(Qubit):
-    def transfer_error_model(self, length: float, **kwargs):
+    def transfer_error_model(self, length: float, decoherence_rate: float = 0, **kwargs):
         lkm = length / 1000
         standand_lkm = 50.0
         theta = get_rand() * lkm / standand_lkm * np.pi / 4

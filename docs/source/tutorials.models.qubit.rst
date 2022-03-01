@@ -39,6 +39,12 @@ We implement some quantum gates. And those gates can change the qubit's state:
     H(q0) # hadamard gate
     CNOT(q0, q1) # controlled-not gate
 
+    q0.operate(H) # another way to operate Hadamard gate on qubit q0
+
+    # A stochastic operate. This operate will operate I, X, Y, Z gate with the possibility 0.7, 0.1, 0.1, 0.1 respectively.
+    # The process usually turns a pure state into a mixed state and is used to represent decoherence
+    q0.stochastic_operate([I, X, Y, Z], [0.7, 0.1, 0.1, 0.1])
+
 Those gates includes Pauli I, X, Y, Z gate, HADAMARD gate, T gate, S gate, phase rotate gate, CNOT gate. The detailed functions of those gates can be found at :doc:`qns.models.qubit`. Users can build their own quantum gates as well.
 
 Quantum measurement

@@ -40,13 +40,15 @@ class QuantumMemory(Entity):
         Asynchronous mode, users can use events to operate memories asynchronously
     """
     def __init__(self, name: str = None, node: QNode = None,
-                 capacity: int = 0, store_error_model_args: dict = {}, delay: float = 0):
+                 capacity: int = 0, decoherence_rate: Optional[float] = 0,
+                 store_error_model_args: dict = {}, delay: float = 0):
         """
         Args:
             name (str): its name
             node (QNode): the quantum node that equips this memory
             capacity (int): the capacity of this quantum memory. 0 presents unlimited.
             delay (float): the read and write delay in second
+            decoherence_rate (float): the decoherence rate of this memory that will pass to the storage_error_model
             store_error_model_args (dict): the parameters that will pass to the storage_error_model
         """
         super().__init__(name=name)
@@ -54,6 +56,7 @@ class QuantumMemory(Entity):
         self.capacity = capacity
         self.delay = delay
         self.memory: List[Tuple[QuantumModel, Time]] = []
+        self.decoherence_rate = decoherence_rate
         self.store_error_model_args = store_error_model_args
 
     def install(self, simulator: Simulator) -> None:
@@ -103,7 +106,7 @@ class QuantumMemory(Entity):
         self.memory.remove((ret, ret_t))
         t_now = self._simulator.current_time
         sec_diff = t_now.sec - ret_t.sec
-        ret.storage_error_model(t=sec_diff, **self.store_error_model_args)
+        ret.storage_error_model(t=sec_diff, decoherence_rate=self.decoherence_rate, **self.store_error_model_args)
         return ret
 
     def write(self, qm: QuantumModel) -> bool:

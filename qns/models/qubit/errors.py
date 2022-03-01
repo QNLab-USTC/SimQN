@@ -33,5 +33,21 @@ class OperatorNotMatchError(Exception):
     pass
 
 
+class QGateOperatorNotMatchError(Exception):
+    pass
+
+
+class QGateQubitNotInStateError(Exception):
+    pass
+
+
+class QGateStateJointError(Exception):
+    pass
+
+
 class QStateBaseError(Exception):
+    pass
+
+
+class OperatorError(Exception):
     pass

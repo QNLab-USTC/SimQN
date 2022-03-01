@@ -20,7 +20,7 @@ def test_bb84_protocol():
     n2 = QNode(name="n2")
 
     qlink = QuantumChannel(name="l1", delay=length / light_speed,
-                           drop_rate=drop_rate(length))
+                           drop_rate=0)
 
     clink = ClassicChannel(name="c1", delay=length / light_speed)
 
@@ -38,3 +38,4 @@ def test_bb84_protocol():
     n2.install(s)
 
     s.run()
+    print(sp.fail_number)

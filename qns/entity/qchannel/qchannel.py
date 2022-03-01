@@ -33,7 +33,7 @@ class QuantumChannel(Entity):
     """
     def __init__(self, name: str = None, node_list: List[QNode] = [],
                  bandwidth: int = 0, delay: float = 0, drop_rate: float = 0,
-                 max_buffer_size: int = 0, length: float = 0,
+                 max_buffer_size: int = 0, length: float = 0, decoherence_rate: Optional[float] = 0,
                  transfer_error_model_args: dict = {}):
         """
         Args:
@@ -46,6 +46,7 @@ class QuantumChannel(Entity):
                 If it is full, the next coming packet will be dropped. 0 represents unlimited.
 
             length (float): the length of this channel
+            decoherence_rate: the decoherence rate that will pass to the transfer_error_model
             transfer_error_model_args (dict): the parameters that pass to the transfer_error_model
         """
         super().__init__(name=name)
@@ -55,6 +56,7 @@ class QuantumChannel(Entity):
         self.drop_rate = drop_rate
         self.max_buffer_size = max_buffer_size
         self.length = length
+        self.decoherence_rate = decoherence_rate
         self.transfer_error_model_args = transfer_error_model_args
 
     def install(self, simulator: Simulator) -> None:
@@ -109,7 +111,7 @@ class QuantumChannel(Entity):
         recv_time = send_time + self._simulator.time(sec=self.delay)
 
         # operation on the qubit
-        qubit.transfer_error_model(self.length, **self.transfer_error_model_args)
+        qubit.transfer_error_model(self.length, self.decoherence_rate, **self.transfer_error_model_args)
         send_event = RecvQubitPacket(recv_time, name=None, qchannel=self,
                                      qubit=qubit, dest=next_hop)
         self._simulator.add_event(send_event)

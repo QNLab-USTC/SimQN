@@ -17,9 +17,9 @@
 
 from qns.models.qubit.qubit import Qubit, QState
 from qns.models.qubit.gate import X, Y, Z, H, S, T, R, I, CNOT, joint,\
-                                  RX, RY, RZ, U, CZ, CR, ControlledGate, Swap, Toffoli
+                                  RX, RY, RZ, U, CZ, CR, CX, CY, ControlledGate, Swap, Toffoli
 from qns.models.qubit.utils import single_gate_expand
 
 __all__ = ["Qubit", "QState", "X", "Y", "Z", "H", "S",
-           "T", "R", "I", "CNOT", "joint", "RX", "RY", "RZ", "U",
+           "T", "R", "I", "CNOT", "joint", "RX", "RY", "RZ", "U", "CX", "CY",
            "CZ", "CR", "ControlledGate", "Swap", "Toffoli", "single_gate_expand"]

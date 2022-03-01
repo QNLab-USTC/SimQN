@@ -15,23 +15,27 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+from typing import Optional
+
+
 class QuantumModel(object):
     """
     The interface to present the backend models, including qubit, epr and other models.
     """
-    def storage_error_model(self, t: float = 0, **kwargs):
+    def storage_error_model(self, t: Optional[float] = 0, decoherence_rate: Optional[float] = 0, **kwargs):
         """
         The error model for quantum memory.
         This function will change the quantum state or fidelity
         according to different backend models.
 
         Args:
-            t: the time stored in a quantum memory. The unit it second.
+            t (float): the time stored in a quantum memory. The unit it second.
+            decoherence_rate (float): the decoherency rate
             kwargs: other parameters
         """
         pass
 
-    def transfer_error_model(self, length: float, **kwargs):
+    def transfer_error_model(self, length: Optional[float] = 0, decoherence_rate: Optional[float] = 0, **kwargs):
         """
         The error model for transmitting a qubit in quantum channel.
         This function will change the quantum state or fidelity
@@ -39,6 +43,29 @@ class QuantumModel(object):
 
         Args:
             length (float): the length of the channel
+            decoherence_rate (float): the decoherency rate
+            kwargs: other parameters
+        """
+        pass
+
+    def operate_error_model(self, decoherence_rate: Optional[float] = 0, **kwargs):
+        """
+        The error model for operating a qubit.
+        This function will change the quantum state.
+
+        Args:
+            decoherence_rate (float): the decoherency rate
+            kwargs: other parameters
+        """
+        pass
+
+    def measure_error_model(self, decoherence_rate: Optional[float] = 0, **kwargs):
+        """
+        The error model for measuring a qubit.
+        This function will change the quantum state.
+
+        Args:
+            decoherence_rate (float): the decoherency rate
             kwargs: other parameters
         """
         pass

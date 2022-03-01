@@ -15,7 +15,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from typing import Optional, Union
+from typing import List, Optional, Union
 from qns.entity.node.node import QNode
 from qns.models.core.backend import QuantumModel
 from qns.simulator.event import Event
@@ -26,7 +26,7 @@ class OperateRequestEvent(Event):
     """
     ``OperateRequestEvent`` is the event that request a operator to handle
     """
-    def __init__(self, operator, qubits: list[QuantumModel] = [],
+    def __init__(self, operator, qubits: List[QuantumModel] = [],
                  t: Optional[Time] = None, name: Optional[str] = None):
         super().__init__(t=t, name=name)
         from qns.entity.operator.operator import QuantumOperator
@@ -41,7 +41,7 @@ class OperateResponseEvent(Event):
     """
     ``OperateResponseEvent`` is the event that returns the operating result
     """
-    def __init__(self, node: QNode, result: Union[int, list[int]] = None,
+    def __init__(self, node: QNode, result: Union[int, List[int]] = None,
                  request: OperateRequestEvent = None, t: Optional[Time] = None, name: Optional[str] = None):
         super().__init__(t=t, name=name)
         self.node = node

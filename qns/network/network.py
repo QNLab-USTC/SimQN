@@ -138,16 +138,17 @@ class QuantumNetwork(object):
                 return n
         return None
 
-    def add_memories(self, capacity: int = 0, store_error_model_args: dict = {}):
+    def add_memories(self, capacity: int = 0, decoherence_rate: Optional[float] = 0, store_error_model_args: dict = {}):
         """
         Add quantum memories to every nodes in this network
 
         Args:
             capacity (int): the capacity of the quantum memory
+            decoherence_rate (float): the decoherence rate
             store_error_model_args: the arguments for store_error_model
         """
         for idx, n in enumerate(self.nodes):
-            m = QuantumMemory(name=f"m{idx}", node=n, capacity=capacity,
+            m = QuantumMemory(name=f"m{idx}", node=n, capacity=capacity, decoherence_rate=decoherence_rate,
                               store_error_model_args=store_error_model_args)
             n.add_memory(m)
 
