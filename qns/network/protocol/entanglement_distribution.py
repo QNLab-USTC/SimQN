@@ -82,7 +82,7 @@ class EntanglementDistributionApp(Application):
         if self.dst is not None:
             # I am a sender
             t = simulator.ts
-            event = func_to_event(t, self.new_distribution)
+            event = func_to_event(t, self.new_distribution, by=self)
             self._simulator.add_event(event)
 
     def handle(self, node: QNode, event: Event):
@@ -94,7 +94,7 @@ class EntanglementDistributionApp(Application):
     def new_distribution(self):
         # insert the next send event
         t = self._simulator.tc + Time(sec=1 / self.send_rate)
-        event = func_to_event(t, self.new_distribution)
+        event = func_to_event(t, self.new_distribution, by=self)
         self._simulator.add_event(event)
         log.debug(f"{self.own}: start new request")
 

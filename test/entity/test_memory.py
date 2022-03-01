@@ -63,8 +63,8 @@ def test_memory_async_qubit():
     n1.install(s)
 
     q1 = Qubit(name="q1")
-    write_request = MemoryWriteRequestEvent(memory=m, qubit=q1, t=s.time(sec=0))
-    read_request = MemoryReadRequestEvent(memory=m, key="q1", t=s.time(sec=1))
+    write_request = MemoryWriteRequestEvent(memory=m, qubit=q1, t=s.time(sec=0), by=n1)
+    read_request = MemoryReadRequestEvent(memory=m, key="q1", t=s.time(sec=1), by=n1)
     s.add_event(write_request)
     s.add_event(read_request)
     s.run()

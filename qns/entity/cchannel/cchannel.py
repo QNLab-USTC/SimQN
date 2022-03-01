@@ -148,7 +148,7 @@ class ClassicChannel(Entity):
         #  add delay
         recv_time = send_time + self._simulator.time(sec=self.delay)
 
-        send_event = RecvClassicPacket(recv_time, name=None,
+        send_event = RecvClassicPacket(recv_time, name=None, by=self,
                                        cchannel=self, packet=packet, dest=next_hop)
         self._simulator.add_event(send_event)
 
@@ -167,8 +167,9 @@ class RecvClassicPacket(Event):
     The event for a QNode to receive a classic packet
     """
     def __init__(self, t: Optional[Time] = None, name: Optional[str] = None,
-                 cchannel: ClassicChannel = None, packet: ClassicPacket = None, dest: QNode = None):
-        super().__init__(t=t, name=name)
+                 cchannel: ClassicChannel = None, packet: ClassicPacket = None, dest: QNode = None,
+                 by: Optional[Any] = None):
+        super().__init__(t=t, name=name, by=by)
         self.cchannel = cchannel
         self.packet = packet
         self.dest = dest

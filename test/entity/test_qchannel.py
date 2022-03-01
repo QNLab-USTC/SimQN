@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Optional
 from qns.entity.qchannel.losschannel import QubitLossChannel
 from qns.simulator.simulator import Simulator
 from qns.simulator.event import Event, func_to_event
@@ -26,7 +26,7 @@ class QuantumSendNode(QNode):
         t = 0
         while t < 10:
             time = self._simulator.time(sec=t)
-            event = SendEvent(time, node=self)
+            event = SendEvent(time, node=self, by=self)
             self._simulator.add_event(event)
             t += 0.25
 
@@ -39,8 +39,9 @@ class QuantumSendNode(QNode):
 
 
 class SendEvent(Event):
-    def __init__(self, t: Optional[Time] = None, name: Optional[str] = None, node: QNode = None):
-        super().__init__(t=t, name=name)
+    def __init__(self, t: Optional[Time] = None, name: Optional[str] = None, node: QNode = None,
+                 by: Optional[Any] = None):
+        super().__init__(t=t, name=name, by=by)
         self.node: QuantumSendNode = node
 
     def invoke(self) -> None:
@@ -70,14 +71,14 @@ class SendApp(Application):
     def install(self, node, simulator: Simulator):
         super().install(node=node, simulator=simulator)
         t = simulator.ts
-        event = func_to_event(t, self.send)
+        event = func_to_event(t, self.send, by=self)
         self._simulator.add_event(event)
 
     def send(self):
         qubit = Qubit()
         self.qchannel.send(qubit=qubit, next_hop=self.dest)
         t = self._simulator.current_time + self._simulator.time(sec=1 / self.send_rate)
-        event = func_to_event(t, self.send)
+        event = func_to_event(t, self.send, by=self)
         self._simulator.add_event(event)
 
 

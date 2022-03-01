@@ -139,13 +139,13 @@ class QuantumMemory(Entity):
             result = self.read(key)
 
             t = self._simulator.tc + self._simulator.time(sec=self.delay)
-            response = MemoryReadResponseEvent(node=self.node, result=result, request=event, t=t)
+            response = MemoryReadResponseEvent(node=self.node, result=result, request=event, t=t, by=self)
             self._simulator.add_event(response)
         elif isinstance(event, MemoryWriteRequestEvent):
             qubit = event.qubit
             result = self.write(qubit)
             t = self._simulator.tc + self._simulator.time(sec=self.delay)
-            response = MemoryWriteResponseEvent(node=self.node, result=result, request=event, t=t)
+            response = MemoryWriteResponseEvent(node=self.node, result=result, request=event, t=t, by=self)
             self._simulator.add_event(response)
 
     def __repr__(self) -> str:

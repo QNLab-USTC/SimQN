@@ -21,7 +21,7 @@ class SendApp(Application):
     def install(self, node: QNode, simulator: Simulator):
         super().install(node, simulator)
         t = simulator.ts
-        event = func_to_event(t, self.send_packet)
+        event = func_to_event(t, self.send_packet, by=self)
         self._simulator.add_event(event)
 
     def send_packet(self):
@@ -43,7 +43,7 @@ class SendApp(Application):
             self._simulator.time(sec=1 / self.send_rate)
 
         # insert the next send event to the simulator
-        event = func_to_event(t, self.send_packet)
+        event = func_to_event(t, self.send_packet, by=self)
         self._simulator.add_event(event)
 
 

@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Optional
 from qns.entity.node.app import Application
 from qns.entity.node.node import QNode
 from qns.network.protocol.node_process_delay import NodeProcessDelayApp
@@ -8,8 +8,9 @@ from qns.simulator.ts import Time
 
 
 class ProcessEvent(Event):
-    def __init__(self, t: Optional[Time] = None, dest: QNode = None, name: Optional[str] = None):
-        super().__init__(t, name)
+    def __init__(self, t: Optional[Time] = None, dest: QNode = None, name: Optional[str] = None,
+                 by: Optional[Any] = None):
+        super().__init__(t, name=name, by=by)
         self.dest = dest
 
     def invoke(self) -> None:
@@ -25,7 +26,7 @@ class ProcessApp(Application):
 
         for i in range(0, 10):
             t = simulator.time(sec=i)
-            event = ProcessEvent(t=t, dest=self.get_node())
+            event = ProcessEvent(t=t, dest=self.get_node(), by=self)
             self.get_simulator().add_event(event)
 
     def handle(self, node, event: Event) -> Optional[bool]:

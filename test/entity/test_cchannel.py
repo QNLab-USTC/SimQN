@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Optional
 from qns.simulator.simulator import Simulator
 from qns.simulator.event import Event
 from qns.simulator.ts import Time
@@ -23,7 +23,7 @@ class ClassicSendNode(QNode):
         t = 0
         while t < 10:
             time = self._simulator.time(sec=t)
-            event = SendEvent(time, node=self)
+            event = SendEvent(time, node=self, by=self)
             self._simulator.add_event(event)
             t += 0.25
 
@@ -36,8 +36,8 @@ class ClassicSendNode(QNode):
 
 
 class SendEvent(Event):
-    def __init__(self, t: Optional[Time] = None, name: Optional[str] = None, node: QNode = None):
-        super().__init__(t=t, name=name)
+    def __init__(self, t: Optional[Time] = None, name: Optional[str] = None, by:Optional[Any] = None,node: QNode = None):
+        super().__init__(t=t, name=name, by=by)
         self.node: ClassicSendNode = node
 
     def invoke(self) -> None:

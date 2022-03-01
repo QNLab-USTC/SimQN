@@ -63,7 +63,7 @@ class BB84SendApp(Application):
         time_list.append(simulator.ts)
 
         t = simulator.ts
-        event = func_to_event(t, self.send_qubit)
+        event = func_to_event(t, self.send_qubit, by=self)
         self._simulator.add_event(event)
         # while t <= simulator.te:
         #     time_list.append(t)
@@ -122,7 +122,7 @@ class BB84SendApp(Application):
 
         t = self._simulator.current_time + \
             self._simulator.time(sec=1 / self.send_rate)
-        event = func_to_event(t, self.send_qubit)
+        event = func_to_event(t, self.send_qubit, by=self)
         self._simulator.add_event(event)
 
 

@@ -15,7 +15,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from typing import Optional
+from typing import Any, Optional
 
 from qns.simulator.ts import Time
 
@@ -25,14 +25,16 @@ class Event(object):
     Basic event class in simulator
     """
 
-    def __init__(self, t: Optional[Time] = None, name: Optional[str] = None):
+    def __init__(self, t: Optional[Time] = None, name: Optional[str] = None, by: Optional[Any] = None):
         """
         Args:
             t (Time): the time slot of this event
+            by: the entity or application that causes this event
             name (str): the name of this event
         """
         self.t: Optional[Time] = t
         self.name: Optional[str] = name
+        self.by = by
         self._is_canceled: bool = False
 
     def invoke(self) -> None:
@@ -79,7 +81,7 @@ class Event(object):
         return "Event()"
 
 
-def func_to_event(t: Time, fn, name: Optional[str] = None, *args, **kwargs):
+def func_to_event(t: Time, fn, name: Optional[str] = None, by: Optional[Any] = None, *args, **kwargs):
     """
     Convert a function to an event, the function `fn` will be called at `t`.
     It is a simple method to wrap a function to an event.
@@ -87,13 +89,14 @@ def func_to_event(t: Time, fn, name: Optional[str] = None, *args, **kwargs):
     Args:
         t (Time): the function will be called at `t`
         fn (Callable): the function
+        by: the entity or application that will causes this event
         *args: the function's parameters
         **kwargs: the function's parameters
     """
 
     class WrapperEvent(Event):
         def __init__(self, t: Optional[Time] = t, name_event=name):
-            super().__init__(t=t, name=name_event)
+            super().__init__(t=t, name=name_event, by=by)
 
         def invoke(self) -> None:
             fn(*args, **kwargs)

@@ -15,7 +15,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from typing import List, Optional
+from typing import Any, List, Optional
 
 from qns.entity.entity import Entity
 from qns.entity.node.node import QNode
@@ -112,7 +112,7 @@ class QuantumChannel(Entity):
 
         # operation on the qubit
         qubit.transfer_error_model(self.length, self.decoherence_rate, **self.transfer_error_model_args)
-        send_event = RecvQubitPacket(recv_time, name=None, qchannel=self,
+        send_event = RecvQubitPacket(recv_time, name=None, by=self, qchannel=self,
                                      qubit=qubit, dest=next_hop)
         self._simulator.add_event(send_event)
 
@@ -130,9 +130,9 @@ class RecvQubitPacket(Event):
     """
     The event for a QNode to receive a classic packet
     """
-    def __init__(self, t: Optional[Time] = None, name: Optional[str] = None,
-                 qchannel: QuantumChannel = None, qubit: QuantumModel = None, dest: QNode = None):
-        super().__init__(t=t, name=name)
+    def __init__(self, t: Optional[Time] = None, qchannel: QuantumChannel = None,
+                 qubit: QuantumModel = None, dest: QNode = None, name: Optional[str] = None, by: Optional[Any] = None):
+        super().__init__(t=t, name=name, by=by)
         self.qchannel = qchannel
         self.qubit = qubit
         self.dest = dest

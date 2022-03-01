@@ -15,7 +15,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from typing import Optional
+from typing import Any, Optional
 from qns.simulator.simulator import Simulator
 from qns.simulator.event import Event
 from qns.simulator.ts import Time
@@ -59,7 +59,7 @@ class Timer(Entity):
 
             for t in time_list:
                 time = self._simulator.time(sec=t)
-                event = TimerEvent(timer=self, t=time)
+                event = TimerEvent(timer=self, t=time, by=self)
                 self._simulator.add_event(event)
             self._is_installed = True
 
@@ -74,8 +74,8 @@ class TimerEvent(Event):
     """
     TimerEvent is the event that triggers the Timer's `trigger_func`
     """
-    def __init__(self, timer: Timer, t: Optional[Time] = None, name: Optional[str] = None):
-        super().__init__(t=t, name=name)
+    def __init__(self, timer: Timer, t: Optional[Time] = None, name: Optional[str] = None, by: Optional[Any] = None):
+        super().__init__(t=t, name=name, by=by)
         self.timer = timer
 
     def invoke(self) -> None:

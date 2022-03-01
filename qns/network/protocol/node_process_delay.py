@@ -64,5 +64,6 @@ class NodeProcessDelayApp(Application):
         t = self._simulator.current_time+Time(sec=self.delay)
         # reset event's occur time
         event.t = t
+        event.by = self
         self._simulator.add_event(event)
         return True
