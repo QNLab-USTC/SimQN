@@ -16,46 +16,56 @@
 #    along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 
-def PrefectStorageErrorModel(self, t: float, **kwargs):
-    """
-    The default error model for storing a qubit in quantum memory.
-    The default behavior is doing nothing
-
-    Args:
-        t: the time stored in a quantum memory. The unit it second.
-        kwargs: other parameters
-    """
-    pass
+from types import MethodType
+from typing import Optional
+import numpy as np
+from qns.models.qubit.const import QUBIT_STATE_0
+from qns.models.qubit.decoherence import PrefectMeasureErrorModel, PrefectOperateErrorModel, PrefectStorageErrorModel,\
+        PrefectTransferErrorModel
+from qns.models.qubit.qubit import Qubit
 
 
-def PrefectTransferErrorModel(self, length: float, **kwargs):
+class QubitFactory():
     """
-    The default error model for transmitting this qubit
-    The default behavior is doing nothing
+    QubitFactory is the factory class for building qubits with special error models.
+    """
+    def __init__(self, operate_decoherence_rate: float = 0, measure_decoherence_rate: float = 0,
+                 store_error_model=PrefectStorageErrorModel, transfer_error_model=PrefectTransferErrorModel,
+                 operate_error_model=PrefectOperateErrorModel, measure_error_model=PrefectMeasureErrorModel) -> None:
+        """
+        Args:
+            operate_decoherence_rate (float): the operate decoherence rate
+            measure_decoherence_rate (float): the measure decoherence rate
+            store_error_model: a callable function for handing errors in quantum memory
+            transfer_error_model: a callable function for handing errors in quantum channel
+            operate_error_model: a callable function for handing errors in operating quantum gates
+            measure_error_model: a callable function for handing errors in measuing the status
+        """
+        self.operate_decoherence_rate = operate_decoherence_rate
+        self.measure_decoherence_rate = measure_decoherence_rate
+        self.store_error_model = store_error_model
+        self.transfer_error_model = transfer_error_model
+        self.operate_error_model = operate_error_model
+        self.measure_error_model = measure_error_model
 
-    Args:
-        length (float): the length of the channel
-        kwargs: other parameters
-    """
-    pass
-
-def measure_error_model(self, **kwargs):
-    """
-    The default error model for measuring this qubit.
-    The default behavior is doing nothing
-
-    Args:
-        kwargs: parameters
-    """
-    pass
-
-def operating_error_model(self, **kwargs):
-    """
-    The default error model for operating this qubit,
-    which is called whenever this qubit operates a quantum gate
-    The default behavior is doing nothing
-
-    Args:
-        t: the time to measure this qubit
-    """
-    pass
+    def __call__(self, state=QUBIT_STATE_0, rho: np.ndarray = None,
+                 operate_decoherence_rate: Optional[float] = None, measure_decoherence_rate: Optional[float] = None,
+                 name: Optional[str] = None) -> Qubit:
+        """
+        Args:
+            state (list): the initial state of a qubit, default is |0> = [1, 0]^T
+            operate_decoherence_rate (float): the operate decoherence rate
+            measure_decoherence_rate (float): the measure decoherence rate
+            name (str): the qubit's name
+        """
+        if operate_decoherence_rate is None:
+            operate_decoherence_rate = self.operate_decoherence_rate
+        if measure_decoherence_rate is None:
+            measure_decoherence_rate = self.measure_decoherence_rate
+        qubit = Qubit(state=state, rho=rho, operate_decoherence_rate=operate_decoherence_rate,
+                      measure_decoherence_rate=measure_decoherence_rate, name=name)
+        qubit.store_error_model = MethodType(self.store_error_model, qubit)
+        qubit.transfer_error_model = MethodType(self.transfer_error_model, qubit)
+        qubit.operate_error_model = MethodType(self.operate_error_model, qubit)
+        qubit.measure_error_model = MethodType(self.measure_error_model, qubit)
+        return qubit

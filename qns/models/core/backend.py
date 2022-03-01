@@ -22,7 +22,7 @@ class QuantumModel(object):
     """
     The interface to present the backend models, including qubit, epr and other models.
     """
-    def storage_error_model(self, t: Optional[float] = 0, decoherence_rate: Optional[float] = 0, **kwargs):
+    def store_error_model(self, t: Optional[float] = 0, decoherence_rate: Optional[float] = 0, **kwargs):
         """
         The error model for quantum memory.
         This function will change the quantum state or fidelity

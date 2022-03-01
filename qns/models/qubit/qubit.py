@@ -225,15 +225,21 @@ class Qubit(QuantumModel):
     Represent a qubit
     """
 
-    def __init__(self, state=QUBIT_STATE_0, rho: np.ndarray = None, name: Optional[str] = None):
+    def __init__(self, state=QUBIT_STATE_0, rho: np.ndarray = None,
+                 operate_decoherence_rate: float = 0, measure_decoherence_rate: float = 0,
+                 name: Optional[str] = None):
         """
         Args:
             state (list): the initial state of a qubit, default is |0> = [1, 0]^T
+            operate_decoherence_rate (float): the operate decoherence rate
+            measure_decoherence_rate (float): the measure decoherence rate
             name (str): the qubit's name
         """
 
         self.name = name
         self.state = QState([self], state=state, rho=rho)
+        self.operate_decoherence_rate = operate_decoherence_rate
+        self.measure_decoherence_rate = measure_decoherence_rate
 
     def measure(self):
         """
@@ -243,7 +249,7 @@ class Qubit(QuantumModel):
             0: QUBIT_STATE_0 state
             1: QUBIT_STATE_1 state
         """
-        self.measure_error_model()
+        self.measure_error_model(decoherence_rate=self.measure_decoherence_rate)
         return self.state.measure(self)
 
     def measureX(self):
@@ -254,7 +260,7 @@ class Qubit(QuantumModel):
             0: QUBIT_STATE_P state
             1: QUBIT_STATE_N state
         """
-        self.measure_error_model()
+        self.measure_error_model(self.measure_decoherence_rate)
         return self.state.measure(self, "X")
 
     def measureY(self):
@@ -266,7 +272,7 @@ class Qubit(QuantumModel):
             0: QUBIT_STATE_R state
             1: QUBIT_STATE_L state
         """
-        self.measure_error_model()
+        self.measure_error_model(self.measure_decoherence_rate)
         return self.state.measure(self, "Y")
 
     def measureZ(self):
@@ -277,7 +283,7 @@ class Qubit(QuantumModel):
             0: QUBIT_STATE_0 state
             1: QUBIT_STATE_1 state
         """
-        self.measure_error_model()
+        self.measure_error_model(self.measure_decoherence_rate)
         return self.measure()
 
     def operate(self, operator: Any) -> None:
@@ -287,7 +293,7 @@ class Qubit(QuantumModel):
         Args:
             operator (Union[SingleQubitGate, np.ndarray]): an operator matrix, or a quantum gate in qubit.gate
         """
-        self.operating_error_model()
+        self.operate_error_model(self.operate_decoherence_rate)
         from qns.models.qubit.gate import SingleQubitGate
         if isinstance(operator, SingleQubitGate):
             operator(self)
@@ -333,18 +339,19 @@ class Qubit(QuantumModel):
             return f"<Qubit {self.name}>"
         return super().__repr__()
 
-    def storage_error_model(self, t: float, **kwargs):
+    def store_error_model(self, t: Optional[float] = 0, decoherence_rate: Optional[float] = 0, **kwargs):
         """
         The default error model for storing a qubit in quantum memory.
         The default behavior is doing nothing
 
         Args:
             t: the time stored in a quantum memory. The unit it second.
+            decoherence_rate (float): the decoherence rate in Db.
             kwargs: other parameters
         """
         pass
 
-    def transfer_error_model(self, length: float, decoherence_rate: Optional[float] = 0, **kwargs):
+    def transfer_error_model(self, length: Optional[float] = 0, decoherence_rate: Optional[float] = 0, **kwargs):
         """
         The default error model for transmitting this qubit
         The default behavior is doing nothing

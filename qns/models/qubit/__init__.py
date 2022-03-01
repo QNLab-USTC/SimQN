@@ -19,7 +19,17 @@ from qns.models.qubit.qubit import Qubit, QState
 from qns.models.qubit.gate import X, Y, Z, H, S, T, R, I, CNOT, joint,\
                                   RX, RY, RZ, U, CZ, CR, CX, CY, ControlledGate, Swap, Toffoli
 from qns.models.qubit.utils import single_gate_expand
+from qns.models.qubit.decoherence import PrefectMeasureErrorModel, PrefectOperateErrorModel,\
+    PrefectStorageErrorModel, PrefectTransferErrorModel, DephaseMeasureErrorModel,\
+    DephaseOperateErrorModel, DephaseStorageErrorModel, DephaseTransferErrorModel,\
+    DepolarMeasureErrorModel, DepolarOperateErrorModel, DepolarStorageErrorModel, DepolarTransferErrorModel
+from qns.models.qubit.factory import QubitFactory
 
 __all__ = ["Qubit", "QState", "X", "Y", "Z", "H", "S",
            "T", "R", "I", "CNOT", "joint", "RX", "RY", "RZ", "U", "CX", "CY",
-           "CZ", "CR", "ControlledGate", "Swap", "Toffoli", "single_gate_expand"]
+           "CZ", "CR", "ControlledGate", "Swap", "Toffoli", "single_gate_expand",
+           "PrefectMeasureErrorModel", "PrefectOperateErrorModel",
+           "PrefectStorageErrorModel", "PrefectTransferErrorModel", "DephaseMeasureErrorModel",
+           "DephaseOperateErrorModel", "DephaseStorageErrorModel", "DephaseTransferErrorModel",
+           "DepolarMeasureErrorModel", "DepolarOperateErrorModel", "DepolarStorageErrorModel",
+           "DepolarTransferErrorModel", "QubitFactory"]

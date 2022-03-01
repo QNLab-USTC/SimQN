@@ -48,8 +48,8 @@ class QuantumMemory(Entity):
             node (QNode): the quantum node that equips this memory
             capacity (int): the capacity of this quantum memory. 0 presents unlimited.
             delay (float): the read and write delay in second
-            decoherence_rate (float): the decoherence rate of this memory that will pass to the storage_error_model
-            store_error_model_args (dict): the parameters that will pass to the storage_error_model
+            decoherence_rate (float): the decoherence rate of this memory that will pass to the store_error_model
+            store_error_model_args (dict): the parameters that will pass to the store_error_model
         """
         super().__init__(name=name)
         self.node = node
@@ -106,7 +106,7 @@ class QuantumMemory(Entity):
         self.memory.remove((ret, ret_t))
         t_now = self._simulator.current_time
         sec_diff = t_now.sec - ret_t.sec
-        ret.storage_error_model(t=sec_diff, decoherence_rate=self.decoherence_rate, **self.store_error_model_args)
+        ret.store_error_model(t=sec_diff, decoherence_rate=self.decoherence_rate, **self.store_error_model_args)
         return ret
 
     def write(self, qm: QuantumModel) -> bool:
