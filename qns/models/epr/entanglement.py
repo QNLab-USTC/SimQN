@@ -109,5 +109,5 @@ class BaseEntanglement(object):
 
     def __repr__(self) -> str:
         if self.name is not None:
-            return f"<entanglement {self.name}>"
+            return "<epr "+self.name+">"
         return super().__repr__()

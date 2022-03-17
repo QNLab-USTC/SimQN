@@ -46,7 +46,7 @@ Applications
 
 Quantum nodes may behavior differently. For example, some nodes may be the sender and other may be the receiver. Nodes in the quantum networks may be the routers or switches. Thus, quantum nodes can install different ``Applications``. Applications are the programmes running on the quantum nodes.
 
-It is possible to install and get applications:
+It is possible to install and get the existing applications:
 
 .. code-block:: python
 
@@ -72,12 +72,26 @@ The application can get the related node and simulator:
     node = app.get_node()
     simulator = app.get_simulator()
 
-The application needs to implements the following two methods:
+How to build an application
+--------------------------------
 
-- ``install``: initiate the application and inject initial events 
-- ``handle``: handle the incoming events
+There are two kinds of behaviors for an application. On one hand, it may generate some initial events positively. For example, the sender applications may generate the first send packet event begins. On the other hand, the application may wait and listen to a certain event and handling the event.
 
-One example is:
+For the positive mode, users can use ``install`` function to generate several events at the beginning of the simulation. For the passive mode, users can implement their own handler methods to handle events. The handler methods must have the following input parameters:
+- self, the application itself
+- node, the related quantum node
+- event, the calling event,
+and can have an option return variable ``pass``. If ``pass`` is ``True``, the following applications on this node will not handle this event any more. An example of the handler function is:
+
+.. code-block:: python
+
+    def RecvClassicPacketHandler(self, node: QNode, event: Event):
+        packet = event.packet
+        msg = packet.get()
+        print(f"{node} recv packet: {msg} from {packet.src}->{packet.dest}")
+        return True # bypass the following applications
+
+Users can use ``add_handler`` to bind the handler to one or more events. ``add_handler`` have three input parameters. The first is the handler method. The second parameter``EventTypeList`` is a list of event types that will trigger this handler. If the list is empty, this handler will be called when all kinds of events. The third parameter ``ByList`` is a list of the event source. For example, it is possible to handle classic messages from node "n1" and "n2" but not "n3". If the list is empty, it means that no matter which entity generate this event, it will be handled by this handler function
 
 .. code-block:: python
 
@@ -90,23 +104,20 @@ One example is:
         def install(self, node, simulator: Simulator):
             # initiate the application
             super().install(node, simulator)
+            print("initiate app")
+
+            # RecvClassicPacketHandler should handle classic packets from node n2
+            self.add_handler(RecvClassicPacketHandler, [RecvClassicPacket], [n1, n2])
             print("init")
     
-        def handle(self, node, event: Event):
-            # called when the event happens
-            print(f"event {event} happens")
+        def RecvClassicPacketHandler(self, node: QNode, event: Event):
+            packet = event.packet
+            msg = packet.get()
+            print(f"{node} recv packet: {msg} from {packet.src}->{packet.dest}")
+            return True # bypass the following applications
 
-Other examples can be found at ``qns.network.protocols``.
 
-Initiate and event handling process
----------------------------------------
-
-Both nodes and applications has ``install`` and ``handle`` methods. The relation is:
-
-1. The nodes' ``install`` method will call every memories, channels and applications' ``install`` method to initiate every sub-entities and applications.
-2. The application's ``install`` method should be implemented by users and do the 'dirty work' to actually initiate the node's state.
-3. When an related event happends, the node' ``handle`` method will call all its applications' ``handle`` method to handle the event.
-4. The application's ``handle`` method should be implemented by users to actually handle the events
+Other examples of applications can be found at ``qns.network.protocols``.
 
 Processing delay on quantum nodes
 -------------------------------------

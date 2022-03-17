@@ -9,6 +9,8 @@ Welcome to SimQN's documentation!
 Welcome to SimQN's documentation. SimQN is a discrete-event based network simulation platform for quantum networks.
 SimQN enables large-scale investigations, including QKD protocols, entanglement distributions protocols, and routing algorithms in quantum networks.
 
+SimQN can be accelerated with Cython.
+
 Get Help
 ---------------------------------------
 

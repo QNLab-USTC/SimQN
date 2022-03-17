@@ -118,7 +118,7 @@ class QuantumChannel(Entity):
 
     def __repr__(self) -> str:
         if self.name is not None:
-            return f"<qchannel {self.name}>"
+            return "<qchannel "+self.name+">"
         return super().__repr__()
 
 

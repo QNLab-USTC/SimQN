@@ -154,7 +154,7 @@ class ClassicChannel(Entity):
 
     def __repr__(self) -> str:
         if self.name is not None:
-            return f"<cchannel {self.name}>"
+            return "<cchannel "+self.name+">"
         return super().__repr__()
 
 

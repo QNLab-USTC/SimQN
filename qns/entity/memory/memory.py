@@ -150,5 +150,5 @@ class QuantumMemory(Entity):
 
     def __repr__(self) -> str:
         if self.name is not None:
-            return f"<memory {self.name}>"
+            return "<memory "+self.name+">"
         return super().__repr__()

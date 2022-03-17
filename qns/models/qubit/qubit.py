@@ -216,7 +216,7 @@ class QState(object):
 
     def __repr__(self) -> str:
         if self.name is not None:
-            return f"<qubit {self.name}: {self.rho}>"
+            return "<qubit state "+self.name+">"
         return str(self.rho)
 
 
@@ -336,7 +336,7 @@ class Qubit(QuantumModel):
 
     def __repr__(self) -> str:
         if self.name is not None:
-            return f"<Qubit {self.name}>"
+            return "<qubit "+self.name+">"
         return super().__repr__()
 
     def store_error_model(self, t: Optional[float] = 0, decoherence_rate: Optional[float] = 0, **kwargs):

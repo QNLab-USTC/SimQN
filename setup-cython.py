@@ -16,9 +16,33 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from setuptools import setup, find_packages
+from distutils.extension import Extension
+from Cython.Distutils import build_ext
+from Cython.Build import cythonize
+
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
+
+
+ext_modules = [
+    Extension('qns.simulator.simulator', ['qns/simulator/simulator.py']),
+    Extension('qns.models.qubit.gate', ['qns/models/qubit/gate.py']),
+    Extension('qns.models.qubit.qubit', ['qns/models/qubit/qubit.py']),
+    Extension('qns.models.qubit.decoherence', ['qns/models/qubit/decoherence.py']),
+    Extension('qns.models.qubit.factory', ['qns/models/qubit/factory.py']),
+    Extension('qns.models.qubit.utils', ['qns/models/qubit/utils.py']),
+    Extension('qns.models.epr.bell', ['qns/models/epr/bell.py']),
+    Extension('qns.models.epr.entanglement', ['qns/models/epr/entanglement.py']),
+    Extension('qns.models.epr.maxed', ['qns/models/epr/mixed.py']),
+    Extension('qns.models.epr.werner', ['qns/models/epr/werner.py']),
+    Extension('qns.entity.cchannel.cchannel', ['qns/entity/cchannel/cchannel.py']),
+    Extension('qns.entity.qchannel.qchannel', ['qns/entity/qchannel/qchannel.py']),
+    Extension('qns.entity.qchannel.losschannel', ['qns/entity/qchannel/losschannel.py']),
+    Extension('qns.entity.operator.operator', ['qns/entity/operator/operator.py']),
+    Extension('qns.entity.memory.memory', ['qns/entity/memory/memory.py']),
+    ]
+
 
 setup(
     name='qns',
@@ -31,7 +55,9 @@ setup(
     include_package_data=True,
     url="https://github.com/ertuil/SimQN",
     exclude_package_data={'docs': ['.gitkeep']},
-    setup_requires=["numpy"],
+    cmdclass={'build_ext': build_ext},
+    ext_modules=cythonize(ext_modules),
+    setup_requires=["numpy", "cython"],
     install_requires=["numpy"],
     classifiers=[
         "Programming Language :: Python :: 3",

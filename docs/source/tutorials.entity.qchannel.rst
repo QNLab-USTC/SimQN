@@ -10,7 +10,8 @@ It has the following attributions:
 - ``drop_rate``: the probability of losing the transmitting qubit. Default drop rate is 0.
 - ``bandwidth``: the number of qubits to be sent per second. If the ``bandwidth`` is reached, further qubits will be put into a buffer (and causes a buffer delay). Default bandwidth is ``None`` (infinite).
 -  ``max_buffer_size``: the maximum send buffer size. If the buffer is full, further qubits will be dropped. Default buffer size is ``None`` (infinite).
-- ``transfer_error_model_args``: attributions for the error model.
+- ````decoherence_rate``: the decoherence rate, have different meanings in qubit or entanglement models.
+- ``transfer_error_model_args``: other attributions for the error model.
 
 It is easy to generate a quantum channel:
 
@@ -171,3 +172,8 @@ Here is an example:
 
     # send the qubit
     l1.send(qubit=qubit, next_hop=n2)
+
+Qubit Loss Quantum Channel
+-------------------------------
+
+``qns.entity.qchannel.QubitLossChannel`` is a usually used quantum channel model, that it will drop qubits randomly, following this possibility: :math:`1-(1-p_{\text{init}})*10^{- \miu \cdot length / 10}`, where :math:`p_{\text{init}}` is the initial drop probability of generating a qubit, :math:`\miu` is the attenuation rate, and :math"`length` is the channel length.

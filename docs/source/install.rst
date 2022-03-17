@@ -37,3 +37,22 @@ This command build the package and it should be located in the `dist` directory,
 .. code-block:: bash
 
    pip3 install qns-<version>-py3-none-any.whl
+
+
+Compile with Cython acceleration
+--------------------------------------
+
+``Cython`` is a Python library to build Python file into C/C++ libraries to accelerate the simulation. To use Cython, you should first download ``Cython`` along with other development libraries:
+
+.. code-block:: bash
+
+    pip3 install setuptools wheel cython
+
+C/C++ compiler is also necessary. For windows platforms, Visual Studio is usually needed, and ``gcc/clang`` is required for ``Linux/MacOS`` platforms respectively.
+
+Finally, it is possible to build the packet and install the packet:
+
+.. code-block:: bash
+
+   python3 setup-cython.py bdist_wheel
+   pip3 install qns-<version>-<py version>-<os>-<arch>.whl

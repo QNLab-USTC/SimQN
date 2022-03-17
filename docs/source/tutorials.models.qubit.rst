@@ -81,6 +81,31 @@ To present errors in storage or transmission, users can build their qubits model
 
     qubit = QubitWithError(state=QUBIT_STATE_0)
 
+SimQN also provides some commonly used decoherence models, including dephase model and depolar model for both transmission error and storage error in ``qns.model.qubit.decoherence``. Users can use the ``qns.model.qubit.factory`` to set up the models:
+
+.. code-block:: python
+
+    from qns.models.qubit.decoherence import DepolarStorageErrorModel, DephaseTransmitErrorModel
+    from qns.models.qubit.factory import QubitFactory
+
+    Qubit = QubitFactory(store_error_model=DepolarStorageErrorModel, transfer_error_model=DephaseTransmitErrorModel)
+    q1 = Qubit(name="q1")
+    q2 = Qubit(name="q2")
+
+SimQN also have error models for operating or measuring on qubits, by implementing the ``operate_error_model`` and ``measure_error_model``:
+
+.. code-block:: python
+
+    from qns.models.qubit.decoherence import DepolarStorageErrorModel, DephaseTransmitErrorModel
+    from qns.models.qubit.factory import QubitFactory
+
+    Qubit = QubitFactory(operate_decoherence_rate=0.2,
+                         measure_decoherence_rate=0.2, measure_error_model=DepolarMeasureErrorModel)
+    q0 = Qubit(state=QUBIT_STATE_0, name="q0")
+    q0.measure()
+
+The ``operate_decoherence_rate`` and ``measure_decoherence_rate`` is the decoherence rate in `Hz`.
+
 Example of entanglement swapping
 ----------------------------------------
 

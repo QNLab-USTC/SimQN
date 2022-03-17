@@ -4,6 +4,9 @@ env
 exp
 dist
 qns.egg-info
+qns/**/*.c
+qns/**/*.so
+qns/**/*.pyd
 **/__pycache__
 .vscode
 .cspell

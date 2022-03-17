@@ -33,16 +33,20 @@ def set_seed(seed: Optional[int] = None):
     np.random.seed(seed)
 
 
-def get_rand() -> float:
+def get_rand(low: float = 0, high: float = 1) -> float:
     """
-    Get a random number from [0,1)
+    Get a random number from [low, high)
+
+    Args:
+        low (int): the low bound
+        high (int): the high bound
     """
-    return np.random.random()
+    return low + np.random.random() * (high - low)
 
 
 def get_randint(low: int, high: int) -> float:
     """
-    Get a random integer from [low,high]
+    Get a random integer from [low, high]
 
     Args:
         low (int): the low bound
