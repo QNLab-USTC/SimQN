@@ -15,6 +15,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-version = '0.1.3'
+version = '0.1.4'
 licence = 'GPLv3'
 author = 'Lutong Chen, Jian Li and Kaiping Xue'

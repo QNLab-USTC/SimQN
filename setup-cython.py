@@ -27,6 +27,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 ext_modules = [
     Extension('qns.simulator.simulator', ['qns/simulator/simulator.py']),
+    Extension('qns.models.qubit.const', ['qns/models/qubit/const.py']),
     Extension('qns.models.qubit.gate', ['qns/models/qubit/gate.py']),
     Extension('qns.models.qubit.qubit', ['qns/models/qubit/qubit.py']),
     Extension('qns.models.qubit.decoherence', ['qns/models/qubit/decoherence.py']),
@@ -41,13 +42,24 @@ ext_modules = [
     Extension('qns.entity.qchannel.losschannel', ['qns/entity/qchannel/losschannel.py']),
     Extension('qns.entity.operator.operator', ['qns/entity/operator/operator.py']),
     Extension('qns.entity.memory.memory', ['qns/entity/memory/memory.py']),
+    Extension('qns.network.route.dijkstra', ['qns/network/route/dijkstra.py']),
+    Extension('qns.network.topology.topo', ['qns/network/topology/topo.py']),
+    Extension('qns.network.topology.basictopo', ['qns/network/topology/basictopo.py']),
+    Extension('qns.network.topology.gridtopo', ['qns/network/topology/gridtopo.py']),
+    Extension('qns.network.topology.linetopo', ['qns/network/topology/linetopo.py']),
+    Extension('qns.network.topology.randomtopo', ['qns/network/topology/randomtopo.py']),
+    Extension('qns.network.topology.treetopo', ['qns/network/topology/treetopo.py']),
+    Extension('qns.network.topology.waxmantopo', ['qns/network/topology/waxmantopo.py']),
+    Extension('qns.network.protocol.bb84', ['qns/network/protocol/bb84.py']),
+    Extension('qns.network.protocol.classicforward', ['qns/network/protocol/classicforward.py']),
+    Extension('qns.network.protocol.node_process_delay', ['qns/network/protocol/node_process_delay.py']),
     ]
 
 
 setup(
     name='qns',
     author='elliot',
-    version='0.1.4',
+    version="0.1.4",
     description='A discrete-event scheduler designed for quantum networks',
     long_description=long_description,
     long_description_content_type="text/markdown",
