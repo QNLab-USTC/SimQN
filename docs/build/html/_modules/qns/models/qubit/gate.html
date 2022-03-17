@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en,zh-CN" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -85,480 +85,297 @@
 <span class="c1">#    You should have received a copy of the GNU General Public License</span>
 <span class="c1">#    along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">qns.models.qubit.const</span> <span class="kn">import</span> <span class="n">OPERATOR_HADAMARD</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">,</span>\
                                    <span class="n">OPERATOR_PAULI_X</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_Y</span><span class="p">,</span> \
                                    <span class="n">OPERATOR_PAULI_Z</span><span class="p">,</span> <span class="n">OPERATOR_PHASE_SHIFT</span><span class="p">,</span>\
                                    <span class="n">OPERATOR_RX</span><span class="p">,</span> <span class="n">OPERATOR_RY</span><span class="p">,</span> <span class="n">OPERATOR_RZ</span><span class="p">,</span>\
                                    <span class="n">OPERATOR_S</span><span class="p">,</span> <span class="n">OPERATOR_T</span>
-<span class="kn">from</span> <span class="nn">qns.models.qubit.qubit</span> <span class="kn">import</span> <span class="n">QState</span><span class="p">,</span> <span class="n">Qubit</span>
+<span class="kn">from</span> <span class="nn">qns.models.qubit.qubit</span> <span class="kn">import</span> <span class="n">Qubit</span>
+<span class="kn">from</span> <span class="nn">qns.models.qubit.utils</span> <span class="kn">import</span> <span class="n">joint</span>
+<span class="kn">from</span> <span class="nn">qns.models.qubit.errors</span> <span class="kn">import</span> <span class="n">QGateOperatorNotMatchError</span><span class="p">,</span> <span class="n">QGateQubitNotInStateError</span>
 
 
-<div class="viewcode-block" id="QGateQubitNotInStateError"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.QGateQubitNotInStateError">[docs]</a><span class="k">class</span> <span class="nc">QGateQubitNotInStateError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="Gate"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.Gate">[docs]</a><span class="k">class</span> <span class="nc">Gate</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This error happens when the qubit is not in the QState</span>
+<span class="sd">    The quantum gates that will operate qubits</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">_docs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): the gate&#39;s name</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">_docs</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="QGateOperatorNotMatchError"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.QGateOperatorNotMatchError">[docs]</a><span class="k">class</span> <span class="nc">QGateOperatorNotMatchError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="SingleQubitGate"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.SingleQubitGate">[docs]</a><span class="k">class</span> <span class="nc">SingleQubitGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This error happens when the size of state vector or matrix mismatch occurs</span>
+<span class="sd">    The single qubit gates operate on a single qubit</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">operator</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">_docs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): the gate&#39;s name</span>
+<span class="sd">            operator (np.ndarray): the matrix represent of this operator</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">_docs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_operator</span> <span class="o">=</span> <span class="n">operator</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            qubit (Qubit): the operating qubit</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            QGateOperatorNotMatchError</span>
+<span class="sd">            QGateQubitNotInStateError</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qubit</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_operator</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="QGateStateJointError"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.QGateStateJointError">[docs]</a><span class="k">class</span> <span class="nc">QGateStateJointError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">SingleQubitGate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="n">OPERATOR_PAULI_X</span><span class="p">,</span> <span class="n">_docs</span><span class="o">=</span><span class="s2">&quot;Pauli X Gate&quot;</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">SingleQubitGate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="n">OPERATOR_PAULI_Y</span><span class="p">,</span> <span class="n">_docs</span><span class="o">=</span><span class="s2">&quot;Pauli Y Gate&quot;</span><span class="p">)</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">SingleQubitGate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Z&quot;</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="n">OPERATOR_PAULI_Z</span><span class="p">,</span> <span class="n">_docs</span><span class="o">=</span><span class="s2">&quot;Pauli Z Gate&quot;</span><span class="p">)</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">SingleQubitGate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;I&quot;</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="n">OPERATOR_PAULI_I</span><span class="p">,</span> <span class="n">_docs</span><span class="o">=</span><span class="s2">&quot;Pauli I Gate&quot;</span><span class="p">)</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">SingleQubitGate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;H&quot;</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="n">OPERATOR_HADAMARD</span><span class="p">,</span> <span class="n">_docs</span><span class="o">=</span><span class="s2">&quot;Hadamard Gate&quot;</span><span class="p">)</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">SingleQubitGate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="n">OPERATOR_T</span><span class="p">,</span> <span class="n">_docs</span><span class="o">=</span><span class="s2">&quot;T gate (pi/4 shift gate)&quot;</span><span class="p">)</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">SingleQubitGate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;S&quot;</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="n">OPERATOR_S</span><span class="p">,</span> <span class="n">_docs</span><span class="o">=</span><span class="s2">&quot;S gate (pi/2 shift gate)&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="SingleQubitRotateGate"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.SingleQubitRotateGate">[docs]</a><span class="k">class</span> <span class="nc">SingleQubitRotateGate</span><span class="p">(</span><span class="n">SingleQubitGate</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            qubit (Qubit): the operating qubit</span>
+<span class="sd">            theta (float): the rotating degree</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            QGateOperatorNotMatchError</span>
+<span class="sd">            QGateQubitNotInStateError</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qubit</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_operator</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span></div>
+
+
+<span class="n">R</span> <span class="o">=</span> <span class="n">SingleQubitRotateGate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;R&quot;</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="n">OPERATOR_PHASE_SHIFT</span><span class="p">,</span> <span class="n">_docs</span><span class="o">=</span><span class="s2">&quot;R gate (phase shift gate)&quot;</span><span class="p">)</span>
+<span class="n">RX</span> <span class="o">=</span> <span class="n">SingleQubitRotateGate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;RX&quot;</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="n">OPERATOR_RX</span><span class="p">,</span> <span class="n">_docs</span><span class="o">=</span><span class="s2">&quot;Rx gate (X rotate gate)&quot;</span><span class="p">)</span>
+<span class="n">RY</span> <span class="o">=</span> <span class="n">SingleQubitRotateGate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;RY&quot;</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="n">OPERATOR_RY</span><span class="p">,</span> <span class="n">_docs</span><span class="o">=</span><span class="s2">&quot;Ry gate (Y rotate gate)&quot;</span><span class="p">)</span>
+<span class="n">RZ</span> <span class="o">=</span> <span class="n">SingleQubitRotateGate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;RZ&quot;</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="n">OPERATOR_RZ</span><span class="p">,</span> <span class="n">_docs</span><span class="o">=</span><span class="s2">&quot;Rz gate (Z rotate gate)&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="SingleQubitArbitraryGate"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.SingleQubitArbitraryGate">[docs]</a><span class="k">class</span> <span class="nc">SingleQubitArbitraryGate</span><span class="p">(</span><span class="n">SingleQubitGate</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">operator</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            qubit (Qubit): the operating qubit</span>
+<span class="sd">            operator (np.ndarray): the operator matrix</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            QGateOperatorNotMatchError</span>
+<span class="sd">            QGateQubitNotInStateError</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">operator</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">QGateOperatorNotMatchError</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_operator</span> <span class="o">=</span> <span class="n">operator</span>
+        <span class="n">qubit</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_operator</span><span class="p">)</span></div>
+
+
+<span class="n">U</span> <span class="o">=</span> <span class="n">SingleQubitArbitraryGate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;U&quot;</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">_docs</span><span class="o">=</span><span class="s2">&quot;Arbitrary single qubit operation gate&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="DoubleQubitsControlledGate"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.DoubleQubitsControlledGate">[docs]</a><span class="k">class</span> <span class="nc">DoubleQubitsControlledGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This error happens when the size of state vector or matrix mismatch occurs</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
+<span class="sd">    The double qubits gates operate on two qubits, including a controlled qubit and a operating qubit.</span>
 
-
-<span class="k">def</span> <span class="nf">_single_gate_expand</span><span class="p">(</span><span class="n">qubit</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">operator</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="n">state</span> <span class="o">=</span> <span class="n">qubit</span><span class="o">.</span><span class="n">state</span>
-    <span class="k">if</span> <span class="n">operator</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">QGateOperatorNotMatchError</span>
-
-    <span class="c1"># single qubit operate</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">idx</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">QGateQubitNotInStateError</span>
-    <span class="n">full_operator</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">num</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">idx</span><span class="p">:</span>
-            <span class="n">full_operator</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator</span><span class="p">,</span> <span class="n">operator</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">full_operator</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">full_operator</span>
-
-
-<div class="viewcode-block" id="joint"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.joint">[docs]</a><span class="k">def</span> <span class="nf">joint</span><span class="p">(</span><span class="n">qubit1</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="k">if</span> <span class="n">qubit1</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">qubit2</span><span class="o">.</span><span class="n">state</span><span class="p">:</span>
-        <span class="k">return</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">qubit1</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">qubit2</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">QGateStateJointError</span>
-
-    <span class="n">nq</span> <span class="o">=</span> <span class="n">QState</span><span class="p">(</span><span class="n">qubit1</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">qubits</span> <span class="o">+</span> <span class="n">qubit2</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="p">,</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">qubit1</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">qubit2</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span><span class="p">))</span>
-    <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">nq</span><span class="o">.</span><span class="n">qubits</span><span class="p">:</span>
-        <span class="n">q</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">nq</span>
-    <span class="k">return</span></div>
-
-
-<div class="viewcode-block" id="swap"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.swap">[docs]</a><span class="k">def</span> <span class="nf">swap</span><span class="p">(</span><span class="n">qubit</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">pos1</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">pos2</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Swap the state vector on pos1-th line and pos2-th line</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        qubit (Qubit): the swapping qubit</span>
-<span class="sd">        pos1 (int): the first position</span>
-<span class="sd">        pos2 (int): the second position</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">pos1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">pos2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>\
-        <span class="o">=</span> <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">pos2</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">pos1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span></div>
-
-
-<div class="viewcode-block" id="X"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.X">[docs]</a><span class="k">def</span> <span class="nf">X</span><span class="p">(</span><span class="n">qubit</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The pauli X gate</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        qubit (Qubit): the operating qubit</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        QGateOperatorNotMatchError</span>
-<span class="sd">        QGateQubitNotInStateError</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">full_operation</span> <span class="o">=</span> <span class="n">_single_gate_expand</span><span class="p">(</span><span class="n">qubit</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_X</span><span class="p">)</span>
-    <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">full_operation</span><span class="p">,</span> <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Y"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.Y">[docs]</a><span class="k">def</span> <span class="nf">Y</span><span class="p">(</span><span class="n">qubit</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The pauli Y gate</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        qubit (Qubit): the operating qubit</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        QGateOperatorNotMatchError</span>
-<span class="sd">        QGateQubitNotInStateError</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">full_operation</span> <span class="o">=</span> <span class="n">_single_gate_expand</span><span class="p">(</span><span class="n">qubit</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_Y</span><span class="p">)</span>
-    <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">full_operation</span><span class="p">,</span> <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Z"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.Z">[docs]</a><span class="k">def</span> <span class="nf">Z</span><span class="p">(</span><span class="n">qubit</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The pauli Z gate</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        qubit (Qubit): the operating qubit</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        QGateOperatorNotMatchError</span>
-<span class="sd">        QGateQubitNotInStateError</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">full_operation</span> <span class="o">=</span> <span class="n">_single_gate_expand</span><span class="p">(</span><span class="n">qubit</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_Z</span><span class="p">)</span>
-    <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">full_operation</span><span class="p">,</span> <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="I"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.I">[docs]</a><span class="k">def</span> <span class="nf">I</span><span class="p">(</span><span class="n">qubit</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The pauli I gate (do nothing)</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        qubit (Qubit): the operating qubit</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        QGateOperatorNotMatchError</span>
-<span class="sd">        QGateQubitNotInStateError</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">full_operation</span> <span class="o">=</span> <span class="n">_single_gate_expand</span><span class="p">(</span><span class="n">qubit</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">)</span>
-    <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">full_operation</span><span class="p">,</span> <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="H"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.H">[docs]</a><span class="k">def</span> <span class="nf">H</span><span class="p">(</span><span class="n">qubit</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The Hadamard gate</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        qubit (Qubit): the operating qubit</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        QGateOperatorNotMatchError</span>
-<span class="sd">        QGateQubitNotInStateError</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">full_operation</span> <span class="o">=</span> <span class="n">_single_gate_expand</span><span class="p">(</span><span class="n">qubit</span><span class="p">,</span> <span class="n">OPERATOR_HADAMARD</span><span class="p">)</span>
-    <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">full_operation</span><span class="p">,</span> <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="T"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.T">[docs]</a><span class="k">def</span> <span class="nf">T</span><span class="p">(</span><span class="n">qubit</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The T gate (pi/4 shift gate)</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        qubit (Qubit): the operating qubit</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        QGateOperatorNotMatchError</span>
-<span class="sd">        QGateQubitNotInStateError</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">full_operation</span> <span class="o">=</span> <span class="n">_single_gate_expand</span><span class="p">(</span><span class="n">qubit</span><span class="p">,</span> <span class="n">OPERATOR_T</span><span class="p">)</span>
-    <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">full_operation</span><span class="p">,</span> <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="S"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.S">[docs]</a><span class="k">def</span> <span class="nf">S</span><span class="p">(</span><span class="n">qubit</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The S gate：</span>
-
-<span class="sd">        [[1, 0]</span>
-<span class="sd">        [0, j]]</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        qubit (Qubit): the operating qubit</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        QGateOperatorNotMatchError</span>
-<span class="sd">        QGateQubitNotInStateError</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">full_operation</span> <span class="o">=</span> <span class="n">_single_gate_expand</span><span class="p">(</span><span class="n">qubit</span><span class="p">,</span> <span class="n">OPERATOR_S</span><span class="p">)</span>
-    <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">full_operation</span><span class="p">,</span> <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="R"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.R">[docs]</a><span class="k">def</span> <span class="nf">R</span><span class="p">(</span><span class="n">qubit</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The R gate (phase shift gate):</span>
-
-<span class="sd">        [[1, 0]</span>
-<span class="sd">        [0, theta * j]]</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        qubit (Qubit): the operating qubit</span>
-<span class="sd">        theta (float): the rotation degree</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        QGateOperatorNotMatchError</span>
-<span class="sd">        QGateQubitNotInStateError</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">full_operation</span> <span class="o">=</span> <span class="n">_single_gate_expand</span><span class="p">(</span><span class="n">qubit</span><span class="p">,</span> <span class="n">OPERATOR_PHASE_SHIFT</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span>
-    <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">full_operation</span><span class="p">,</span> <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="RX"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.RX">[docs]</a><span class="k">def</span> <span class="nf">RX</span><span class="p">(</span><span class="n">qubit</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The Rx gate (X rotate gate):</span>
-
-<span class="sd">        [[cos(theta/2), -j * sin(theta/2)],</span>
-<span class="sd">        [-j * sin(theta/2), cos(theta/2)]]</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        qubit (Qubit): the operating qubit</span>
-<span class="sd">        theta (float): the rotation degree</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        QGateOperatorNotMatchError</span>
-<span class="sd">        QGateQubitNotInStateError</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">full_operation</span> <span class="o">=</span> <span class="n">_single_gate_expand</span><span class="p">(</span><span class="n">qubit</span><span class="p">,</span> <span class="n">OPERATOR_RX</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span>
-    <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">full_operation</span><span class="p">,</span> <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="RY"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.RY">[docs]</a><span class="k">def</span> <span class="nf">RY</span><span class="p">(</span><span class="n">qubit</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The Ry gate (Y rotate gate):</span>
-
-<span class="sd">        [[cos(theta/2), -sin(theta/2)],</span>
-<span class="sd">        [sin(theta/2), cos(theta/2)]]</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        qubit (Qubit): the operating qubit</span>
-<span class="sd">        theta (float): the rotation degree</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        QGateOperatorNotMatchError</span>
-<span class="sd">        QGateQubitNotInStateError</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">full_operation</span> <span class="o">=</span> <span class="n">_single_gate_expand</span><span class="p">(</span><span class="n">qubit</span><span class="p">,</span> <span class="n">OPERATOR_RY</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span>
-    <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">full_operation</span><span class="p">,</span> <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="RZ"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.RZ">[docs]</a><span class="k">def</span> <span class="nf">RZ</span><span class="p">(</span><span class="n">qubit</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The Rz gate (Z rotate gate):</span>
-
-<span class="sd">        [[e^(-0.5j * theta), 0],</span>
-<span class="sd">        [0, e^(0.5j * theta)]]</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        qubit (Qubit): the operating qubit</span>
-<span class="sd">        theta (float): the rotation degree</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        QGateOperatorNotMatchError</span>
-<span class="sd">        QGateQubitNotInStateError</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">full_operation</span> <span class="o">=</span> <span class="n">_single_gate_expand</span><span class="p">(</span><span class="n">qubit</span><span class="p">,</span> <span class="n">OPERATOR_RZ</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span>
-    <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">full_operation</span><span class="p">,</span> <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="U"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.U">[docs]</a><span class="k">def</span> <span class="nf">U</span><span class="p">(</span><span class="n">qubit</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">operator</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The arbitrary single qubit operation gate.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        qubit (Qubit): the operating qubit</span>
-<span class="sd">        operator (np.ndarray): a 2x2 operation matrix</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        QGateOperatorNotMatchError</span>
-<span class="sd">        QGateQubitNotInStateError</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">operator</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">QGateOperatorNotMatchError</span>
-    <span class="n">full_operation</span> <span class="o">=</span> <span class="n">_single_gate_expand</span><span class="p">(</span><span class="n">qubit</span><span class="p">,</span> <span class="n">operator</span><span class="p">)</span>
-    <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">full_operation</span><span class="p">,</span> <span class="n">qubit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="ControlledGate"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.ControlledGate">[docs]</a><span class="k">def</span> <span class="nf">ControlledGate</span><span class="p">(</span><span class="n">qubit1</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">operator</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">OPERATOR_PAULI_X</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The controlled  gate:</span>
 
 <span class="sd">        [[I_2, 0][0, operator]]</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        qubit1 (Qubit): the first qubit (controller)</span>
-<span class="sd">        qubit2 (Qubit): the second qubit</span>
-<span class="sd">        operator (np.ndarray): the gate on the second qubit if the first qubit is 1,</span>
-<span class="sd">            default is pauli X (CNOT)</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        QGateOperatorNotMatchError</span>
-<span class="sd">        QGateQubitNotInStateError</span>
-<span class="sd">        QGateStateJointError</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">qubit1</span> <span class="o">==</span> <span class="n">qubit2</span><span class="p">:</span>
-        <span class="k">return</span>
-    <span class="n">joint</span><span class="p">(</span><span class="n">qubit1</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">)</span>
 
-    <span class="n">state</span> <span class="o">=</span> <span class="n">qubit1</span><span class="o">.</span><span class="n">state</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">operator</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="n">OPERATOR_PAULI_X</span><span class="p">,</span> <span class="n">_docs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): the gate&#39;s name</span>
+<span class="sd">            operator (np.ndarray): the matrix represent of the operator</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">_docs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_operator</span> <span class="o">=</span> <span class="n">operator</span>
 
-    <span class="k">if</span> <span class="n">operator</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">QGateOperatorNotMatchError</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit1</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span>
+                 <span class="n">operator</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            qubit1 (Qubit): the first qubit (controller)</span>
+<span class="sd">            qubit2 (Qubit): the second qubit</span>
+<span class="sd">            operator (np.ndarray): the matrix represent of the operator</span>
 
-    <span class="c1"># single qubit operate</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">idx1</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">qubit1</span><span class="p">)</span>
-        <span class="n">idx2</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">qubit2</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">QGateQubitNotInStateError</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            QGateOperatorNotMatchError</span>
+<span class="sd">            QGateQubitNotInStateError</span>
+<span class="sd">            QGateStateJointError</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">operator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">operator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_operator</span>
+        <span class="k">if</span> <span class="n">operator</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">QGateOperatorNotMatchError</span>
 
-    <span class="n">full_operator_part_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># |0&gt; &lt;0|</span>
-    <span class="n">full_operator_part_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># |1&gt; &lt;1|</span>
+        <span class="k">if</span> <span class="n">qubit1</span> <span class="o">==</span> <span class="n">qubit2</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">joint</span><span class="p">(</span><span class="n">qubit1</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">)</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">qubit1</span><span class="o">.</span><span class="n">state</span>
 
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">num</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">idx1</span><span class="p">:</span>
-            <span class="n">full_operator_part_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]))</span>
-            <span class="n">full_operator_part_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]))</span>
-        <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="n">idx2</span><span class="p">:</span>
-            <span class="n">full_operator_part_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_0</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">)</span>
-            <span class="n">full_operator_part_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_1</span><span class="p">,</span> <span class="n">operator</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">full_operator_part_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_0</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">)</span>
-            <span class="n">full_operator_part_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_1</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">)</span>
-    <span class="n">full_operator</span> <span class="o">=</span> <span class="n">full_operator_part_0</span> <span class="o">+</span> <span class="n">full_operator_part_1</span>
-    <span class="n">state</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">full_operator</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
-    <span class="k">return</span></div>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">idx1</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">qubit1</span><span class="p">)</span>
+            <span class="n">idx2</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">qubit2</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QGateQubitNotInStateError</span>
+
+        <span class="n">full_operator_part_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># |0&gt; &lt;0|</span>
+        <span class="n">full_operator_part_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># |1&gt; &lt;1|</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">num</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">idx1</span><span class="p">:</span>
+                <span class="n">full_operator_part_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]))</span>
+                <span class="n">full_operator_part_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]))</span>
+            <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="n">idx2</span><span class="p">:</span>
+                <span class="n">full_operator_part_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_0</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">)</span>
+                <span class="n">full_operator_part_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_1</span><span class="p">,</span> <span class="n">operator</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">full_operator_part_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_0</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">)</span>
+                <span class="n">full_operator_part_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_1</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">)</span>
+        <span class="n">full_operator</span> <span class="o">=</span> <span class="n">full_operator_part_0</span> <span class="o">+</span> <span class="n">full_operator_part_1</span>
+        <span class="n">qubit1</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">full_operator</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="CNOT"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.CNOT">[docs]</a><span class="k">def</span> <span class="nf">CNOT</span><span class="p">(</span><span class="n">qubit1</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">):</span>
+<span class="n">ControlledGate</span> <span class="o">=</span> <span class="n">DoubleQubitsControlledGate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Controlled Gate&quot;</span><span class="p">,</span>
+                                            <span class="n">operator</span><span class="o">=</span><span class="n">OPERATOR_PAULI_X</span><span class="p">,</span> <span class="n">_docs</span><span class="o">=</span><span class="s2">&quot;The controlled gate&quot;</span><span class="p">)</span>
+<span class="n">CNOT</span> <span class="o">=</span> <span class="n">DoubleQubitsControlledGate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Controlled NOT Gate&quot;</span><span class="p">,</span>
+                                  <span class="n">operator</span><span class="o">=</span><span class="n">OPERATOR_PAULI_X</span><span class="p">,</span> <span class="n">_docs</span><span class="o">=</span><span class="s2">&quot;The controlled Pauli-X gate&quot;</span><span class="p">)</span>
+<span class="n">CX</span> <span class="o">=</span> <span class="n">DoubleQubitsControlledGate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Controlled Pauli-X Gate&quot;</span><span class="p">,</span>
+                                <span class="n">operator</span><span class="o">=</span><span class="n">OPERATOR_PAULI_X</span><span class="p">,</span> <span class="n">_docs</span><span class="o">=</span><span class="s2">&quot;The controlled Pauli-X gate&quot;</span><span class="p">)</span>
+<span class="n">CY</span> <span class="o">=</span> <span class="n">DoubleQubitsControlledGate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Controlled Pauli-Y Gate&quot;</span><span class="p">,</span>
+                                <span class="n">operator</span><span class="o">=</span><span class="n">OPERATOR_PAULI_Y</span><span class="p">,</span> <span class="n">_docs</span><span class="o">=</span><span class="s2">&quot;The controlled Pauli-Y gate&quot;</span><span class="p">)</span>
+<span class="n">CZ</span> <span class="o">=</span> <span class="n">DoubleQubitsControlledGate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Controlled Pauli-Z Gate&quot;</span><span class="p">,</span>
+                                <span class="n">operator</span><span class="o">=</span><span class="n">OPERATOR_PAULI_Z</span><span class="p">,</span> <span class="n">_docs</span><span class="o">=</span><span class="s2">&quot;The controlled Pauli-Z gate&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="DoubleQubitsRotateGate"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.DoubleQubitsRotateGate">[docs]</a><span class="k">class</span> <span class="nc">DoubleQubitsRotateGate</span><span class="p">(</span><span class="n">DoubleQubitsControlledGate</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit1</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">operator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_operator</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="n">qubit1</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="n">operator</span><span class="p">)</span></div>
+
+
+<span class="n">CR</span> <span class="o">=</span> <span class="n">DoubleQubitsRotateGate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Controlled Phase Rotate Gate&quot;</span><span class="p">,</span>
+                            <span class="n">operator</span><span class="o">=</span><span class="n">OPERATOR_PHASE_SHIFT</span><span class="p">,</span> <span class="n">_docs</span><span class="o">=</span><span class="s2">&quot;The controlled rotate gate&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="SwapGate"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.SwapGate">[docs]</a><span class="k">class</span> <span class="nc">SwapGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit1</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The swap gate, swap the states of qubit1 and qubit2</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            qubit1 (Qubit): the first qubit (controller)</span>
+<span class="sd">            qubit2 (Qubit): the second qubit</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            QGateOperatorNotMatchError</span>
+<span class="sd">            QGateQubitNotInStateError</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">qubit1</span> <span class="o">==</span> <span class="n">qubit2</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">joint</span><span class="p">(</span><span class="n">qubit1</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">)</span>
+
+        <span class="n">state</span> <span class="o">=</span> <span class="n">qubit1</span><span class="o">.</span><span class="n">state</span>
+        <span class="c1"># single qubit operate</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">idx1</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">qubit1</span><span class="p">)</span>
+            <span class="n">idx2</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">qubit2</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QGateQubitNotInStateError</span>
+
+        <span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="p">[</span><span class="n">idx1</span><span class="p">],</span> <span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="p">[</span><span class="n">idx2</span><span class="p">]</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="p">[</span><span class="n">idx2</span><span class="p">],</span> <span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="p">[</span><span class="n">idx1</span><span class="p">]</span></div>
+
+
+<span class="n">Swap</span> <span class="o">=</span> <span class="n">SwapGate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Swap Gate&quot;</span><span class="p">,</span> <span class="n">_docs</span><span class="o">=</span><span class="s2">&quot;swap the states of qubit1 and qubit2&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ThreeQubitsGate"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.ThreeQubitsGate">[docs]</a><span class="k">class</span> <span class="nc">ThreeQubitsGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The controlled Pauli-X gate:</span>
+<span class="sd">    The gate operates on three qubits, including 2 controlled qubit and a operating qubit.</span>
 
-<span class="sd">        [[I_2, 0][0, X]]</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        qubit1 (Qubit): the first qubit (controller)</span>
-<span class="sd">        qubit2 (Qubit): the second qubit</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        QGateOperatorNotMatchError</span>
-<span class="sd">        QGateQubitNotInStateError</span>
-<span class="sd">        QGateStateJointError</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">ControlledGate</span><span class="p">(</span><span class="n">qubit1</span><span class="o">=</span><span class="n">qubit1</span><span class="p">,</span> <span class="n">qubit2</span><span class="o">=</span><span class="n">qubit2</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="CZ"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.CZ">[docs]</a><span class="k">def</span> <span class="nf">CZ</span><span class="p">(</span><span class="n">qubit1</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The controlled Pauli-Z gate:</span>
-
-<span class="sd">        [[I_2, 0][0, Z]]</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        qubit1 (Qubit): the first qubit (controller)</span>
-<span class="sd">        qubit2 (Qubit): the second qubit</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        QGateOperatorNotMatchError</span>
-<span class="sd">        QGateQubitNotInStateError</span>
-<span class="sd">        QGateStateJointError</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">ControlledGate</span><span class="p">(</span><span class="n">qubit1</span><span class="o">=</span><span class="n">qubit1</span><span class="p">,</span> <span class="n">qubit2</span><span class="o">=</span><span class="n">qubit2</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="n">OPERATOR_PAULI_Z</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="CR"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.CR">[docs]</a><span class="k">def</span> <span class="nf">CR</span><span class="p">(</span><span class="n">qubit1</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">4</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The controlled Rotate gate:</span>
-
-<span class="sd">        [[I_2, 0][0, R(theta)]]</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        qubit1 (Qubit): the first qubit (controller)</span>
-<span class="sd">        qubit2 (Qubit): the second qubit</span>
-<span class="sd">        theta: the rotation degree</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        QGateOperatorNotMatchError</span>
-<span class="sd">        QGateQubitNotInStateError</span>
-<span class="sd">        QGateStateJointError</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">ControlledGate</span><span class="p">(</span><span class="n">qubit1</span><span class="o">=</span><span class="n">qubit1</span><span class="p">,</span> <span class="n">qubit2</span><span class="o">=</span><span class="n">qubit2</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="n">OPERATOR_PHASE_SHIFT</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span></div>
-
-
-<div class="viewcode-block" id="Swap"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.Swap">[docs]</a><span class="k">def</span> <span class="nf">Swap</span><span class="p">(</span><span class="n">qubit1</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The swap gate, swap the states of qubit1 and qubit2</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        qubit1 (Qubit): the first qubit (controller)</span>
-<span class="sd">        qubit2 (Qubit): the second qubit</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        QGateOperatorNotMatchError</span>
-<span class="sd">        QGateQubitNotInStateError</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">qubit1</span> <span class="o">==</span> <span class="n">qubit2</span><span class="p">:</span>
-        <span class="k">return</span>
-    <span class="n">joint</span><span class="p">(</span><span class="n">qubit1</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">)</span>
-
-    <span class="n">state</span> <span class="o">=</span> <span class="n">qubit1</span><span class="o">.</span><span class="n">state</span>
-    <span class="c1"># single qubit operate</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">idx1</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">qubit1</span><span class="p">)</span>
-        <span class="n">idx2</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">qubit2</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">QGateQubitNotInStateError</span>
-
-    <span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="p">[</span><span class="n">idx1</span><span class="p">],</span> <span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="p">[</span><span class="n">idx2</span><span class="p">]</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="p">[</span><span class="n">idx2</span><span class="p">],</span> <span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="p">[</span><span class="n">idx1</span><span class="p">]</span></div>
-
-
-<div class="viewcode-block" id="Toffoli"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.gate.Toffoli">[docs]</a><span class="k">def</span> <span class="nf">Toffoli</span><span class="p">(</span><span class="n">qubit1</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">qubit3</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">operator</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">OPERATOR_PAULI_X</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The controlled-controlled (Toffoli) gate:</span>
+<span class="sd">    The 3 controlled-controlled gate:</span>
 
 <span class="sd">        [[I_6, 0][0, operator]]</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        qubit1 (Qubit): the first controll qubit</span>
-<span class="sd">        qubit2 (Qubit): the second controll qubit</span>
-<span class="sd">        qubit3 (Qubit): the operation qubit</span>
-<span class="sd">        operator (np.ndarray): the gate on the third qubit if both the first and the second qubit is 1,</span>
-<span class="sd">            default is pauli X (CNOT)</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        QGateOperatorNotMatchError</span>
-<span class="sd">        QGateQubitNotInStateError</span>
-<span class="sd">        QGateStateJointError</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">qubit1</span> <span class="o">==</span> <span class="n">qubit2</span> <span class="ow">or</span> <span class="n">qubit1</span> <span class="o">==</span> <span class="n">qubit3</span> <span class="ow">or</span> <span class="n">qubit2</span> <span class="o">==</span> <span class="n">qubit3</span><span class="p">:</span>
-        <span class="k">return</span>
-    <span class="n">joint</span><span class="p">(</span><span class="n">qubit1</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">)</span>
-    <span class="n">joint</span><span class="p">(</span><span class="n">qubit2</span><span class="p">,</span> <span class="n">qubit3</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">operator</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="n">OPERATOR_PAULI_X</span><span class="p">,</span> <span class="n">_docs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): the gate&#39;s name</span>
+<span class="sd">            operator (np.ndarray): the matrix represent of the operator</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">_docs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_operator</span> <span class="o">=</span> <span class="n">operator</span>
 
-    <span class="n">state</span> <span class="o">=</span> <span class="n">qubit1</span><span class="o">.</span><span class="n">state</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit1</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">qubit3</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">operator</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">operator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">operator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_operator</span>
+        <span class="k">if</span> <span class="n">operator</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">QGateOperatorNotMatchError</span>
 
-    <span class="k">if</span> <span class="n">operator</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">QGateOperatorNotMatchError</span>
+        <span class="k">if</span> <span class="n">qubit1</span> <span class="o">==</span> <span class="n">qubit2</span> <span class="ow">or</span> <span class="n">qubit1</span> <span class="o">==</span> <span class="n">qubit3</span> <span class="ow">or</span> <span class="n">qubit2</span> <span class="o">==</span> <span class="n">qubit3</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">joint</span><span class="p">(</span><span class="n">qubit1</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">)</span>
+        <span class="n">joint</span><span class="p">(</span><span class="n">qubit2</span><span class="p">,</span> <span class="n">qubit3</span><span class="p">)</span>
 
-    <span class="c1"># single qubit operate</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">idx1</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">qubit1</span><span class="p">)</span>
-        <span class="n">idx2</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">qubit2</span><span class="p">)</span>
-        <span class="n">idx3</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">qubit3</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">QGateQubitNotInStateError</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">qubit1</span><span class="o">.</span><span class="n">state</span>
 
-    <span class="n">full_operator_part_00</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># |0&gt; &lt;0|</span>
-    <span class="n">full_operator_part_01</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># |1&gt; &lt;1|</span>
-    <span class="n">full_operator_part_10</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># |0&gt; &lt;0|</span>
-    <span class="n">full_operator_part_11</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># |1&gt; &lt;1|</span>
+        <span class="c1"># single qubit operate</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">idx1</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">qubit1</span><span class="p">)</span>
+            <span class="n">idx2</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">qubit2</span><span class="p">)</span>
+            <span class="n">idx3</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">qubit3</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QGateQubitNotInStateError</span>
 
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">num</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">idx1</span><span class="p">:</span>
-            <span class="n">full_operator_part_00</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_00</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]))</span>
-            <span class="n">full_operator_part_01</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_01</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]))</span>
-            <span class="n">full_operator_part_10</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_10</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]))</span>
-            <span class="n">full_operator_part_11</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_11</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]))</span>
-        <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="n">idx2</span><span class="p">:</span>
-            <span class="n">full_operator_part_00</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_00</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]))</span>
-            <span class="n">full_operator_part_10</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_10</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]))</span>
-            <span class="n">full_operator_part_01</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_01</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]))</span>
-            <span class="n">full_operator_part_11</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_11</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]))</span>
-        <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="n">idx3</span><span class="p">:</span>
-            <span class="n">full_operator_part_00</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_00</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">)</span>
-            <span class="n">full_operator_part_01</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_01</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">)</span>
-            <span class="n">full_operator_part_10</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_10</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">)</span>
-            <span class="n">full_operator_part_11</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_11</span><span class="p">,</span> <span class="n">operator</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">full_operator_part_00</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_00</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">)</span>
-            <span class="n">full_operator_part_01</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_01</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">)</span>
-            <span class="n">full_operator_part_10</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_10</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">)</span>
-            <span class="n">full_operator_part_11</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_11</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">)</span>
-    <span class="n">full_operator</span> <span class="o">=</span> <span class="n">full_operator_part_00</span> <span class="o">+</span> <span class="n">full_operator_part_01</span> <span class="o">+</span> <span class="n">full_operator_part_10</span> <span class="o">+</span> <span class="n">full_operator_part_11</span>
-    <span class="n">state</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">full_operator</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">state</span><span class="p">)</span></div>
+        <span class="n">full_operator_part_00</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># |0&gt; &lt;0|</span>
+        <span class="n">full_operator_part_01</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># |1&gt; &lt;1|</span>
+        <span class="n">full_operator_part_10</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># |0&gt; &lt;0|</span>
+        <span class="n">full_operator_part_11</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># |1&gt; &lt;1|</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">num</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">idx1</span><span class="p">:</span>
+                <span class="n">full_operator_part_00</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_00</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]))</span>
+                <span class="n">full_operator_part_01</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_01</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]))</span>
+                <span class="n">full_operator_part_10</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_10</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]))</span>
+                <span class="n">full_operator_part_11</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_11</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]))</span>
+            <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="n">idx2</span><span class="p">:</span>
+                <span class="n">full_operator_part_00</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_00</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]))</span>
+                <span class="n">full_operator_part_10</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_10</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]))</span>
+                <span class="n">full_operator_part_01</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_01</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]))</span>
+                <span class="n">full_operator_part_11</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_11</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]))</span>
+            <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="n">idx3</span><span class="p">:</span>
+                <span class="n">full_operator_part_00</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_00</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">)</span>
+                <span class="n">full_operator_part_01</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_01</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">)</span>
+                <span class="n">full_operator_part_10</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_10</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">)</span>
+                <span class="n">full_operator_part_11</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_11</span><span class="p">,</span> <span class="n">operator</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">full_operator_part_00</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_00</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">)</span>
+                <span class="n">full_operator_part_01</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_01</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">)</span>
+                <span class="n">full_operator_part_10</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_10</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">)</span>
+                <span class="n">full_operator_part_11</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">full_operator_part_11</span><span class="p">,</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">)</span>
+        <span class="n">full_operator</span> <span class="o">=</span> <span class="n">full_operator_part_00</span> <span class="o">+</span> <span class="n">full_operator_part_01</span> <span class="o">+</span> <span class="n">full_operator_part_10</span> <span class="o">+</span> <span class="n">full_operator_part_11</span>
+        <span class="n">qubit1</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">full_operator</span><span class="p">)</span></div>
+
+
+<span class="n">Toffoli</span> <span class="o">=</span> <span class="n">ThreeQubitsGate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Toffoli Gate&quot;</span><span class="p">,</span>
+                          <span class="n">operator</span><span class="o">=</span><span class="n">OPERATOR_PAULI_X</span><span class="p">,</span> <span class="n">_docs</span><span class="o">=</span><span class="s2">&quot;The controlled-controlled (Toffoli) gate&quot;</span><span class="p">)</span>
 </pre></div>
 
            </div>

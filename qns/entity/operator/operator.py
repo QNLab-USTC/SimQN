@@ -26,18 +26,18 @@ class QuantumOperator(Entity):
     """
     Quantum operator can perfrom quantum operation or measurements on qubits.
     It has two modes:
-        Synchronous mode, users can use the ``operate`` function to operate qubits directly without delay
+        Synchronous mode, users can use the `operate` function to operate qubits directly without delay
         Asynchronous mode, users will use events to operate quantum operations asynchronously
     """
 
     def __init__(self, name: str = None, node: QNode = None,
                  gate: Callable[..., Union[None, int, List[int]]] = None, delay: float = 0):
         """
+
         Args:
             name (str): its name
             node (QNode): the quantum node that equips this memory
-            gate: the quantum gate or measurement function.
-                  Its input is the operating qubits and returns the measure result
+            gate: the quantum circuit where the input is the operating qubits and returns the measure result
             delay (float): the delay time in second for this operation
         """
         super().__init__(name=name)

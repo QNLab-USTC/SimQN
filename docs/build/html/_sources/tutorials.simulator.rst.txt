@@ -34,7 +34,7 @@ Also, ``Time`` is comparable.
 Events in simulation
 --------------------------
 
-``Event`` has a occur time ``t`` and an ``invoke`` function. The ``invoke`` function will be called at time ``t``. Just like ``Time``, ``Event``s are also comparable based on the occur time.
+``Event`` has a occur time ``t`` and an ``invoke`` function. The ``invoke`` function will be called at time ``t``. Just like ``Time``, ``Event``s are also comparable based on the occur time. ``Event`` object has also an optional attribution ``by`` to represent the entity that generates this event.
 
 .. code-block:: python
 
@@ -46,7 +46,7 @@ Events in simulation
             print("event happened")
 
     # te will happen at 1 second
-    te = PrintEvent(t=Time(sec=1), name="test event")
+    te = PrintEvent(t=Time(sec=1), name="test event", by = None)
 
     # get te's occur time
     print(te.t)

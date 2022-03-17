@@ -39,6 +39,12 @@ We implement some quantum gates. And those gates can change the qubit's state:
     H(q0) # hadamard gate
     CNOT(q0, q1) # controlled-not gate
 
+    q0.operate(H) # another way to operate Hadamard gate on qubit q0
+
+    # A stochastic operate. This operate will operate I, X, Y, Z gate with the possibility 0.7, 0.1, 0.1, 0.1 respectively.
+    # The process usually turns a pure state into a mixed state and is used to represent decoherence
+    q0.stochastic_operate([I, X, Y, Z], [0.7, 0.1, 0.1, 0.1])
+
 Those gates includes Pauli I, X, Y, Z gate, HADAMARD gate, T gate, S gate, phase rotate gate, CNOT gate. The detailed functions of those gates can be found at :doc:`qns.models.qubit`. Users can build their own quantum gates as well.
 
 Quantum measurement
@@ -74,6 +80,31 @@ To present errors in storage or transmission, users can build their qubits model
             self.state.state = np.dot(operation, self.state.state)
 
     qubit = QubitWithError(state=QUBIT_STATE_0)
+
+SimQN also provides some commonly used decoherence models, including dephase model and depolar model for both transmission error and storage error in ``qns.model.qubit.decoherence``. Users can use the ``qns.model.qubit.factory`` to set up the models:
+
+.. code-block:: python
+
+    from qns.models.qubit.decoherence import DepolarStorageErrorModel, DephaseTransmitErrorModel
+    from qns.models.qubit.factory import QubitFactory
+
+    Qubit = QubitFactory(store_error_model=DepolarStorageErrorModel, transfer_error_model=DephaseTransmitErrorModel)
+    q1 = Qubit(name="q1")
+    q2 = Qubit(name="q2")
+
+SimQN also have error models for operating or measuring on qubits, by implementing the ``operate_error_model`` and ``measure_error_model``:
+
+.. code-block:: python
+
+    from qns.models.qubit.decoherence import DepolarStorageErrorModel, DephaseTransmitErrorModel
+    from qns.models.qubit.factory import QubitFactory
+
+    Qubit = QubitFactory(operate_decoherence_rate=0.2,
+                         measure_decoherence_rate=0.2, measure_error_model=DepolarMeasureErrorModel)
+    q0 = Qubit(state=QUBIT_STATE_0, name="q0")
+    q0.measure()
+
+The ``operate_decoherence_rate`` and ``measure_decoherence_rate`` is the decoherence rate in `Hz`.
 
 Example of entanglement swapping
 ----------------------------------------

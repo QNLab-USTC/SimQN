@@ -224,14 +224,15 @@ Suppose the first qubit is [1/sqrt(2), 1/sqrt(2)].H</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="qns.models.epr.BellStateEntanglement.storage_error_model">
-<span class="sig-name descname"><span class="pre">storage_error_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/bell.html#BellStateEntanglement.storage_error_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.BellStateEntanglement.storage_error_model" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="qns.models.epr.BellStateEntanglement.store_error_model">
+<span class="sig-name descname"><span class="pre">store_error_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoherence_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/bell.html#BellStateEntanglement.store_error_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.BellStateEntanglement.store_error_model" title="Permalink to this definition"></a></dt>
 <dd><p>The default error model for storing this entangled pair in a quantum memory.
 The default behavior is doing nothing</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>t</strong> – the time stored in a quantum memory. The unit it second.</p></li>
+<li><p><strong>decoherence_rate</strong> (<em>float</em>) – the decoherence_rate</p></li>
 <li><p><strong>kwargs</strong> – other parameters</p></li>
 </ul>
 </dd>
@@ -254,13 +255,14 @@ The default behavior is doing nothing</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.models.epr.BellStateEntanglement.transfer_error_model">
-<span class="sig-name descname"><span class="pre">transfer_error_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/bell.html#BellStateEntanglement.transfer_error_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.BellStateEntanglement.transfer_error_model" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">transfer_error_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoherence_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/bell.html#BellStateEntanglement.transfer_error_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.BellStateEntanglement.transfer_error_model" title="Permalink to this definition"></a></dt>
 <dd><p>The default error model for transmitting this entanglement.
 The default behavior is doing nothing</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>length</strong> (<em>float</em>) – the length of the channel</p></li>
+<li><p><strong>decoherence_rate</strong> (<em>float</em>) – the decoherency rate</p></li>
 <li><p><strong>kwargs</strong> – other parameters</p></li>
 </ul>
 </dd>
@@ -305,14 +307,21 @@ Using BBPSSW protocol.</p>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="qns.models.epr.MixedStateEntanglement.storage_error_model">
-<span class="sig-name descname"><span class="pre">storage_error_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/mixed.html#MixedStateEntanglement.storage_error_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.MixedStateEntanglement.storage_error_model" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="qns.models.epr.MixedStateEntanglement.store_error_model">
+<span class="sig-name descname"><span class="pre">store_error_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoherence_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/mixed.html#MixedStateEntanglement.store_error_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.MixedStateEntanglement.store_error_model" title="Permalink to this definition"></a></dt>
 <dd><p>The default error model for storing this entangled pair in a quantum memory.
-The default behavior is: a = 0.25 + (a-0.25)*e^{a*t}, default a = 0</p>
+The default behavior is:</p>
+<blockquote>
+<div><p>a = 0.25 + (a-0.25)*e^{decoherence_rate*t}
+b = 0.25 + (b-0.25)*e^{decoherence_rate*t}
+c = 0.25 + (c-0.25)*e^{decoherence_rate*t}
+d = 0.25 + (d-0.25)*e^{decoherence_rate*t}</p>
+</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>t</strong> – the time stored in a quantum memory. The unit it second.</p></li>
+<li><p><strong>decoherence_rate</strong> – the decoherence rate, equals to 1/T_coh, where T_coh is the coherence time.</p></li>
 <li><p><strong>kwargs</strong> – other parameters</p></li>
 </ul>
 </dd>
@@ -350,13 +359,20 @@ Suppose the first qubit is [1/sqrt(2), 1/sqrt(2)].H</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.models.epr.MixedStateEntanglement.transfer_error_model">
-<span class="sig-name descname"><span class="pre">transfer_error_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/mixed.html#MixedStateEntanglement.transfer_error_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.MixedStateEntanglement.transfer_error_model" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">transfer_error_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoherence_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/mixed.html#MixedStateEntanglement.transfer_error_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.MixedStateEntanglement.transfer_error_model" title="Permalink to this definition"></a></dt>
 <dd><p>The default error model for transmitting this entanglement.
-The success possibility of transmitting is: 0.25 + (a-0.25)*e^{b*l}, default b = 0</p>
+The success possibility of transmitting is:</p>
+<blockquote>
+<div><p>a = 0.25 + (a-0.25)*e^{decoherence_rate*length}
+b = 0.25 + (b-0.25)*e^{decoherence_rate*length}
+c = 0.25 + (c-0.25)*e^{decoherence_rate*length}
+d = 0.25 + (d-0.25)*e^{decoherence_rate*length}</p>
+</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>length</strong> (<em>float</em>) – the length of the channel</p></li>
+<li><p><strong>decoherence_rate</strong> (<em>float</em>) – the decoherency rate</p></li>
 <li><p><strong>kwargs</strong> – other parameters</p></li>
 </ul>
 </dd>
@@ -394,14 +410,15 @@ Using Bennett 96 protocol and estimate lower bound.</p>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="qns.models.epr.WernerStateEntanglement.storage_error_model">
-<span class="sig-name descname"><span class="pre">storage_error_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/werner.html#WernerStateEntanglement.storage_error_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.WernerStateEntanglement.storage_error_model" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="qns.models.epr.WernerStateEntanglement.store_error_model">
+<span class="sig-name descname"><span class="pre">store_error_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoherence_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/werner.html#WernerStateEntanglement.store_error_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.WernerStateEntanglement.store_error_model" title="Permalink to this definition"></a></dt>
 <dd><p>The default error model for storing this entangled pair in a quantum memory.
-The default behavior is: w = w*e^{-a*t}, default a = 0</p>
+The default behavior is: w = w*e^{-decoherence_rate*t}, default a = 0</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>t</strong> – the time stored in a quantum memory. The unit it second.</p></li>
+<li><p><strong>decoherence_rate</strong> – the decoherence rate, equals to 1/T_coh, where T_coh is the coherence time.</p></li>
 <li><p><strong>kwargs</strong> – other parameters</p></li>
 </ul>
 </dd>
@@ -439,9 +456,9 @@ Suppose the first qubit is [1/sqrt(2), 1/sqrt(2)].H</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qns.models.epr.WernerStateEntanglement.transfer_error_model">
-<span class="sig-name descname"><span class="pre">transfer_error_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/werner.html#WernerStateEntanglement.transfer_error_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.WernerStateEntanglement.transfer_error_model" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">transfer_error_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoherence_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/epr/werner.html#WernerStateEntanglement.transfer_error_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.epr.WernerStateEntanglement.transfer_error_model" title="Permalink to this definition"></a></dt>
 <dd><p>The default error model for transmitting this entanglement.
-The success possibility of transmitting is: p = 10^{-b*D}, default b = 0</p>
+The success possibility of transmitting is: w = w* e^{decoherence_rate * length}</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

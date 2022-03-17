@@ -43,6 +43,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Install Guide</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#install-stable-version-using-pip">Install stable version using <cite>pip</cite></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#install-develop-version-from-source">Install develop version from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compile-with-cython-acceleration">Compile with Cython acceleration</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
@@ -100,6 +101,19 @@
 </div>
 <p>This command build the package and it should be located in the <cite>dist</cite> directory, named <cite>qns-&lt;version&gt;-py3-none-any.whl</cite>. Finally, install the package to the system python library:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip3 install qns-&lt;version&gt;-py3-none-any.whl
+</pre></div>
+</div>
+</section>
+<section id="compile-with-cython-acceleration">
+<h2>Compile with Cython acceleration<a class="headerlink" href="#compile-with-cython-acceleration" title="Permalink to this headline"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Cython</span></code> is a Python library to build Python file into C/C++ libraries to accelerate the simulation. To use Cython, you should first download <code class="docutils literal notranslate"><span class="pre">Cython</span></code> along with other development libraries:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip3 install setuptools wheel cython
+</pre></div>
+</div>
+<p>C/C++ compiler is also necessary. For windows platforms, Visual Studio is usually needed, and <code class="docutils literal notranslate"><span class="pre">gcc/clang</span></code> is required for <code class="docutils literal notranslate"><span class="pre">Linux/MacOS</span></code> platforms respectively.</p>
+<p>Finally, it is possible to build the packet and install the packet:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3 setup-cython.py bdist_wheel
+pip3 install qns-&lt;version&gt;-&lt;py version&gt;-&lt;os&gt;-&lt;arch&gt;.whl
 </pre></div>
 </div>
 </section>

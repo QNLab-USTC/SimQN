@@ -67,3 +67,5 @@ SimQN uses ``random`` library from both Python standard library and ``numpy`` wh
     from qns.utils.random import set_seed
 
     set_seed(1641801012) # fix the random generator's seed
+
+``get_randint(low, high)`` can generates an random integer in [low, high]; ``get_rand(low, high)`` can generate a float random number in [low, high); and ``get_choice(a)`` selects an random element in list ``a``.

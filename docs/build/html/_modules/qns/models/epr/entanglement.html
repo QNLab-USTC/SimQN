@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en,zh-CN" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -89,8 +89,8 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">qns.models.qubit.qubit</span> <span class="kn">import</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">QState</span>
-<span class="kn">from</span> <span class="nn">qns.models.qubit.gate</span> <span class="kn">import</span> <span class="n">H</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">CNOT</span>
-<span class="kn">from</span> <span class="nn">qns.models.qubit.const</span> <span class="kn">import</span> <span class="n">QUBIT_STATE_0</span><span class="p">,</span> <span class="n">QUBIT_STATE_P</span>
+<span class="kn">from</span> <span class="nn">qns.models.qubit.gate</span> <span class="kn">import</span> <span class="n">H</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">CNOT</span><span class="p">,</span> <span class="n">U</span>
+<span class="kn">from</span> <span class="nn">qns.models.qubit.const</span> <span class="kn">import</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">,</span> <span class="n">QUBIT_STATE_0</span><span class="p">,</span> <span class="n">QUBIT_STATE_P</span>
 
 
 <div class="viewcode-block" id="BaseEntanglement"><a class="viewcode-back" href="../../../../qns.models.epr.html#qns.models.epr.entanglement.BaseEntanglement">[docs]</a><span class="k">class</span> <span class="nc">BaseEntanglement</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -173,13 +173,13 @@
             <span class="n">Z</span><span class="p">(</span><span class="n">q2</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">c1</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">c0</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">Y</span><span class="p">(</span><span class="n">q2</span><span class="p">)</span>
-            <span class="n">q2</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">q2</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span>
+            <span class="n">U</span><span class="p">(</span><span class="n">q2</span><span class="p">,</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">OPERATOR_PAULI_I</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="n">q2</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;entanglement </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
+            <span class="k">return</span> <span class="s2">&quot;&lt;epr &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot;&gt;&quot;</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span></div>
 </pre></div>
 

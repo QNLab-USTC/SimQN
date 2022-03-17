@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quantum operator: operating and measuring qubits &mdash; SimQN 0.1.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Timers and build other entities" href="tutorials.entity.other.html" />
+    <link rel="prev" title="Classic channel: the link to transmit classic packets" href="tutorials.entity.cchannel.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> SimQN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorials.quickstart.html">Quick start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.models.html">Physical models</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="tutorials.entity.html">Entities in quantum networks</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="tutorials.entity.node.html">Quantum node: the end-point users, routers and repeaters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.entity.memory.html">Quantum memory: the device to store qubits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.entity.qchannel.html">Quantum channel: the link to transmit qubits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.entity.cchannel.html">Classic channel: the link to transmit classic packets</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Quantum operator: operating and measuring qubits</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#asynchronous-mode">Asynchronous mode</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.entity.other.html">Timers and build other entities</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.network.html">Construct large-scale networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.simulator.html">The discrete-event simulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html">Logging and random generator</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="develop.html">Develop Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SimQN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
+          <li><a href="tutorials.entity.html">Entities in quantum networks</a> &raquo;</li>
+      <li>Quantum operator: operating and measuring qubits</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tutorials.entity.operator.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quantum-operator-operating-and-measuring-qubits">
+<h1>Quantum operator: operating and measuring qubits<a class="headerlink" href="#quantum-operator-operating-and-measuring-qubits" title="Permalink to this headline"></a></h1>
+<p>The quantum operator is designed to represent a quantum circuits, or a group of quantum gates and measurements. Quantum operators can be also used to represent operation errors (using a serial of quantum gates) and the time delay during the measurements or operations.</p>
+<p>Quantum operator has two modes: the synchronous and asynchronous mode. In synchronous model, it can not describe the time delay in operating qubits. While in asynchronous mode, quantum operators works as an independent entity. Quantum nodes uses events to control the operator and get the measuring results.</p>
+<p><code class="docutils literal notranslate"><span class="pre">QuantumOperator</span></code> has the following initiate parameters:</p>
+<ul class="simple">
+<li><p>node, the quantum node that equips this operator</p></li>
+<li><p>gate, it is a function to represent the quantum circuits. Its input is one or multiple qubits, and it returns a list of measurement results.</p></li>
+<li><p>delay, the time delay of this operator</p></li>
+<li><p>name, the name of this operator</p></li>
+</ul>
+<p>Here is an example of the quantum operator in synchronous mode:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gate_z_and_measure</span><span class="p">(</span><span class="n">qubit</span><span class="p">:</span> <span class="n">Qubit</span><span class="p">):</span>
+    <span class="c1"># first perform Hadamard gate to the qubit, and then measure the qubit</span>
+    <span class="n">H</span><span class="p">(</span><span class="n">qubit</span><span class="o">=</span><span class="n">qubit</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">qubit</span><span class="o">.</span><span class="n">measure</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+
+<span class="n">n1</span> <span class="o">=</span> <span class="n">QNode</span><span class="p">(</span><span class="s2">&quot;n1&quot;</span><span class="p">)</span>
+<span class="n">o1</span> <span class="o">=</span> <span class="n">QuantumOperator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;o1&quot;</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="n">n1</span><span class="p">,</span> <span class="n">gate</span><span class="o">=</span><span class="n">gate_z_and_measure</span><span class="p">)</span>
+
+<span class="c1"># add_operator can be used to equip the node with the operator</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">add_operator</span><span class="p">(</span><span class="n">o1</span><span class="p">)</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+<span class="n">qubit</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">()</span>
+<span class="n">ret</span> <span class="o">=</span> <span class="n">o1</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">ret</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="n">s</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Operators’ <code class="docutils literal notranslate"><span class="pre">operate</span></code> function can perform the circuits to the input qubits in synchronous mode.</p>
+<section id="asynchronous-mode">
+<h2>Asynchronous mode<a class="headerlink" href="#asynchronous-mode" title="Permalink to this headline"></a></h2>
+<p>In the asynchronous mode, quantum nodes will use <code class="docutils literal notranslate"><span class="pre">OperateRequestEvent</span></code> to active the operator, and listen to the <code class="docutils literal notranslate"><span class="pre">OperateResponseEvent</span></code> to get the measure result. In detail, <code class="docutils literal notranslate"><span class="pre">OperateRequestEvent.qubits</span></code> is a list of the input qubits, and <code class="docutils literal notranslate"><span class="pre">OperateResponseEvent.result</span></code> delivers the measure result. Here is an example of the asynchronous mode. The time delay is set to 0.5s, and an application <code class="docutils literal notranslate"><span class="pre">RecvOperateApp</span></code> is installed on the node to listen to and handle the <code class="docutils literal notranslate"><span class="pre">OperateResponseEvent</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">RecvOperateApp</span><span class="p">(</span><span class="n">Application</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_handler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OperateResponseEventhandler</span><span class="p">,</span> <span class="p">[</span><span class="n">OperateResponseEvent</span><span class="p">],</span> <span class="p">[])</span>
+
+    <span class="k">def</span> <span class="nf">OperateResponseEventhandler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">result</span>
+        <span class="k">assert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">sec</span> <span class="o">==</span> <span class="mf">0.5</span><span class="p">)</span>
+        <span class="k">assert</span><span class="p">(</span><span class="n">result</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="n">n1</span> <span class="o">=</span> <span class="n">QNode</span><span class="p">(</span><span class="s2">&quot;n1&quot;</span><span class="p">)</span>
+<span class="n">o1</span> <span class="o">=</span> <span class="n">QuantumOperator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;o1&quot;</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="n">n1</span><span class="p">,</span> <span class="n">gate</span><span class="o">=</span><span class="n">gate_z_and_measure</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">n1</span><span class="o">.</span><span class="n">add_operator</span><span class="p">(</span><span class="n">o1</span><span class="p">)</span>
+<span class="n">a1</span> <span class="o">=</span> <span class="n">RecvOperateApp</span><span class="p">()</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">add_apps</span><span class="p">(</span><span class="n">a1</span><span class="p">)</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">n1</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+<span class="n">qubit</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">()</span>
+<span class="n">request</span> <span class="o">=</span> <span class="n">OperateRequestEvent</span><span class="p">(</span><span class="n">o1</span><span class="p">,</span> <span class="n">qubits</span><span class="o">=</span><span class="p">[</span><span class="n">qubit</span><span class="p">],</span> <span class="n">t</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="n">sec</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">by</span><span class="o">=</span><span class="n">n1</span><span class="p">)</span>
+<span class="n">s</span><span class="o">.</span><span class="n">add_event</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+
+<span class="n">s</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorials.entity.cchannel.html" class="btn btn-neutral float-left" title="Classic channel: the link to transmit classic packets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorials.entity.other.html" class="btn btn-neutral float-right" title="Timers and build other entities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Elliot Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

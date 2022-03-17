@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en,zh-CN" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -107,16 +107,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">route</span> <span class="o">=</span> <span class="n">route</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_handler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">handleClassicPacket</span><span class="p">,</span> <span class="p">[</span><span class="n">RecvClassicPacket</span><span class="p">],</span> <span class="p">[])</span>
 
 <div class="viewcode-block" id="ClassicPacketForwardApp.install"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.ClassicPacketForwardApp.install">[docs]</a>    <span class="k">def</span> <span class="nf">install</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">simulator</span><span class="p">:</span> <span class="n">Simulator</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">simulator</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ClassicPacketForwardApp.handle"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.ClassicPacketForwardApp.handle">[docs]</a>    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">RecvClassicPacket</span><span class="p">):</span>
-            <span class="c1"># the event is not receiving a classic packet</span>
-            <span class="c1"># pass</span>
-            <span class="k">return</span> <span class="kc">False</span>
-
+<div class="viewcode-block" id="ClassicPacketForwardApp.handleClassicPacket"><a class="viewcode-back" href="../../../../qns.network.protocol.html#qns.network.protocol.ClassicPacketForwardApp.handleClassicPacket">[docs]</a>    <span class="k">def</span> <span class="nf">handleClassicPacket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">):</span>
         <span class="n">packet</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">packet</span>
         <span class="n">self_node</span><span class="p">:</span> <span class="n">QNode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_node</span><span class="p">()</span>
 

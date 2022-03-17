@@ -121,6 +121,12 @@
 
 <span class="n">H</span><span class="p">(</span><span class="n">q0</span><span class="p">)</span> <span class="c1"># hadamard gate</span>
 <span class="n">CNOT</span><span class="p">(</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span> <span class="c1"># controlled-not gate</span>
+
+<span class="n">q0</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">H</span><span class="p">)</span> <span class="c1"># another way to operate Hadamard gate on qubit q0</span>
+
+<span class="c1"># A stochastic operate. This operate will operate I, X, Y, Z gate with the possibility 0.7, 0.1, 0.1, 0.1 respectively.</span>
+<span class="c1"># The process usually turns a pure state into a mixed state and is used to represent decoherence</span>
+<span class="n">q0</span><span class="o">.</span><span class="n">stochastic_operate</span><span class="p">([</span><span class="n">I</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>Those gates includes Pauli I, X, Y, Z gate, HADAMARD gate, T gate, S gate, phase rotate gate, CNOT gate. The detailed functions of those gates can be found at <a class="reference internal" href="qns.models.qubit.html"><span class="doc">qns.models.qubit package</span></a>. Users can build their own quantum gates as well.</p>
@@ -152,6 +158,26 @@
 <span class="n">qubit</span> <span class="o">=</span> <span class="n">QubitWithError</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">QUBIT_STATE_0</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>SimQN also provides some commonly used decoherence models, including dephase model and depolar model for both transmission error and storage error in <code class="docutils literal notranslate"><span class="pre">qns.model.qubit.decoherence</span></code>. Users can use the <code class="docutils literal notranslate"><span class="pre">qns.model.qubit.factory</span></code> to set up the models:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.models.qubit.decoherence</span> <span class="kn">import</span> <span class="n">DepolarStorageErrorModel</span><span class="p">,</span> <span class="n">DephaseTransmitErrorModel</span>
+<span class="kn">from</span> <span class="nn">qns.models.qubit.factory</span> <span class="kn">import</span> <span class="n">QubitFactory</span>
+
+<span class="n">Qubit</span> <span class="o">=</span> <span class="n">QubitFactory</span><span class="p">(</span><span class="n">store_error_model</span><span class="o">=</span><span class="n">DepolarStorageErrorModel</span><span class="p">,</span> <span class="n">transfer_error_model</span><span class="o">=</span><span class="n">DephaseTransmitErrorModel</span><span class="p">)</span>
+<span class="n">q1</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;q1&quot;</span><span class="p">)</span>
+<span class="n">q2</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;q2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>SimQN also have error models for operating or measuring on qubits, by implementing the <code class="docutils literal notranslate"><span class="pre">operate_error_model</span></code> and <code class="docutils literal notranslate"><span class="pre">measure_error_model</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.models.qubit.decoherence</span> <span class="kn">import</span> <span class="n">DepolarStorageErrorModel</span><span class="p">,</span> <span class="n">DephaseTransmitErrorModel</span>
+<span class="kn">from</span> <span class="nn">qns.models.qubit.factory</span> <span class="kn">import</span> <span class="n">QubitFactory</span>
+
+<span class="n">Qubit</span> <span class="o">=</span> <span class="n">QubitFactory</span><span class="p">(</span><span class="n">operate_decoherence_rate</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+                     <span class="n">measure_decoherence_rate</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">measure_error_model</span><span class="o">=</span><span class="n">DepolarMeasureErrorModel</span><span class="p">)</span>
+<span class="n">q0</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">QUBIT_STATE_0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;q0&quot;</span><span class="p">)</span>
+<span class="n">q0</span><span class="o">.</span><span class="n">measure</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">operate_decoherence_rate</span></code> and <code class="docutils literal notranslate"><span class="pre">measure_decoherence_rate</span></code> is the decoherence rate in <cite>Hz</cite>.</p>
 </section>
 <section id="example-of-entanglement-swapping">
 <h2>Example of entanglement swapping<a class="headerlink" href="#example-of-entanglement-swapping" title="Permalink to this headline"></a></h2>

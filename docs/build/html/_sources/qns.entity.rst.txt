@@ -11,6 +11,7 @@ Subpackages
    qns.entity.memory
    qns.entity.node
    qns.entity.qchannel
+   qns.entity.operator
    qns.entity.timer
 
 Submodules
