@@ -47,13 +47,14 @@
 <li class="toctree-l2 current"><a class="reference internal" href="tutorials.entity.html">Entities in quantum networks</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Quantum node: the end-point users, routers and repeaters</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#applications">Applications</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#initiate-and-event-handling-process">Initiate and event handling process</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-to-build-an-application">How to build an application</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#processing-delay-on-quantum-nodes">Processing delay on quantum nodes</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="tutorials.entity.memory.html">Quantum memory: the device to store qubits</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tutorials.entity.qchannel.html">Quantum channel: the link to transmit qubits</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tutorials.entity.cchannel.html">Classic channel: the link to transmit classic packets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.entity.operator.html">Quantum operator: operating and measuring qubits</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tutorials.entity.other.html">Timers and build other entities</a></li>
 </ul>
 </li>
@@ -132,7 +133,7 @@
 <section id="applications">
 <h2>Applications<a class="headerlink" href="#applications" title="Permalink to this headline"></a></h2>
 <p>Quantum nodes may behavior differently. For example, some nodes may be the sender and other may be the receiver. Nodes in the quantum networks may be the routers or switches. Thus, quantum nodes can install different <code class="docutils literal notranslate"><span class="pre">Applications</span></code>. Applications are the programmes running on the quantum nodes.</p>
-<p>It is possible to install and get applications:</p>
+<p>It is possible to install and get the existing applications:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.network.protocol.entanglement_distribution</span> <span class="kn">import</span> <span class="n">EntanglementDistributionApp</span>
 <span class="kn">from</span> <span class="nn">qns.entity.node.node</span> <span class="kn">import</span> <span class="n">QNode</span>
 
@@ -154,12 +155,23 @@
 <span class="n">simulator</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">get_simulator</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>The application needs to implements the following two methods:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">install</span></code>: initiate the application and inject initial events</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">handle</span></code>: handle the incoming events</p></li>
-</ul>
-<p>One example is:</p>
+</section>
+<section id="how-to-build-an-application">
+<h2>How to build an application<a class="headerlink" href="#how-to-build-an-application" title="Permalink to this headline"></a></h2>
+<p>There are two kinds of behaviors for an application. On one hand, it may generate some initial events positively. For example, the sender applications may generate the first send packet event begins. On the other hand, the application may wait and listen to a certain event and handling the event.</p>
+<p>For the positive mode, users can use <code class="docutils literal notranslate"><span class="pre">install</span></code> function to generate several events at the beginning of the simulation. For the passive mode, users can implement their own handler methods to handle events. The handler methods must have the following input parameters:
+- self, the application itself
+- node, the related quantum node
+- event, the calling event,
+and can have an option return variable <code class="docutils literal notranslate"><span class="pre">pass</span></code>. If <code class="docutils literal notranslate"><span class="pre">pass</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the following applications on this node will not handle this event any more. An example of the handler function is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">RecvClassicPacketHandler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">):</span>
+    <span class="n">packet</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">packet</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="n">packet</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s2"> recv packet: </span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">packet</span><span class="o">.</span><span class="n">src</span><span class="si">}</span><span class="s2">-&gt;</span><span class="si">{</span><span class="n">packet</span><span class="o">.</span><span class="n">dest</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">True</span> <span class="c1"># bypass the following applications</span>
+</pre></div>
+</div>
+<p>Users can use <code class="docutils literal notranslate"><span class="pre">add_handler</span></code> to bind the handler to one or more events. <code class="docutils literal notranslate"><span class="pre">add_handler</span></code> have three input parameters. The first is the handler method. The second parameter``EventTypeList`` is a list of event types that will trigger this handler. If the list is empty, this handler will be called when all kinds of events. The third parameter <code class="docutils literal notranslate"><span class="pre">ByList</span></code> is a list of the event source. For example, it is possible to handle classic messages from node “n1” and “n2” but not “n3”. If the list is empty, it means that no matter which entity generate this event, it will be handled by this handler function</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.entity.node.app</span> <span class="kn">import</span> <span class="n">Application</span>
 
 <span class="k">class</span> <span class="nc">PrintApp</span><span class="p">(</span><span class="n">Application</span><span class="p">):</span>
@@ -169,24 +181,20 @@
     <span class="k">def</span> <span class="nf">install</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">simulator</span><span class="p">:</span> <span class="n">Simulator</span><span class="p">):</span>
         <span class="c1"># initiate the application</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">simulator</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;initiate app&quot;</span><span class="p">)</span>
+
+        <span class="c1"># RecvClassicPacketHandler should handle classic packets from node n2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_handler</span><span class="p">(</span><span class="n">RecvClassicPacketHandler</span><span class="p">,</span> <span class="p">[</span><span class="n">RecvClassicPacket</span><span class="p">],</span> <span class="p">[</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">])</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;init&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">):</span>
-        <span class="c1"># called when the event happens</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;event </span><span class="si">{</span><span class="n">event</span><span class="si">}</span><span class="s2"> happens&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">RecvClassicPacketHandler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">QNode</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">):</span>
+        <span class="n">packet</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">packet</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">packet</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s2"> recv packet: </span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">packet</span><span class="o">.</span><span class="n">src</span><span class="si">}</span><span class="s2">-&gt;</span><span class="si">{</span><span class="n">packet</span><span class="o">.</span><span class="n">dest</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span> <span class="c1"># bypass the following applications</span>
 </pre></div>
 </div>
-<p>Other examples can be found at <code class="docutils literal notranslate"><span class="pre">qns.network.protocols</span></code>.</p>
-</section>
-<section id="initiate-and-event-handling-process">
-<h2>Initiate and event handling process<a class="headerlink" href="#initiate-and-event-handling-process" title="Permalink to this headline"></a></h2>
-<p>Both nodes and applications has <code class="docutils literal notranslate"><span class="pre">install</span></code> and <code class="docutils literal notranslate"><span class="pre">handle</span></code> methods. The relation is:</p>
-<ol class="arabic simple">
-<li><p>The nodes’ <code class="docutils literal notranslate"><span class="pre">install</span></code> method will call every memories, channels and applications’ <code class="docutils literal notranslate"><span class="pre">install</span></code> method to initiate every sub-entities and applications.</p></li>
-<li><p>The application’s <code class="docutils literal notranslate"><span class="pre">install</span></code> method should be implemented by users and do the ‘dirty work’ to actually initiate the node’s state.</p></li>
-<li><p>When an related event happends, the node’ <code class="docutils literal notranslate"><span class="pre">handle</span></code> method will call all its applications’ <code class="docutils literal notranslate"><span class="pre">handle</span></code> method to handle the event.</p></li>
-<li><p>The application’s <code class="docutils literal notranslate"><span class="pre">handle</span></code> method should be implemented by users to actually handle the events</p></li>
-</ol>
+<p>Other examples of applications can be found at <code class="docutils literal notranslate"><span class="pre">qns.network.protocols</span></code>.</p>
 </section>
 <section id="processing-delay-on-quantum-nodes">
 <h2>Processing delay on quantum nodes<a class="headerlink" href="#processing-delay-on-quantum-nodes" title="Permalink to this headline"></a></h2>

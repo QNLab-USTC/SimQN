@@ -15,4 +15,5 @@ Entities in the quantum networks includes:
    tutorials.entity.memory
    tutorials.entity.qchannel
    tutorials.entity.cchannel
+   tutorials.entity.operator
    tutorials.entity.other

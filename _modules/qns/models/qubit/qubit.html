@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en,zh-CN" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -85,58 +85,82 @@
 <span class="c1">#    You should have received a copy of the GNU General Public License</span>
 <span class="c1">#    along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">random</span>
 
 <span class="kn">from</span> <span class="nn">qns.models.qubit.const</span> <span class="kn">import</span> <span class="n">QUBIT_STATE_0</span><span class="p">,</span> <span class="n">QUBIT_STATE_1</span><span class="p">,</span>\
-        <span class="n">QUBIT_STATE_P</span><span class="p">,</span> <span class="n">QUBIT_STATE_N</span><span class="p">,</span>\
-        <span class="n">OPERATOR_HADAMARD</span><span class="p">,</span> <span class="n">QUBIT_STATE_L</span><span class="p">,</span> <span class="n">QUBIT_STATE_R</span>
+        <span class="n">QUBIT_STATE_P</span><span class="p">,</span> <span class="n">QUBIT_STATE_N</span><span class="p">,</span> <span class="n">QUBIT_STATE_L</span><span class="p">,</span> <span class="n">QUBIT_STATE_R</span>
+<span class="kn">from</span> <span class="nn">qns.models.qubit.utils</span> <span class="kn">import</span> <span class="n">single_gate_expand</span><span class="p">,</span> <span class="n">partial_trace</span>
 <span class="kn">from</span> <span class="nn">qns.models.core.backend</span> <span class="kn">import</span> <span class="n">QuantumModel</span>
-
-
-<div class="viewcode-block" id="QStateSizeNotMatchError"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.QStateSizeNotMatchError">[docs]</a><span class="k">class</span> <span class="nc">QStateSizeNotMatchError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This error happens when the size of state vector or matrix mismatch occurs</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
-
-
-<div class="viewcode-block" id="QStateQubitNotInStateError"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.QStateQubitNotInStateError">[docs]</a><span class="k">class</span> <span class="nc">QStateQubitNotInStateError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="k">pass</span></div>
-
-
-<div class="viewcode-block" id="OperatorNotMatchError"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.OperatorNotMatchError">[docs]</a><span class="k">class</span> <span class="nc">OperatorNotMatchError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This error happens when the size of state vector or matrix mismatch occurs</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
+<span class="kn">from</span> <span class="nn">qns.models.qubit.errors</span> <span class="kn">import</span> <span class="n">QStateBaseError</span><span class="p">,</span> <span class="n">QStateQubitNotInStateError</span><span class="p">,</span>\
+                                    <span class="n">QStateSizeNotMatchError</span><span class="p">,</span> <span class="n">OperatorNotMatchError</span>
+<span class="kn">from</span> <span class="nn">qns.utils.random</span> <span class="kn">import</span> <span class="n">get_rand</span>
 
 
 <div class="viewcode-block" id="QState"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.QState">[docs]</a><span class="k">class</span> <span class="nc">QState</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    QState is the state of one (or multiple) qubits</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubits</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;Qubit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
-                 <span class="n">state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">complex</span><span class="p">]]</span> <span class="o">=</span> <span class="n">QUBIT_STATE_0</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubits</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;Qubit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="n">QUBIT_STATE_0</span><span class="p">,</span>
+                 <span class="n">rho</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            qubits (List[Qubit]): a list of qubits in this quantum state</span>
+<span class="sd">            state: the state vector of this state, either ``state`` or ``rho`` can be used to present a state</span>
+<span class="sd">            rho: the density matrix of this state, either ``state`` or ``rho`` can be used to present a state</span>
+<span class="sd">            name (str): the name of this state</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qubits</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">QStateSizeNotMatchError</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">qubits</span> <span class="o">=</span> <span class="n">qubits</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="QState.measure"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.QState.measure">[docs]</a>    <span class="k">def</span> <span class="nf">measure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="s2">&quot;Qubit&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">rho</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">QStateSizeNotMatchError</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conjugate</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">rho</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">rho</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="k">raise</span> <span class="n">QStateSizeNotMatchError</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">rho</span><span class="o">.</span><span class="n">trace</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mf">0.0000000001</span><span class="p">:</span>
+                <span class="c1"># trace = 1</span>
+                <span class="nb">print</span><span class="p">(</span><span class="mi">2333</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">rho</span><span class="o">.</span><span class="n">trace</span><span class="p">())</span>
+                <span class="k">raise</span> <span class="n">QStateSizeNotMatchError</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">=</span> <span class="n">rho</span>
+
+<div class="viewcode-block" id="QState.measure"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.QState.measure">[docs]</a>    <span class="k">def</span> <span class="nf">measure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qubit</span><span class="p">:</span> <span class="s2">&quot;Qubit&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">base</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Z&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Measure this qubit using Z basis</span>
 <span class="sd">        Args:</span>
 <span class="sd">            qubit (Qubit): the measuring qubit</span>
+<span class="sd">            base: the measure base, &quot;Z&quot;, &quot;X&quot; or &quot;Y&quot;</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            0: QUBIT_STATE_0 state</span>
 <span class="sd">            1: QUBIT_STATE_1 state</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">M_0</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">M_1</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">S_0</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">S_1</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">base</span> <span class="o">==</span> <span class="s2">&quot;Z&quot;</span><span class="p">:</span>
+            <span class="n">M_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+            <span class="n">M_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+            <span class="n">S_0</span> <span class="o">=</span> <span class="n">QUBIT_STATE_0</span>
+            <span class="n">S_1</span> <span class="o">=</span> <span class="n">QUBIT_STATE_1</span>
+        <span class="k">elif</span> <span class="n">base</span> <span class="o">==</span> <span class="s2">&quot;X&quot;</span><span class="p">:</span>
+            <span class="n">M_0</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+            <span class="n">M_1</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+            <span class="n">S_0</span> <span class="o">=</span> <span class="n">QUBIT_STATE_P</span>
+            <span class="n">S_1</span> <span class="o">=</span> <span class="n">QUBIT_STATE_N</span>
+        <span class="k">elif</span> <span class="n">base</span> <span class="o">==</span> <span class="s2">&quot;Y&quot;</span><span class="p">:</span>
+            <span class="n">M_0</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+            <span class="n">M_1</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="n">j</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+            <span class="n">S_0</span> <span class="o">=</span> <span class="n">QUBIT_STATE_R</span>
+            <span class="n">S_1</span> <span class="o">=</span> <span class="n">QUBIT_STATE_L</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">QStateBaseError</span>
+
         <span class="k">try</span><span class="p">:</span>
             <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qubits</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span>
             <span class="n">shift</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span> <span class="o">-</span> <span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span>
@@ -144,49 +168,37 @@
         <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">QStateQubitNotInStateError</span>
 
-        <span class="n">set_0</span><span class="p">,</span> <span class="n">set_1</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
-        <span class="n">poss_0</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">):</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">idx</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">shift</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">set_1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        <span class="n">Full_M_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">]])</span>
+        <span class="n">Full_M_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">]])</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">idx</span><span class="p">:</span>
+                <span class="n">Full_M_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">Full_M_0</span><span class="p">,</span> <span class="n">M_0</span><span class="p">)</span>
+                <span class="n">Full_M_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">Full_M_1</span><span class="p">,</span> <span class="n">M_1</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">set_0</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+                <span class="n">Full_M_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">Full_M_0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]))</span>
+                <span class="n">Full_M_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">Full_M_1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]))</span>
 
-        <span class="n">ns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">set_0</span><span class="p">:</span>
-            <span class="n">poss_0</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ns</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">poss_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Full_M_0</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Full_M_0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="p">)))</span>
+        <span class="n">rn</span> <span class="o">=</span> <span class="n">get_rand</span><span class="p">()</span>
 
-        <span class="n">rn</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
-
-        <span class="n">nns</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">if</span> <span class="n">rn</span> <span class="o">&lt;=</span> <span class="n">poss_0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">rn</span> <span class="o">&lt;</span> <span class="n">poss_0</span><span class="p">:</span>
             <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">ret_s</span> <span class="o">=</span> <span class="n">QUBIT_STATE_0</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">set_0</span><span class="p">:</span>
-                <span class="n">nns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ns</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">ret_s</span> <span class="o">=</span> <span class="n">S_0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Full_M_0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">Full_M_0</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conjugate</span><span class="p">()))</span> <span class="o">/</span> <span class="n">poss_0</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">ret</span> <span class="o">=</span> <span class="mi">1</span>
-            <span class="n">ret_s</span> <span class="o">=</span> <span class="n">QUBIT_STATE_1</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">set_1</span><span class="p">:</span>
-                <span class="n">nns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ns</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">ret_s</span> <span class="o">=</span> <span class="n">S_1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Full_M_1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">Full_M_1</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conjugate</span><span class="p">()))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">poss_0</span><span class="p">)</span>
 
-        <span class="n">ns1</span> <span class="o">=</span> <span class="n">QState</span><span class="p">([</span><span class="n">qubit</span><span class="p">],</span> <span class="n">ret_s</span><span class="p">)</span>
-        <span class="n">qubit</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">ns1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">=</span> <span class="n">partial_trace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">num</span> <span class="o">-=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">qubits</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">nns</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_to_1</span><span class="p">()</span>
+
+        <span class="n">ns</span> <span class="o">=</span> <span class="n">QState</span><span class="p">([</span><span class="n">qubit</span><span class="p">],</span> <span class="n">state</span><span class="o">=</span><span class="n">ret_s</span><span class="p">)</span>
+        <span class="n">qubit</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">ns</span>
         <span class="k">return</span> <span class="n">ret</span></div>
 
-    <span class="k">def</span> <span class="nf">_to_1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">poss</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">):</span>
-            <span class="n">poss</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span>
-        <span class="n">amp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">poss</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">amp</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-
-<div class="viewcode-block" id="QState.operate"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.QState.operate">[docs]</a>    <span class="k">def</span> <span class="nf">operate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operator</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="QState.operate"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.QState.operate">[docs]</a>    <span class="k">def</span> <span class="nf">operate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operator</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        transform using `operator`</span>
 
@@ -201,7 +213,40 @@
             <span class="n">full_operator</span> <span class="o">=</span> <span class="n">operator</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">OperatorNotMatchError</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">full_operator</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">full_operator</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">full_operator</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conjugate</span><span class="p">()))</span></div>
+
+<div class="viewcode-block" id="QState.stochastic_operate"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.QState.stochastic_operate">[docs]</a>    <span class="k">def</span> <span class="nf">stochastic_operate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list_operators</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">list_p</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A stochastic operate progess. It usually turns a pure state into a mixed state.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            list_operators (List[np.ndarray]): a list of operators</span>
+<span class="sd">            list_p (List[float]): a list of possibility</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            OperatorNotMatchError</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_operators</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_p</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">OperatorNotMatchError</span><span class="p">(</span><span class="s2">&quot;Not match number between operators and possibilities&quot;</span><span class="p">)</span>
+
+        <span class="nb">sum</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">list_p</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">p</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">OperatorNotMatchError</span><span class="p">(</span><span class="s2">&quot;possibility not in range&quot;</span><span class="p">)</span>
+            <span class="nb">sum</span> <span class="o">+=</span> <span class="n">p</span>
+
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="nb">sum</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mf">1e-6</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">OperatorNotMatchError</span><span class="p">(</span><span class="s2">&quot;Probabilities are not normalized&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">operator</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">list_operators</span><span class="p">):</span>
+            <span class="n">operator_size</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">shape</span>
+            <span class="k">if</span> <span class="n">operator_size</span> <span class="o">==</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">):</span>
+                <span class="n">full_operator</span> <span class="o">=</span> <span class="n">operator</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">OperatorNotMatchError</span>
+            <span class="n">new_state</span> <span class="o">+=</span> <span class="n">list_p</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">full_operator</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">full_operator</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conjugate</span><span class="p">()))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">=</span> <span class="n">new_state</span></div>
 
 <div class="viewcode-block" id="QState.equal"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.QState.equal">[docs]</a>    <span class="k">def</span> <span class="nf">equal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_state</span><span class="p">:</span> <span class="s2">&quot;QState&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -210,15 +255,39 @@
 <span class="sd">        Args:</span>
 <span class="sd">            other_state (QState): the second QState</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">other_state</span><span class="o">.</span><span class="n">state</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">==</span> <span class="n">other_state</span><span class="o">.</span><span class="n">rho</span><span class="p">)</span></div>
 
-    <span class="c1"># def __eq__(self, __o: &quot;QState&quot;) -&gt; bool:</span>
-    <span class="c1">#     return np.all(self.state == __o.state)</span>
+<div class="viewcode-block" id="QState.is_pure_state"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.QState.is_pure_state">[docs]</a>    <span class="k">def</span> <span class="nf">is_pure_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.000_001</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            eps: the accuracy</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool, if the state is a pure state</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">eps</span></div>
+
+<div class="viewcode-block" id="QState.state"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.QState.state">[docs]</a>    <span class="k">def</span> <span class="nf">state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If the state is a pure state, return the state vector, or return None</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The pure state vector</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_pure_state</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conjugate</span><span class="p">()</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">evs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="p">)</span>
+        <span class="n">max_idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">evs</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">evs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">max_idx</span><span class="p">]:</span>
+                <span class="n">max_idx</span> <span class="o">=</span> <span class="n">idx</span>
+        <span class="k">return</span> <span class="n">evs</span><span class="p">[</span><span class="mi">1</span><span class="p">][:,</span> <span class="n">max_idx</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">2</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;qubit </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span></div>
+            <span class="k">return</span> <span class="s2">&quot;&lt;qubit state &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot;&gt;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Qubit"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.Qubit">[docs]</a><span class="k">class</span> <span class="nc">Qubit</span><span class="p">(</span><span class="n">QuantumModel</span><span class="p">):</span>
@@ -226,15 +295,21 @@
 <span class="sd">    Represent a qubit</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">QUBIT_STATE_0</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">QUBIT_STATE_0</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">operate_decoherence_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">measure_decoherence_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                 <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            state (list): the initial state of a qubit, default is |0&gt; = [1, 0]^T</span>
+<span class="sd">            operate_decoherence_rate (float): the operate decoherence rate</span>
+<span class="sd">            measure_decoherence_rate (float): the measure decoherence rate</span>
 <span class="sd">            name (str): the qubit&#39;s name</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">QState</span><span class="p">([</span><span class="bp">self</span><span class="p">],</span> <span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">QState</span><span class="p">([</span><span class="bp">self</span><span class="p">],</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="n">rho</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">operate_decoherence_rate</span> <span class="o">=</span> <span class="n">operate_decoherence_rate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measure_decoherence_rate</span> <span class="o">=</span> <span class="n">measure_decoherence_rate</span>
 
 <div class="viewcode-block" id="Qubit.measure"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.Qubit.measure">[docs]</a>    <span class="k">def</span> <span class="nf">measure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -244,29 +319,19 @@
 <span class="sd">            0: QUBIT_STATE_0 state</span>
 <span class="sd">            1: QUBIT_STATE_1 state</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measure_error_model</span><span class="p">(</span><span class="n">decoherence_rate</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">measure_decoherence_rate</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Qubit.measureX"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.Qubit.measureX">[docs]</a>    <span class="k">def</span> <span class="nf">measureX</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Measure this qubit using X basis.</span>
-<span class="sd">        Only for not entangled qubits.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            0: QUBIT_STATE_P state</span>
 <span class="sd">            1: QUBIT_STATE_N state</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span>
-        <span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">OPERATOR_HADAMARD</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
-        <span class="n">poss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span>
-        <span class="n">rn</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">rn</span> <span class="o">&lt;=</span> <span class="n">poss</span><span class="p">:</span>
-            <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">ret_s</span> <span class="o">=</span> <span class="n">QUBIT_STATE_P</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">ret</span> <span class="o">=</span> <span class="mi">1</span>
-            <span class="n">ret_s</span> <span class="o">=</span> <span class="n">QUBIT_STATE_N</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">ret_s</span>
-        <span class="k">return</span> <span class="n">ret</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measure_error_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">measure_decoherence_rate</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Qubit.measureY"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.Qubit.measureY">[docs]</a>    <span class="k">def</span> <span class="nf">measureY</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -277,21 +342,8 @@
 <span class="sd">            0: QUBIT_STATE_R state</span>
 <span class="sd">            1: QUBIT_STATE_L state</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span>
-        <span class="n">SH</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">]])</span>
-        <span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">SH</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
-        <span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">OPERATOR_HADAMARD</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
-
-        <span class="n">poss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span>
-        <span class="n">rn</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">rn</span> <span class="o">&lt;=</span> <span class="n">poss</span><span class="p">:</span>
-            <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">ret_s</span> <span class="o">=</span> <span class="n">QUBIT_STATE_R</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">ret</span> <span class="o">=</span> <span class="mi">1</span>
-            <span class="n">ret_s</span> <span class="o">=</span> <span class="n">QUBIT_STATE_L</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">ret_s</span>
-        <span class="k">return</span> <span class="n">ret</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measure_error_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">measure_decoherence_rate</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Qubit.measureZ"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.Qubit.measureZ">[docs]</a>    <span class="k">def</span> <span class="nf">measureZ</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -301,31 +353,104 @@
 <span class="sd">            0: QUBIT_STATE_0 state</span>
 <span class="sd">            1: QUBIT_STATE_1 state</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measure_error_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">measure_decoherence_rate</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">measure</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Qubit.operate"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.Qubit.operate">[docs]</a>    <span class="k">def</span> <span class="nf">operate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operator</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perfrom a operate on this qubit</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            operator (Union[SingleQubitGate, np.ndarray]): an operator matrix, or a quantum gate in qubit.gate</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">operate_error_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">operate_decoherence_rate</span><span class="p">)</span>
+        <span class="kn">from</span> <span class="nn">qns.models.qubit.gate</span> <span class="kn">import</span> <span class="n">SingleQubitGate</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">SingleQubitGate</span><span class="p">):</span>
+            <span class="n">operator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="n">full_operator</span> <span class="o">=</span> <span class="n">single_gate_expand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operator</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">full_operator</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_operate_without_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operator</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perfrom a operate on this qubit</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            operator (Union[SingleQubitGate, np.ndarray]): an operator matrix, or a quantum gate in qubit.gate</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">qns.models.qubit.gate</span> <span class="kn">import</span> <span class="n">SingleQubitGate</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">SingleQubitGate</span><span class="p">):</span>
+            <span class="n">operator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="n">full_operator</span> <span class="o">=</span> <span class="n">single_gate_expand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operator</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">operate</span><span class="p">(</span><span class="n">full_operator</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Qubit.stochastic_operate"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.Qubit.stochastic_operate">[docs]</a>    <span class="k">def</span> <span class="nf">stochastic_operate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">list_operators</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">list_p</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A stochastic operate on this qubit. It usually turns a pure state into a mixed state.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            list_operators (List[np.ndarray]): a list of operators</span>
+<span class="sd">            list_p (List[float]): a list of possibility</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            OperatorNotMatchError</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">qns.models.qubit.gate</span> <span class="kn">import</span> <span class="n">SingleQubitGate</span>
+        <span class="n">full_operators_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">operator</span> <span class="ow">in</span> <span class="n">list_operators</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">SingleQubitGate</span><span class="p">):</span>
+                <span class="n">full_operators_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">single_gate_expand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operator</span><span class="o">.</span><span class="n">_operator</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">full_operators_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">single_gate_expand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operator</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">stochastic_operate</span><span class="p">(</span><span class="n">full_operators_list</span><span class="p">,</span> <span class="n">list_p</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;Qubit </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
+            <span class="k">return</span> <span class="s2">&quot;&lt;qubit &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot;&gt;&quot;</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Qubit.storage_error_model"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.Qubit.storage_error_model">[docs]</a>    <span class="k">def</span> <span class="nf">storage_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Qubit.store_error_model"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.Qubit.store_error_model">[docs]</a>    <span class="k">def</span> <span class="nf">store_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">decoherence_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The default error model for storing a qubit in quantum memory.</span>
 <span class="sd">        The default behavior is doing nothing</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            t: the time stored in a quantum memory. The unit it second.</span>
+<span class="sd">            decoherence_rate (float): the decoherence rate in Db.</span>
 <span class="sd">            kwargs: other parameters</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="Qubit.transfer_error_model"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.Qubit.transfer_error_model">[docs]</a>    <span class="k">def</span> <span class="nf">transfer_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Qubit.transfer_error_model"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.Qubit.transfer_error_model">[docs]</a>    <span class="k">def</span> <span class="nf">transfer_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">decoherence_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The default error model for transmitting this qubit</span>
 <span class="sd">        The default behavior is doing nothing</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            length (float): the length of the channel</span>
+<span class="sd">            decoherence_rate (float): the decoherence rate</span>
+<span class="sd">            kwargs: other parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Qubit.operate_error_model"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.Qubit.operate_error_model">[docs]</a>    <span class="k">def</span> <span class="nf">operate_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decoherence_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The error model for operating a qubit.</span>
+<span class="sd">        This function will change the quantum state.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            decoherence_rate (float): the decoherency rate</span>
+<span class="sd">            kwargs: other parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Qubit.measure_error_model"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.qubit.Qubit.measure_error_model">[docs]</a>    <span class="k">def</span> <span class="nf">measure_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decoherence_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The error model for measuring a qubit.</span>
+<span class="sd">        This function will change the quantum state.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            decoherence_rate (float): the decoherency rate</span>
 <span class="sd">            kwargs: other parameters</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div></div>

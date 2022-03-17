@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en,zh-CN" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -85,23 +85,27 @@
 <span class="c1">#    You should have received a copy of the GNU General Public License</span>
 <span class="c1">#    along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+
+
 <div class="viewcode-block" id="QuantumModel"><a class="viewcode-back" href="../../../../qns.models.core.html#qns.models.QuantumModel">[docs]</a><span class="k">class</span> <span class="nc">QuantumModel</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The interface to present the backend models, including qubit, epr and other models.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="QuantumModel.storage_error_model"><a class="viewcode-back" href="../../../../qns.models.core.html#qns.models.QuantumModel.storage_error_model">[docs]</a>    <span class="k">def</span> <span class="nf">storage_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="QuantumModel.store_error_model"><a class="viewcode-back" href="../../../../qns.models.core.html#qns.models.QuantumModel.store_error_model">[docs]</a>    <span class="k">def</span> <span class="nf">store_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">decoherence_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The error model for quantum memory.</span>
 <span class="sd">        This function will change the quantum state or fidelity</span>
 <span class="sd">        according to different backend models.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            t: the time stored in a quantum memory. The unit it second.</span>
+<span class="sd">            t (float): the time stored in a quantum memory. The unit it second.</span>
+<span class="sd">            decoherence_rate (float): the decoherency rate</span>
 <span class="sd">            kwargs: other parameters</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="QuantumModel.transfer_error_model"><a class="viewcode-back" href="../../../../qns.models.core.html#qns.models.QuantumModel.transfer_error_model">[docs]</a>    <span class="k">def</span> <span class="nf">transfer_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="QuantumModel.transfer_error_model"><a class="viewcode-back" href="../../../../qns.models.core.html#qns.models.QuantumModel.transfer_error_model">[docs]</a>    <span class="k">def</span> <span class="nf">transfer_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">decoherence_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The error model for transmitting a qubit in quantum channel.</span>
 <span class="sd">        This function will change the quantum state or fidelity</span>
@@ -109,6 +113,29 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            length (float): the length of the channel</span>
+<span class="sd">            decoherence_rate (float): the decoherency rate</span>
+<span class="sd">            kwargs: other parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="QuantumModel.operate_error_model"><a class="viewcode-back" href="../../../../qns.models.core.html#qns.models.QuantumModel.operate_error_model">[docs]</a>    <span class="k">def</span> <span class="nf">operate_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decoherence_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The error model for operating a qubit.</span>
+<span class="sd">        This function will change the quantum state.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            decoherence_rate (float): the decoherency rate</span>
+<span class="sd">            kwargs: other parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="QuantumModel.measure_error_model"><a class="viewcode-back" href="../../../../qns.models.core.html#qns.models.QuantumModel.measure_error_model">[docs]</a>    <span class="k">def</span> <span class="nf">measure_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decoherence_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The error model for measuring a qubit.</span>
+<span class="sd">        This function will change the quantum state.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            decoherence_rate (float): the decoherency rate</span>
 <span class="sd">            kwargs: other parameters</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div></div>
