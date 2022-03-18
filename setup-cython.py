@@ -26,6 +26,8 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 
 ext_modules = [
+    Extension('qns.simulator.ts', ['qns/simulator/ts.pyx']),
+    Extension('qns.simulator.pool', ['qns/simulator/pool.pyx']),
     Extension('qns.simulator.simulator', ['qns/simulator/simulator.py']),
     Extension('qns.models.qubit.const', ['qns/models/qubit/const.py']),
     Extension('qns.models.qubit.gate', ['qns/models/qubit/gate.py']),
