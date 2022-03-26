@@ -23,6 +23,33 @@ def test_memory_sync_qubit():
     assert (m.read(key="test_qubit") is not None)
 
 
+def test_memory_sync_qubit_limited():
+    m = QuantumMemory("m1", capacity=5)
+    n1 = QNode(name="n1")
+    n1.add_memory(m)
+
+    s = Simulator(0, 10, 1000)
+    n1.install(s)
+
+    for i in range(5):
+        q = Qubit(name="q"+str(i+1))
+        assert(m.write(q))
+        assert(m.count == i+1)
+
+    q = Qubit(name="q5")
+    assert(not m.write(q))
+    assert(m.is_full())
+
+    q = m.read(key="q4")
+    assert(q is not None)
+    assert(m.count == 4)
+    assert(not m.is_full())
+    q = Qubit(name="q6")
+    assert(m.write(q))
+    assert(m.is_full())
+    assert(m._search(key="q6") == 3)
+
+
 def test_memory_sync_epr():
     m = QuantumMemory(name="m1", capacity=10, decoherence_rate=0.2)
     n1 = QNode("n1")
