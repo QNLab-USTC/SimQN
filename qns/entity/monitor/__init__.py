@@ -15,27 +15,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from setuptools import setup, find_packages
+from qns.entity.monitor.monitor import Monitor, MonitorEvent
 
-with open("README.md", "r", encoding="utf-8") as fh:
-    long_description = fh.read()
-
-setup(
-    name='qns',
-    author='elliot',
-    version="0.1.4",
-    description='A discrete-event scheduler designed for quantum networks',
-    long_description=long_description,
-    long_description_content_type="text/markdown",
-    packages=find_packages(),
-    include_package_data=True,
-    url="https://github.com/ertuil/SimQN",
-    exclude_package_data={'docs': ['.gitkeep']},
-    setup_requires=["numpy", "pandas", "twine", "wheel"],
-    install_requires=["numpy", "pandas"],
-    classifiers=[
-        "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
-        "Operating System :: OS Independent",
-    ],
-)
+__all__ = ["Monitor", "MonitorEvent"]

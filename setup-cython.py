@@ -71,8 +71,8 @@ setup(
     exclude_package_data={'docs': ['.gitkeep']},
     cmdclass={'build_ext': build_ext},
     ext_modules=cythonize(ext_modules),
-    setup_requires=["numpy", "cython"],
-    install_requires=["numpy"],
+    setup_requires=["numpy", "cython", "pandas", "twine", "wheel"],
+    install_requires=["numpy", "pandas"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",

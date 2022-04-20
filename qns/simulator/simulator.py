@@ -52,6 +52,8 @@ class Simulator(object):
         self.status = {}
         self.total_events = 0
 
+        self.watch_event = {}
+
     @property
     def current_time(self) -> Time:
         '''
@@ -102,6 +104,9 @@ class Simulator(object):
         while event is not None:
             if not event.is_canceled:
                 event.invoke()
+                monitor_list = self.watch_event.get(event.__class__, [])
+                for m in monitor_list:
+                    m.handle(event)
             event = self.event_pool.next_event()
 
         tre = time.time()
