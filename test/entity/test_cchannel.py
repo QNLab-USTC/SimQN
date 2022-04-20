@@ -1,4 +1,6 @@
 from typing import Any, Optional
+from qns.models.delay.normaldelay import NormalDelayModel
+from qns.models.delay.uniformdelay import UniformDelayModel
 from qns.simulator.simulator import Simulator
 from qns.simulator.event import Event
 from qns.simulator.ts import Time
@@ -49,6 +51,34 @@ def test_cchannel():
     n2 = ClassicRecvNode("n2")
     n1 = ClassicSendNode("n1", dest=n2)
     l1 = ClassicChannel(name="l1", bandwidth=10, delay=0.2, drop_rate=0.1, max_buffer_size=30)
+    n1.add_cchannel(l1)
+    n2.add_cchannel(l1)
+
+    s = Simulator(0, 10, 1000)
+    n1.install(s)
+    n2.install(s)
+    s.run()
+
+
+def test_cchannel_normal_delay():
+    n2 = ClassicRecvNode("n2")
+    n1 = ClassicSendNode("n1", dest=n2)
+    l1 = ClassicChannel(name="l1", bandwidth=10, delay=NormalDelayModel(mean_delay=0.2, std=0.1),
+                        drop_rate=0.1, max_buffer_size=30)
+    n1.add_cchannel(l1)
+    n2.add_cchannel(l1)
+
+    s = Simulator(0, 10, 1000)
+    n1.install(s)
+    n2.install(s)
+    s.run()
+
+
+def test_cchannel_uniform_delay():
+    n2 = ClassicRecvNode("n2")
+    n1 = ClassicSendNode("n1", dest=n2)
+    l1 = ClassicChannel(name="l1", bandwidth=10, delay=UniformDelayModel(min_delay=0.1, max_delay=0.3),
+                        drop_rate=0.1, max_buffer_size=30)
     n1.add_cchannel(l1)
     n2.add_cchannel(l1)
 
