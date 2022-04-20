@@ -27,7 +27,7 @@ from qns.models.qubit import Qubit
 
 import numpy as np
 
-from qns.utils.random import get_rand, get_choice
+from qns.utils.rnd import get_rand, get_choice
 
 
 class QubitWithError(Qubit):

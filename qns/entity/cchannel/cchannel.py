@@ -26,7 +26,7 @@ from qns.simulator.event import Event
 import qns.utils.log as log
 from qns.entity.entity import Entity
 from qns.entity.node.node import QNode
-from qns.utils.random import get_rand
+from qns.utils.rnd import get_rand
 
 
 class ClassicPacket(object):

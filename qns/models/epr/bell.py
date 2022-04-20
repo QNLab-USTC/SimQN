@@ -18,7 +18,7 @@
 from typing import Optional
 from qns.models.core.backend import QuantumModel
 from qns.models.epr.entanglement import BaseEntanglement
-from qns.utils.random import get_rand
+from qns.utils.rnd import get_rand
 
 
 class BellStateEntanglement(BaseEntanglement, QuantumModel):

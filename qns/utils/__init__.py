@@ -16,7 +16,7 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from qns.utils.log import logger, debug, info, error, install, warn, critical, monitor
-from qns.utils.random import set_seed, get_rand, get_randint, get_choice
+from qns.utils.rnd import set_seed, get_rand, get_randint, get_choice
 
 __all__ = ["logger", "debug", "info", "error", "install",
            "warn", "critical", "monitor", "set_seed", "get_rand", "get_randint", "get_choice"]

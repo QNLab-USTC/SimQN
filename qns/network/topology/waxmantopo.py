@@ -23,7 +23,7 @@ from qns.network.topology import Topology
 import itertools
 import numpy as np
 
-from qns.utils.random import get_rand
+from qns.utils.rnd import get_rand
 
 
 class WaxmanTopology(Topology):

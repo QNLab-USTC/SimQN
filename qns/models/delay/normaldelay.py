@@ -17,7 +17,7 @@
 
 from typing import Optional
 from qns.models.delay.delay import DelayModel
-from qns.utils.random import get_normal
+from qns.utils.rnd import get_normal
 
 
 class NormalDelayModel(DelayModel):

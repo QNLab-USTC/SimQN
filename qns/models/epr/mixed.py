@@ -22,7 +22,7 @@ from qns.models.qubit.const import QUBIT_STATE_0, QUBIT_STATE_P
 from qns.models.qubit.qubit import QState, Qubit
 import numpy as np
 
-from qns.utils.random import get_rand
+from qns.utils.rnd import get_rand
 
 
 class MixedStateEntanglement(BaseEntanglement, QuantumModel):

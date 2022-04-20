@@ -6,7 +6,7 @@ from qns.simulator.simulator import Simulator
 from qns.network import QuantumNetwork
 from qns.network.topology import RandomTopology
 import qns.utils.log as log
-from qns.utils.random import set_seed
+from qns.utils.rnd import set_seed
 from qns.network.protocol.entanglement_distribution import EntanglementDistributionApp
 
 # constrains

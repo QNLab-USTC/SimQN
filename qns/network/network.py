@@ -22,7 +22,7 @@ from qns.network.route import RouteImpl, DijkstraRouteAlgorithm
 from qns.network.requests import Request
 from qns.network.topology.topo import ClassicTopology
 from qns.simulator.simulator import Simulator
-from qns.utils.random import get_randint
+from qns.utils.rnd import get_randint
 
 
 class QuantumNetwork(object):

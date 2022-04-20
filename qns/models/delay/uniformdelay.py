@@ -17,7 +17,7 @@
 
 from typing import Optional
 from qns.models.delay.delay import DelayModel
-from qns.utils.random import get_rand
+from qns.utils.rnd import get_rand
 
 
 class UniformDelayModel(DelayModel):

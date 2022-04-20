@@ -20,7 +20,7 @@ from qns.entity.qchannel.qchannel import QuantumChannel
 from qns.entity.node.node import QNode
 from typing import Dict, List, Optional, Tuple
 from qns.network.topology import Topology
-from qns.utils.random import get_randint
+from qns.utils.rnd import get_randint
 
 
 class RandomTopology(Topology):

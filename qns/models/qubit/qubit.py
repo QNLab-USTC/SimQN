@@ -24,7 +24,7 @@ from qns.models.qubit.utils import single_gate_expand, partial_trace
 from qns.models.core.backend import QuantumModel
 from qns.models.qubit.errors import QStateBaseError, QStateQubitNotInStateError,\
                                     QStateSizeNotMatchError, OperatorNotMatchError
-from qns.utils.random import get_rand
+from qns.utils.rnd import get_rand
 
 
 class QState(object):
