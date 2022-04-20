@@ -16,6 +16,8 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from typing import List, Optional, Union
+from qns.models.delay.constdelay import ConstantDelayModel
+from qns.models.delay.delay import DelayModel
 from qns.simulator.simulator import Simulator
 from qns.simulator.ts import Time
 from qns.simulator.event import Event
@@ -41,20 +43,20 @@ class QuantumMemory(Entity):
     """
     def __init__(self, name: str = None, node: QNode = None,
                  capacity: int = 0, decoherence_rate: Optional[float] = 0,
-                 store_error_model_args: dict = {}, delay: float = 0):
+                 store_error_model_args: dict = {}, delay: Union[float, DelayModel] = 0):
         """
         Args:
             name (str): its name
             node (QNode): the quantum node that equips this memory
             capacity (int): the capacity of this quantum memory. 0 presents unlimited.
-            delay (float): the read and write delay in second
+            delay (Union[float,DelayModel]): the read and write delay in second, or a ``DelayModel``
             decoherence_rate (float): the decoherence rate of this memory that will pass to the store_error_model
             store_error_model_args (dict): the parameters that will pass to the store_error_model
         """
         super().__init__(name=name)
         self.node = node
         self.capacity = capacity
-        self.delay = delay
+        self.delay_model = delay if isinstance(delay, DelayModel) else ConstantDelayModel(delay=delay)
 
         if self.capacity > 0:
             self._storage: List[Optional[QuantumModel]] = [None] * self.capacity
@@ -202,13 +204,13 @@ class QuantumMemory(Entity):
             # operate qubits and get measure results
             result = self.read(key)
 
-            t = self._simulator.tc + self._simulator.time(sec=self.delay)
+            t = self._simulator.tc + self._simulator.time(sec=self.delay_model.calculate())
             response = MemoryReadResponseEvent(node=self.node, result=result, request=event, t=t, by=self)
             self._simulator.add_event(response)
         elif isinstance(event, MemoryWriteRequestEvent):
             qubit = event.qubit
             result = self.write(qubit)
-            t = self._simulator.tc + self._simulator.time(sec=self.delay)
+            t = self._simulator.tc + self._simulator.time(sec=self.delay_model.calculate())
             response = MemoryWriteResponseEvent(node=self.node, result=result, request=event, t=t, by=self)
             self._simulator.add_event(response)
 

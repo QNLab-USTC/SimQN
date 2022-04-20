@@ -15,9 +15,11 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from typing import List, Optional
+from typing import List, Optional, Union
 from qns.entity.node.node import QNode
 from qns.entity.qchannel.qchannel import QuantumChannel
+from qns.models.delay.constdelay import ConstantDelayModel
+from qns.models.delay.delay import DelayModel
 
 
 class QubitLossChannel(QuantumChannel):
@@ -27,7 +29,7 @@ class QubitLossChannel(QuantumChannel):
     The loss rate is: 1-(1-p_init)*10^{- attenuation_rate * length / 10}
     """
     def __init__(self, name: str = None, node_list: List[QNode] = [],
-                 bandwidth: int = 0, delay: float = 0, p_init: float = 0, attenuation_rate: float = 0,
+                 bandwidth: int = 0, delay: Union[float, DelayModel] = 0, p_init: float = 0, attenuation_rate: float = 0,
                  max_buffer_size: int = 0, length: float = 0, decoherence_rate: Optional[float] = 0,
                  transfer_error_model_args: dict = {}):
         """
@@ -35,7 +37,7 @@ class QubitLossChannel(QuantumChannel):
             name (str): the name of this channel
             node_list (List[QNode]): a list of QNodes that it connects to
             bandwidth (int): the qubit per second on this channel. 0 represents unlimited
-            delay (float): the time delay for transmitting a packet
+            delay (float): the time delay for transmitting a packet, or a ``DelayModel``
             p_init: the probability of loss a qubit immediately
             attenuation_rate (float): the attenuation rate of the channel, in Db
             max_buffer_size (int): the max buffer size.
@@ -48,7 +50,7 @@ class QubitLossChannel(QuantumChannel):
         super().__init__(name=name)
         self.node_list = node_list.copy()
         self.bandwidth = bandwidth
-        self.delay = delay
+        self.delay_model = delay if isinstance(delay, DelayModel) else ConstantDelayModel(delay=delay)
         self.p_init = p_init
         self.attenuation_rate = attenuation_rate
         self.length = length

@@ -67,3 +67,7 @@ def get_choice(a):
         a: a iterable object
     """
     return a[get_randint(0, len(a)-1)]
+
+
+def get_normal(mean: float = 0, std: float = 1):
+    return np.random.normal(loc=mean, scale=std)

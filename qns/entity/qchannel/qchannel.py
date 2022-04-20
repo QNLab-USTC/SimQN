@@ -15,10 +15,12 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from typing import Any, List, Optional
+from typing import Any, List, Optional, Union
 
 from qns.entity.entity import Entity
 from qns.entity.node.node import QNode
+from qns.models.delay.constdelay import ConstantDelayModel
+from qns.models.delay.delay import DelayModel
 from qns.simulator.simulator import Simulator
 from qns.simulator.ts import Time
 from qns.simulator.event import Event
@@ -32,7 +34,7 @@ class QuantumChannel(Entity):
     QuantumChannel is the channel for transmitting qubit
     """
     def __init__(self, name: str = None, node_list: List[QNode] = [],
-                 bandwidth: int = 0, delay: float = 0, drop_rate: float = 0,
+                 bandwidth: int = 0, delay: Union[float, DelayModel] = 0, drop_rate: float = 0,
                  max_buffer_size: int = 0, length: float = 0, decoherence_rate: Optional[float] = 0,
                  transfer_error_model_args: dict = {}):
         """
@@ -40,7 +42,7 @@ class QuantumChannel(Entity):
             name (str): the name of this channel
             node_list (List[QNode]): a list of QNodes that it connects to
             bandwidth (int): the qubit per second on this channel. 0 represents unlimited
-            delay (float): the time delay for transmitting a packet
+            delay (float): the time delay for transmitting a packet, or a ``DelayModel``
             drop_rate (float): the drop rate
             max_buffer_size (int): the max buffer size.
                 If it is full, the next coming packet will be dropped. 0 represents unlimited.
@@ -52,7 +54,7 @@ class QuantumChannel(Entity):
         super().__init__(name=name)
         self.node_list = node_list.copy()
         self.bandwidth = bandwidth
-        self.delay = delay
+        self.delay_model = delay if isinstance(delay, DelayModel) else ConstantDelayModel(delay=delay)
         self.drop_rate = drop_rate
         self.max_buffer_size = max_buffer_size
         self.length = length
@@ -108,7 +110,7 @@ class QuantumChannel(Entity):
             return
 
         #  add delay
-        recv_time = send_time + self._simulator.time(sec=self.delay)
+        recv_time = send_time + self._simulator.time(sec=self.delay_model.calculate())
 
         # operation on the qubit
         qubit.transfer_error_model(self.length, self.decoherence_rate, **self.transfer_error_model_args)

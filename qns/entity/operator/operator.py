@@ -18,6 +18,8 @@
 from typing import Callable, List, Optional, Union
 from qns.entity.entity import Entity
 from qns.entity.node.node import QNode
+from qns.models.delay.constdelay import ConstantDelayModel
+from qns.models.delay.delay import DelayModel
 from qns.simulator.event import Event
 from qns.simulator.simulator import Simulator
 
@@ -31,19 +33,19 @@ class QuantumOperator(Entity):
     """
 
     def __init__(self, name: str = None, node: QNode = None,
-                 gate: Callable[..., Union[None, int, List[int]]] = None, delay: float = 0):
+                 gate: Callable[..., Union[None, int, List[int]]] = None, delay: Union[float, DelayModel] = 0):
         """
 
         Args:
             name (str): its name
             node (QNode): the quantum node that equips this memory
             gate: the quantum circuit where the input is the operating qubits and returns the measure result
-            delay (float): the delay time in second for this operation
+            delay (Union[float,DelayModel]): the delay time in second for this operation or a ``DelayModel``
         """
         super().__init__(name=name)
         self.node = node
         self.gate = gate
-        self.delay = delay
+        self.delay_model = delay if isinstance(delay, DelayModel) else ConstantDelayModel(delay=delay)
 
     def install(self, simulator: Simulator) -> None:
         return super().install(simulator)
@@ -55,7 +57,7 @@ class QuantumOperator(Entity):
             # operate qubits and get measure results
             result = self.operate(*qubits)
 
-            t = self._simulator.tc + self._simulator.time(sec=self.delay)
+            t = self._simulator.tc + self._simulator.time(sec=self.delay_model.calculate())
             response = OperateResponseEvent(node=self.node, result=result, request=event, t=t, by=self)
             self._simulator.add_event(response)
 

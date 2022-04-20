@@ -17,6 +17,8 @@
 
 import json
 from typing import Any, List, Optional, Union
+from qns.models.delay.constdelay import ConstantDelayModel
+from qns.models.delay.delay import DelayModel
 
 from qns.simulator.simulator import Simulator
 from qns.simulator.ts import Time
@@ -80,14 +82,14 @@ class ClassicChannel(Entity):
     ClassicChannel is the channel for classic message
     """
     def __init__(self, name: str = None, node_list: List[QNode] = [],
-                 bandwidth: int = 0, delay: float = 0, drop_rate: float = 0,
+                 bandwidth: int = 0, delay: Union[float, DelayModel] = 0, drop_rate: float = 0,
                  max_buffer_size: int = 0):
         """
         Args:
             name (str): the name of this channel
             node_list (List[QNode]): a list of QNodes that it connects to
             bandwidth (int): the byte per second on this channel. 0 represents unlimited
-            delay (float): the time delay for transmitting a packet
+            delay (Union[float, DelayModel]): the time delay for transmitting a packet. It is a float number or a ``DelayModel``
             drop_rate (float): the drop rate
             max_buffer_size (int): the max buffer size.
                 If it is full, the next coming packet will be dropped. 0 represents unlimited.
@@ -95,7 +97,7 @@ class ClassicChannel(Entity):
         super().__init__(name=name)
         self.node_list = node_list.copy()
         self.bandwidth = bandwidth
-        self.delay = delay
+        self.delay_model = delay if isinstance(delay, DelayModel) else ConstantDelayModel(delay=delay)
         self.drop_rate = drop_rate
         self.max_buffer_size = max_buffer_size
 
@@ -146,7 +148,7 @@ class ClassicChannel(Entity):
             log.debug(f"cchannel {self}: drop packet {packet} due to drop rate")
             return
         #  add delay
-        recv_time = send_time + self._simulator.time(sec=self.delay)
+        recv_time = send_time + self._simulator.time(sec=self.delay_model.calculate())
 
         send_event = RecvClassicPacket(recv_time, name=None, by=self,
                                        cchannel=self, packet=packet, dest=next_hop)

@@ -13,3 +13,4 @@ qns/**/*.pyd
 .pytest_cache
 !docs
 .idea
+.eggs
