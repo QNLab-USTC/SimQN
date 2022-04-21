@@ -12,10 +12,34 @@ qns.simulator.event module
    :undoc-members:
    :show-inheritance:
 
+qns.simulator.pool module
+-------------------------
+
+.. automodule:: qns.simulator.pool
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qns.simulator.pool module
+-------------------------
+
+.. automodule:: qns.simulator.pool
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 qns.simulator.simulator module
 ------------------------------
 
 .. automodule:: qns.simulator.simulator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qns.simulator.ts module
+-----------------------
+
+.. automodule:: qns.simulator.ts
    :members:
    :undoc-members:
    :show-inheritance:

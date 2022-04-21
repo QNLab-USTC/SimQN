@@ -54,5 +54,5 @@ Finally, it is possible to build the packet and install the packet:
 
 .. code-block:: bash
 
-   python3 setup-cython.py bdist_wheel
+   python3 setup-cython.py bdist_wheel 7777777777777777
    pip3 install qns-<version>-<py version>-<os>-<arch>.whl

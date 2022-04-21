@@ -24,9 +24,10 @@ from qns.entity.memory.event import MemoryReadRequestEvent, MemoryReadResponseEv
 from qns.entity.cchannel.cchannel import ClassicChannel, ClassicPacket, RecvClassicPacket
 from qns.entity.qchannel.qchannel import QuantumChannel, RecvQubitPacket
 from qns.entity.operator import QuantumOperator, OperateRequestEvent, OperateResponseEvent
+from qns.entity.monitor.monitor import Monitor, MonitorEvent
 
 __all__ = ["Entity", "QNode", "Application", "Timer", "QuantumMemory", "ClassicChannel", "QuantumMemory",
            "ClassicPacket", "RecvClassicPacket", "QuantumChannel", "RecvQubitPacket",
            "QuantumOperator", "OperateRequestEvent", "OperateResponseEvent",
            "MemoryReadRequestEvent", "MemoryReadResponseEvent",
-           "MemoryWriteRequestEvent", "MemoryWriteResponseEvent"]
+           "MemoryWriteRequestEvent", "MemoryWriteResponseEvent", "Monitor", "MonitorEvent"]

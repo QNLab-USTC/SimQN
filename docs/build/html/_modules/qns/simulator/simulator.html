@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en,zh-CN" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -40,7 +40,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../install.html">Install Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../develop.html">Develop Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">qns</a></li>
 </ul>
 
         </div>
@@ -85,11 +85,11 @@
 <span class="c1">#    You should have received a copy of the GNU General Public License</span>
 <span class="c1">#    along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
-<span class="kn">import</span> <span class="nn">heapq</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">from</span> <span class="nn">qns.simulator.ts</span> <span class="kn">import</span> <span class="n">Time</span><span class="p">,</span> <span class="n">default_accuracy</span>
 <span class="kn">from</span> <span class="nn">qns.simulator.event</span> <span class="kn">import</span> <span class="n">Event</span>
+<span class="kn">from</span> <span class="nn">qns.simulator.pool</span> <span class="kn">import</span> <span class="n">DefaultEventPool</span>
 <span class="kn">import</span> <span class="nn">qns.utils.log</span> <span class="k">as</span> <span class="nn">log</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">ts</span>
 
@@ -121,6 +121,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">event_pool</span> <span class="o">=</span> <span class="n">DefaultEventPool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ts</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">te</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">total_events</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">watch_event</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">current_time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Time</span><span class="p">:</span>
@@ -172,6 +174,9 @@
         <span class="k">while</span> <span class="n">event</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">event</span><span class="o">.</span><span class="n">is_canceled</span><span class="p">:</span>
                 <span class="n">event</span><span class="o">.</span><span class="n">invoke</span><span class="p">()</span>
+                <span class="n">monitor_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">watch_event</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="p">[])</span>
+                <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">monitor_list</span><span class="p">:</span>
+                    <span class="n">m</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
             <span class="n">event</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">event_pool</span><span class="o">.</span><span class="n">next_event</span><span class="p">()</span>
 
         <span class="n">tre</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -184,60 +189,6 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;runtime </span><span class="si">{</span><span class="n">tre</span> <span class="o">-</span> <span class="n">trs</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">total_events</span><span class="si">}</span><span class="s2"> events,</span><span class="se">\</span>
 <span class="s2">                sim_time </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">te</span><span class="o">.</span><span class="n">sec</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">ts</span><span class="o">.</span><span class="n">sec</span><span class="si">}</span><span class="s2">, x</span><span class="si">{</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">te</span><span class="o">.</span><span class="n">sec</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">ts</span><span class="o">.</span><span class="n">sec</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">tre</span><span class="o">-</span><span class="n">trs</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div></div>
-
-
-<div class="viewcode-block" id="DefaultEventPool"><a class="viewcode-back" href="../../../qns.simulator.html#qns.simulator.simulator.DefaultEventPool">[docs]</a><span class="k">class</span> <span class="nc">DefaultEventPool</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The default implement of the event pool</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ts</span><span class="p">:</span> <span class="n">Time</span><span class="p">,</span> <span class="n">te</span><span class="p">:</span> <span class="n">Time</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Args:</span>
-<span class="sd">            ts: the start time</span>
-<span class="sd">            te: the end time</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ts</span> <span class="o">=</span> <span class="n">ts</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">te</span> <span class="o">=</span> <span class="n">te</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tc</span> <span class="o">=</span> <span class="n">ts</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">event_list</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">current_time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Time</span><span class="p">:</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Get the current time</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tc</span>
-
-<div class="viewcode-block" id="DefaultEventPool.add_event"><a class="viewcode-back" href="../../../qns.simulator.html#qns.simulator.simulator.DefaultEventPool.add_event">[docs]</a>    <span class="k">def</span> <span class="nf">add_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Insert an event into the pool</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            event (Event): The inserting event</span>
-<span class="sd">        Returns:</span>
-<span class="sd">            if the event is inserted successfully</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">t</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">tc</span> <span class="ow">or</span> <span class="n">event</span><span class="o">.</span><span class="n">t</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">te</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-
-        <span class="n">heapq</span><span class="o">.</span><span class="n">heappush</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">event_list</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">True</span></div>
-
-<div class="viewcode-block" id="DefaultEventPool.next_event"><a class="viewcode-back" href="../../../qns.simulator.html#qns.simulator.simulator.DefaultEventPool.next_event">[docs]</a>    <span class="k">def</span> <span class="nf">next_event</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Event</span><span class="p">:</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Get the next event to be executed</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            The next event to be executed</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">event</span><span class="p">:</span> <span class="n">Event</span> <span class="o">=</span> <span class="n">heapq</span><span class="o">.</span><span class="n">heappop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">event_list</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">tc</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">t</span>
-        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
-            <span class="n">event</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">tc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">te</span>
-        <span class="k">return</span> <span class="n">event</span></div></div>
 </pre></div>
 
            </div>

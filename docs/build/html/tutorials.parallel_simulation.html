@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parallel Simulation: to run multiple simulations and leverage multiple CPUs &mdash; SimQN 0.1.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Physical models" href="tutorials.models.html" />
+    <link rel="prev" title="Quick start" href="tutorials.quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> SimQN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorials.quickstart.html">Quick start</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Parallel Simulation: to run multiple simulations and leverage multiple CPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.models.html">Physical models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.entity.html">Entities in quantum networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.network.html">Construct large-scale networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.simulator.html">The discrete-event simulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.util.html">Logging and random generator</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="develop.html">Develop Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">qns</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SimQN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
+      <li>Parallel Simulation: to run multiple simulations and leverage multiple CPUs</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tutorials.parallel_simulation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="parallel-simulation-to-run-multiple-simulations-and-leverage-multiple-cpus">
+<h1>Parallel Simulation: to run multiple simulations and leverage multiple CPUs<a class="headerlink" href="#parallel-simulation-to-run-multiple-simulations-and-leverage-multiple-cpus" title="Permalink to this headline"></a></h1>
+<p>To provide a better performance in simulation, SimQN provides a method to create multiple processes and make full use of multiple CPUs.
+To do so, users needs to create a sub-class of <code class="docutils literal notranslate"><span class="pre">MPSimulations</span></code> and overwrite <code class="docutils literal notranslate"><span class="pre">run</span></code> method to tell SimQN how to perform a single experiment.</p>
+<p>The input parameter of <code class="docutils literal notranslate"><span class="pre">run</span></code> method, is a directory that contains all input variables, e.g., <code class="docutils literal notranslate"><span class="pre">{&quot;nodes_number&quot;:</span> <span class="pre">5,</span> <span class="pre">&quot;delay&quot;:</span> <span class="pre">0.05,</span> <span class="pre">&quot;memory_capacity&quot;:</span> <span class="pre">10,</span> <span class="pre">&quot;send_rate&quot;:</span> <span class="pre">10}</span></code>, and the output is another directory containing all experiment results, e.g., <code class="docutils literal notranslate"><span class="pre">{&quot;throughput&quot;:</span> <span class="pre">10,</span> <span class="pre">&quot;fidelity&quot;:</span> <span class="pre">0.88}</span></code>. Here is an example of how to build a <code class="docutils literal notranslate"><span class="pre">MPSimulations</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qns.utils.multiprocess</span> <span class="kn">import</span> <span class="n">MPSimulations</span>
+<span class="kn">from</span> <span class="nn">qns.network.route.dijkstra</span> <span class="kn">import</span> <span class="n">DijkstraRouteAlgorithm</span>
+<span class="kn">from</span> <span class="nn">qns.network.topology.topo</span> <span class="kn">import</span> <span class="n">ClassicTopology</span>
+<span class="kn">from</span> <span class="nn">qns.simulator.simulator</span> <span class="kn">import</span> <span class="n">Simulator</span>
+<span class="kn">from</span> <span class="nn">qns.network</span> <span class="kn">import</span> <span class="n">QuantumNetwork</span>
+<span class="kn">from</span> <span class="nn">qns.network.topology</span> <span class="kn">import</span> <span class="n">LineTopology</span>
+<span class="kn">from</span> <span class="nn">qns.network.protocol.entanglement_distribution</span> <span class="kn">import</span> <span class="n">EntanglementDistributionApp</span>
+
+
+<span class="k">class</span> <span class="nc">EPRDistributionSimulation</span><span class="p">(</span><span class="n">MPSimulations</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">setting</span><span class="p">):</span>
+
+        <span class="c1"># get input variables</span>
+        <span class="n">nodes_number</span> <span class="o">=</span> <span class="n">setting</span><span class="p">[</span><span class="s2">&quot;nodes_number&quot;</span><span class="p">]</span>
+        <span class="n">delay</span> <span class="o">=</span> <span class="n">setting</span><span class="p">[</span><span class="s2">&quot;delay&quot;</span><span class="p">]</span>
+        <span class="n">memory_capacity</span> <span class="o">=</span> <span class="n">setting</span><span class="p">[</span><span class="s2">&quot;memory_capacity&quot;</span><span class="p">]</span>
+        <span class="n">send_rate</span> <span class="o">=</span> <span class="n">setting</span><span class="p">[</span><span class="s2">&quot;send_rate&quot;</span><span class="p">]</span>
+
+        <span class="c1"># do the experiments</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">accuracy</span><span class="o">=</span><span class="mi">10000000</span><span class="p">)</span>
+        <span class="n">topo</span> <span class="o">=</span> <span class="n">LineTopology</span><span class="p">(</span><span class="n">nodes_number</span><span class="o">=</span><span class="n">nodes_number</span><span class="p">,</span>
+                            <span class="n">qchannel_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;delay&quot;</span><span class="p">:</span> <span class="n">delay</span><span class="p">,</span> <span class="s2">&quot;drop_rate&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">},</span>
+                            <span class="n">cchannel_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;delay&quot;</span><span class="p">:</span> <span class="n">delay</span><span class="p">},</span>
+                            <span class="n">memory_args</span><span class="o">=</span><span class="p">{</span>
+                                <span class="s2">&quot;capacity&quot;</span><span class="p">:</span> <span class="n">memory_capacity</span><span class="p">,</span>
+                                <span class="s2">&quot;store_error_model_args&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">}},</span>
+                            <span class="n">nodes_apps</span><span class="o">=</span><span class="p">[</span><span class="n">EntanglementDistributionApp</span><span class="p">(</span><span class="n">init_fidelity</span><span class="o">=</span><span class="mf">0.99</span><span class="p">)])</span>
+
+        <span class="n">net</span> <span class="o">=</span> <span class="n">QuantumNetwork</span><span class="p">(</span>
+            <span class="n">topo</span><span class="o">=</span><span class="n">topo</span><span class="p">,</span> <span class="n">classic_topo</span><span class="o">=</span><span class="n">ClassicTopology</span><span class="o">.</span><span class="n">All</span><span class="p">,</span> <span class="n">route</span><span class="o">=</span><span class="n">DijkstraRouteAlgorithm</span><span class="p">())</span>
+        <span class="n">net</span><span class="o">.</span><span class="n">build_route</span><span class="p">()</span>
+
+        <span class="n">src</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="s2">&quot;n1&quot;</span><span class="p">)</span>
+        <span class="n">dst</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;n</span><span class="si">{</span><span class="n">nodes_number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">net</span><span class="o">.</span><span class="n">add_request</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">dst</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;send_rate&quot;</span><span class="p">:</span> <span class="n">send_rate</span><span class="p">})</span>
+        <span class="n">net</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+        <span class="c1"># form the result</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;count&quot;</span><span class="p">:</span> <span class="n">src</span><span class="o">.</span><span class="n">apps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">success_count</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Now, the <code class="docutils literal notranslate"><span class="pre">EPRDistributionSimulation</span></code> can be initiated by the following input parameters:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">settings</span></code>, a directory that contains all simulation variables. For example:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;nodes_number&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>
+    <span class="s2">&quot;delay&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.05</span><span class="p">],</span>
+    <span class="s2">&quot;memory_capacity&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>
+    <span class="s2">&quot;send_rate&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>It contains are four input variables, and the input parameter of each simulation will be the combination of all these four variables, e.g., <code class="docutils literal notranslate"><span class="pre">{&quot;nodes_number&quot;:</span> <span class="pre">5,</span> <span class="pre">&quot;delay&quot;:</span> <span class="pre">0.05,</span> <span class="pre">&quot;memory_capacity&quot;:</span> <span class="pre">10,</span> <span class="pre">&quot;send_rate&quot;:</span> <span class="pre">10}</span></code>.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">iter_count</span></code>, the number of repeat experiments for each setting. If <code class="docutils literal notranslate"><span class="pre">iter_count</span></code> is 10, it means that the experiments will run for 10 times for each input variable combination.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">aggregate</span></code>, it is a boolean indicates whether to aggregate the results for the repeated simulations in a same input variable. If <code class="docutils literal notranslate"><span class="pre">iter_count</span></code> &gt; 1, and <code class="docutils literal notranslate"><span class="pre">aggregate</span></code> is True, SimQN will aggregate the 10 results for each setting, and calculate the mean and std for every outputs.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cores</span></code>, the number of processes. By default, SimQN will use all CPUs in this machine. For example, if <code class="docutils literal notranslate"><span class="pre">cores</span></code> = 1, SimQN will run in a single process mode.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>, the name of this simulation.</p></li>
+</ul>
+<p>For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ss</span> <span class="o">=</span> <span class="n">EPRDistributionSimulation</span><span class="p">(</span><span class="n">settings</span><span class="o">=</span><span class="p">{</span>
+    <span class="s2">&quot;nodes_number&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>
+    <span class="s2">&quot;delay&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.05</span><span class="p">],</span>
+    <span class="s2">&quot;memory_capacity&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>
+    <span class="s2">&quot;send_rate&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">]</span>
+<span class="p">},</span> <span class="n">aggregate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">iter_count</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">cores</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally, users can start the simulation and get the experiment results:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># start the simulation</span>
+<span class="n">ss</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="c1"># get the aggregated result (calculate the mean and std for every output variables).</span>
+<span class="n">ss</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+
+<span class="c1"># get the raw data</span>
+<span class="n">ss</span><span class="o">.</span><span class="n">get_raw_data</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorials.quickstart.html" class="btn btn-neutral float-left" title="Quick start" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorials.models.html" class="btn btn-neutral float-right" title="Physical models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Elliot Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

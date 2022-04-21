@@ -4,6 +4,14 @@ qns.entity.memory package
 Submodules
 ----------
 
+qns.entity.memory.event module
+------------------------------
+
+.. automodule:: qns.entity.memory.event
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 qns.entity.memory.memory module
 -------------------------------
 

@@ -37,12 +37,26 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="develop.html">Develop Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">qns</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="qns.html">qns package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="qns.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="qns.entity.html">qns.entity package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.models.html">qns.models package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.network.html">qns.network package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.simulator.html">qns.simulator package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">qns.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qns.html#module-qns">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -59,7 +73,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="modules.html">API Reference</a> &raquo;</li>
+          <li><a href="modules.html">qns</a> &raquo;</li>
+          <li><a href="qns.html">qns package</a> &raquo;</li>
       <li>qns.utils package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/qns.utils.rst.txt" rel="nofollow"> View page source</a>
@@ -125,11 +140,73 @@
 <dd></dd></dl>
 
 </section>
-<section id="module-qns.utils.random">
-<span id="qns-utils-random-module"></span><h2>qns.utils.random module<a class="headerlink" href="#module-qns.utils.random" title="Permalink to this headline"></a></h2>
+<section id="module-qns.utils.multiprocess">
+<span id="qns-utils-multiprocess-module"></span><h2>qns.utils.multiprocess module<a class="headerlink" href="#module-qns.utils.multiprocess" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.utils.multiprocess.MPSimulations">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.utils.multiprocess.</span></span><span class="sig-name descname"><span class="pre">MPSimulations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iter_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aggregate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cores</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/utils/multiprocess.html#MPSimulations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.utils.multiprocess.MPSimulations" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>MultiProcessSimulations will help users to perfrom multiple simulations
+with different experiment settings and leverage multiple processes.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.utils.multiprocess.MPSimulations.get_data">
+<span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/utils/multiprocess.html#MPSimulations.get_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.utils.multiprocess.MPSimulations.get_data" title="Permalink to this definition"></a></dt>
+<dd><p>Get the simulation results</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a result data in pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.utils.multiprocess.MPSimulations.get_raw_data">
+<span class="sig-name descname"><span class="pre">get_raw_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/utils/multiprocess.html#MPSimulations.get_raw_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.utils.multiprocess.MPSimulations.get_raw_data" title="Permalink to this definition"></a></dt>
+<dd><p>Get the original raw results, no matter aggregate is <code class="docutils literal notranslate"><span class="pre">True</span></code> or not.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a result data in pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.utils.multiprocess.MPSimulations.prepare_setting">
+<span class="sig-name descname"><span class="pre">prepare_setting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/utils/multiprocess.html#MPSimulations.prepare_setting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.utils.multiprocess.MPSimulations.prepare_setting" title="Permalink to this definition"></a></dt>
+<dd><p>Generate the experiment setting for each experiments.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.utils.multiprocess.MPSimulations.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">setting</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="reference internal" href="_modules/qns/utils/multiprocess.html#MPSimulations.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.utils.multiprocess.MPSimulations.run" title="Permalink to this definition"></a></dt>
+<dd><p>This function should be overwited by users to provide codes that run a single simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>setting</strong> (<em>Dict</em>) – the simulation setting, e.g. {‘node_num’: 10, ‘req_num’: 10, ‘memory_size’: 50}</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>100, ‘fidelity’: 0.88}</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>a dictionary that contains all results, e.g. {‘throughput’</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.utils.multiprocess.MPSimulations.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/utils/multiprocess.html#MPSimulations.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.utils.multiprocess.MPSimulations.start" title="Permalink to this definition"></a></dt>
+<dd><p>Start the multiple process simulation</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-qns.utils.rnd">
+<span id="qns-utils-rnd-module"></span><h2>qns.utils.rnd module<a class="headerlink" href="#module-qns.utils.rnd" title="Permalink to this headline"></a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="qns.utils.random.get_choice">
-<span class="sig-prename descclassname"><span class="pre">qns.utils.random.</span></span><span class="sig-name descname"><span class="pre">get_choice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/utils/random.html#get_choice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.utils.random.get_choice" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="qns.utils.rnd.get_choice">
+<span class="sig-prename descclassname"><span class="pre">qns.utils.rnd.</span></span><span class="sig-name descname"><span class="pre">get_choice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/utils/rnd.html#get_choice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.utils.rnd.get_choice" title="Permalink to this definition"></a></dt>
 <dd><p>return an random element from a list</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -139,8 +216,13 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="qns.utils.random.get_rand">
-<span class="sig-prename descclassname"><span class="pre">qns.utils.random.</span></span><span class="sig-name descname"><span class="pre">get_rand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">low</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/qns/utils/random.html#get_rand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.utils.random.get_rand" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="qns.utils.rnd.get_normal">
+<span class="sig-prename descclassname"><span class="pre">qns.utils.rnd.</span></span><span class="sig-name descname"><span class="pre">get_normal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/utils/rnd.html#get_normal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.utils.rnd.get_normal" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.utils.rnd.get_rand">
+<span class="sig-prename descclassname"><span class="pre">qns.utils.rnd.</span></span><span class="sig-name descname"><span class="pre">get_rand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">low</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/qns/utils/rnd.html#get_rand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.utils.rnd.get_rand" title="Permalink to this definition"></a></dt>
 <dd><p>Get a random number from [low, high)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -153,8 +235,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="qns.utils.random.get_randint">
-<span class="sig-prename descclassname"><span class="pre">qns.utils.random.</span></span><span class="sig-name descname"><span class="pre">get_randint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">low</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/qns/utils/random.html#get_randint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.utils.random.get_randint" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="qns.utils.rnd.get_randint">
+<span class="sig-prename descclassname"><span class="pre">qns.utils.rnd.</span></span><span class="sig-name descname"><span class="pre">get_randint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">low</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/qns/utils/rnd.html#get_randint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.utils.rnd.get_randint" title="Permalink to this definition"></a></dt>
 <dd><p>Get a random integer from [low, high]</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -167,8 +249,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="qns.utils.random.set_seed">
-<span class="sig-prename descclassname"><span class="pre">qns.utils.random.</span></span><span class="sig-name descname"><span class="pre">set_seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/utils/random.html#set_seed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.utils.random.set_seed" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="qns.utils.rnd.set_seed">
+<span class="sig-prename descclassname"><span class="pre">qns.utils.rnd.</span></span><span class="sig-name descname"><span class="pre">set_seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/utils/rnd.html#set_seed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.utils.rnd.set_seed" title="Permalink to this definition"></a></dt>
 <dd><p>Set a seed for random generator</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -197,7 +279,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="qns.utils.get_choice">
-<span class="sig-prename descclassname"><span class="pre">qns.utils.</span></span><span class="sig-name descname"><span class="pre">get_choice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/utils/random.html#get_choice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.utils.get_choice" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">qns.utils.</span></span><span class="sig-name descname"><span class="pre">get_choice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/utils/rnd.html#get_choice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.utils.get_choice" title="Permalink to this definition"></a></dt>
 <dd><p>return an random element from a list</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -208,7 +290,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="qns.utils.get_rand">
-<span class="sig-prename descclassname"><span class="pre">qns.utils.</span></span><span class="sig-name descname"><span class="pre">get_rand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">low</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/qns/utils/random.html#get_rand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.utils.get_rand" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">qns.utils.</span></span><span class="sig-name descname"><span class="pre">get_rand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">low</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/qns/utils/rnd.html#get_rand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.utils.get_rand" title="Permalink to this definition"></a></dt>
 <dd><p>Get a random number from [low, high)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -222,7 +304,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="qns.utils.get_randint">
-<span class="sig-prename descclassname"><span class="pre">qns.utils.</span></span><span class="sig-name descname"><span class="pre">get_randint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">low</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/qns/utils/random.html#get_randint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.utils.get_randint" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">qns.utils.</span></span><span class="sig-name descname"><span class="pre">get_randint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">low</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/qns/utils/rnd.html#get_randint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.utils.get_randint" title="Permalink to this definition"></a></dt>
 <dd><p>Get a random integer from [low, high]</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -257,7 +339,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="qns.utils.set_seed">
-<span class="sig-prename descclassname"><span class="pre">qns.utils.</span></span><span class="sig-name descname"><span class="pre">set_seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/utils/random.html#set_seed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.utils.set_seed" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">qns.utils.</span></span><span class="sig-name descname"><span class="pre">set_seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/utils/rnd.html#set_seed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.utils.set_seed" title="Permalink to this definition"></a></dt>
 <dd><p>Set a seed for random generator</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

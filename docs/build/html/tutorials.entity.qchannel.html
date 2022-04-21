@@ -44,6 +44,7 @@
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install Guide</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="tutorials.quickstart.html">Quick start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.parallel_simulation.html">Parallel Simulation: to run multiple simulations and leverage multiple CPUs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials.models.html">Physical models</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="tutorials.entity.html">Entities in quantum networks</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="tutorials.entity.node.html">Quantum node: the end-point users, routers and repeaters</a></li>
@@ -56,6 +57,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="tutorials.entity.cchannel.html">Classic channel: the link to transmit classic packets</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tutorials.entity.operator.html">Quantum operator: operating and measuring qubits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.entity.monitor.html">Monitor: for better collecting network status</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tutorials.entity.other.html">Timers and build other entities</a></li>
 </ul>
 </li>
@@ -65,7 +67,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="develop.html">Develop Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">qns</a></li>
 </ul>
 
         </div>
@@ -101,7 +103,7 @@ It has the following attributions:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: the channel’s name.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">length</span></code>: the physcial length of the channel. Default length is 0</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">delay</span></code>: the propagation delay. The time delay from sending to receiving. Default delay is 0s.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">delay</span></code>: the propagation delay. The time delay from sending to receiving. <code class="docutils literal notranslate"><span class="pre">delay</span></code> can be a float or a <code class="docutils literal notranslate"><span class="pre">DelayModel</span></code>. Default delay is 0s.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">drop_rate</span></code>: the probability of losing the transmitting qubit. Default drop rate is 0.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">bandwidth</span></code>: the number of qubits to be sent per second. If the <code class="docutils literal notranslate"><span class="pre">bandwidth</span></code> is reached, further qubits will be put into a buffer (and causes a buffer delay). Default bandwidth is <code class="docutils literal notranslate"><span class="pre">None</span></code> (infinite).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">max_buffer_size</span></code>: the maximum send buffer size. If the buffer is full, further qubits will be dropped. Default buffer size is <code class="docutils literal notranslate"><span class="pre">None</span></code> (infinite).</p></li>

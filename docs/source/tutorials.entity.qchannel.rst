@@ -6,7 +6,7 @@ It has the following attributions:
 
 - ``name``: the channel's name.
 - ``length``: the physcial length of the channel. Default length is 0
-- ``delay``: the propagation delay. The time delay from sending to receiving. Default delay is 0s.
+- ``delay``: the propagation delay. The time delay from sending to receiving. ``delay`` can be a float or a ``DelayModel``. Default delay is 0s.
 - ``drop_rate``: the probability of losing the transmitting qubit. Default drop rate is 0.
 - ``bandwidth``: the number of qubits to be sent per second. If the ``bandwidth`` is reached, further qubits will be put into a buffer (and causes a buffer delay). Default bandwidth is ``None`` (infinite).
 -  ``max_buffer_size``: the maximum send buffer size. If the buffer is full, further qubits will be dropped. Default buffer size is ``None`` (infinite).

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>qns.entity.monitor package &mdash; SimQN 0.1.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="qns.entity.node package" href="qns.entity.node.html" />
+    <link rel="prev" title="qns.entity.memory package" href="qns.entity.memory.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> SimQN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="develop.html">Develop Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">qns</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="qns.html">qns package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="qns.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="qns.entity.html">qns.entity package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.models.html">qns.models package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.network.html">qns.network package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.simulator.html">qns.simulator package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.utils.html">qns.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qns.html#module-qns">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SimQN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">qns</a> &raquo;</li>
+          <li><a href="qns.html">qns package</a> &raquo;</li>
+          <li><a href="qns.entity.html">qns.entity package</a> &raquo;</li>
+      <li>qns.entity.monitor package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/qns.entity.monitor.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="qns-entity-monitor-package">
+<h1>qns.entity.monitor package<a class="headerlink" href="#qns-entity-monitor-package" title="Permalink to this headline"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-qns.entity.monitor.monitor">
+<span id="qns-entity-monitor-monitor-module"></span><h2>qns.entity.monitor.monitor module<a class="headerlink" href="#module-qns.entity.monitor.monitor" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.entity.monitor.monitor.Monitor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.entity.monitor.monitor.</span></span><span class="sig-name descname"><span class="pre">Monitor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.network.html#qns.network.network.QuantumNetwork" title="qns.network.network.QuantumNetwork"><span class="pre">qns.network.network.QuantumNetwork</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#Monitor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.monitor.Monitor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.entity.html#qns.entity.entity.Entity" title="qns.entity.entity.Entity"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.entity.entity.Entity</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.monitor.monitor.Monitor.add_attribution">
+<span class="sig-name descname"><span class="pre">add_attribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calculate_func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.simulator.html#qns.simulator.simulator.Simulator" title="qns.simulator.simulator.Simulator"><span class="pre">qns.simulator.simulator.Simulator</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.network.html#qns.network.network.QuantumNetwork" title="qns.network.network.QuantumNetwork"><span class="pre">qns.network.network.QuantumNetwork</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.simulator.html#qns.simulator.event.Event" title="qns.simulator.event.Event"><span class="pre">qns.simulator.event.Event</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#Monitor.add_attribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.monitor.Monitor.add_attribution" title="Permalink to this definition"></a></dt>
+<dd><p>Set an attribution that will be recorded. For example, an attribution could be the throughput, or the fidelity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – the column’s name, e.g., fidelity, throughput, time …</p></li>
+<li><p><strong>calculate_func</strong> (<em>Callable</em><em>[</em><em>[</em><a class="reference internal" href="qns.simulator.html#qns.simulator.simulator.Simulator" title="qns.simulator.simulator.Simulator"><em>Simulator</em></a><em>, </em><em>Optional</em><em>[</em><a class="reference internal" href="qns.network.html#qns.network.network.QuantumNetwork" title="qns.network.network.QuantumNetwork"><em>QuantumNetwork</em></a><em>]</em><em>, </em><em>Optional</em><em>[</em><a class="reference internal" href="qns.simulator.html#qns.simulator.event.Event" title="qns.simulator.event.Event"><em>Event</em></a><em>]</em><em>]</em>) – a function to calculate the value, it has three input parameters (Simulator, QuantumNetwork, Event),
+and it returns the value.</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Usage:</dt><dd><p>m = Monitor()</p>
+<p># record the event happening time
+m.add_attribution(“time”, lambda s,n,e: e.t)</p>
+<p># get the ‘name’ attribution of the last node
+m.add_attribution(“count”, lambda s,network,e: network.nodes[-1].name)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.monitor.monitor.Monitor.at_event">
+<span class="sig-name descname"><span class="pre">at_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_type</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#Monitor.at_event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.monitor.Monitor.at_event" title="Permalink to this definition"></a></dt>
+<dd><p>Watch network status whenever the event happends</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>event_type</strong> (<a class="reference internal" href="qns.simulator.html#qns.simulator.event.Event" title="qns.simulator.event.Event"><em>Event</em></a>) – the watching event</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Usage:</dt><dd><p># record network status when a node receives a qubit
+m.at_event(RecvQubitPacket)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.monitor.monitor.Monitor.at_finish">
+<span class="sig-name descname"><span class="pre">at_finish</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#Monitor.at_finish"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.monitor.Monitor.at_finish" title="Permalink to this definition"></a></dt>
+<dd><p>Watch the final status after the simulation.</p>
+<dl class="simple">
+<dt>Usage:</dt><dd><p>m.at_finish()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.monitor.monitor.Monitor.at_period">
+<span class="sig-name descname"><span class="pre">at_period</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#Monitor.at_period"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.monitor.Monitor.at_period" title="Permalink to this definition"></a></dt>
+<dd><p>Watch network status at a constant period.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>period_time</strong> (<em>float</em>) – the period of watching network status [s]</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Usage:</dt><dd><p># record network status every 3 seconds.
+m.at_period(3)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.monitor.monitor.Monitor.at_start">
+<span class="sig-name descname"><span class="pre">at_start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#Monitor.at_start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.monitor.Monitor.at_start" title="Permalink to this definition"></a></dt>
+<dd><p>Watch the initial status before the simulation starts.</p>
+<dl class="simple">
+<dt>Usage:</dt><dd><p>m.at_start()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.monitor.monitor.Monitor.calculate_date">
+<span class="sig-name descname"><span class="pre">calculate_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.simulator.html#qns.simulator.event.Event" title="qns.simulator.event.Event"><span class="pre">qns.simulator.event.Event</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#Monitor.calculate_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.monitor.Monitor.calculate_date" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.monitor.monitor.Monitor.get_date">
+<span class="sig-name descname"><span class="pre">get_date</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#Monitor.get_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.monitor.Monitor.get_date" title="Permalink to this definition"></a></dt>
+<dd><p>Get the collected data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the collected data, as a <code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.monitor.monitor.Monitor.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.simulator.html#qns.simulator.event.Event" title="qns.simulator.event.Event"><span class="pre">qns.simulator.event.Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#Monitor.handle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.monitor.Monitor.handle" title="Permalink to this definition"></a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">handle</span></code> is called to process an receiving <code class="docutils literal notranslate"><span class="pre">Event</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>event</strong> (<a class="reference internal" href="qns.simulator.html#qns.simulator.event.Event" title="qns.simulator.event.Event"><em>qns.simulator.event.Event</em></a>) – the event that send to this entity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.monitor.monitor.Monitor.install">
+<span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.simulator.html#qns.simulator.simulator.Simulator" title="qns.simulator.simulator.Simulator"><span class="pre">qns.simulator.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#Monitor.install"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.monitor.Monitor.install" title="Permalink to this definition"></a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">install</span></code> is called before <code class="docutils literal notranslate"><span class="pre">simulator</span></code> runs to initialize or set initial events</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>simulator</strong> (<a class="reference internal" href="qns.simulator.html#qns.simulator.simulator.Simulator" title="qns.simulator.simulator.Simulator"><em>qns.simulator.simulator.Simulator</em></a>) – the simulator</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.entity.monitor.monitor.MonitorEvent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.entity.monitor.monitor.</span></span><span class="sig-name descname"><span class="pre">MonitorEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.simulator.html#id6" title="qns.simulator.ts.Time"><span class="pre">qns.simulator.ts.Time</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monitor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#MonitorEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.monitor.MonitorEvent" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.simulator.html#qns.simulator.event.Event" title="qns.simulator.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.simulator.event.Event</span></code></a></p>
+<p>the event that notify the monitor to write down network status</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.monitor.monitor.MonitorEvent.invoke">
+<span class="sig-name descname"><span class="pre">invoke</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#MonitorEvent.invoke"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.monitor.MonitorEvent.invoke" title="Permalink to this definition"></a></dt>
+<dd><p>Invoke the event, should be implemented</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-qns.entity.monitor">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qns.entity.monitor" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.entity.monitor.Monitor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.entity.monitor.</span></span><span class="sig-name descname"><span class="pre">Monitor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.network.html#qns.network.network.QuantumNetwork" title="qns.network.network.QuantumNetwork"><span class="pre">qns.network.network.QuantumNetwork</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#Monitor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.Monitor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.entity.html#qns.entity.entity.Entity" title="qns.entity.entity.Entity"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.entity.entity.Entity</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.monitor.Monitor.add_attribution">
+<span class="sig-name descname"><span class="pre">add_attribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calculate_func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.simulator.html#qns.simulator.simulator.Simulator" title="qns.simulator.simulator.Simulator"><span class="pre">qns.simulator.simulator.Simulator</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.network.html#qns.network.network.QuantumNetwork" title="qns.network.network.QuantumNetwork"><span class="pre">qns.network.network.QuantumNetwork</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.simulator.html#qns.simulator.event.Event" title="qns.simulator.event.Event"><span class="pre">qns.simulator.event.Event</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#Monitor.add_attribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.Monitor.add_attribution" title="Permalink to this definition"></a></dt>
+<dd><p>Set an attribution that will be recorded. For example, an attribution could be the throughput, or the fidelity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – the column’s name, e.g., fidelity, throughput, time …</p></li>
+<li><p><strong>calculate_func</strong> (<em>Callable</em><em>[</em><em>[</em><a class="reference internal" href="qns.simulator.html#qns.simulator.simulator.Simulator" title="qns.simulator.simulator.Simulator"><em>Simulator</em></a><em>, </em><em>Optional</em><em>[</em><a class="reference internal" href="qns.network.html#qns.network.network.QuantumNetwork" title="qns.network.network.QuantumNetwork"><em>QuantumNetwork</em></a><em>]</em><em>, </em><em>Optional</em><em>[</em><a class="reference internal" href="qns.simulator.html#qns.simulator.event.Event" title="qns.simulator.event.Event"><em>Event</em></a><em>]</em><em>]</em>) – a function to calculate the value, it has three input parameters (Simulator, QuantumNetwork, Event),
+and it returns the value.</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Usage:</dt><dd><p>m = Monitor()</p>
+<p># record the event happening time
+m.add_attribution(“time”, lambda s,n,e: e.t)</p>
+<p># get the ‘name’ attribution of the last node
+m.add_attribution(“count”, lambda s,network,e: network.nodes[-1].name)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.monitor.Monitor.at_event">
+<span class="sig-name descname"><span class="pre">at_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_type</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#Monitor.at_event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.Monitor.at_event" title="Permalink to this definition"></a></dt>
+<dd><p>Watch network status whenever the event happends</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>event_type</strong> (<a class="reference internal" href="qns.simulator.html#qns.simulator.event.Event" title="qns.simulator.event.Event"><em>Event</em></a>) – the watching event</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Usage:</dt><dd><p># record network status when a node receives a qubit
+m.at_event(RecvQubitPacket)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.monitor.Monitor.at_finish">
+<span class="sig-name descname"><span class="pre">at_finish</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#Monitor.at_finish"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.Monitor.at_finish" title="Permalink to this definition"></a></dt>
+<dd><p>Watch the final status after the simulation.</p>
+<dl class="simple">
+<dt>Usage:</dt><dd><p>m.at_finish()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.monitor.Monitor.at_period">
+<span class="sig-name descname"><span class="pre">at_period</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#Monitor.at_period"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.Monitor.at_period" title="Permalink to this definition"></a></dt>
+<dd><p>Watch network status at a constant period.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>period_time</strong> (<em>float</em>) – the period of watching network status [s]</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Usage:</dt><dd><p># record network status every 3 seconds.
+m.at_period(3)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.monitor.Monitor.at_start">
+<span class="sig-name descname"><span class="pre">at_start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#Monitor.at_start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.Monitor.at_start" title="Permalink to this definition"></a></dt>
+<dd><p>Watch the initial status before the simulation starts.</p>
+<dl class="simple">
+<dt>Usage:</dt><dd><p>m.at_start()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.monitor.Monitor.calculate_date">
+<span class="sig-name descname"><span class="pre">calculate_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.simulator.html#qns.simulator.event.Event" title="qns.simulator.event.Event"><span class="pre">qns.simulator.event.Event</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#Monitor.calculate_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.Monitor.calculate_date" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.monitor.Monitor.get_date">
+<span class="sig-name descname"><span class="pre">get_date</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#Monitor.get_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.Monitor.get_date" title="Permalink to this definition"></a></dt>
+<dd><p>Get the collected data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the collected data, as a <code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.monitor.Monitor.handle">
+<span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.simulator.html#qns.simulator.event.Event" title="qns.simulator.event.Event"><span class="pre">qns.simulator.event.Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#Monitor.handle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.Monitor.handle" title="Permalink to this definition"></a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">handle</span></code> is called to process an receiving <code class="docutils literal notranslate"><span class="pre">Event</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>event</strong> (<a class="reference internal" href="qns.simulator.html#qns.simulator.event.Event" title="qns.simulator.event.Event"><em>qns.simulator.event.Event</em></a>) – the event that send to this entity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.monitor.Monitor.install">
+<span class="sig-name descname"><span class="pre">install</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="qns.simulator.html#qns.simulator.simulator.Simulator" title="qns.simulator.simulator.Simulator"><span class="pre">qns.simulator.simulator.Simulator</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#Monitor.install"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.Monitor.install" title="Permalink to this definition"></a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">install</span></code> is called before <code class="docutils literal notranslate"><span class="pre">simulator</span></code> runs to initialize or set initial events</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>simulator</strong> (<a class="reference internal" href="qns.simulator.html#qns.simulator.simulator.Simulator" title="qns.simulator.simulator.Simulator"><em>qns.simulator.simulator.Simulator</em></a>) – the simulator</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.entity.monitor.MonitorEvent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.entity.monitor.</span></span><span class="sig-name descname"><span class="pre">MonitorEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qns.simulator.html#id6" title="qns.simulator.ts.Time"><span class="pre">qns.simulator.ts.Time</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monitor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#MonitorEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.MonitorEvent" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="qns.simulator.html#qns.simulator.event.Event" title="qns.simulator.event.Event"><code class="xref py py-class docutils literal notranslate"><span class="pre">qns.simulator.event.Event</span></code></a></p>
+<p>the event that notify the monitor to write down network status</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qns.entity.monitor.MonitorEvent.invoke">
+<span class="sig-name descname"><span class="pre">invoke</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/entity/monitor/monitor.html#MonitorEvent.invoke"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.entity.monitor.MonitorEvent.invoke" title="Permalink to this definition"></a></dt>
+<dd><p>Invoke the event, should be implemented</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="qns.entity.memory.html" class="btn btn-neutral float-left" title="qns.entity.memory package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="qns.entity.node.html" class="btn btn-neutral float-right" title="qns.entity.node package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Elliot Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

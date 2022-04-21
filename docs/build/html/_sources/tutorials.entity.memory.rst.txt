@@ -41,7 +41,7 @@ The memory can have a limited size. ``is_full`` function returns whether the mem
 Asynchronous mode
 ----------------------------------
 
-In this mode, quantum nodes (or applications) needs to use ``MemoryWriteRequestEvent`` and ``MemoryReadRequestEvent`` events to send requests to the quantum memories and collect the results by listening to ``MemoryWriteResponseEvent`` and ``MemoryReadResponseEvent`` events. In this way, users can model the time delay in reading and writing quantum memories. In asynchronous mode, the quantum memories have an additional input parameter called ``delay`` to set the read/write time delay.
+In this mode, quantum nodes (or applications) needs to use ``MemoryWriteRequestEvent`` and ``MemoryReadRequestEvent`` events to send requests to the quantum memories and collect the results by listening to ``MemoryWriteResponseEvent`` and ``MemoryReadResponseEvent`` events. In this way, users can model the time delay in reading and writing quantum memories. In asynchronous mode, the quantum memories have an additional input parameter called ``delay`` to set the read/write time delay. ``delay`` can be a float or a ``DelayModel``.
 
 Here, we give an example of asynchronous mode. The quantum node first install a ``MemoryResponseApp`` application to handle the read/write result. During the simulation, the node generates ``MemoryWriteRequestEvent`` to save a qubit and use ``MemoryReadRequestEvent`` to get the qubit one second later.
 

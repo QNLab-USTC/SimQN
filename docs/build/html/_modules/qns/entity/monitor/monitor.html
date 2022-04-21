@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>qns.entity.monitor.monitor &mdash; SimQN 0.1.3 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> SimQN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Install Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../develop.html">Develop Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">qns</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">SimQN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>qns.entity.monitor.monitor</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for qns.entity.monitor.monitor</h1><div class="highlight"><pre>
+<span></span><span class="c1">#    SimQN: a discrete-event simulator for the quantum networks</span>
+<span class="c1">#    Copyright (C) 2021-2022 Lutong Chen, Jian Li, Kaiping Xue</span>
+<span class="c1">#    University of Science and Technology of China, USTC.</span>
+<span class="c1">#</span>
+<span class="c1">#    This program is free software: you can redistribute it and/or modify</span>
+<span class="c1">#    it under the terms of the GNU General Public License as published by</span>
+<span class="c1">#    the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1">#    (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1">#    This program is distributed in the hope that it will be useful,</span>
+<span class="c1">#    but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1">#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1">#    GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1">#    You should have received a copy of the GNU General Public License</span>
+<span class="c1">#    along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">qns.entity.entity</span> <span class="kn">import</span> <span class="n">Entity</span>
+<span class="kn">from</span> <span class="nn">qns.network.network</span> <span class="kn">import</span> <span class="n">QuantumNetwork</span>
+<span class="kn">from</span> <span class="nn">qns.simulator.event</span> <span class="kn">import</span> <span class="n">Event</span>
+<span class="kn">from</span> <span class="nn">qns.simulator.simulator</span> <span class="kn">import</span> <span class="n">Simulator</span>
+<span class="kn">from</span> <span class="nn">qns.simulator.ts</span> <span class="kn">import</span> <span class="n">Time</span>
+
+
+<div class="viewcode-block" id="MonitorEvent"><a class="viewcode-back" href="../../../../qns.entity.monitor.html#qns.entity.MonitorEvent">[docs]</a><span class="k">class</span> <span class="nc">MonitorEvent</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    the event that notify the monitor to write down network status</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Time</span><span class="p">],</span> <span class="n">monitor</span><span class="p">,</span>
+                 <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">by</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">by</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">monitor</span> <span class="o">=</span> <span class="n">monitor</span>
+
+<div class="viewcode-block" id="MonitorEvent.invoke"><a class="viewcode-back" href="../../../../qns.entity.monitor.html#qns.entity.MonitorEvent.invoke">[docs]</a>    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">monitor</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Monitor"><a class="viewcode-back" href="../../../../qns.entity.monitor.html#qns.entity.Monitor">[docs]</a><span class="k">class</span> <span class="nc">Monitor</span><span class="p">(</span><span class="n">Entity</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">network</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumNetwork</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Monitor is a virtual entity that helps users to collect network status.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): the monitor&#39;s name</span>
+<span class="sd">            network (Optional[QuantumNetwork]): a optional parameter, the quantum network.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">network</span> <span class="o">=</span> <span class="n">network</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">attributions</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">watch_at_time</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">watch_at_start</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">watch_at_finish</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">watch_period</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">watch_event</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="Monitor.install"><a class="viewcode-back" href="../../../../qns.entity.monitor.html#qns.entity.Monitor.install">[docs]</a>    <span class="k">def</span> <span class="nf">install</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simulator</span><span class="p">:</span> <span class="n">Simulator</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">simulator</span><span class="o">=</span><span class="n">simulator</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">watch_at_start</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">watch_at_finish</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">watch_period</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">watch_at_time</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">watch_at_start</span><span class="p">:</span>
+            <span class="n">event</span> <span class="o">=</span> <span class="n">MonitorEvent</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">ts</span><span class="p">,</span> <span class="n">monitor</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;start watch event&quot;</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">add_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">watch_at_finish</span><span class="p">:</span>
+            <span class="n">event</span> <span class="o">=</span> <span class="n">MonitorEvent</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">te</span><span class="p">,</span> <span class="n">monitor</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;finish watch event&quot;</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">add_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">watch_period</span><span class="p">:</span>
+            <span class="n">tp</span> <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="n">sec</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">ts</span>
+            <span class="k">while</span> <span class="n">t</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">te</span><span class="p">:</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="n">t</span> <span class="o">+</span> <span class="n">tp</span>
+                <span class="n">event</span> <span class="o">=</span> <span class="n">MonitorEvent</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">monitor</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;period watch event(</span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">add_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">event_type</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">watch_event</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">watch_event</span><span class="p">[</span><span class="n">event_type</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">IndexError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">watch_event</span><span class="p">[</span><span class="n">event_type</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Monitor.handle"><a class="viewcode-back" href="../../../../qns.entity.monitor.html#qns.entity.Monitor.handle">[docs]</a>    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calculate_date</span><span class="p">(</span><span class="n">event</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Monitor.calculate_date"><a class="viewcode-back" href="../../../../qns.entity.monitor.html#qns.entity.Monitor.calculate_date">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_date</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Event</span><span class="p">):</span>
+        <span class="n">current_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">sec</span>
+        <span class="n">record</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">current_time</span><span class="p">}</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">calculate_func</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attributions</span><span class="p">:</span>
+            <span class="n">record</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">calculate_func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">network</span><span class="p">,</span> <span class="n">event</span><span class="p">)]</span>
+        <span class="n">record_pd</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">record_pd</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Monitor.get_date"><a class="viewcode-back" href="../../../../qns.entity.monitor.html#qns.entity.Monitor.get_date">[docs]</a>    <span class="k">def</span> <span class="nf">get_date</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the collected data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            the collected data, as a ``pd.DataFrame``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span></div>
+
+<div class="viewcode-block" id="Monitor.add_attribution"><a class="viewcode-back" href="../../../../qns.entity.monitor.html#qns.entity.Monitor.add_attribution">[docs]</a>    <span class="k">def</span> <span class="nf">add_attribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                        <span class="n">calculate_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Simulator</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QuantumNetwork</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Event</span><span class="p">]],</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set an attribution that will be recorded. For example, an attribution could be the throughput, or the fidelity.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): the column&#39;s name, e.g., fidelity, throughput, time ...</span>
+<span class="sd">            calculate_func (Callable[[Simulator, Optional[QuantumNetwork], Optional[Event]]):</span>
+<span class="sd">                a function to calculate the value, it has three input parameters (Simulator, QuantumNetwork, Event),</span>
+<span class="sd">                and it returns the value.</span>
+
+<span class="sd">        Usage:</span>
+<span class="sd">            m = Monitor()</span>
+
+<span class="sd">            # record the event happening time</span>
+<span class="sd">            m.add_attribution(&quot;time&quot;, lambda s,n,e: e.t)</span>
+
+<span class="sd">            # get the &#39;name&#39; attribution of the last node</span>
+<span class="sd">            m.add_attribution(&quot;count&quot;, lambda s,network,e: network.nodes[-1].name)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attributions</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">calculate_func</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Monitor.at_start"><a class="viewcode-back" href="../../../../qns.entity.monitor.html#qns.entity.Monitor.at_start">[docs]</a>    <span class="k">def</span> <span class="nf">at_start</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Watch the initial status before the simulation starts.</span>
+
+<span class="sd">        Usage:</span>
+<span class="sd">            m.at_start()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">watch_at_start</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Monitor.at_finish"><a class="viewcode-back" href="../../../../qns.entity.monitor.html#qns.entity.Monitor.at_finish">[docs]</a>    <span class="k">def</span> <span class="nf">at_finish</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Watch the final status after the simulation.</span>
+
+<span class="sd">        Usage:</span>
+<span class="sd">            m.at_finish()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">watch_at_finish</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Monitor.at_period"><a class="viewcode-back" href="../../../../qns.entity.monitor.html#qns.entity.Monitor.at_period">[docs]</a>    <span class="k">def</span> <span class="nf">at_period</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">period_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Watch network status at a constant period.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            period_time (float): the period of watching network status [s]</span>
+
+<span class="sd">        Usage:</span>
+<span class="sd">            # record network status every 3 seconds.</span>
+<span class="sd">            m.at_period(3)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span><span class="p">(</span><span class="n">period_time</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">watch_period</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">period_time</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Monitor.at_event"><a class="viewcode-back" href="../../../../qns.entity.monitor.html#qns.entity.Monitor.at_event">[docs]</a>    <span class="k">def</span> <span class="nf">at_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Watch network status whenever the event happends</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            event_type (Event): the watching event</span>
+
+<span class="sd">        Usage:</span>
+<span class="sd">            # record network status when a node receives a qubit</span>
+<span class="sd">            m.at_event(RecvQubitPacket)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">watch_event</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event_type</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Elliot Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

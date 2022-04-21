@@ -40,7 +40,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Install Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../develop.html">Develop Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">qns</a></li>
 </ul>
 
         </div>
@@ -85,16 +85,18 @@
 <span class="c1">#    You should have received a copy of the GNU General Public License</span>
 <span class="c1">#    along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">qns.entity.entity</span> <span class="kn">import</span> <span class="n">Entity</span>
 <span class="kn">from</span> <span class="nn">qns.entity.node.node</span> <span class="kn">import</span> <span class="n">QNode</span>
+<span class="kn">from</span> <span class="nn">qns.models.delay.constdelay</span> <span class="kn">import</span> <span class="n">ConstantDelayModel</span>
+<span class="kn">from</span> <span class="nn">qns.models.delay.delay</span> <span class="kn">import</span> <span class="n">DelayModel</span>
 <span class="kn">from</span> <span class="nn">qns.simulator.simulator</span> <span class="kn">import</span> <span class="n">Simulator</span>
 <span class="kn">from</span> <span class="nn">qns.simulator.ts</span> <span class="kn">import</span> <span class="n">Time</span>
 <span class="kn">from</span> <span class="nn">qns.simulator.event</span> <span class="kn">import</span> <span class="n">Event</span>
 <span class="kn">from</span> <span class="nn">qns.models.core.backend</span> <span class="kn">import</span> <span class="n">QuantumModel</span>
 <span class="kn">import</span> <span class="nn">qns.utils.log</span> <span class="k">as</span> <span class="nn">log</span>
-<span class="kn">from</span> <span class="nn">qns.utils.random</span> <span class="kn">import</span> <span class="n">get_rand</span>
+<span class="kn">from</span> <span class="nn">qns.utils.rnd</span> <span class="kn">import</span> <span class="n">get_rand</span>
 
 
 <div class="viewcode-block" id="QuantumChannel"><a class="viewcode-back" href="../../../../qns.entity.qchannel.html#qns.entity.QuantumChannel">[docs]</a><span class="k">class</span> <span class="nc">QuantumChannel</span><span class="p">(</span><span class="n">Entity</span><span class="p">):</span>
@@ -102,7 +104,7 @@
 <span class="sd">    QuantumChannel is the channel for transmitting qubit</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">node_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
-                 <span class="n">bandwidth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">drop_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                 <span class="n">bandwidth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">delay</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">DelayModel</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">drop_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
                  <span class="n">max_buffer_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">decoherence_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
                  <span class="n">transfer_error_model_args</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -110,7 +112,7 @@
 <span class="sd">            name (str): the name of this channel</span>
 <span class="sd">            node_list (List[QNode]): a list of QNodes that it connects to</span>
 <span class="sd">            bandwidth (int): the qubit per second on this channel. 0 represents unlimited</span>
-<span class="sd">            delay (float): the time delay for transmitting a packet</span>
+<span class="sd">            delay (float): the time delay for transmitting a packet, or a ``DelayModel``</span>
 <span class="sd">            drop_rate (float): the drop rate</span>
 <span class="sd">            max_buffer_size (int): the max buffer size.</span>
 <span class="sd">                If it is full, the next coming packet will be dropped. 0 represents unlimited.</span>
@@ -122,7 +124,7 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">node_list</span> <span class="o">=</span> <span class="n">node_list</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bandwidth</span> <span class="o">=</span> <span class="n">bandwidth</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">delay</span> <span class="o">=</span> <span class="n">delay</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delay_model</span> <span class="o">=</span> <span class="n">delay</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">delay</span><span class="p">,</span> <span class="n">DelayModel</span><span class="p">)</span> <span class="k">else</span> <span class="n">ConstantDelayModel</span><span class="p">(</span><span class="n">delay</span><span class="o">=</span><span class="n">delay</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">drop_rate</span> <span class="o">=</span> <span class="n">drop_rate</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max_buffer_size</span> <span class="o">=</span> <span class="n">max_buffer_size</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="n">length</span>
@@ -178,7 +180,7 @@
             <span class="k">return</span>
 
         <span class="c1">#  add delay</span>
-        <span class="n">recv_time</span> <span class="o">=</span> <span class="n">send_time</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="n">sec</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">delay</span><span class="p">)</span>
+        <span class="n">recv_time</span> <span class="o">=</span> <span class="n">send_time</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_simulator</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="n">sec</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">delay_model</span><span class="o">.</span><span class="n">calculate</span><span class="p">())</span>
 
         <span class="c1"># operation on the qubit</span>
         <span class="n">qubit</span><span class="o">.</span><span class="n">transfer_error_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">decoherence_rate</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">transfer_error_model_args</span><span class="p">)</span>

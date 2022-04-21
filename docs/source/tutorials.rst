@@ -7,6 +7,7 @@ This tutorial will explain how to use SimQN for quantum network researches. SimQ
    :maxdepth: 4
 
    tutorials.quickstart
+   tutorials.parallel_simulation
    tutorials.models
    tutorials.entity
    tutorials.network

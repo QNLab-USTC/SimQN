@@ -9,7 +9,7 @@ Quantum operator has two modes: the synchronous and asynchronous mode. In synchr
 
 - node, the quantum node that equips this operator
 - gate, it is a function to represent the quantum circuits. Its input is one or multiple qubits, and it returns a list of measurement results.
-- delay, the time delay of this operator
+- delay, the time delay of this operator. ``delay`` can be a float or a ``DelayModel``.
 - name, the name of this operator
 
 Here is an example of the quantum operator in synchronous mode:
