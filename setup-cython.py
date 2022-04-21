@@ -61,7 +61,7 @@ ext_modules = [
 setup(
     name='qns',
     author='elliot',
-    version="0.1.4",
+    version="0.1.5",
     description='A discrete-event scheduler designed for quantum networks',
     long_description=long_description,
     long_description_content_type="text/markdown",
