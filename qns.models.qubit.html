@@ -38,12 +38,26 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="develop.html">Develop Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">qns</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="qns.html">qns package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="qns.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="qns.entity.html">qns.entity package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="qns.models.html">qns.models package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.network.html">qns.network package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.simulator.html">qns.simulator package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qns.utils.html">qns.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qns.html#module-qns">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -60,7 +74,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="modules.html">API Reference</a> &raquo;</li>
+          <li><a href="modules.html">qns</a> &raquo;</li>
+          <li><a href="qns.html">qns package</a> &raquo;</li>
           <li><a href="qns.models.html">qns.models package</a> &raquo;</li>
       <li>qns.models.qubit package</li>
       <li class="wy-breadcrumbs-aside">
@@ -98,6 +113,256 @@
 <dt class="sig sig-object py" id="qns.models.qubit.const.OPERATOR_RZ">
 <span class="sig-prename descclassname"><span class="pre">qns.models.qubit.const.</span></span><span class="sig-name descname"><span class="pre">OPERATOR_RZ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/const.html#OPERATOR_RZ"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.const.OPERATOR_RZ" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+</section>
+<section id="module-qns.models.qubit.decoherence">
+<span id="qns-models-qubit-decoherence-module"></span><h2>qns.models.qubit.decoherence module<a class="headerlink" href="#module-qns.models.qubit.decoherence" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.decoherence.DephaseMeasureErrorModel">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.decoherence.</span></span><span class="sig-name descname"><span class="pre">DephaseMeasureErrorModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoherence_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/decoherence.html#DephaseMeasureErrorModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.decoherence.DephaseMeasureErrorModel" title="Permalink to this definition"></a></dt>
+<dd><p>The dephase error model for measuring this qubit,
+A random Z gate will be operate on the qubit with possibility: 1-e^(-decoherence_rate)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>decoherence_rate</strong> (<em>float</em>) – the decoherence rate</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.decoherence.DephaseOperateErrorModel">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.decoherence.</span></span><span class="sig-name descname"><span class="pre">DephaseOperateErrorModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoherence_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/decoherence.html#DephaseOperateErrorModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.decoherence.DephaseOperateErrorModel" title="Permalink to this definition"></a></dt>
+<dd><p>The dephase error model for operating this qubit.
+A random Z gate will be operate on the qubit with possibility: 1-e^(-decoherence_rate)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>decoherence_rate</strong> (<em>float</em>) – the decoherence rate</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.decoherence.DephaseStorageErrorModel">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.decoherence.</span></span><span class="sig-name descname"><span class="pre">DephaseStorageErrorModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoherence_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/decoherence.html#DephaseStorageErrorModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.decoherence.DephaseStorageErrorModel" title="Permalink to this definition"></a></dt>
+<dd><p>The dephase error model for storing a qubit in quantum memory.</p>
+<p>A random Z gate will be operate on the qubit with possibility: 1-e^(-decoherence_rate * t)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t</strong> – the time stored in a quantum memory. The unit it second.</p></li>
+<li><p><strong>decoherence_rate</strong> (<em>float</em>) – the decoherence rate</p></li>
+<li><p><strong>kwargs</strong> – other parameters</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.decoherence.DephaseTransferErrorModel">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.decoherence.</span></span><span class="sig-name descname"><span class="pre">DephaseTransferErrorModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoherence_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/decoherence.html#DephaseTransferErrorModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.decoherence.DephaseTransferErrorModel" title="Permalink to this definition"></a></dt>
+<dd><p>The dephase error model for transmitting a qubit in quantum channel.</p>
+<p>A random Z gate will be operate on the qubit with possibility: 1-e^(-decoherence_rate * length)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>length</strong> – the channel length</p></li>
+<li><p><strong>decoherence_rate</strong> (<em>float</em>) – the decoherence rate</p></li>
+<li><p><strong>kwargs</strong> – other parameters</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.decoherence.DepolarMeasureErrorModel">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.decoherence.</span></span><span class="sig-name descname"><span class="pre">DepolarMeasureErrorModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoherence_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/decoherence.html#DepolarMeasureErrorModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.decoherence.DepolarMeasureErrorModel" title="Permalink to this definition"></a></dt>
+<dd><p>The depolar error model for measuring on a qubit.</p>
+<dl class="simple">
+<dt>One of the random Pauli gate will be operate on the qubit with possibility:</dt><dd><p>1-e^(-decoherence_rate * t)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>decoherence_rate</strong> (<em>float</em>) – the decoherence rate</p></li>
+<li><p><strong>kwargs</strong> – other parameters</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.decoherence.DepolarOperateErrorModel">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.decoherence.</span></span><span class="sig-name descname"><span class="pre">DepolarOperateErrorModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoherence_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/decoherence.html#DepolarOperateErrorModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.decoherence.DepolarOperateErrorModel" title="Permalink to this definition"></a></dt>
+<dd><p>The depolar error model for operating on a qubit.</p>
+<dl class="simple">
+<dt>One of the random Pauli gate will be operate on the qubit with possibility:</dt><dd><p>1-e^(-decoherence_rate * t)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>decoherence_rate</strong> (<em>float</em>) – the decoherence rate</p></li>
+<li><p><strong>kwargs</strong> – other parameters</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.decoherence.DepolarStorageErrorModel">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.decoherence.</span></span><span class="sig-name descname"><span class="pre">DepolarStorageErrorModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoherence_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/decoherence.html#DepolarStorageErrorModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.decoherence.DepolarStorageErrorModel" title="Permalink to this definition"></a></dt>
+<dd><p>The depolar error model for storing a qubit in quantum memory.</p>
+<dl class="simple">
+<dt>One of the random Pauli gate will be operate on the qubit with possibility:</dt><dd><p>1-e^(-decoherence_rate * t)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t</strong> – the time stored in a quantum memory. The unit it second.</p></li>
+<li><p><strong>decoherence_rate</strong> (<em>float</em>) – the decoherence rate</p></li>
+<li><p><strong>kwargs</strong> – other parameters</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.decoherence.DepolarTransferErrorModel">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.decoherence.</span></span><span class="sig-name descname"><span class="pre">DepolarTransferErrorModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoherence_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/decoherence.html#DepolarTransferErrorModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.decoherence.DepolarTransferErrorModel" title="Permalink to this definition"></a></dt>
+<dd><p>The depolar error model for transmitting a qubit in quantum channel.</p>
+<dl class="simple">
+<dt>One of the random Pauli gate will be operate on the qubit with possibility:</dt><dd><p>1-e^(-decoherence_rate * t)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>length</strong> – the channel length</p></li>
+<li><p><strong>decoherence_rate</strong> (<em>float</em>) – the decoherence rate</p></li>
+<li><p><strong>kwargs</strong> – other parameters</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.decoherence.PrefectMeasureErrorModel">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.decoherence.</span></span><span class="sig-name descname"><span class="pre">PrefectMeasureErrorModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoherence_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/decoherence.html#PrefectMeasureErrorModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.decoherence.PrefectMeasureErrorModel" title="Permalink to this definition"></a></dt>
+<dd><p>The default error model for measuring this qubit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>decoherence_rate</strong> (<em>float</em>) – the decoherence rate</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.decoherence.PrefectOperateErrorModel">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.decoherence.</span></span><span class="sig-name descname"><span class="pre">PrefectOperateErrorModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoherence_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/decoherence.html#PrefectOperateErrorModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.decoherence.PrefectOperateErrorModel" title="Permalink to this definition"></a></dt>
+<dd><p>The default error model for operating this qubit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>decoherence_rate</strong> (<em>float</em>) – the decoherence rate</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.decoherence.PrefectStorageErrorModel">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.decoherence.</span></span><span class="sig-name descname"><span class="pre">PrefectStorageErrorModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoherence_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/decoherence.html#PrefectStorageErrorModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.decoherence.PrefectStorageErrorModel" title="Permalink to this definition"></a></dt>
+<dd><p>The default error model for storing a qubit in quantum memory.
+The default behavior is doing nothing</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t</strong> – the time stored in a quantum memory. The unit it second.</p></li>
+<li><p><strong>decoherence_rate</strong> (<em>float</em>) – the decoherence rate.</p></li>
+<li><p><strong>kwargs</strong> – other parameters</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.decoherence.PrefectTransferErrorModel">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.decoherence.</span></span><span class="sig-name descname"><span class="pre">PrefectTransferErrorModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoherence_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/decoherence.html#PrefectTransferErrorModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.decoherence.PrefectTransferErrorModel" title="Permalink to this definition"></a></dt>
+<dd><p>The default error model for transmitting this qubit
+The default behavior is doing nothing</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>length</strong> (<em>float</em>) – the length of the channel</p></li>
+<li><p><strong>decoherence_rate</strong> (<em>float</em>) – the decoherence rate.</p></li>
+<li><p><strong>kwargs</strong> – other parameters</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-qns.models.qubit.errors">
+<span id="qns-models-qubit-errors-module"></span><h2>qns.models.qubit.errors module<a class="headerlink" href="#module-qns.models.qubit.errors" title="Permalink to this headline"></a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="qns.models.qubit.errors.OperatorError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.models.qubit.errors.</span></span><span class="sig-name descname"><span class="pre">OperatorError</span></span><a class="reference internal" href="_modules/qns/models/qubit/errors.html#OperatorError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.errors.OperatorError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="qns.models.qubit.errors.OperatorNotMatchError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.models.qubit.errors.</span></span><span class="sig-name descname"><span class="pre">OperatorNotMatchError</span></span><a class="reference internal" href="_modules/qns/models/qubit/errors.html#OperatorNotMatchError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.errors.OperatorNotMatchError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>This error happens when the size of state vector or matrix mismatch occurs</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="qns.models.qubit.errors.QGateOperatorNotMatchError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.models.qubit.errors.</span></span><span class="sig-name descname"><span class="pre">QGateOperatorNotMatchError</span></span><a class="reference internal" href="_modules/qns/models/qubit/errors.html#QGateOperatorNotMatchError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.errors.QGateOperatorNotMatchError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="qns.models.qubit.errors.QGateQubitNotInStateError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.models.qubit.errors.</span></span><span class="sig-name descname"><span class="pre">QGateQubitNotInStateError</span></span><a class="reference internal" href="_modules/qns/models/qubit/errors.html#QGateQubitNotInStateError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.errors.QGateQubitNotInStateError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="qns.models.qubit.errors.QGateStateJointError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.models.qubit.errors.</span></span><span class="sig-name descname"><span class="pre">QGateStateJointError</span></span><a class="reference internal" href="_modules/qns/models/qubit/errors.html#QGateStateJointError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.errors.QGateStateJointError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="qns.models.qubit.errors.QStateBaseError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.models.qubit.errors.</span></span><span class="sig-name descname"><span class="pre">QStateBaseError</span></span><a class="reference internal" href="_modules/qns/models/qubit/errors.html#QStateBaseError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.errors.QStateBaseError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="qns.models.qubit.errors.QStateQubitNotInStateError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.models.qubit.errors.</span></span><span class="sig-name descname"><span class="pre">QStateQubitNotInStateError</span></span><a class="reference internal" href="_modules/qns/models/qubit/errors.html#QStateQubitNotInStateError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.errors.QStateQubitNotInStateError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="qns.models.qubit.errors.QStateSizeNotMatchError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.models.qubit.errors.</span></span><span class="sig-name descname"><span class="pre">QStateSizeNotMatchError</span></span><a class="reference internal" href="_modules/qns/models/qubit/errors.html#QStateSizeNotMatchError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.errors.QStateSizeNotMatchError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>This error happens when the size of state vector or matrix mismatch occurs</p>
+</dd></dl>
+
+</section>
+<section id="module-qns.models.qubit.factory">
+<span id="qns-models-qubit-factory-module"></span><h2>qns.models.qubit.factory module<a class="headerlink" href="#module-qns.models.qubit.factory" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qns.models.qubit.factory.QubitFactory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qns.models.qubit.factory.</span></span><span class="sig-name descname"><span class="pre">QubitFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operate_decoherence_rate:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measure_decoherence_rate:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">store_error_model=&lt;function</span> <span class="pre">PrefectStorageErrorModel&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transfer_error_model=&lt;function</span> <span class="pre">PrefectTransferErrorModel&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operate_error_model=&lt;function</span> <span class="pre">PrefectOperateErrorModel&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measure_error_model=&lt;function</span> <span class="pre">PrefectMeasureErrorModel&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/qns/models/qubit/factory.html#QubitFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.factory.QubitFactory" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>QubitFactory is the factory class for building qubits with special error models.</p>
+</dd></dl>
 
 </section>
 <section id="module-qns.models.qubit.gate">
@@ -221,7 +486,7 @@
 <dd class="field-odd"><p><strong>operator</strong> (<em>np.ndarray</em>) – the operator</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>OperatorNotMatchError</strong> – </p>
+<dd class="field-even"><p><a class="reference internal" href="#qns.models.qubit.errors.OperatorNotMatchError" title="qns.models.qubit.errors.OperatorNotMatchError"><strong>OperatorNotMatchError</strong></a> – </p>
 </dd>
 </dl>
 </dd></dl>
@@ -249,7 +514,7 @@
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>OperatorNotMatchError</strong> – </p>
+<dd class="field-even"><p><a class="reference internal" href="#qns.models.qubit.errors.OperatorNotMatchError" title="qns.models.qubit.errors.OperatorNotMatchError"><strong>OperatorNotMatchError</strong></a> – </p>
 </dd>
 </dl>
 </dd></dl>
@@ -375,7 +640,7 @@ This function will change the quantum state.</p>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>OperatorNotMatchError</strong> – </p>
+<dd class="field-even"><p><a class="reference internal" href="#qns.models.qubit.errors.OperatorNotMatchError" title="qns.models.qubit.errors.OperatorNotMatchError"><strong>OperatorNotMatchError</strong></a> – </p>
 </dd>
 </dl>
 </dd></dl>
@@ -413,6 +678,39 @@ The default behavior is doing nothing</p>
 </dd></dl>
 
 </dd></dl>
+
+</section>
+<section id="module-qns.models.qubit.utils">
+<span id="qns-models-qubit-utils-module"></span><h2>qns.models.qubit.utils module<a class="headerlink" href="#module-qns.models.qubit.utils" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.utils.joint">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.utils.</span></span><span class="sig-name descname"><span class="pre">joint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qns/models/qubit/utils.html#joint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.utils.joint" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.utils.partial_trace">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.utils.</span></span><span class="sig-name descname"><span class="pre">partial_trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rho</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="_modules/qns/models/qubit/utils.html#partial_trace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.utils.partial_trace" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the partial trace</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rho</strong> – the density matrix</p></li>
+<li><p><strong>idx</strong> (<em>int</em>) – the index of removing qubit</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the left density matric</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>rho_res</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qns.models.qubit.utils.single_gate_expand">
+<span class="sig-prename descclassname"><span class="pre">qns.models.qubit.utils.</span></span><span class="sig-name descname"><span class="pre">single_gate_expand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="_modules/qns/models/qubit/utils.html#single_gate_expand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qns.models.qubit.utils.single_gate_expand" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 </section>
 <section id="module-qns.models.qubit">
@@ -657,7 +955,7 @@ The default behavior is doing nothing</p>
 <dd class="field-odd"><p><strong>operator</strong> (<em>np.ndarray</em>) – the operator</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>OperatorNotMatchError</strong> – </p>
+<dd class="field-even"><p><a class="reference internal" href="#qns.models.qubit.errors.OperatorNotMatchError" title="qns.models.qubit.errors.OperatorNotMatchError"><strong>OperatorNotMatchError</strong></a> – </p>
 </dd>
 </dl>
 </dd></dl>
@@ -685,7 +983,7 @@ The default behavior is doing nothing</p>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>OperatorNotMatchError</strong> – </p>
+<dd class="field-even"><p><a class="reference internal" href="#qns.models.qubit.errors.OperatorNotMatchError" title="qns.models.qubit.errors.OperatorNotMatchError"><strong>OperatorNotMatchError</strong></a> – </p>
 </dd>
 </dl>
 </dd></dl>
@@ -811,7 +1109,7 @@ This function will change the quantum state.</p>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>OperatorNotMatchError</strong> – </p>
+<dd class="field-even"><p><a class="reference internal" href="#qns.models.qubit.errors.OperatorNotMatchError" title="qns.models.qubit.errors.OperatorNotMatchError"><strong>OperatorNotMatchError</strong></a> – </p>
 </dd>
 </dl>
 </dd></dl>

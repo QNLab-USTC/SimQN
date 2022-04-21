@@ -40,7 +40,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Install Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../develop.html">Develop Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">qns</a></li>
 </ul>
 
         </div>
@@ -88,10 +88,10 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">from</span> <span class="nn">qns.models.core.backend</span> <span class="kn">import</span> <span class="n">QuantumModel</span>
 <span class="kn">from</span> <span class="nn">qns.models.epr.entanglement</span> <span class="kn">import</span> <span class="n">BaseEntanglement</span>
-<span class="kn">from</span> <span class="nn">qns.utils.random</span> <span class="kn">import</span> <span class="n">get_rand</span>
+<span class="kn">from</span> <span class="nn">qns.utils.rnd</span> <span class="kn">import</span> <span class="n">get_rand</span>
 
 
-<div class="viewcode-block" id="BellStateEntanglement"><a class="viewcode-back" href="../../../../qns.models.epr.html#qns.models.epr.BellStateEntanglement">[docs]</a><span class="k">class</span> <span class="nc">BellStateEntanglement</span><span class="p">(</span><span class="n">BaseEntanglement</span><span class="p">,</span> <span class="n">QuantumModel</span><span class="p">):</span>
+<div class="viewcode-block" id="BellStateEntanglement"><a class="viewcode-back" href="../../../../qns.models.epr.html#qns.models.epr.bell.BellStateEntanglement">[docs]</a><span class="k">class</span> <span class="nc">BellStateEntanglement</span><span class="p">(</span><span class="n">BaseEntanglement</span><span class="p">,</span> <span class="n">QuantumModel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    `BellStateEntanglement` is the ideal max entangled qubits. Its fidelity is always 1.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -100,7 +100,7 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">fidelity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">p_swap</span> <span class="o">=</span> <span class="n">p_swap</span>
 
-<div class="viewcode-block" id="BellStateEntanglement.swapping"><a class="viewcode-back" href="../../../../qns.models.epr.html#qns.models.epr.BellStateEntanglement.swapping">[docs]</a>    <span class="k">def</span> <span class="nf">swapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epr</span><span class="p">:</span> <span class="s2">&quot;BellStateEntanglement&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="BellStateEntanglement.swapping"><a class="viewcode-back" href="../../../../qns.models.epr.html#qns.models.epr.bell.BellStateEntanglement.swapping">[docs]</a>    <span class="k">def</span> <span class="nf">swapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epr</span><span class="p">:</span> <span class="s2">&quot;BellStateEntanglement&quot;</span><span class="p">):</span>
         <span class="n">ne</span> <span class="o">=</span> <span class="n">BellStateEntanglement</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="ow">or</span> <span class="n">epr</span><span class="o">.</span><span class="n">is_decoherenced</span><span class="p">:</span>
             <span class="n">ne</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="o">=</span> <span class="kc">True</span>
@@ -114,7 +114,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="n">ne</span></div>
 
-<div class="viewcode-block" id="BellStateEntanglement.distillation"><a class="viewcode-back" href="../../../../qns.models.epr.html#qns.models.epr.BellStateEntanglement.distillation">[docs]</a>    <span class="k">def</span> <span class="nf">distillation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epr</span><span class="p">:</span> <span class="s2">&quot;BellStateEntanglement&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="BellStateEntanglement.distillation"><a class="viewcode-back" href="../../../../qns.models.epr.html#qns.models.epr.bell.BellStateEntanglement.distillation">[docs]</a>    <span class="k">def</span> <span class="nf">distillation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epr</span><span class="p">:</span> <span class="s2">&quot;BellStateEntanglement&quot;</span><span class="p">):</span>
         <span class="n">ne</span> <span class="o">=</span> <span class="n">BellStateEntanglement</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="ow">or</span> <span class="n">epr</span><span class="o">.</span><span class="n">is_decoherenced</span><span class="p">:</span>
             <span class="n">ne</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="o">=</span> <span class="kc">True</span>
@@ -123,7 +123,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">is_decoherenced</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="n">ne</span></div>
 
-<div class="viewcode-block" id="BellStateEntanglement.store_error_model"><a class="viewcode-back" href="../../../../qns.models.epr.html#qns.models.epr.BellStateEntanglement.store_error_model">[docs]</a>    <span class="k">def</span> <span class="nf">store_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">decoherence_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="BellStateEntanglement.store_error_model"><a class="viewcode-back" href="../../../../qns.models.epr.html#qns.models.epr.bell.BellStateEntanglement.store_error_model">[docs]</a>    <span class="k">def</span> <span class="nf">store_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">decoherence_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The default error model for storing this entangled pair in a quantum memory.</span>
 <span class="sd">        The default behavior is doing nothing</span>
@@ -135,7 +135,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="BellStateEntanglement.transfer_error_model"><a class="viewcode-back" href="../../../../qns.models.epr.html#qns.models.epr.BellStateEntanglement.transfer_error_model">[docs]</a>    <span class="k">def</span> <span class="nf">transfer_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">decoherence_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="BellStateEntanglement.transfer_error_model"><a class="viewcode-back" href="../../../../qns.models.epr.html#qns.models.epr.bell.BellStateEntanglement.transfer_error_model">[docs]</a>    <span class="k">def</span> <span class="nf">transfer_error_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">decoherence_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The default error model for transmitting this entanglement.</span>
 <span class="sd">        The default behavior is doing nothing</span>

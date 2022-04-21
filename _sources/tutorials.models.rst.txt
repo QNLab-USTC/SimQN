@@ -12,3 +12,4 @@ Currently, SimQN present 2 models, a full functional qubit model and a high leve
 
    tutorials.models.qubit
    tutorials.models.epr
+   tutorials.models.delay

@@ -43,6 +43,7 @@
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install Guide</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="tutorials.quickstart.html">Quick start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.parallel_simulation.html">Parallel Simulation: to run multiple simulations and leverage multiple CPUs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials.models.html">Physical models</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="tutorials.entity.html">Entities in quantum networks</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="tutorials.entity.node.html">Quantum node: the end-point users, routers and repeaters</a></li>
@@ -55,6 +56,7 @@
 <li class="toctree-l3"><a class="reference internal" href="tutorials.entity.qchannel.html">Quantum channel: the link to transmit qubits</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tutorials.entity.cchannel.html">Classic channel: the link to transmit classic packets</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tutorials.entity.operator.html">Quantum operator: operating and measuring qubits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials.entity.monitor.html">Monitor: for better collecting network status</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tutorials.entity.other.html">Timers and build other entities</a></li>
 </ul>
 </li>
@@ -64,7 +66,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="develop.html">Develop Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">qns</a></li>
 </ul>
 
         </div>
@@ -127,7 +129,7 @@
 </section>
 <section id="asynchronous-mode">
 <h2>Asynchronous mode<a class="headerlink" href="#asynchronous-mode" title="Permalink to this headline"></a></h2>
-<p>In this mode, quantum nodes (or applications) needs to use <code class="docutils literal notranslate"><span class="pre">MemoryWriteRequestEvent</span></code> and <code class="docutils literal notranslate"><span class="pre">MemoryReadRequestEvent</span></code> events to send requests to the quantum memories and collect the results by listening to <code class="docutils literal notranslate"><span class="pre">MemoryWriteResponseEvent</span></code> and <code class="docutils literal notranslate"><span class="pre">MemoryReadResponseEvent</span></code> events. In this way, users can model the time delay in reading and writing quantum memories. In asynchronous mode, the quantum memories have an additional input parameter called <code class="docutils literal notranslate"><span class="pre">delay</span></code> to set the read/write time delay.</p>
+<p>In this mode, quantum nodes (or applications) needs to use <code class="docutils literal notranslate"><span class="pre">MemoryWriteRequestEvent</span></code> and <code class="docutils literal notranslate"><span class="pre">MemoryReadRequestEvent</span></code> events to send requests to the quantum memories and collect the results by listening to <code class="docutils literal notranslate"><span class="pre">MemoryWriteResponseEvent</span></code> and <code class="docutils literal notranslate"><span class="pre">MemoryReadResponseEvent</span></code> events. In this way, users can model the time delay in reading and writing quantum memories. In asynchronous mode, the quantum memories have an additional input parameter called <code class="docutils literal notranslate"><span class="pre">delay</span></code> to set the read/write time delay. <code class="docutils literal notranslate"><span class="pre">delay</span></code> can be a float or a <code class="docutils literal notranslate"><span class="pre">DelayModel</span></code>.</p>
 <p>Here, we give an example of asynchronous mode. The quantum node first install a <code class="docutils literal notranslate"><span class="pre">MemoryResponseApp</span></code> application to handle the read/write result. During the simulation, the node generates <code class="docutils literal notranslate"><span class="pre">MemoryWriteRequestEvent</span></code> to save a qubit and use <code class="docutils literal notranslate"><span class="pre">MemoryReadRequestEvent</span></code> to get the qubit one second later.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MemoryResponseApp</span><span class="p">(</span><span class="n">Application</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

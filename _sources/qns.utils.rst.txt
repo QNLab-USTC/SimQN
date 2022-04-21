@@ -12,10 +12,18 @@ qns.utils.log module
    :undoc-members:
    :show-inheritance:
 
-qns.utils.random module
------------------------
+qns.utils.multiprocess module
+-----------------------------
 
-.. automodule:: qns.utils.random
+.. automodule:: qns.utils.multiprocess
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qns.utils.rnd module
+--------------------
+
+.. automodule:: qns.utils.rnd
    :members:
    :undoc-members:
    :show-inheritance:

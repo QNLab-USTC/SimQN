@@ -40,7 +40,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Install Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tutorials.html">Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../develop.html">Develop Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">qns</a></li>
 </ul>
 
         </div>
@@ -90,7 +90,7 @@
 <span class="kn">from</span> <span class="nn">qns.models.qubit.errors</span> <span class="kn">import</span> <span class="n">QGateStateJointError</span><span class="p">,</span> <span class="n">OperatorError</span>
 
 
-<div class="viewcode-block" id="single_gate_expand"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.single_gate_expand">[docs]</a><span class="k">def</span> <span class="nf">single_gate_expand</span><span class="p">(</span><span class="n">qubit</span><span class="p">,</span> <span class="n">operator</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="single_gate_expand"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.utils.single_gate_expand">[docs]</a><span class="k">def</span> <span class="nf">single_gate_expand</span><span class="p">(</span><span class="n">qubit</span><span class="p">,</span> <span class="n">operator</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="n">state</span> <span class="o">=</span> <span class="n">qubit</span><span class="o">.</span><span class="n">state</span>
     <span class="k">if</span> <span class="n">operator</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">OperatorError</span>
@@ -109,7 +109,7 @@
     <span class="k">return</span> <span class="n">full_operator</span></div>
 
 
-<div class="viewcode-block" id="joint"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.joint">[docs]</a><span class="k">def</span> <span class="nf">joint</span><span class="p">(</span><span class="n">qubit1</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="joint"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.utils.joint">[docs]</a><span class="k">def</span> <span class="nf">joint</span><span class="p">(</span><span class="n">qubit1</span><span class="p">,</span> <span class="n">qubit2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">qubit1</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">qubit2</span><span class="o">.</span><span class="n">state</span><span class="p">:</span>
         <span class="k">return</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">qubit1</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">qubit2</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">qubits</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -122,7 +122,7 @@
         <span class="n">q</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">nq</span></div>
 
 
-<span class="k">def</span> <span class="nf">partial_trace</span><span class="p">(</span><span class="n">rho</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="partial_trace"><a class="viewcode-back" href="../../../../qns.models.qubit.html#qns.models.qubit.utils.partial_trace">[docs]</a><span class="k">def</span> <span class="nf">partial_trace</span><span class="p">(</span><span class="n">rho</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the partial trace</span>
 
@@ -145,7 +145,7 @@
         <span class="n">rho_res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">rho_res</span><span class="p">,</span> <span class="n">axis1</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">axis2</span><span class="o">=</span><span class="n">j</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">qubit_left</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">rho_res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">rho_res</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span> <span class="o">**</span> <span class="n">qubit_left</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">rho_res</span>
+    <span class="k">return</span> <span class="n">rho_res</span></div>
 </pre></div>
 
            </div>
