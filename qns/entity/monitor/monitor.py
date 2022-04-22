@@ -18,7 +18,6 @@
 import pandas as pd
 from typing import Any, Callable, Optional
 from qns.entity.entity import Entity
-from qns.network.network import QuantumNetwork
 from qns.simulator.event import Event
 from qns.simulator.simulator import Simulator
 from qns.simulator.ts import Time
@@ -38,7 +37,7 @@ class MonitorEvent(Event):
 
 
 class Monitor(Entity):
-    def __init__(self, name: Optional[str] = None, network: Optional[QuantumNetwork] = None) -> None:
+    def __init__(self, name: Optional[str] = None, network=None) -> None:
         """
         Monitor is a virtual entity that helps users to collect network status.
 
@@ -104,7 +103,7 @@ class Monitor(Entity):
         return self.data
 
     def add_attribution(self, name: str,
-                        calculate_func: Callable[[Simulator, Optional[QuantumNetwork], Optional[Event]], Any]) -> None:
+                        calculate_func: Callable[[Simulator, Any, Optional[Event]], Any]) -> None:
         """
         Set an attribution that will be recorded. For example, an attribution could be the throughput, or the fidelity.
 

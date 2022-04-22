@@ -44,11 +44,11 @@ class EPRDistributionSimulation(MPSimulations):
 
 def test_multiple_process_2():
     ss = EPRDistributionSimulation(settings={
-        "nodes_number": [5, 10, 15, 20],
+        "nodes_number": [5, 10],
         "delay": [0.05],
         "memory_capacity": [10, 20],
         "send_rate": [10, 20]
-    }, aggregate=True, iter_count=10, cores=1)
+    }, aggregate=True, iter_count=10)
     ss.start()
     print(ss.get_data())
 

@@ -20,6 +20,17 @@ from qns.models.qubit.const import OPERATOR_PAULI_I
 from qns.models.qubit.errors import QGateStateJointError, OperatorError
 
 
+def kron(a: np.ndarray, b: np.ndarray) -> np.ndarray:
+    x = a.shape
+    y = b.shape
+    if a.shape == (1,):
+        a = a.reshape((1, 1))
+    if b.shape == (1,):
+        b = b.reshape((1, 1))
+    print(a, b)
+    return (a[:, None, :, None]*b[None, :, None, :]).reshape(a.shape[0]*b.shape[0], a.shape[1]*b.shape[1])
+
+
 def single_gate_expand(qubit, operator: np.ndarray) -> np.ndarray:
     state = qubit.state
     if operator.shape != (2, 2):
@@ -33,9 +44,9 @@ def single_gate_expand(qubit, operator: np.ndarray) -> np.ndarray:
     full_operator = np.array([1])
     for i in range(state.num):
         if i == idx:
-            full_operator = np.kron(full_operator, operator)
+            full_operator = kron(full_operator, operator)
         else:
-            full_operator = np.kron(full_operator, OPERATOR_PAULI_I)
+            full_operator = kron(full_operator, OPERATOR_PAULI_I)
     return full_operator
 
 
@@ -47,7 +58,7 @@ def joint(qubit1, qubit2) -> None:
 
     from qns.models.qubit.qubit import QState
     nq = QState(qubit1.state.qubits+qubit2.state.qubits,
-                rho=np.kron(qubit1.state.rho, qubit2.state.rho))
+                rho=kron(qubit1.state.rho, qubit2.state.rho))
     for q in nq.qubits:
         q.state = nq
 

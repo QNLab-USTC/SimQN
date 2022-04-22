@@ -20,7 +20,7 @@ import numpy as np
 
 from qns.models.qubit.const import QUBIT_STATE_0, QUBIT_STATE_1,\
         QUBIT_STATE_P, QUBIT_STATE_N, QUBIT_STATE_L, QUBIT_STATE_R
-from qns.models.qubit.utils import single_gate_expand, partial_trace
+from qns.models.qubit.utils import single_gate_expand, partial_trace, kron
 from qns.models.core.backend import QuantumModel
 from qns.models.qubit.errors import QStateBaseError, QStateQubitNotInStateError,\
                                     QStateSizeNotMatchError, OperatorNotMatchError
@@ -102,11 +102,11 @@ class QState(object):
         Full_M_1 = np.array([[1]])
         for i in range(self.num):
             if i == idx:
-                Full_M_0 = np.kron(Full_M_0, M_0)
-                Full_M_1 = np.kron(Full_M_1, M_1)
+                Full_M_0 = kron(Full_M_0, M_0)
+                Full_M_1 = kron(Full_M_1, M_1)
             else:
-                Full_M_0 = np.kron(Full_M_0, np.array([[1, 0], [0, 1]]))
-                Full_M_1 = np.kron(Full_M_1, np.array([[1, 0], [0, 1]]))
+                Full_M_0 = kron(Full_M_0, np.array([[1, 0], [0, 1]]))
+                Full_M_1 = kron(Full_M_1, np.array([[1, 0], [0, 1]]))
 
         poss_0 = np.trace(np.dot(Full_M_0.T.conjugate(), np.dot(Full_M_0, self.rho)))
         rn = get_rand()
