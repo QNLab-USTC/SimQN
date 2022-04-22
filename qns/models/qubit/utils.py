@@ -21,13 +21,10 @@ from qns.models.qubit.errors import QGateStateJointError, OperatorError
 
 
 def kron(a: np.ndarray, b: np.ndarray) -> np.ndarray:
-    x = a.shape
-    y = b.shape
     if a.shape == (1,):
         a = a.reshape((1, 1))
     if b.shape == (1,):
         b = b.reshape((1, 1))
-    print(a, b)
     return (a[:, None, :, None]*b[None, :, None, :]).reshape(a.shape[0]*b.shape[0], a.shape[1]*b.shape[1])
 
 
