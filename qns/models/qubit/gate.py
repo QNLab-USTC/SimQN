@@ -26,6 +26,7 @@ from qns.models.qubit.qubit import Qubit
 from qns.models.qubit.utils import kron, joint
 from qns.models.qubit.errors import QGateOperatorNotMatchError, QGateQubitNotInStateError
 
+
 class Gate():
     """
     The quantum gates that will operate qubits
