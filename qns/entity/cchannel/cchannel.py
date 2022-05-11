@@ -82,7 +82,7 @@ class ClassicChannel(Entity):
     ClassicChannel is the channel for classic message
     """
     def __init__(self, name: str = None, node_list: List[QNode] = [],
-                 bandwidth: int = 0, delay: Union[float, DelayModel] = 0, drop_rate: float = 0,
+                 bandwidth: int = 0, delay: Union[float, DelayModel] = 0, length: Optional[float] = 0, drop_rate: float = 0,
                  max_buffer_size: int = 0):
         """
         Args:
@@ -90,6 +90,7 @@ class ClassicChannel(Entity):
             node_list (List[QNode]): a list of QNodes that it connects to
             bandwidth (int): the byte per second on this channel. 0 represents unlimited
             delay (Union[float, DelayModel]): the time delay for transmitting a packet. It is a float number or a ``DelayModel``
+            length (float): the length of this channel
             drop_rate (float): the drop rate
             max_buffer_size (int): the max buffer size.
                 If it is full, the next coming packet will be dropped. 0 represents unlimited.
@@ -99,6 +100,7 @@ class ClassicChannel(Entity):
         self.bandwidth = bandwidth
         self.delay_model = delay if isinstance(delay, DelayModel) else ConstantDelayModel(delay=delay)
         self.drop_rate = drop_rate
+        self.length = length
         self.max_buffer_size = max_buffer_size
 
     def install(self, simulator: Simulator) -> None:

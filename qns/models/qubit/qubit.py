@@ -54,7 +54,6 @@ class QState(object):
                 raise QStateSizeNotMatchError
             if abs(1 - rho.trace()) > 0.0000000001:
                 # trace = 1
-                print(2333, 1 - rho.trace())
                 raise QStateSizeNotMatchError
             self.rho = rho
 
