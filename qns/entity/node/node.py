@@ -15,7 +15,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from typing import List
+from typing import List, Union
 from qns.simulator import Simulator
 from qns.simulator import Event
 from qns.entity import Entity
@@ -111,6 +111,19 @@ class QNode(Entity):
         """
         memory.node = self
         self.memories.append(memory)
+
+    def get_memory(self, memory: Union[str, int]):
+        """
+        Get the memory by index (in memories) or its name
+
+        Args:
+            memory (Union[str, int]): the index or name of the memory
+        """
+        if isinstance(memory, str):
+            for m in self.memories:
+                if m.name == memory:
+                    return m
+        return self.memories[memory]
 
     def add_operator(self, operator):
         """

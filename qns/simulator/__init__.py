@@ -15,8 +15,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from qns.simulator.ts import Time
+from qns.simulator.ts import Time, set_default_accuracy
 from qns.simulator.event import Event, func_to_event
 from qns.simulator.simulator import Simulator
 
-__all__ = ["Time", "Event", "func_to_event", "Simulator"]
+__all__ = ["Time", "set_default_accuracy", "Event", "func_to_event", "Simulator"]

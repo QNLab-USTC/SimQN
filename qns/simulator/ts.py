@@ -21,6 +21,17 @@ from typing import Union
 default_accuracy = 1000000  # {default_accuracy} time slots per second
 
 
+def set_default_accuracy(time_slots: int):
+    """
+    set the default simulation accuracy
+
+    Args:
+        time_slots (int): the time slots per second.
+    """
+    global default_accuracy
+    default_accuracy = time_slots
+
+
 class Time(object):
     def __init__(self, time_slot: int = 0, sec: float = 0.0, accuracy: int = default_accuracy):
         '''
@@ -48,22 +59,40 @@ class Time(object):
         return self.time_slot / self.accuracy
 
     def __eq__(self, other: object) -> bool:
-        return self.time_slot == other.time_slot
+        if isinstance(other, Time):
+            return self.time_slot == other.time_slot
+        other_time = Time(src=other)
+        return self.time_slot == other_time.time_slot
 
     def __lt__(self, other: object) -> bool:
-        return self.time_slot < other.time_slot
+        if isinstance(other, Time):
+            return self.time_slot < other.time_slot
+        other_time = Time(src=other)
+        return self.time_slot < other_time.time_slot
 
     def __le__(self, other: object) -> bool:
-        return self < other or self == other
+        if isinstance(other, Time):
+            return self.time_slot <= other.time_slot
+        other_time = Time(src=other)
+        return self.time_slot <= other_time.time_slot
 
     def __gt__(self, other: object) -> bool:
-        return not (self < other or self == other)
+        if isinstance(other, Time):
+            return self.time_slot > other.time_slot
+        other_time = Time(src=other)
+        return self.time_slot > other_time.time_slot
 
     def __ge__(self, other: object) -> bool:
-        return not (self < other)
+        if isinstance(other, Time):
+            return self.time_slot >= other.time_slot
+        other_time = Time(src=other)
+        return self.time_slot >= other_time.time_slot
 
     def __ne__(self, other: object) -> bool:
-        return not self == other
+        if isinstance(other, Time):
+            return self.time_slot != other.time_slot
+        other_time = Time(src=other)
+        return self.time_slot != other_time.time_slot
 
     def __add__(self, ts: Union["Time", float]) -> "Time":
         """
@@ -76,6 +105,19 @@ class Time(object):
         if isinstance(ts, float):
             ts = Time(sec=ts, accuracy=self.accuracy)
         tn.time_slot += ts.time_slot
+        return tn
+
+    def __sub__(self, ts: Union["Time", float]) -> "Time":
+        """
+        Minus an offset to the Time object
+
+        Args:
+            ts (Union["Time", float]): a Time object or a float indicating time in second
+        """
+        tn = Time(time_slot=self.time_slot, accuracy=self.accuracy)
+        if isinstance(ts, float):
+            ts = Time(sec=ts, accuracy=self.accuracy)
+        tn.time_slot = tn.time_slot - ts.time_slot
         return tn
 
     def __repr__(self) -> str:
