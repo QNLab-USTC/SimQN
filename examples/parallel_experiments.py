@@ -36,10 +36,10 @@ class EPRDistributionSimulation(MPSimulations):
 
 if __name__ == "__main__":
     ss = EPRDistributionSimulation(settings={
-        "nodes_number": [5, 10, 15, 20],
+        "nodes_number": [5, 10, 15, 20, 25, 30],
         "delay": [0.05],
-        "memory_capacity": [10, 20],
-        "send_rate": [10, 20]
-    }, aggregate=True, iter_count=10, cores=1)
+        "memory_capacity": [10, 20, 30],
+        "send_rate": [1000, 2000]
+    }, aggregate=True, iter_count=10, cores=20)
     ss.start()
     print(ss.get_data())

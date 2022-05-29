@@ -16,6 +16,7 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from typing import Callable, Dict, List, Tuple, Union
+import math
 
 from qns.entity.node.node import QNode
 from qns.entity.qchannel.qchannel import QuantumChannel
@@ -27,6 +28,8 @@ class DijkstraRouteAlgorithm(RouteImpl):
     """
     This is the dijkstra route algorithm implement
     """
+
+    INF = math.inf
 
     def __init__(self, name: str = "dijkstra",
                  metric_func: Callable[[Union[QuantumChannel, ClassicChannel]], float] = None) -> None:
@@ -44,7 +47,6 @@ class DijkstraRouteAlgorithm(RouteImpl):
             self.metric_func = metric_func
 
     def build(self, nodes: List[QNode], channels: List[Union[QuantumChannel, ClassicChannel]]):
-        INF = 999999
 
         for n in nodes:
             selected = []
@@ -55,7 +57,7 @@ class DijkstraRouteAlgorithm(RouteImpl):
                 if nn == n:
                     d[n] = [0, []]
                 else:
-                    d[nn] = [INF, [nn]]
+                    d[nn] = [self.INF, [nn]]
 
             while len(unselected) != 0:
                 ms = unselected[0]
@@ -108,8 +110,9 @@ class DijkstraRouteAlgorithm(RouteImpl):
             path: List[QNode] = le[1]
             path = path.copy()
             path.reverse()
-            if len(path) <= 1:
+            if len(path) <= 1 or metric == self.INF:
                 next_hop = None
+                return []
             else:
                 next_hop = path[1]
                 return [(metric, next_hop, path)]

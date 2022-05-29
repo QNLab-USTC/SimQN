@@ -21,6 +21,8 @@ from typing import Optional, Dict
 import pandas as pd
 from qns.utils.log import logger as log
 
+import signal
+
 
 class MPSimulations():
     """
@@ -46,7 +48,7 @@ class MPSimulations():
         self.cores = cores if cores > 0 else multiprocessing.cpu_count()
 
         self.data = pd.DataFrame()
-        self.aggregated_date = pd.DataFrame()
+        self.aggregated_data = pd.DataFrame()
 
         self._setting_list = []
         self._current_simulation_count = 0
@@ -75,28 +77,39 @@ class MPSimulations():
         log.info(f"finish simulation [{setting['_id']+1}/{self._total_simulation_count}] {result}")
         return raw
 
+    def _init_worker(self):
+        signal.signal(signal.SIGINT, signal.SIG_IGN)
+
     def start(self):
         """
         Start the multiple process simulation
         """
         self.prepare_setting()
-        pool = multiprocessing.Pool(processes=self.cores)
-        result = []
-        for setting in self._setting_list:
-            result.append(pool.apply_async(self._single_run, (setting,)))
-        pool.close()
-        pool.join()
+        pool = multiprocessing.Pool(processes=self.cores, initializer=self._init_worker)
+        try:
+            result = []
+            for setting in self._setting_list:
+                result.append(pool.apply_async(self._single_run, (setting,)))
+            pool.close()
+            pool.join()
+        except KeyboardInterrupt:
+            print("terminating simulation")
+            pool.terminate()
+            pool.join()
 
         for r in result:
-            raw_data = r.get()
+            try:
+                raw_data = r.get()
+            except:
+                print(f"[simulator] error in simulation")
+                continue
             new_result = {}
             for k, v in raw_data.items():
                 new_result[k] = [v]
             result_pd = pd.DataFrame(new_result)
             self.data = pd.concat([self.data, result_pd], ignore_index=True)
 
-        if self.aggregate and self.iter_count > 1:
-            print(self.data)
+        if self.aggregate:
             mean = pd.DataFrame(self.data).drop(columns=["_id", "_group", "_repeat"])
             new_name = {}
             ck = mean.columns

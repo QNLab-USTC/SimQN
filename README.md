@@ -77,12 +77,6 @@ Here is an example of using SimQN.
 
     # run simulation
     s.run()
-
-    # count the number of successful entanglement distribution for each session
-    results = [src.apps[0].success_count for req in net.requests]
-
-    # log the results
-    log.monitor(requests_number, nodes_number, results, s.time_spend, sep=" ")
 ```
 # FAQ
 ## Why choose SimQN?
