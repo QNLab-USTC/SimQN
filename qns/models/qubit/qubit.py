@@ -93,7 +93,7 @@ class QState(object):
         try:
             idx = self.qubits.index(qubit)
             shift = self.num - idx - 1
-            assert(shift >= 0)
+            assert (shift >= 0)
         except AssertionError:
             raise QStateQubitNotInStateError
 

@@ -52,19 +52,19 @@ class QNode(Entity):
         # initiate sub-entities
         for cchannel in self.cchannels:
             from qns.entity import ClassicChannel
-            assert(isinstance(cchannel, ClassicChannel))
+            assert (isinstance(cchannel, ClassicChannel))
             cchannel.install(simulator)
         for qchannel in self.qchannels:
             from qns.entity import QuantumChannel
-            assert(isinstance(qchannel, QuantumChannel))
+            assert (isinstance(qchannel, QuantumChannel))
             qchannel.install(simulator)
         for memory in self.memories:
             from qns.entity import QuantumMemory
-            assert(isinstance(memory, QuantumMemory))
+            assert (isinstance(memory, QuantumMemory))
             memory.install(simulator)
         for operator in self.operators:
             from qns.entity import QuantumOperator
-            assert(isinstance(operator, QuantumOperator))
+            assert (isinstance(operator, QuantumOperator))
             operator.install(simulator)
 
         # initiate applications

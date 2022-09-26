@@ -23,7 +23,7 @@ SimQN is a Python library for quantum networks evaluation. It requires Python > 
 .. code-block:: bash
 
     pip3 install setuptools wheel twine
-    pip3 install -r requirements
+    pip3 install -r requirements.txt
 
 To setup the development environments, the following command install SimQN into the python library so that we can do `import qns`:
 

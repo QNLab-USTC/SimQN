@@ -31,7 +31,7 @@ class UniformDelayModel(DelayModel):
             max_delay (float): the maximum time delay [s]
         """
         super().__init__(name)
-        assert(max_delay >= min_delay)
+        assert (max_delay >= min_delay)
         self._min_delay = min_delay
         self._max_delay = max_delay
 

@@ -153,7 +153,7 @@ class Monitor(Entity):
             # record network status every 3 seconds.
             m.at_period(3)
         """
-        assert(period_time > 0)
+        assert (period_time > 0)
         self.watch_period.append(period_time)
 
     def at_event(self, event_type) -> None:

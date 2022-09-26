@@ -100,8 +100,8 @@ class MPSimulations():
         for r in result:
             try:
                 raw_data = r.get()
-            except:
-                print(f"[simulator] error in simulation")
+            except Exception:
+                print("[simulator] error in simulation")
                 continue
             new_result = {}
             for k, v in raw_data.items():

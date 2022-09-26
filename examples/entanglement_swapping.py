@@ -33,4 +33,4 @@ elif c0 == 1 and c1 == 1:
     Z(q3)
 
 # now q0 and q3 are entangled
-assert(q0.measure() == q3.measure())
+assert (q0.measure() == q3.measure())

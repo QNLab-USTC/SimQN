@@ -17,195 +17,134 @@
 
 
 from typing import Optional
+from qns.models.qubit.const import QUBIT_STATE_0
 from qns.models.qubit.gate import I, X, Y, Z
 import numpy as np
+from qns.models.qubit.qubit import QState
+from qns.utils.rnd import get_rand
 
 
-def PrefectStorageErrorModel(self, t: Optional[float] = 0, decoherence_rate: Optional[float] = 0, **kwargs):
+def PrefectError(self, p: Optional[float] = 0, **kwargs):
     """
-    The default error model for storing a qubit in quantum memory.
-    The default behavior is doing nothing
+    The default error model for this qubit.
 
     Args:
-        t: the time stored in a quantum memory. The unit it second.
-        decoherence_rate (float): the decoherence rate.
-        kwargs: other parameters
+        p (float): the error possibility
     """
     pass
 
 
-def DephaseStorageErrorModel(self, t: Optional[float] = 0, decoherence_rate: Optional[float] = 0, **kwargs):
+def DephaseError(self, p: Optional[float] = 0, **kwargs):
     """
-    The dephase error model for storing a qubit in quantum memory.
-
-    A random Z gate will be operate on the qubit with possibility: 1-e^(-decoherence_rate * t)
+    The dephase error model.
+    A random Z gate will be operate on the qubit with possibility p.
 
     Args:
-        t: the time stored in a quantum memory. The unit it second.
-        decoherence_rate (float): the decoherence rate
-        kwargs: other parameters
+        p (float): the error possibility
     """
-    if decoherence_rate < 0:
-        raise Exception("Error decoherence rate, should be positive")
-    p = 1 - np.exp(-decoherence_rate * t)
+    if p < 0 or p > 1:
+        raise Exception("Error decoherence rate, should be in [0, 1]")
     self.stochastic_operate([I, Z], [1-p, p])
 
 
-def DepolarStorageErrorModel(self, t: Optional[float] = 0, decoherence_rate: Optional[float] = 0, **kwargs):
+def DepolarError(self, p: Optional[float] = 0, **kwargs):
     """
-    The depolar error model for storing a qubit in quantum memory.
+    The depolarizing error model.
 
-    One of the random Pauli gate will be operate on the qubit with possibility:
-        1-e^(-decoherence_rate * t)
+    One of the random Pauli gate will be operate on the qubit with possibility p :
 
     Args:
-        t: the time stored in a quantum memory. The unit it second.
-        decoherence_rate (float): the decoherence rate
+        p (float): the error possibility
         kwargs: other parameters
     """
-    if decoherence_rate < 0:
-        raise Exception("Error decoherence rate, should be positive")
-    p = 1 - np.exp(-decoherence_rate * t)
+    if p < 0 or p > 1:
+        raise Exception("Error decoherence rate, should be in [0, 1]")
     if 1-3*p > 0:
         self.stochastic_operate([I, X, Y, Z], [1-3*p, p, p, p])
     else:
         self.stochastic_operate([X, Y, Z], [1/3, 1/3, 1/3])
 
 
-def PrefectTransferErrorModel(self, length: Optional[float] = 0, decoherence_rate: Optional[float] = 0, **kwargs):
+def BitFlipError(self, p: Optional[float] = 0, **kwargs):
     """
-    The default error model for transmitting this qubit
-    The default behavior is doing nothing
+    The bit flip error model.
 
     Args:
-        length (float): the length of the channel
-        decoherence_rate (float): the decoherence rate.
+        p (float): the error possibility, [0, 1]
         kwargs: other parameters
     """
-    pass
+    if p < 0 or p > 1:
+        raise Exception("Error decoherence rate, should be in [0, 1]")
+    self.stochastic_operate([I, X], [1-p, p])
 
 
-def DephaseTransferErrorModel(self, length: Optional[float] = 0, decoherence_rate: Optional[float] = 0, **kwargs):
+def DissipationError(self, p: Optional[float] = 0, **kwargs):
     """
-    The dephase error model for transmitting a qubit in quantum channel.
-
-    A random Z gate will be operate on the qubit with possibility: 1-e^(-decoherence_rate * length)
+    The dissipation error model.
 
     Args:
-        length: the channel length
-        decoherence_rate (float): the decoherence rate
+        p (float): the error possibility, [0, 1]
         kwargs: other parameters
     """
-    if decoherence_rate < 0:
-        raise Exception("Error decoherence rate, should be positive")
-    p = 1 - np.exp(-decoherence_rate * length)
-    self.stochastic_operate([I, Z], [1-p, p])
+    if p < 0 or p > 1:
+        raise Exception("Error decoherence rate, should be in [0, 1]")
+    real_p = get_rand()
+    if real_p < p:
+        self.measure()
+        self.state = QState([self], state=QUBIT_STATE_0)
 
 
-def DepolarTransferErrorModel(self, length: Optional[float] = 0, decoherence_rate: Optional[float] = 0, **kwargs):
-    """
-    The depolar error model for transmitting a qubit in quantum channel.
+def ErrorWithTime(ErrorModel):
+    """generate the error. The error possibility is 1-e^{-decoherence_rate * t}"""
+    def GeneratedErrorWithTime(self, t: Optional[float] = 0, decoherence_rate: Optional[float] = 0, **kwargs):
+        """
+        The error model with time for this qubit. The error possibility is 1-e^{-decoherence_rate * t}.
 
-    One of the random Pauli gate will be operate on the qubit with possibility:
-        1-e^(-decoherence_rate * t)
-
-    Args:
-        length: the channel length
-        decoherence_rate (float): the decoherence rate
-        kwargs: other parameters
-    """
-    if decoherence_rate < 0:
-        raise Exception("Error decoherence rate, should be positive")
-    p = 1 - np.exp(-decoherence_rate * length)
-    if 1-3*p > 0:
-        self.stochastic_operate([I, X, Y, Z], [1-3*p, p, p, p])
-    else:
-        self.stochastic_operate([X, Y, Z], [1/3, 1/3, 1/3])
+        Args:
+            t (float): the during time in second.
+            decoherence_rate (float): the decoherence rate.
+        """
+        p = 1 - np.exp(-decoherence_rate * t)
+        ErrorModel(self, p, **kwargs)
+    return GeneratedErrorWithTime
 
 
-def PrefectOperateErrorModel(self, decoherence_rate: Optional[float] = 0, **kwargs):
-    """
-    The default error model for operating this qubit.
+def ErrorWithLength(ErrorModel):
+    """generate the error. The error possibility is 1-e^{-decoherence_rate * length}"""
+    def GeneratedErrorWithLength(self, length: Optional[float] = 0, decoherence_rate: Optional[float] = 0, **kwargs):
+        """
+        The error model with length for this qubit. The error possibility is 1-e^{-decoherence_rate * length}.
 
-    Args:
-        decoherence_rate (float): the decoherence rate
-    """
-    pass
-
-
-def DephaseOperateErrorModel(self, decoherence_rate: Optional[float] = 0, **kwargs):
-    """
-    The dephase error model for operating this qubit.
-    A random Z gate will be operate on the qubit with possibility: 1-e^(-decoherence_rate)
-
-    Args:
-        decoherence_rate (float): the decoherence rate
-    """
-    if decoherence_rate < 0:
-        raise Exception("Error decoherence rate, should be positive")
-    p = 1 - np.exp(-decoherence_rate)
-    self.stochastic_operate([I, Z], [1-p, p])
+        Args:
+            length (float): the transmission length in meter.
+            decoherence_rate (float): the decoherence rate.
+        """
+        p = 1 - np.exp(-decoherence_rate * length)
+        ErrorModel(self, p, **kwargs)
+    return GeneratedErrorWithLength
 
 
-def DepolarOperateErrorModel(self, decoherence_rate: Optional[float] = 0, **kwargs):
-    """
-    The depolar error model for operating on a qubit.
+PrefectStorageErrorModel = ErrorWithTime(PrefectError)
+PrefectTransferErrorModel = ErrorWithLength(PrefectError)
+PrefectOperateErrorModel = PrefectError
+PrefectMeasureErrorModel = PrefectError
 
-    One of the random Pauli gate will be operate on the qubit with possibility:
-        1-e^(-decoherence_rate * t)
+DephaseStorageErrorModel = ErrorWithTime(DephaseError)
+DephaseTransferErrorModel = ErrorWithLength(DephaseError)
+DephaseOperateErrorModel = DephaseError
+DephaseMeasureErrorModel = DephaseError
 
-    Args:
-        decoherence_rate (float): the decoherence rate
-        kwargs: other parameters
-    """
-    if decoherence_rate < 0:
-        raise Exception("Error decoherence rate, should be positive")
-    p = 1 - np.exp(-decoherence_rate)
-    if 1-3*p > 0:
-        self.stochastic_operate([I, X, Y, Z], [1-3*p, p, p, p])
-    else:
-        self.stochastic_operate([X, Y, Z], [1/3, 1/3, 1/3])
+DepolarStorageErrorModel = ErrorWithTime(DepolarError)
+DepolarTransferErrorModel = ErrorWithLength(DepolarError)
+DepolarOperateErrorModel = DepolarError
+DepolarMeasureErrorModel = DepolarError
 
+BitFlipStorageErrorModel = ErrorWithTime(BitFlipError)
+BitFilpTransferErrorModel = ErrorWithLength(BitFlipError)
+BitFlipOperateErrorModel = BitFlipError
+BitFlipMeasureErrorModel = BitFlipError
 
-def PrefectMeasureErrorModel(self, decoherence_rate: Optional[float] = 0, **kwargs):
-    """
-    The default error model for measuring this qubit.
-
-    Args:
-        decoherence_rate (float): the decoherence rate
-    """
-    pass
-
-
-def DephaseMeasureErrorModel(self, decoherence_rate: Optional[float] = 0, **kwargs):
-    """
-    The dephase error model for measuring this qubit,
-    A random Z gate will be operate on the qubit with possibility: 1-e^(-decoherence_rate)
-
-    Args:
-        decoherence_rate (float): the decoherence rate
-    """
-    if decoherence_rate < 0:
-        raise Exception("Error decoherence rate, should be positive")
-    p = 1 - np.exp(-decoherence_rate)
-    self.stochastic_operate([I, Z], [1-p, p])
-
-
-def DepolarMeasureErrorModel(self, decoherence_rate: Optional[float] = 0, **kwargs):
-    """
-    The depolar error model for measuring on a qubit.
-
-    One of the random Pauli gate will be operate on the qubit with possibility:
-        1-e^(-decoherence_rate * t)
-
-    Args:
-        decoherence_rate (float): the decoherence rate
-        kwargs: other parameters
-    """
-    if decoherence_rate < 0:
-        raise Exception("Error decoherence rate, should be positive")
-    p = 1 - np.exp(-decoherence_rate)
-    if 1-3*p > 0:
-        self.stochastic_operate([I, X, Y, Z], [1-3*p, p, p, p])
-    else:
-        self.stochastic_operate([X, Y, Z], [1/3, 1/3, 1/3])
+DissipationStorageErrorModel = ErrorWithTime(DissipationError)
+DissipationTransferErrorModel = ErrorWithLength(DissipationError)
+DissipationOperateErrorModel = DissipationError
+DissipationMeasureErrorModel = DissipationError

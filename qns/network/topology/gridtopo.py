@@ -34,7 +34,7 @@ class GridTopology(Topology):
         super().__init__(nodes_number, nodes_apps, qchannel_args, cchannel_args, memory_args)
         size = int(math.sqrt(self.nodes_number))
         self.size = size
-        assert(size ** 2 == self.nodes_number)
+        assert (size ** 2 == self.nodes_number)
 
     def build(self) -> Tuple[List[QNode], List[QuantumChannel]]:
         nl: List[QNode] = []

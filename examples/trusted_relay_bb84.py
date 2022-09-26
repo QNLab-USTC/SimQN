@@ -35,7 +35,7 @@ for num in [2, 3, 4, 5, 6]:
             for c in net.cchannels:
                 if c.name == f"c-{qchannel.name}":
                     cchannel = c
-            assert(cchannel is not None)
+            assert (cchannel is not None)
 
             sp = BB84SendApp(dst, qchannel, cchannel, send_rate=1000)
             rp = BB84RecvApp(src, qchannel, cchannel)
