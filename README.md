@@ -86,3 +86,18 @@ Compared with the existing quantum network simulators, the developers pay more a
 
 ## How to contribute?
 Welcome to contribute through Github Issue or Pull Requests. Please refer to the [develop guide](https://ertuil.github.io/SimQN/develop.html). If you have any questions, you are welcome to contact the developers via e-mail.
+
+## License and Authors
+
+SimQN is an open-source project under [GPLv3](/LICENSE) license. The authors of the paper includes:
+* Lutong Chen (ertuil), School of Cyber Science and Technology, University of Science and Technology of China, China. elliot.98@outlook.com
+* Jian Li(infonetlijian), School of Cyber Science and Technology, University of Science and Technology of China, China.
+* Kaiping Xue (kaipingxue), School of Cyber Science and Technology, University of Science and Technology of China, China. xue.kaiping@gmail.com
+* Nenghai Yu, School of Cyber Science and Technology, University of Science and Technology of China, China.
+* David S.L. Wei, Computer and Information Science Department at Fordham University, USA.
+* Ruidong Li, Institute of Science and Engineering, Kanazawa University, Japan.
+* Qibin Sun, School of Cyber Science and Technology, University of Science and Technology of China, China.
+* Jun Lu, School of Cyber Science and Technology, University of Science and Technology of China, China.
+
+Other contributors includes:
+* Zirui Xiao, School of Cyber Science and Technology, University of Science and Technology of China, China.
