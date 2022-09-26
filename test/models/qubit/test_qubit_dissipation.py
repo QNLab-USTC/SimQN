@@ -27,4 +27,3 @@ def test_qubit_dissipation_epr():
 
     print(q0.state)
     print(q1.state)
-

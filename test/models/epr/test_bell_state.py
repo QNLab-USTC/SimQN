@@ -13,7 +13,7 @@ def test_bell_state_epr():
             c0 += 1
         else:
             c1 += 1
-    assert(c0 == 0 and c1 == 1000)
+    assert (c0 == 0 and c1 == 1000)
 
 
 if __name__ == "__main__":

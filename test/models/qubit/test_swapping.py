@@ -26,4 +26,4 @@ def test_swapping():
     elif c0 == 1 and c1 == 1:
         X(q3)
         Z(q3)
-    assert(q0.measure() == q3.measure())
+    assert (q0.measure() == q3.measure())

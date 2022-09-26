@@ -20,8 +20,8 @@ def test_qubit_measure_error():
     q0 = Qubit(state=QUBIT_STATE_0, name="q0")
     c0 = q0.measure()
     ans = np.array([[1, 0], [0, 0]])
-    assert((ans == q0.state.rho).all())
-    assert(c0 == 0)
+    assert ((ans == q0.state.rho).all())
+    assert (c0 == 0)
 
     Qubit = QubitFactory(operate_decoherence_rate=0.2,
                          measure_decoherence_rate=0.2, measure_error_model=DepolarMeasureErrorModel)

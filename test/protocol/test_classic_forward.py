@@ -29,11 +29,11 @@ class SendApp(Application):
 
         route_result = self.route.query(self.get_node(), self.dest)
         if len(route_result) <= 0 or len(route_result[0]) <= 1:
-            raise("not found next hop")
+            raise ("not found next hop")
         next_hop = route_result[0][1]
         cchannel: ClassicChannel = self.get_node().get_cchannel(next_hop)
         if cchannel is None:
-            raise("not found next channel")
+            raise ("not found next channel")
 
         # send the classic packet
         cchannel.send(packet=packet, next_hop=next_hop)
@@ -58,7 +58,7 @@ class RecvApp(Application):
         msg = packet.get()
         output = f"{node} recv packet: {msg} from {packet.src}->{packet.dest}"
         print(output)
-        assert(output == "<node n10> recv packet: Hello,world from <node n1> from <node n1>-><node n10>")
+        assert (output == "<node n10> recv packet: Hello,world from <node n1> from <node n1>-><node n10>")
 
 
 def test_classic_forward():

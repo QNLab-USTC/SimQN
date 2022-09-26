@@ -33,21 +33,21 @@ def test_memory_sync_qubit_limited():
 
     for i in range(5):
         q = Qubit(name="q"+str(i+1))
-        assert(m.write(q))
-        assert(m.count == i+1)
+        assert (m.write(q))
+        assert (m.count == i+1)
 
     q = Qubit(name="q5")
-    assert(not m.write(q))
-    assert(m.is_full())
+    assert (not m.write(q))
+    assert (m.is_full())
 
     q = m.read(key="q4")
-    assert(q is not None)
-    assert(m.count == 4)
-    assert(not m.is_full())
+    assert (q is not None)
+    assert (m.count == 4)
+    assert (not m.is_full())
     q = Qubit(name="q6")
-    assert(m.write(q))
-    assert(m.is_full())
-    assert(m._search(key="q6") == 3)
+    assert (m.write(q))
+    assert (m.is_full())
+    assert (m._search(key="q6") == 3)
 
 
 def test_memory_sync_epr():

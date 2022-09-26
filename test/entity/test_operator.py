@@ -25,7 +25,7 @@ def test_operator_sync():
 
     qubit = Qubit()
     ret = o1.operate(qubit)
-    assert(ret in [0, 1])
+    assert (ret in [0, 1])
 
     s.run()
 
@@ -37,8 +37,8 @@ class RecvOperateApp(Application):
 
     def OperateResponseEventhandler(self, node, event: Event) -> Optional[bool]:
         result = event.result
-        assert(self._simulator.tc.sec == 0.5)
-        assert(result in [0, 1])
+        assert (self._simulator.tc.sec == 0.5)
+        assert (result in [0, 1])
 
 
 def test_operator_async():

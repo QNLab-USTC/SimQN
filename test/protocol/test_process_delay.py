@@ -33,7 +33,7 @@ class ProcessApp(Application):
     def EventHandler(self, node, event: Event) -> Optional[bool]:
         expected_recv_time = [i+0.5 for i in range(0, 10)]
         print(f"recv event at {event.t}")
-        assert(event.t.sec in expected_recv_time)
+        assert (event.t.sec in expected_recv_time)
 
 
 def test_process_delay():
