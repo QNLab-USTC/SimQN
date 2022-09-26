@@ -38,14 +38,14 @@ Here is an example of using SimQN.
     from qns.network.topology.topo import ClassicTopology
     import qns.utils.log as log
 
-    init_fidelity = 0.99 # the initial entanglement's fidelity 
-    nodes_number = 150 # the number of nodes
-    lines_number = 450 # the number of quantum channels
-    qchannel_delay = 0.05 # the delay of quantum channels
-    cchannel_delay = 0.05 # the delay of classic channels
-    memory_capacity = 50 # the size of quantum memories
-    send_rate = 10 # the send rate
-    requests_number = 10 # the number of sessions (SD-pairs)
+    init_fidelity = 0.99   # the initial entanglement's fidelity
+    nodes_number = 150     # the number of nodes
+    lines_number = 450     # the number of quantum channels
+    qchannel_delay = 0.05  # the delay of quantum channels
+    cchannel_delay = 0.05  # the delay of classic channels
+    memory_capacity = 50   # the size of quantum memories
+    send_rate = 10         # the send rate
+    requests_number = 10   # the number of sessions (SD-pairs)
 
     # generate the simulator
     s = Simulator(0, 10, accuracy=1000000)
@@ -57,14 +57,14 @@ Here is an example of using SimQN.
     # generate a random topology using the parameters above
     # each node will install EntanglementDistributionApp for hop-by-hop entanglement distribution
     topo = RandomTopology(nodes_number=nodes_number,
-        lines_number=lines_number,
-        qchannel_args={"delay": qchannel_delay},
-        cchannel_args={"delay": cchannel_delay},
-        memory_args=[{"capacity": memory_capacity}],
-        nodes_apps=[EntanglementDistributionApp(init_fidelity=init_fidelity)])
+                          lines_number=lines_number,
+                          qchannel_args={"delay": qchannel_delay},
+                          cchannel_args={"delay": cchannel_delay},
+                          memory_args=[{"capacity": memory_capacity}],
+                          nodes_apps=[EntanglementDistributionApp(init_fidelity=init_fidelity)])
 
     # build the network, with Dijkstra's routing algorithm
-    net = QuantumNetwork( topo=topo, classic_topo=ClassicTopology.All, route=DijkstraRouteAlgorithm())
+    net = QuantumNetwork(topo=topo, classic_topo=ClassicTopology.All, route=DijkstraRouteAlgorithm())
 
     # build the routing table
     net.build_route()
