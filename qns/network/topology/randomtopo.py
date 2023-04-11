@@ -67,7 +67,7 @@ class RandomTopology(Topology):
                 while True:
                     a = get_randint(0, self.nodes_number - 1)
                     b = get_randint(0, self.nodes_number - 1)
-                    if mat[a][b] == 0:
+                    if a != b and mat[a][b] == 0:
                         break
                 mat[a][b] = 1
                 mat[b][a] = 1
