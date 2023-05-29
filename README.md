@@ -94,7 +94,6 @@ SimQN is an open-source project under [GPLv3](/LICENSE) license. The authors of 
 * Jian Li(infonetlijian), School of Cyber Science and Technology, University of Science and Technology of China, China.
 * Kaiping Xue (kaipingxue), School of Cyber Science and Technology, University of Science and Technology of China, China. xue.kaiping@gmail.com
 * Nenghai Yu, School of Cyber Science and Technology, University of Science and Technology of China, China.
-* David S.L. Wei, Computer and Information Science Department at Fordham University, USA.
 * Ruidong Li, Institute of Science and Engineering, Kanazawa University, Japan.
 * Qibin Sun, School of Cyber Science and Technology, University of Science and Technology of China, China.
 * Jun Lu, School of Cyber Science and Technology, University of Science and Technology of China, China.
