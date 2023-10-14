@@ -56,6 +56,8 @@ class BB84SendApp(Application):
         self.succ_key_pool = {}
         self.fail_number = 0
 
+        # variable used in cascade
+
         self.add_handler(self.handleClassicPacket, [RecvClassicPacket], [self.cchannel])
 
     def install(self, node: QNode, simulator: Simulator):
@@ -75,11 +77,14 @@ class BB84SendApp(Application):
         #     self._simulator.add_event(event)
 
     def handleClassicPacket(self, node: QNode, event: Event):
-        self.check_basis(event)
+        return self.check_basis(event)
 
     def check_basis(self, event: RecvClassicPacket):
         packet = event.packet
         msg: dict = packet.get()
+        packet_class = msg.get("packet_class")
+        if packet_class != "check_basis":
+            return False
         id = msg.get("id")
         basis_dest = msg.get("basis")
 
@@ -93,10 +98,11 @@ class BB84SendApp(Application):
             # log.info(f"[{self._simulator.current_time}] src check {id} basis fail")
             self.fail_number += 1
 
-        packet = ClassicPacket(msg={"id": id, "basis": basis_src,
+        packet = ClassicPacket(msg={"packet_class": "check_basis","id": id, "basis": basis_src,
                                "ret": self.measure_list[id]}, src=self._node, dest=self.dest)
         self.cchannel.send(packet, next_hop=self.dest)
-
+        return True
+    
     def send_qubit(self):
 
         # randomly generate a qubit
@@ -140,6 +146,8 @@ class BB84RecvApp(Application):
         self.succ_key_pool = {}
         self.fail_number = 0
 
+        # variable used in cascade
+        
         self.add_handler(self.handleQuantumPacket, [RecvQubitPacket], [self.qchannel])
         self.add_handler(self.handleClassicPacket, [RecvClassicPacket], [self.cchannel])
 
@@ -152,6 +160,9 @@ class BB84RecvApp(Application):
     def check_basis(self, event: RecvClassicPacket):
         packet = event.packet
         msg: dict = packet.get()
+        packet_class = msg.get("packet_class")
+        if packet_class != "check_basis":
+            return False
         id = msg.get("id")
         basis_src = msg.get("basis")
 
@@ -167,6 +178,7 @@ class BB84RecvApp(Application):
         else:
             # log.info(f"[{self._simulator.current_time}] dest check {id} basis fail")
             self.fail_number += 1
+        return True
 
     def recv(self, event: RecvQubitPacket):
         qubit: Qubit = event.qubit
@@ -181,5 +193,5 @@ class BB84RecvApp(Application):
         # log.info(f"[{self._simulator.current_time}] recv qubit {qubit.id}, \
         # basis: {basis_msg}, ret: {ret}")
         packet = ClassicPacket(
-            msg={"id": qubit.id, "basis": basis_msg}, src=self._node, dest=self.src)
+            msg={"packet_class": "check_basis","id": qubit.id, "basis": basis_msg}, src=self._node, dest=self.src)
         self.cchannel.send(packet, next_hop=self.src)
