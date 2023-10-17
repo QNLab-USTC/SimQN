@@ -57,7 +57,13 @@ class BB84SendApp(Application):
         self.fail_number = 0
 
         # variable used in cascade
-
+        self.using_cascade = False
+        self.cascade_round = 0
+        self.current_error_rate = 0
+        self.cascade_key = []
+        self.coordination_key_pool = []
+        self.cascade_key_block_size = 20
+        
         self.add_handler(self.handleClassicPacket, [RecvClassicPacket], [self.cchannel])
 
     def install(self, node: QNode, simulator: Simulator):
@@ -77,7 +83,7 @@ class BB84SendApp(Application):
         #     self._simulator.add_event(event)
 
     def handleClassicPacket(self, node: QNode, event: Event):
-        return self.check_basis(event)
+        return self.check_basis(event) or self.recv_error_estimate_packet(event) or self.recv_cascade_ask_packet(event)
 
     def check_basis(self, event: RecvClassicPacket):
         packet = event.packet
@@ -131,6 +137,95 @@ class BB84SendApp(Application):
         event = func_to_event(t, self.send_qubit, by=self)
         self._simulator.add_event(event)
 
+    def recv_error_estimate_packet(self, event: RecvClassicPacket):
+        # BB84SendApp recv error estimate packet
+        packet = event.packet
+        msg: dict = packet.get()
+        packet_class = msg.get("packet_class")
+        if packet_class != "error_estimate":
+            return False
+        
+        self.using_cascade = True
+        self.current_error_rate = 0
+        self.cascade_round = 0
+        self.cascade_key = []
+        self.cascade_key_block_size = 20
+
+        # get some recvapp error estimate info
+        bits_len_for_cascade = msg.get("bits_len_for_cascade")
+        bits_len_for_estimate = msg.get("bits_len_for_estimate")
+        recv_app_bits_for_estimate = msg.get("bit_for_estimate")
+        keys = list(self.succ_key_pool.keys())[0:bits_len_for_cascade]
+        error_in_estimate = 0
+        bit_for_estimate = []
+        count_temp = 0
+
+        # remove uesd raw key
+        for i in keys:
+            item_temp = self.succ_key_pool.pop(i)
+            count_temp += 1
+            if count_temp <= bits_len_for_estimate:
+                bit_for_estimate.append(item_temp)
+            else :
+                self.cascade_key.append(item_temp)
+        
+        # count errors
+        for i in range(len(bit_for_estimate)):
+            if bit_for_estimate[i] != recv_app_bits_for_estimate[i]:
+                error_in_estimate += 1
+        
+        # error estimate and set key block size in round1
+        self.current_error_rate = error_in_estimate/bits_len_for_estimate
+        print("error rate is {}".format(self.current_error_rate))
+        if self.current_error_rate >= 0.0365:
+            self.cascade_key_block_size = int(0.73/self.current_error_rate)
+        self.cascade_round = 1
+        
+        # send error_estimate_reply packet
+        packet = ClassicPacket(msg={"packet_class": "error_estimate_reply",
+                                    "error_rate": self.current_error_rate}, 
+                                    src=self._node, dest=self.dest)
+        self.cchannel.send(packet, next_hop=self.dest)
+        return True
+    
+    def recv_cascade_ask_packet(self, event: RecvClassicPacket):
+        # BB84SendApp recv cascade_ask packet
+        packet = event.packet
+        msg: dict = packet.get()
+        packet_class = msg.get("packet_class")
+        if packet_class != "cascade_ask":
+            return False
+        
+        # get cascade_ask info
+        parity_request = msg.get("parity_request")
+        round_change_flag = msg.get("round_change_flag")
+        shuffle_index = msg.get("shuffle_index")
+        privacy_flag = msg.get("privacy_flag")
+
+        # cascade process end and privacy amplification
+        if privacy_flag == True:
+            # To Do
+            print("it is time to privacy amplification!")
+            return True
+        
+        # cascade round change and shuffle cascade keys
+        elif round_change_flag == True and shuffle_index != []:
+            self.cascade_key_block_size *= 2
+            self.cascade_round += 1
+            self.cascade_key = [self.cascade_key[i] for i in shuffle_index]
+        
+        parity_answer = []
+        for key_interval in parity_request:
+            temp_parity = cascade_parity(self.cascade_key[key_interval[0]:key_interval[1]+1])
+            parity_answer.append(temp_parity)
+        print(parity_answer)
+
+        # send cascade_reply packet
+        packet = ClassicPacket(msg={"packet_class": "cascade_reply",
+                                    "parity_answer": parity_answer}, 
+                                    src=self._node, dest=self.dest)
+        self.cchannel.send(packet, next_hop=self.dest)
+        return True
 
 class BB84RecvApp(Application):
     def __init__(self, src: QNode, qchannel: QuantumChannel, cchannel: ClassicChannel):
@@ -147,6 +242,13 @@ class BB84RecvApp(Application):
         self.fail_number = 0
 
         # variable used in cascade
+        self.using_cascade = False
+        self.cascade_round = 0
+        self.current_error_rate = 0
+        self.cascade_key = []
+        self.coordination_key_pool = []
+        self.cascade_key_block_size = 20
+        self.cascade_binary_set = []
         
         self.add_handler(self.handleQuantumPacket, [RecvQubitPacket], [self.qchannel])
         self.add_handler(self.handleClassicPacket, [RecvClassicPacket], [self.cchannel])
@@ -155,7 +257,7 @@ class BB84RecvApp(Application):
         return self.recv(event)
 
     def handleClassicPacket(self, node: QNode, event: Event):
-        return self.check_basis(event)
+        return self.check_basis(event) or self.recv_error_estimate_reply_packet(event) or self.recv_cascade_reply_packet(event)
 
     def check_basis(self, event: RecvClassicPacket):
         packet = event.packet
@@ -178,6 +280,10 @@ class BB84RecvApp(Application):
         else:
             # log.info(f"[{self._simulator.current_time}] dest check {id} basis fail")
             self.fail_number += 1
+        
+        if self.using_cascade is False and len(self.succ_key_pool) >= 5000:
+            # enough raw key to start cascade
+            self.send_error_estimate_packet()
         return True
 
     def recv(self, event: RecvQubitPacket):
@@ -195,3 +301,166 @@ class BB84RecvApp(Application):
         packet = ClassicPacket(
             msg={"packet_class": "check_basis","id": qubit.id, "basis": basis_msg}, src=self._node, dest=self.src)
         self.cchannel.send(packet, next_hop=self.src)
+
+    def send_error_estimate_packet(self):
+        # BB84RecvApp use some raw bits and estimate
+        self.cascade_key = []
+        self.cascade_binary_set = []
+        self.using_cascade = True
+        self.cascade_round = 0
+        self.current_error_rate = 0
+        self.cascade_key_block_size = 20
+
+        # info to send
+        count_temp = 0        
+        bit_for_estimate = []
+        bits_len_for_estimate = 2000
+        bits_len_for_cascade = len(self.succ_key_pool)  
+        keys = list(self.succ_key_pool.keys())[0:bits_len_for_cascade]
+
+        # remove uesd raw key and update cascade_key && bit_for_estimate
+        for i in keys:
+            item_temp = self.succ_key_pool.pop(i)
+            count_temp += 1
+            if count_temp <= bits_len_for_estimate:
+                bit_for_estimate.append(item_temp)
+            else :
+                self.cascade_key.append(item_temp)
+        
+        # send error_estimate packet
+        packet = ClassicPacket(msg={"packet_class": "error_estimate", 
+                                    "bit_for_estimate": bit_for_estimate,
+                                    "bits_len_for_cascade": bits_len_for_cascade, 
+                                    "bits_len_for_estimate": bits_len_for_estimate}, 
+                                    src=self._node, dest=self.src)
+        self.cchannel.send(packet, next_hop=self.src)
+
+    def recv_error_estimate_reply_packet(self, event: RecvClassicPacket):
+        # BB84RecvApp recv error estimate reply packet
+        packet = event.packet
+        msg: dict = packet.get()
+        packet_class = msg.get("packet_class")
+        if packet_class != "error_estimate_reply":
+            return False
+        
+        # get error estimate info and set block size in round1
+        self.current_error_rate = msg.get("error_rate")
+        if self.current_error_rate >= 0.0365:
+            self.cascade_key_block_size = int(0.73/self.current_error_rate)
+        self.cascade_round = 1
+
+        # start cascade round1,divide into top blocks of size self.keysize 
+        count_temp = 0
+        last_index = len(self.cascade_key) - 1
+        while count_temp <= last_index:
+            end = count_temp + self.cascade_key_block_size - 1
+            if end <= last_index:
+                self.cascade_binary_set.append((count_temp,end))
+                count_temp = end + 1
+            else:
+                end = last_index
+                self.cascade_binary_set.append((count_temp,end))
+                break
+
+        # send cascade_ask packet
+        packet = ClassicPacket(msg={"packet_class": "cascade_ask", 
+                                    "parity_request": self.cascade_binary_set,
+                                    "round_change_flag": False, 
+                                    "shuffle_index" : [],
+                                    "privacy_flag": False}, 
+                               src=self._node, dest=self.src)
+        self.cchannel.send(packet, next_hop=self.src)
+
+        return True
+    
+    def recv_cascade_reply_packet(self, event: RecvClassicPacket):
+        # BB84RecvApp recv cascade_reply packet
+        packet = event.packet
+        msg: dict = packet.get()
+        packet_class = msg.get("packet_class")
+        if packet_class != "cascade_reply":
+            return False
+
+        # get cascade_reply info
+        parity_answer = msg.get("parity_answer")
+        
+        # update cascade binary set
+        count_temp = 0
+        # traverse all the blocks need to compare parity
+        copy_cascade_binary_set = self.cascade_binary_set.copy()
+        for key_interval in copy_cascade_binary_set:
+            temp_parity = cascade_parity(self.cascade_key[key_interval[0]:key_interval[1]+1])
+            if temp_parity == parity_answer[count_temp]:
+                # this block have even errors,can not correct in this round
+                self.cascade_binary_set.remove(key_interval)
+            elif key_interval[0] != key_interval[1]:
+                # binary alg
+                self.cascade_binary_set.remove(key_interval)
+                left_temp,right_temp = cascade_binary_divide(key_interval[0],key_interval[1])
+                self.cascade_binary_set.append(left_temp)
+                self.cascade_binary_set.append(right_temp)
+            else :
+                # find the odd error
+                self.cascade_binary_set.remove(key_interval)
+                self.cascade_key[key_interval[0]] = parity_answer[count_temp]
+                
+            count_temp += 1
+        
+        round_change_flag = False
+        privacy_flag = False
+        shuffle_index = []
+        if len(self.cascade_binary_set) == 0:
+            if self.cascade_round == 4:
+                # update round info 
+                privacy_flag = True
+            else :
+                # update round info    
+                round_change_flag = True
+                self.cascade_round += 1
+                self.cascade_key_block_size *= 2
+                # need shuffle
+                shuffle_index = [i for i in range(len(self.cascade_key))]
+                shuffle_index = cascade_key_shuffle(shuffle_index)
+                self.cascade_key = [self.cascade_key[i] for i in shuffle_index]
+                # divide into top blocks of size self.keysize 
+                count_temp = 0
+                last_index = len(self.cascade_key) - 1
+                while count_temp <= last_index:
+                    end = count_temp + self.cascade_key_block_size - 1
+                    if end <= last_index:
+                        self.cascade_binary_set.append((count_temp,end))
+                        count_temp = end + 1
+                    else:
+                        end = last_index
+                        self.cascade_binary_set.append((count_temp,end))
+                        break
+        
+        print(self.cascade_binary_set)        
+        # send cascade_ask packet
+        packet = ClassicPacket(msg={"packet_class": "cascade_ask", 
+                                    "parity_request": self.cascade_binary_set,
+                                    "round_change_flag": round_change_flag, 
+                                    "shuffle_index" : shuffle_index,
+                                    "privacy_flag": privacy_flag}, 
+                               src=self._node, dest=self.src)
+        self.cchannel.send(packet, next_hop=self.src)
+        return True
+
+def cascade_parity(target:list):
+    # calculate parity
+    count = sum(target)
+    return count % 2
+
+def cascade_binary_divide(begin: int,end: int):
+    # binnary devide
+    len = end - begin + 1
+    if len % 2 == 1:
+        middle = int(len/2) + begin  
+    else :
+        middle = int(len/2) + begin - 1
+    return (begin,middle),(middle+1,end)
+
+def cascade_key_shuffle(index:list):
+    # shuffle the index
+    np.random.shuffle(index)
+    return index
