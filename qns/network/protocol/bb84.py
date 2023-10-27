@@ -63,6 +63,7 @@ class BB84SendApp(Application):
         self.cascade_key = []
         self.coordination_key_pool = []
         self.cascade_key_block_size = 20
+        self.bit_leak = 0
         
         self.add_handler(self.handleClassicPacket, [RecvClassicPacket], [self.cchannel])
 
@@ -150,6 +151,7 @@ class BB84SendApp(Application):
         self.cascade_round = 0
         self.cascade_key = []
         self.cascade_key_block_size = 20
+        self.bit_leak = 0
 
         # get some recvapp error estimate info
         bits_len_for_cascade = msg.get("bits_len_for_cascade")
@@ -218,6 +220,8 @@ class BB84SendApp(Application):
         for key_interval in parity_request:
             temp_parity = cascade_parity(self.cascade_key[key_interval[0]:key_interval[1]+1])
             parity_answer.append(temp_parity)
+
+        self.bit_leak += len(parity_answer)
         print(parity_answer)
 
         # send cascade_reply packet
@@ -249,6 +253,7 @@ class BB84RecvApp(Application):
         self.coordination_key_pool = []
         self.cascade_key_block_size = 20
         self.cascade_binary_set = []
+        self.bit_leak = 0
         
         self.add_handler(self.handleQuantumPacket, [RecvQubitPacket], [self.qchannel])
         self.add_handler(self.handleClassicPacket, [RecvClassicPacket], [self.cchannel])
@@ -310,6 +315,7 @@ class BB84RecvApp(Application):
         self.cascade_round = 0
         self.current_error_rate = 0
         self.cascade_key_block_size = 20
+        self.bit_leak = 0
 
         # info to send
         count_temp = 0        
@@ -383,7 +389,8 @@ class BB84RecvApp(Application):
 
         # get cascade_reply info
         parity_answer = msg.get("parity_answer")
-        
+        self.bit_leak += len(parity_answer)
+
         # update cascade binary set
         count_temp = 0
         # traverse all the blocks need to compare parity
@@ -412,6 +419,7 @@ class BB84RecvApp(Application):
         if len(self.cascade_binary_set) == 0:
             if self.cascade_round == 4:
                 # update round info 
+                # To Do
                 privacy_flag = True
             else :
                 # update round info    
