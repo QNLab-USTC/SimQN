@@ -26,6 +26,7 @@ from qns.simulator.simulator import Simulator
 from qns.models.qubit import Qubit
 
 import numpy as np
+import random
 
 from qns.utils.rnd import get_rand, get_choice
 
@@ -63,7 +64,12 @@ class BB84SendApp(Application):
         self.cascade_key = []
         self.coordination_key_pool = []
         self.cascade_key_block_size = 20
+        
+        
+        # variable used in PA
         self.bit_leak = 0
+        self.security = 0.05
+        self.afterPA_key = []
         
         self.add_handler(self.handleClassicPacket, [RecvClassicPacket], [self.cchannel])
 
@@ -203,11 +209,23 @@ class BB84SendApp(Application):
         round_change_flag = msg.get("round_change_flag")
         shuffle_index = msg.get("shuffle_index")
         privacy_flag = msg.get("privacy_flag")
-
+        # receive parameters sent by Bob before privacy amplification
+        if privacy_flag == True:
+            # The first row and first column of the Toplitz matrix
+            first_row = msg.get("first_row")
+            first_col = msg.get("first_col")
         # cascade process end and privacy amplification
         if privacy_flag == True:
-            # To Do
+            # Alice's privacy amplification operation
             print("it is time to privacy amplification!")
+            matrix_row = len(first_row)
+            matrix_col = len(first_col)+1
+            toeplitz_matrix = pa_generate_toeplitz_matrix(matrix_row, matrix_col, first_row,first_col)
+            self.afterPA_key = pa_randomize_key(self.cascade_key,toeplitz_matrix)
+            # validation output
+            print("Alice's afterPA key:",self.afterPA_key[:10],self.afterPA_key[-10:])
+            print("compress radio:",matrix_col/matrix_row)
+            print(matrix_row,matrix_col)
             return True
         
         # cascade round change and shuffle cascade keys
@@ -227,7 +245,7 @@ class BB84SendApp(Application):
         # send cascade_reply packet
         packet = ClassicPacket(msg={"packet_class": "cascade_reply",
                                     "parity_answer": parity_answer}, 
-                                    src=self._node, dest=self.dest)
+                                    src=self._node, dest=self.dest) 
         self.cchannel.send(packet, next_hop=self.dest)
         return True
 
@@ -253,7 +271,11 @@ class BB84RecvApp(Application):
         self.coordination_key_pool = []
         self.cascade_key_block_size = 20
         self.cascade_binary_set = []
+        
+        # variable used in PA
         self.bit_leak = 0
+        self.security = 0.05
+        self.afterPA_key = []
         
         self.add_handler(self.handleQuantumPacket, [RecvQubitPacket], [self.qchannel])
         self.add_handler(self.handleClassicPacket, [RecvClassicPacket], [self.cchannel])
@@ -419,8 +441,18 @@ class BB84RecvApp(Application):
         if len(self.cascade_binary_set) == 0:
             if self.cascade_round == 4:
                 # update round info 
-                # To Do
                 privacy_flag = True
+                # Bob's privacy amplification operation
+                matrix_row = len(self.cascade_key)
+                matrix_col = (1-self.security)*len(self.cascade_key)-self.bit_leak
+                first_row = [random.randint(0, 1) for _ in range(matrix_row)]
+                first_col = [random.randint(0, 1) for _ in range(int(matrix_col)-1)]
+                toeplitz_matrix = pa_generate_toeplitz_matrix(matrix_row, matrix_col, first_row,first_col)
+                self.afterPA_key = pa_randomize_key(self.cascade_key,toeplitz_matrix)
+                # validation output
+                print("Bob's afterPA key:",self.afterPA_key[:10],self.afterPA_key[-10:])
+                print("compress radio:",matrix_col/matrix_row)
+                print(matrix_row,matrix_col)
             else :
                 # update round info    
                 round_change_flag = True
@@ -444,13 +476,23 @@ class BB84RecvApp(Application):
                         break
         
         print(self.cascade_binary_set)        
-        # send cascade_ask packet
-        packet = ClassicPacket(msg={"packet_class": "cascade_ask", 
+        # send cascade_ask packet,distinguish whether privacy amplification is required
+        if privacy_flag == False:
+            packet = ClassicPacket(msg={"packet_class": "cascade_ask", 
                                     "parity_request": self.cascade_binary_set,
                                     "round_change_flag": round_change_flag, 
                                     "shuffle_index" : shuffle_index,
                                     "privacy_flag": privacy_flag}, 
-                               src=self._node, dest=self.src)
+                                    src=self._node, dest=self.src)
+        else:
+            packet = ClassicPacket(msg={"packet_class": "cascade_ask", 
+                                    "parity_request": self.cascade_binary_set,
+                                    "round_change_flag": round_change_flag, 
+                                    "shuffle_index" : shuffle_index,
+                                    "privacy_flag": privacy_flag,
+                                    "first_row":first_row,
+                                    "first_col":first_col}, 
+                                    src=self._node, dest=self.src)
         self.cchannel.send(packet, next_hop=self.src)
         return True
 
@@ -472,3 +514,21 @@ def cascade_key_shuffle(index:list):
     # shuffle the index
     np.random.shuffle(index)
     return index
+
+# function of privacy amplification part
+def pa_generate_toeplitz_matrix(N:int, M:int, first_row:list,first_col:list):
+    # Generate a Toeplitz matrix of size N x M using two given list of binary values.
+    N = int(N)
+    M = int(M)
+    toeplitz_matrix = [[0] * N for _ in range(M)]
+    for i in range(N):
+        toeplitz_matrix[0][i] = first_row[i]
+    for i in range(M-1):
+        toeplitz_matrix[i+1][0] = first_col[i]
+    for i in range(1, M):
+        for j in range(1, N):
+            toeplitz_matrix[i][j] = toeplitz_matrix[i-1][j-1]
+    return toeplitz_matrix
+def pa_randomize_key(original_key:list, toeplitz_matrix):
+    # process the original key through the toeplitz matrix
+    return np.dot(toeplitz_matrix, original_key) % 2
