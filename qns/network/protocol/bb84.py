@@ -42,7 +42,14 @@ class QubitWithError(Qubit):
 
 class BB84SendApp(Application):
     def __init__(self, dest: QNode, qchannel: QuantumChannel,
-                 cchannel: ClassicChannel, send_rate=1000):
+                 cchannel: ClassicChannel, send_rate=1000,
+                 min_length_for_post_processing=5000,
+                 proportion_for_estimating_error=0.4,max_cascade_round=4,
+                 cascade_alpha=0.73,cascade_beita=2,
+                 init_lower_cascade_key_block_size=5,
+                 init_upper_cascade_key_block_size=20,
+                 security=0.05):
+        
         super().__init__()
         self.dest = dest
         self.qchannel = qchannel
@@ -57,19 +64,26 @@ class BB84SendApp(Application):
         self.succ_key_pool = {}
         self.fail_number = 0
 
-        # variable used in cascade
-        self.using_cascade = False
-        self.cascade_round = 0
-        self.current_error_rate = 0
+        # variable used in cascade and error estimate
+        self.min_length_for_post_processing = min_length_for_post_processing
+        self.proportion_for_estimating_error = proportion_for_estimating_error
+        self.max_cascade_round = max_cascade_round
+        self.cascade_alpha = cascade_alpha
+        self.cascade_beita = cascade_beita 
+        self.init_lower_cascade_key_block_size = init_lower_cascade_key_block_size
+        self.init_upper_cascade_key_block_size = init_upper_cascade_key_block_size
+        
+        self.using_post_processing = False
+        self.cur_error_rate = 1e-6
+        self.cur_cascade_round = 0
+        self.cur_cascade_key_block_size = self.init_lower_cascade_key_block_size
         self.cascade_key = []
-        self.coordination_key_pool = []
-        self.cascade_key_block_size = 20
         
-        
-        # variable used in PA
+        # variable used in privacy amplification
+        self.security = security
+
         self.bit_leak = 0
-        self.security = 0.05
-        self.afterPA_key = []
+        self.successful_key = []
         
         self.add_handler(self.handleClassicPacket, [RecvClassicPacket], [self.cchannel])
 
@@ -152,46 +166,55 @@ class BB84SendApp(Application):
         if packet_class != "error_estimate":
             return False
         
-        self.using_cascade = True
-        self.current_error_rate = 0
-        self.cascade_round = 0
+        self.using_post_processing = True
+        self.cur_error_rate = 1e-6
+        self.cur_cascade_round = 0
+        self.cur_cascade_key_block_size = self.init_lower_cascade_key_block_size
         self.cascade_key = []
-        self.cascade_key_block_size = 20
         self.bit_leak = 0
 
         # get some recvapp error estimate info
-        bits_len_for_cascade = msg.get("bits_len_for_cascade")
-        bits_len_for_estimate = msg.get("bits_len_for_estimate")
-        recv_app_bits_for_estimate = msg.get("bit_for_estimate")
-        keys = list(self.succ_key_pool.keys())[0:bits_len_for_cascade]
+        recv_app_bit_for_estimate = msg.get("bit_for_estimate")
+        recv_app_bit_index_for_estimate = msg.get("bit_index_for_estimate")
+        recv_app_bit_index_for_cascade = msg.get("bit_index_for_cascade")
+        keys = list(self.succ_key_pool.keys())
         error_in_estimate = 0
-        bit_for_estimate = []
-        count_temp = 0
-
-        # remove uesd raw key
+        real_bit_length_for_estimate = 0
+        real_bit_index_for_cascade = []
+        
+        # get cascade_key and count errors
         for i in keys:
             item_temp = self.succ_key_pool.pop(i)
-            count_temp += 1
-            if count_temp <= bits_len_for_estimate:
-                bit_for_estimate.append(item_temp)
-            else :
+            if i in recv_app_bit_index_for_estimate:
+                # find a bit to estimate error
+                bit_index = recv_app_bit_index_for_estimate.index(i)
+                if item_temp == recv_app_bit_for_estimate[bit_index]:
+                    real_bit_length_for_estimate += 1
+                else :
+                    real_bit_length_for_estimate += 1
+                    error_in_estimate += 1
+            elif i in recv_app_bit_index_for_cascade:
+                # find a bit for cascade
                 self.cascade_key.append(item_temp)
-        
-        # count errors
-        for i in range(len(bit_for_estimate)):
-            if bit_for_estimate[i] != recv_app_bits_for_estimate[i]:
-                error_in_estimate += 1
+                real_bit_index_for_cascade.append(i)
         
         # error estimate and set key block size in round1
-        self.current_error_rate = error_in_estimate/bits_len_for_estimate
-        print("error rate is {}".format(self.current_error_rate))
-        if self.current_error_rate >= 0.0365:
-            self.cascade_key_block_size = int(0.73/self.current_error_rate)
-        self.cascade_round = 1
+        self.cur_error_rate = error_in_estimate/real_bit_length_for_estimate
+        
+        if self.cur_error_rate <= (self.cascade_alpha/self.init_upper_cascade_key_block_size):
+            # error rate is smaller than threshold
+            self.cur_cascade_key_block_size = self.init_upper_cascade_key_block_size
+        elif  self.cur_error_rate >= (self.cascade_alpha/self.init_lower_cascade_key_block_size):
+            self.cur_cascade_key_block_size = self.init_lower_cascade_key_block_size
+        else :
+            self.cur_cascade_key_block_size = int(self.cascade_alpha/self.cur_error_rate)
+
+        self.cur_cascade_round = 1
         
         # send error_estimate_reply packet
         packet = ClassicPacket(msg={"packet_class": "error_estimate_reply",
-                                    "error_rate": self.current_error_rate}, 
+                                    "error_rate": self.cur_error_rate,
+                                    "real_bit_index_for_cascade":real_bit_index_for_cascade}, 
                                     src=self._node, dest=self.dest)
         self.cchannel.send(packet, next_hop=self.dest)
         return True
@@ -209,29 +232,24 @@ class BB84SendApp(Application):
         round_change_flag = msg.get("round_change_flag")
         shuffle_index = msg.get("shuffle_index")
         privacy_flag = msg.get("privacy_flag")
-        # receive parameters sent by Bob before privacy amplification
+ 
         if privacy_flag == True:
-            # The first row and first column of the Toplitz matrix
+            # cascade process end and privacy amplification
+            # Alice's privacy amplification operation
             first_row = msg.get("first_row")
             first_col = msg.get("first_col")
-        # cascade process end and privacy amplification
-        if privacy_flag == True:
-            # Alice's privacy amplification operation
-            print("it is time to privacy amplification!")
             matrix_row = len(first_row)
             matrix_col = len(first_col)+1
             toeplitz_matrix = pa_generate_toeplitz_matrix(matrix_row, matrix_col, first_row,first_col)
-            self.afterPA_key = pa_randomize_key(self.cascade_key,toeplitz_matrix)
+            self.successful_key += list(pa_randomize_key(self.cascade_key,toeplitz_matrix))
+            self.using_post_processing = False
             # validation output
-            print("Alice's afterPA key:",self.afterPA_key[:10],self.afterPA_key[-10:])
-            print("compress radio:",matrix_col/matrix_row)
-            print(matrix_row,matrix_col)
             return True
         
         # cascade round change and shuffle cascade keys
         elif round_change_flag == True and shuffle_index != []:
-            self.cascade_key_block_size *= 2
-            self.cascade_round += 1
+            self.cur_cascade_key_block_size = int(self.cur_cascade_key_block_size * self.cascade_beita)
+            self.cur_cascade_round += 1
             self.cascade_key = [self.cascade_key[i] for i in shuffle_index]
         
         parity_answer = []
@@ -240,7 +258,6 @@ class BB84SendApp(Application):
             parity_answer.append(temp_parity)
 
         self.bit_leak += len(parity_answer)
-        print(parity_answer)
 
         # send cascade_reply packet
         packet = ClassicPacket(msg={"packet_class": "cascade_reply",
@@ -250,7 +267,14 @@ class BB84SendApp(Application):
         return True
 
 class BB84RecvApp(Application):
-    def __init__(self, src: QNode, qchannel: QuantumChannel, cchannel: ClassicChannel):
+    def __init__(self, src: QNode, qchannel: QuantumChannel, cchannel: ClassicChannel,
+                 min_length_for_post_processing=5000,
+                 proportion_for_estimating_error=0.4,max_cascade_round=4,
+                 cascade_alpha=0.73,cascade_beita=2,
+                 init_lower_cascade_key_block_size=5,
+                 init_upper_cascade_key_block_size=20,
+                 security=0.05):
+        
         super().__init__()
         self.src = src
         self.qchannel = qchannel
@@ -263,19 +287,28 @@ class BB84RecvApp(Application):
         self.succ_key_pool = {}
         self.fail_number = 0
 
-        # variable used in cascade
-        self.using_cascade = False
-        self.cascade_round = 0
-        self.current_error_rate = 0
+        # variable used in cascade and error estimate
+        self.min_length_for_post_processing = min_length_for_post_processing
+        self.proportion_for_estimating_error = proportion_for_estimating_error
+        self.max_cascade_round = max_cascade_round 
+        self.cascade_alpha = cascade_alpha
+        self.cascade_beita = cascade_beita 
+        self.init_lower_cascade_key_block_size = init_lower_cascade_key_block_size
+        self.init_upper_cascade_key_block_size = init_upper_cascade_key_block_size
+
+        self.using_post_processing = False
+        self.cur_error_rate = 1e-6
+        self.cur_cascade_round = 0
+        self.cur_cascade_key_block_size = self.init_lower_cascade_key_block_size
+        self.post_processing_key = {}
         self.cascade_key = []
-        self.coordination_key_pool = []
-        self.cascade_key_block_size = 20
         self.cascade_binary_set = []
         
-        # variable used in PA
+        # variable used in privacy amplification
+        self.security = security
+
         self.bit_leak = 0
-        self.security = 0.05
-        self.afterPA_key = []
+        self.successful_key = []
         
         self.add_handler(self.handleQuantumPacket, [RecvQubitPacket], [self.qchannel])
         self.add_handler(self.handleClassicPacket, [RecvClassicPacket], [self.cchannel])
@@ -308,7 +341,7 @@ class BB84RecvApp(Application):
             # log.info(f"[{self._simulator.current_time}] dest check {id} basis fail")
             self.fail_number += 1
         
-        if self.using_cascade is False and len(self.succ_key_pool) >= 5000:
+        if self.using_post_processing is False and len(self.succ_key_pool) >= self.min_length_for_post_processing:
             # enough raw key to start cascade
             self.send_error_estimate_packet()
         return True
@@ -331,35 +364,33 @@ class BB84RecvApp(Application):
 
     def send_error_estimate_packet(self):
         # BB84RecvApp use some raw bits and estimate
+        self.using_post_processing = True
+        self.cur_cascade_round = 0
+        self.cur_error_rate = 1e-6
+        self.cur_cascade_key_block_size = self.init_lower_cascade_key_block_size
         self.cascade_key = []
+        self.post_processing_key = {}
         self.cascade_binary_set = []
-        self.using_cascade = True
-        self.cascade_round = 0
-        self.current_error_rate = 0
-        self.cascade_key_block_size = 20
         self.bit_leak = 0
 
-        # info to send
-        count_temp = 0        
-        bit_for_estimate = []
-        bits_len_for_estimate = 2000
+        # info to send       
+        bit_for_estimate = {} # []
         bits_len_for_cascade = len(self.succ_key_pool)  
         keys = list(self.succ_key_pool.keys())[0:bits_len_for_cascade]
 
         # remove uesd raw key and update cascade_key && bit_for_estimate
         for i in keys:
             item_temp = self.succ_key_pool.pop(i)
-            count_temp += 1
-            if count_temp <= bits_len_for_estimate:
-                bit_for_estimate.append(item_temp)
+            if random.uniform(0,1) < self.proportion_for_estimating_error:
+                bit_for_estimate[i] = item_temp
             else :
-                self.cascade_key.append(item_temp)
+                self.post_processing_key[i] = item_temp
         
         # send error_estimate packet
-        packet = ClassicPacket(msg={"packet_class": "error_estimate", 
-                                    "bit_for_estimate": bit_for_estimate,
-                                    "bits_len_for_cascade": bits_len_for_cascade, 
-                                    "bits_len_for_estimate": bits_len_for_estimate}, 
+        packet = ClassicPacket(msg={"packet_class": "error_estimate",
+                                    "bit_index_for_estimate": list(bit_for_estimate.keys()),
+                                    "bit_for_estimate": list(bit_for_estimate.values()),
+                                    "bit_index_for_cascade": list(self.post_processing_key.keys())},
                                     src=self._node, dest=self.src)
         self.cchannel.send(packet, next_hop=self.src)
 
@@ -372,16 +403,30 @@ class BB84RecvApp(Application):
             return False
         
         # get error estimate info and set block size in round1
-        self.current_error_rate = msg.get("error_rate")
-        if self.current_error_rate >= 0.0365:
-            self.cascade_key_block_size = int(0.73/self.current_error_rate)
-        self.cascade_round = 1
+        self.cur_error_rate = msg.get("error_rate")
+        if self.cur_error_rate <= (self.cascade_alpha/self.init_upper_cascade_key_block_size):
+            # error rate is smaller than threshold
+            self.cur_cascade_key_block_size = self.init_upper_cascade_key_block_size
+        elif  self.cur_error_rate >= (self.cascade_alpha/self.init_lower_cascade_key_block_size):
+            # error rate is bigger than threshold
+            self.cur_cascade_key_block_size = self.init_lower_cascade_key_block_size
+        else :
+            self.cur_cascade_key_block_size = int(self.cascade_alpha/self.cur_error_rate)
+
+        self.cur_cascade_round = 1
+
+        # remain real_bit_for_cascade
+        real_bit_index_for_cascade = msg.get("real_bit_index_for_cascade")
+        for i in list(self.post_processing_key.keys()):
+            item_temp = self.post_processing_key.pop(i)
+            if i in real_bit_index_for_cascade:
+                self.cascade_key.append(item_temp)
 
         # start cascade round1,divide into top blocks of size self.keysize 
         count_temp = 0
         last_index = len(self.cascade_key) - 1
         while count_temp <= last_index:
-            end = count_temp + self.cascade_key_block_size - 1
+            end = count_temp + self.cur_cascade_key_block_size - 1
             if end <= last_index:
                 self.cascade_binary_set.append((count_temp,end))
                 count_temp = end + 1
@@ -439,7 +484,7 @@ class BB84RecvApp(Application):
         privacy_flag = False
         shuffle_index = []
         if len(self.cascade_binary_set) == 0:
-            if self.cascade_round == 4:
+            if self.cur_cascade_round == self.max_cascade_round:
                 # update round info 
                 privacy_flag = True
                 # Bob's privacy amplification operation
@@ -448,16 +493,12 @@ class BB84RecvApp(Application):
                 first_row = [random.randint(0, 1) for _ in range(matrix_row)]
                 first_col = [random.randint(0, 1) for _ in range(int(matrix_col)-1)]
                 toeplitz_matrix = pa_generate_toeplitz_matrix(matrix_row, matrix_col, first_row,first_col)
-                self.afterPA_key = pa_randomize_key(self.cascade_key,toeplitz_matrix)
-                # validation output
-                print("Bob's afterPA key:",self.afterPA_key[:10],self.afterPA_key[-10:])
-                print("compress radio:",matrix_col/matrix_row)
-                print(matrix_row,matrix_col)
+                self.successful_key += list(pa_randomize_key(self.cascade_key,toeplitz_matrix))
             else :
                 # update round info    
                 round_change_flag = True
-                self.cascade_round += 1
-                self.cascade_key_block_size *= 2
+                self.cur_cascade_round += 1
+                self.cur_cascade_key_block_size = int(self.cur_cascade_key_block_size * self.cascade_beita)
                 # need shuffle
                 shuffle_index = [i for i in range(len(self.cascade_key))]
                 shuffle_index = cascade_key_shuffle(shuffle_index)
@@ -466,7 +507,7 @@ class BB84RecvApp(Application):
                 count_temp = 0
                 last_index = len(self.cascade_key) - 1
                 while count_temp <= last_index:
-                    end = count_temp + self.cascade_key_block_size - 1
+                    end = count_temp + self.cur_cascade_key_block_size - 1
                     if end <= last_index:
                         self.cascade_binary_set.append((count_temp,end))
                         count_temp = end + 1
@@ -474,8 +515,7 @@ class BB84RecvApp(Application):
                         end = last_index
                         self.cascade_binary_set.append((count_temp,end))
                         break
-        
-        print(self.cascade_binary_set)        
+                
         # send cascade_ask packet,distinguish whether privacy amplification is required
         if privacy_flag == False:
             packet = ClassicPacket(msg={"packet_class": "cascade_ask", 
@@ -493,6 +533,7 @@ class BB84RecvApp(Application):
                                     "first_row":first_row,
                                     "first_col":first_col}, 
                                     src=self._node, dest=self.src)
+            self.using_post_processing = False
         self.cchannel.send(packet, next_hop=self.src)
         return True
 
@@ -529,6 +570,7 @@ def pa_generate_toeplitz_matrix(N:int, M:int, first_row:list,first_col:list):
         for j in range(1, N):
             toeplitz_matrix[i][j] = toeplitz_matrix[i-1][j-1]
     return toeplitz_matrix
+
 def pa_randomize_key(original_key:list, toeplitz_matrix):
     # process the original key through the toeplitz matrix
     return np.dot(toeplitz_matrix, original_key) % 2
