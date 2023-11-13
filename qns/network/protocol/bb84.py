@@ -27,6 +27,7 @@ from qns.models.qubit import Qubit
 
 import numpy as np
 import random
+import hashlib
 
 from qns.utils.rnd import get_rand, get_choice
 
@@ -104,7 +105,8 @@ class BB84SendApp(Application):
         #     self._simulator.add_event(event)
 
     def handleClassicPacket(self, node: QNode, event: Event):
-        return self.check_basis(event) or self.recv_error_estimate_packet(event) or self.recv_cascade_ask_packet(event)
+        return self.check_basis(event) or self.recv_error_estimate_packet(event) or self.recv_cascade_ask_packet(event) or \
+        self.recv_check_error_ask_packet(event) or self.recv_privacy_amplification_ask_packet(event)
 
     def check_basis(self, event: RecvClassicPacket):
         packet = event.packet
@@ -231,23 +233,9 @@ class BB84SendApp(Application):
         parity_request = msg.get("parity_request")
         round_change_flag = msg.get("round_change_flag")
         shuffle_index = msg.get("shuffle_index")
-        privacy_flag = msg.get("privacy_flag")
- 
-        if privacy_flag == True:
-            # cascade process end and privacy amplification
-            # Alice's privacy amplification operation
-            first_row = msg.get("first_row")
-            first_col = msg.get("first_col")
-            matrix_row = len(first_row)
-            matrix_col = len(first_col)+1
-            toeplitz_matrix = pa_generate_toeplitz_matrix(matrix_row, matrix_col, first_row,first_col)
-            self.successful_key += list(pa_randomize_key(self.cascade_key,toeplitz_matrix))
-            self.using_post_processing = False
-            # validation output
-            return True
         
         # cascade round change and shuffle cascade keys
-        elif round_change_flag == True and shuffle_index != []:
+        if round_change_flag == True and shuffle_index != []:
             self.cur_cascade_key_block_size = int(self.cur_cascade_key_block_size * self.cascade_beita)
             self.cur_cascade_round += 1
             self.cascade_key = [self.cascade_key[i] for i in shuffle_index]
@@ -264,6 +252,50 @@ class BB84SendApp(Application):
                                     "parity_answer": parity_answer}, 
                                     src=self._node, dest=self.dest) 
         self.cchannel.send(packet, next_hop=self.dest)
+        return True
+    
+    def recv_check_error_ask_packet(self, event: RecvClassicPacket):
+        packet = event.packet
+        msg: dict = packet.get()
+        packet_class = msg.get("packet_class")
+        if packet_class != "check_error_ask":
+            return False
+        
+        recv_hash_key = msg.get("hash_key")
+        hash_key = hashlib.sha512(bytearray(self.cascade_key)).hexdigest()
+        if hash_key != recv_hash_key:
+            # cascade fail
+            pa_flag = False
+            packet = ClassicPacket(msg={"packet_class": "check_error_reply", 
+                                    "pa_flag": pa_flag}, 
+                                    src=self._node, dest=self.dest)
+        else:
+            # cascade succeed
+            pa_flag = True
+            packet = ClassicPacket(msg={"packet_class": "check_error_reply", 
+                                    "pa_flag": pa_flag}, 
+                                    src=self._node, dest=self.dest)
+        self.cchannel.send(packet, next_hop=self.dest)
+        return True
+            
+
+    def recv_privacy_amplification_ask_packet(self, event: RecvClassicPacket):
+        packet = event.packet
+        msg: dict = packet.get()
+        packet_class = msg.get("packet_class")
+        if packet_class != "privacy_amplification_ask":
+            return False
+        pa_flag = msg.get("pa_flag")
+        if pa_flag == True:
+            # Alice's privacy amplification operation
+            first_row = msg.get("first_row")
+            first_col = msg.get("first_col")
+            matrix_row = len(first_row)
+            matrix_col = len(first_col)+1
+            toeplitz_matrix = pa_generate_toeplitz_matrix(matrix_row, matrix_col, first_row,first_col)
+            self.successful_key += list(pa_randomize_key(self.cascade_key,toeplitz_matrix))
+            self.using_post_processing = False
+            # validation output
         return True
 
 class BB84RecvApp(Application):
@@ -317,7 +349,8 @@ class BB84RecvApp(Application):
         return self.recv(event)
 
     def handleClassicPacket(self, node: QNode, event: Event):
-        return self.check_basis(event) or self.recv_error_estimate_reply_packet(event) or self.recv_cascade_reply_packet(event)
+        return self.check_basis(event) or self.recv_error_estimate_reply_packet(event) or \
+            self.recv_cascade_reply_packet(event) or self.recv_check_error_reply_packet(event)
 
     def check_basis(self, event: RecvClassicPacket):
         packet = event.packet
@@ -439,8 +472,7 @@ class BB84RecvApp(Application):
         packet = ClassicPacket(msg={"packet_class": "cascade_ask", 
                                     "parity_request": self.cascade_binary_set,
                                     "round_change_flag": False, 
-                                    "shuffle_index" : [],
-                                    "privacy_flag": False}, 
+                                    "shuffle_index" : []}, 
                                src=self._node, dest=self.src)
         self.cchannel.send(packet, next_hop=self.src)
 
@@ -481,19 +513,14 @@ class BB84RecvApp(Application):
             count_temp += 1
         
         round_change_flag = False
-        privacy_flag = False
+        check_error_flag = False
         shuffle_index = []
         if len(self.cascade_binary_set) == 0:
             if self.cur_cascade_round == self.max_cascade_round:
                 # update round info 
-                privacy_flag = True
-                # Bob's privacy amplification operation
-                matrix_row = len(self.cascade_key)
-                matrix_col = (1-self.security)*len(self.cascade_key)-self.bit_leak
-                first_row = [random.randint(0, 1) for _ in range(matrix_row)]
-                first_col = [random.randint(0, 1) for _ in range(int(matrix_col)-1)]
-                toeplitz_matrix = pa_generate_toeplitz_matrix(matrix_row, matrix_col, first_row,first_col)
-                self.successful_key += list(pa_randomize_key(self.cascade_key,toeplitz_matrix))
+                check_error_flag = True
+                # check error
+                hash_key = hashlib.sha512(bytearray(self.cascade_key)).hexdigest()
             else :
                 # update round info    
                 round_change_flag = True
@@ -517,19 +544,47 @@ class BB84RecvApp(Application):
                         break
                 
         # send cascade_ask packet,distinguish whether privacy amplification is required
-        if privacy_flag == False:
+        if check_error_flag == False:
             packet = ClassicPacket(msg={"packet_class": "cascade_ask", 
                                     "parity_request": self.cascade_binary_set,
                                     "round_change_flag": round_change_flag, 
-                                    "shuffle_index" : shuffle_index,
-                                    "privacy_flag": privacy_flag}, 
+                                    "shuffle_index" : shuffle_index}, 
                                     src=self._node, dest=self.src)
         else:
-            packet = ClassicPacket(msg={"packet_class": "cascade_ask", 
-                                    "parity_request": self.cascade_binary_set,
-                                    "round_change_flag": round_change_flag, 
-                                    "shuffle_index" : shuffle_index,
-                                    "privacy_flag": privacy_flag,
+            # check error
+            packet = ClassicPacket(msg={"packet_class": "check_error_ask",
+                                    "hash_key":hash_key}, 
+                                    src=self._node, dest=self.src)
+        self.cchannel.send(packet, next_hop=self.src)
+        return True
+    
+    def recv_check_error_reply_packet(self, event: RecvClassicPacket):
+        packet = event.packet
+        msg: dict = packet.get()
+        packet_class = msg.get("packet_class")
+        if packet_class != "check_error_reply":
+            return False
+        pa_flag = msg.get("pa_flag")
+        if pa_flag == True:
+            # check error succeed,Bob's privacy amplification operation
+            matrix_row = len(self.cascade_key)
+            matrix_col = (1-self.security)*len(self.cascade_key)-self.bit_leak
+            first_row = [random.randint(0, 1) for _ in range(matrix_row)]
+            first_col = [random.randint(0, 1) for _ in range(int(matrix_col)-1)]
+            toeplitz_matrix = pa_generate_toeplitz_matrix(matrix_row, matrix_col, first_row,first_col)
+            self.successful_key += list(pa_randomize_key(self.cascade_key,toeplitz_matrix))
+            packet = ClassicPacket(msg={"packet_class": "privacy_amplification_ask",
+                                    "pa_flag":True, 
+                                    "first_row":first_row,
+                                    "first_col":first_col}, 
+                                    src=self._node, dest=self.src)
+            self.using_post_processing = False
+        else:
+            # check error fail,drop
+            first_row = []
+            first_col = []
+            packet = ClassicPacket(msg={"packet_class": "privacy_amplification_ask",
+                                    "pa_flag":False, 
                                     "first_row":first_row,
                                     "first_col":first_col}, 
                                     src=self._node, dest=self.src)
