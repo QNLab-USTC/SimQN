@@ -18,11 +18,11 @@
 from typing import Any, List, Optional
 import numpy as np
 
-from qns.models.qubit.const import QUBIT_STATE_0, QUBIT_STATE_1,\
+from qns.models.qubit.const import QUBIT_STATE_0, QUBIT_STATE_1, \
         QUBIT_STATE_P, QUBIT_STATE_N, QUBIT_STATE_L, QUBIT_STATE_R
 from qns.models.qubit.utils import single_gate_expand, partial_trace, kron
 from qns.models.core.backend import QuantumModel
-from qns.models.qubit.errors import QStateBaseError, QStateQubitNotInStateError,\
+from qns.models.qubit.errors import QStateBaseError, QStateQubitNotInStateError, \
                                     QStateSizeNotMatchError, OperatorNotMatchError
 from qns.utils.rnd import get_rand
 

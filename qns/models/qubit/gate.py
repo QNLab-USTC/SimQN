@@ -17,10 +17,10 @@
 
 from typing import Any, Optional
 import numpy as np
-from qns.models.qubit.const import OPERATOR_HADAMARD, OPERATOR_PAULI_I,\
+from qns.models.qubit.const import OPERATOR_HADAMARD, OPERATOR_PAULI_I, \
                                    OPERATOR_PAULI_X, OPERATOR_PAULI_Y, \
-                                   OPERATOR_PAULI_Z, OPERATOR_PHASE_SHIFT,\
-                                   OPERATOR_RX, OPERATOR_RY, OPERATOR_RZ,\
+                                   OPERATOR_PAULI_Z, OPERATOR_PHASE_SHIFT, \
+                                   OPERATOR_RX, OPERATOR_RY, OPERATOR_RZ, \
                                    OPERATOR_S, OPERATOR_T
 from qns.models.qubit.qubit import Qubit
 from qns.models.qubit.utils import kron, joint

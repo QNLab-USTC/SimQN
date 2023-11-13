@@ -20,7 +20,7 @@ from types import MethodType
 from typing import Optional
 import numpy as np
 from qns.models.qubit.const import QUBIT_STATE_0
-from qns.models.qubit.decoherence import PrefectMeasureErrorModel, PrefectOperateErrorModel, PrefectStorageErrorModel,\
+from qns.models.qubit.decoherence import PrefectMeasureErrorModel, PrefectOperateErrorModel, PrefectStorageErrorModel, \
         PrefectTransferErrorModel
 from qns.models.qubit.qubit import Qubit
 

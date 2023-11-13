@@ -1,13 +1,13 @@
 
 from typing import Optional
 import numpy as np
-from qns.entity.memory.event import MemoryReadRequestEvent, MemoryReadResponseEvent,\
+from qns.entity.memory.event import MemoryReadRequestEvent, MemoryReadResponseEvent, \
                                     MemoryWriteRequestEvent, MemoryWriteResponseEvent
 from qns.entity.memory.memory import QuantumMemory
 from qns.entity.node.app import Application
 from qns.entity.node.node import QNode
 from qns.models.qubit.const import QUBIT_STATE_0, QUBIT_STATE_1
-from qns.models.qubit.decoherence import DephaseMeasureErrorModel, DephaseOperateErrorModel,\
+from qns.models.qubit.decoherence import DephaseMeasureErrorModel, DephaseOperateErrorModel, \
         DephaseStorageErrorModel, DepolarMeasureErrorModel, DepolarOperateErrorModel, DepolarStorageErrorModel
 from qns.models.qubit.factory import QubitFactory
 from qns.models.qubit.gate import X
