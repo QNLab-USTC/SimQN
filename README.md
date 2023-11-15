@@ -100,3 +100,5 @@ SimQN is an open-source project under [GPLv3](/LICENSE) license. The authors of 
 
 Other contributors includes:
 * Zirui Xiao, School of Cyber Science and Technology, University of Science and Technology of China, China.
+* Yuqi Yang, School of Cyber Science and Technology, University of Science and Technology of China, China.
+* Bing Yang, School of Cyber Science and Technology, University of Science and Technology of China, China.
