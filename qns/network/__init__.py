@@ -17,7 +17,7 @@
 
 from qns.network.network import QuantumNetwork, QNSNetworkError
 from qns.network.requests import Request
-from qns.network.topology import Topology, LineTopology, RandomTopology,\
+from qns.network.topology import Topology, LineTopology, RandomTopology, \
     GridTopology, TreeTopology, BasicTopology, WaxmanTopology
 from qns.network.route.route import RouteImpl, NetworkRouteError
 from qns.network.route.dijkstra import DijkstraRouteAlgorithm
