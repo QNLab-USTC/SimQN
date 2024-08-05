@@ -25,8 +25,8 @@ Topology generators may have more parameters. The following example shows how to
         lines_number=10,
         qchannel_args={"delay": 0.05},
         cchannel_args={"delay": 0.05},
-        memory_args=[{"capacity": memory_capacity}],
-        nodes_apps=[EntanglementDistributionApp(init_fidelity=init_fidelity)])
+        memory_args=[{"capacity": 50}],
+        nodes_apps=[EntanglementDistributionApp(init_fidelity=0.99)])
 
     # build the network
     net = QuantumNetwork(topo=topo)
@@ -54,16 +54,17 @@ SimQN is able to generate classic topologies as well. The classic topology is in
 
 .. code-block:: python
 
-    from qns.network.topology import RandomTopology, ClassicTopology
+    from qns.network.topology import RandomTopology
     from qns.network.network import QuantumNetwork
+    from qns.network.topology.topo import ClassicTopology
 
     topo = RandomTopology(
         nodes_number=5,
         lines_number=10,
         qchannel_args={"delay": 0.05},
         cchannel_args={"delay": 0.05},
-        memory_args=[{"capacity": memory_capacity}],
-        nodes_apps=[EntanglementDistributionApp(init_fidelity=init_fidelity)])
+        memory_args=[{"capacity": 50}],
+        nodes_apps=[EntanglementDistributionApp(init_fidelity=0.99)])
 
     # build the network, classic topology follows the quantum topology
     net = QuantumNetwork(topo=topo, classic_topo=ClassicTopology.Follow)

@@ -37,6 +37,7 @@ Here is an example of using SimQN.
     from qns.network.route.dijkstra import DijkstraRouteAlgorithm
     from qns.network.topology.topo import ClassicTopology
     import qns.utils.log as log
+    import logging
 
     init_fidelity = 0.99   # the initial entanglement's fidelity
     nodes_number = 150     # the number of nodes
@@ -102,3 +103,4 @@ Other contributors includes:
 * Zirui Xiao, School of Cyber Science and Technology, University of Science and Technology of China, China.
 * Yuqi Yang, School of Cyber Science and Technology, University of Science and Technology of China, China.
 * Bing Yang, School of Cyber Science and Technology, University of Science and Technology of China, China.
+* Xumin Gao, School of Cyber Science and Technology, University of Science and Technology of China, China.
