@@ -1,0 +1,255 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>qns.entity.qchannel.dqchannel &mdash; SimQN 0.1.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=360bc84d"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            SimQN
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Users' Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Install Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../develop.html">Develop Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">qns</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">SimQN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">qns.entity.qchannel.dqchannel</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for qns.entity.qchannel.dqchannel</h1><div class="highlight"><pre>
+<span></span><span class="c1">#    SimQN: a discrete-event simulator for the quantum networks</span>
+<span class="c1">#    Copyright (C) 2021-2022 Lutong Chen, Jian Li, Kaiping Xue</span>
+<span class="c1">#    University of Science and Technology of China, USTC.</span>
+<span class="c1">#</span>
+<span class="c1">#    This program is free software: you can redistribute it and/or modify</span>
+<span class="c1">#    it under the terms of the GNU General Public License as published by</span>
+<span class="c1">#    the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1">#    (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1">#    This program is distributed in the hope that it will be useful,</span>
+<span class="c1">#    but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1">#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1">#    GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1">#    You should have received a copy of the GNU General Public License</span>
+<span class="c1">#    along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qns.entity.node.node</span><span class="w"> </span><span class="kn">import</span> <span class="n">QNode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qns.models.delay.delay</span><span class="w"> </span><span class="kn">import</span> <span class="n">DelayModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qns.utils.rnd</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_rand</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qns.entity.qchannel.qchannel</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumChannel</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">calculate_fidelity</span><span class="p">(</span><span class="n">init_fidelity</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">storage_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">storage_tau</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">init_fidelity</span> <span class="o">&lt;=</span> <span class="mf">0.25</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;init_fidelity must be greater than 0.25.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">storage_tau</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;storage_tau must be positive.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="mf">0.25</span> <span class="o">+</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">init_fidelity</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">storage_time</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">storage_tau</span><span class="p">)))</span>
+
+
+<div class="viewcode-block" id="Link_Decoherence_QuantumChannel">
+<a class="viewcode-back" href="../../../../qns.entity.qchannel.html#qns.entity.Link_Decoherence_QuantumChannel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Link_Decoherence_QuantumChannel</span><span class="p">(</span><span class="n">QuantumChannel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Link_Decoherence_QuantumChannel is the channel in which the fidelity of entangled pairs decoherence</span>
+<span class="sd">    within the quantum memory.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">node_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QNode</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">init_fidelity</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span>
+                 <span class="n">bandwidth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">delay</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">DelayModel</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">drop_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                 <span class="n">max_buffer_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">decoherence_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                 <span class="n">transfer_error_model_args</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">max_storage_time</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">min_storage_time</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            init_fidelity: fidelity of steady-state entanglement established by two-atom excitation.</span>
+<span class="sd">            max_storage_time: maximum storage time of entanglement within the quantum memory.</span>
+<span class="sd">            min_storage_time: minimum storage time of entanglement within the quantum memory.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">node_list</span><span class="o">=</span><span class="n">node_list</span><span class="p">,</span> <span class="n">bandwidth</span><span class="o">=</span><span class="n">bandwidth</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="n">delay</span><span class="p">,</span>
+                         <span class="n">drop_rate</span><span class="o">=</span><span class="n">drop_rate</span><span class="p">,</span> <span class="n">max_buffer_size</span><span class="o">=</span><span class="n">max_buffer_size</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">,</span>
+                         <span class="n">decoherence_rate</span><span class="o">=</span><span class="n">decoherence_rate</span><span class="p">,</span> <span class="n">transfer_error_model_args</span><span class="o">=</span><span class="n">transfer_error_model_args</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_fidelity</span> <span class="o">=</span> <span class="n">init_fidelity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_storage_time</span> <span class="o">=</span> <span class="n">max_storage_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_storage_time</span> <span class="o">=</span> <span class="n">min_storage_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entanglement_pool</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="Link_Decoherence_QuantumChannel.create_entanglement_pool">
+<a class="viewcode-back" href="../../../../qns.entity.qchannel.html#qns.entity.Link_Decoherence_QuantumChannel.create_entanglement_pool">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_entanglement_pool</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creat entangled pairs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entanglement_pool</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bandwidth</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">entanglement_pool</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">effective_storage_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">init_fidelity</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_storage_time</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_storage_time</span><span class="p">,</span> <span class="n">effective_storage_time</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_storage_time</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_storage_time</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">entanglement_pool</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min_storage_time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_storage_time</span><span class="p">):</span>
+            <span class="n">storage_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_storage_time</span>
+            <span class="n">fidelity</span> <span class="o">=</span> <span class="n">calculate_fidelity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">init_fidelity</span><span class="p">,</span> <span class="n">storage_time</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">entanglement_pool</span> <span class="o">=</span> <span class="p">[(</span><span class="n">fidelity</span><span class="p">,</span> <span class="n">storage_time</span><span class="p">)]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">bandwidth</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bandwidth</span><span class="p">):</span>
+            <span class="n">storage_time</span> <span class="o">=</span> <span class="n">get_rand</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min_storage_time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_storage_time</span><span class="p">)</span>
+            <span class="n">fidelity</span> <span class="o">=</span> <span class="n">calculate_fidelity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">init_fidelity</span><span class="p">,</span> <span class="n">storage_time</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">entanglement_pool</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">fidelity</span><span class="p">,</span> <span class="n">storage_time</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="Link_Decoherence_QuantumChannel.find_fidlity_index">
+<a class="viewcode-back" href="../../../../qns.entity.qchannel.html#qns.entity.Link_Decoherence_QuantumChannel.find_fidlity_index">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_fidlity_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fidelity</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find the entanglement pair whose fidelity is equal to the specified fidelity.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fidelity: the specified fidelity.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entanglement_pool</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entanglement_pool</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">fidelity</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">i</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="Link_Decoherence_QuantumChannel.find_max_min_fidelity">
+<a class="viewcode-back" href="../../../../qns.entity.qchannel.html#qns.entity.Link_Decoherence_QuantumChannel.find_max_min_fidelity">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_max_min_fidelity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find the entanglement pairs with maximum and minimum fidelity.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">max_fidelity</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">min_fidelity</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">max_index</span> <span class="o">=</span> <span class="n">min_index</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entanglement_pool</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">entanglement_pool</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">max_fidelity</span><span class="p">:</span>
+                <span class="n">max_fidelity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entanglement_pool</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">max_index</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">entanglement_pool</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">min_fidelity</span><span class="p">:</span>
+                <span class="n">min_fidelity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entanglement_pool</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">min_index</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="k">return</span> <span class="n">max_index</span><span class="p">,</span> <span class="n">min_index</span></div>
+
+
+<div class="viewcode-block" id="Link_Decoherence_QuantumChannel.remove_entanglement_by_fidelity">
+<a class="viewcode-back" href="../../../../qns.entity.qchannel.html#qns.entity.Link_Decoherence_QuantumChannel.remove_entanglement_by_fidelity">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">remove_entanglement_by_fidelity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fidelity</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove the entanglement pair whose fidelity is equal to the specified fidelity.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_fidlity_index</span><span class="p">(</span><span class="n">fidelity</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can not remove fidelity with index None&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entanglement_pool</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">index</span><span class="p">)</span></div>
+
+        <span class="c1"># self.bandwidth = self.bandwidth - 1</span>
+
+<div class="viewcode-block" id="Link_Decoherence_QuantumChannel.remove_entanglement_by_index">
+<a class="viewcode-back" href="../../../../qns.entity.qchannel.html#qns.entity.Link_Decoherence_QuantumChannel.remove_entanglement_by_index">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">remove_entanglement_by_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove the entanglement pair whose fidelity is equal to the specified index.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;can not remove fidelity with index None&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entanglement_pool</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">index</span><span class="p">)</span></div>
+</div>
+
+        <span class="c1"># self.bandwidth = self.bandwidth - 1</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Elliot Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
