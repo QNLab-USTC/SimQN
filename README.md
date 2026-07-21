@@ -3,7 +3,7 @@
 ![Flake8](https://github.com/QNLab-USTC/SimQN/actions/workflows/flake8.yml/badge.svg)
 [![License](https://img.shields.io/badge/License-GPL_3.0-green?logo=github&logoColor=white)](LICENSE)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/qns?style=flat&logo=pypi&label=PyPI)](https://pypi.org/project/qns/)&nbsp;
-![GitHub Stars](https://img.shields.io/github/Stars/QNLab-USTC/SimQN?style=flat&logo=github)&nbsp;
+![GitHub Stars](https://img.shields.io/github/stars/QNLab-USTC/SimQN?style=flat&logo=github)&nbsp;
 [![Citations](https://img.shields.io/badge/Citations-69-blue?style=flat&logo=googlescholar)](https://scholar.google.com/scholar?cites=17361842933401893020)&nbsp;
 [![Academic Usages](https://img.shields.io/badge/Academic_Usages-21-purple?style=flat)](https://github.com/QNLab-USTC/SimQN?tab=readme-ov-file#academic-paper-using-simqn-for-simulation)
 [![Extensions](https://img.shields.io/badge/Extensions-7-orange?style=flat)](https://github.com/QNLab-USTC/SimQN?tab=readme-ov-file#platform-extension)&nbsp;
