@@ -31,4 +31,6 @@ __all__ = ["Entity", "QNode", "Application", "Timer", "QuantumMemory", "ClassicC
            "ClassicPacket", "RecvClassicPacket", "QuantumChannel", "RecvQubitPacket",
            "QuantumOperator", "OperateRequestEvent", "OperateResponseEvent",
            "MemoryReadRequestEvent", "MemoryReadResponseEvent",
-           "MemoryWriteRequestEvent", "MemoryWriteResponseEvent", "Monitor", "MonitorEvent", "Link_Decoherence_QuantumChannel"]
+           "MemoryWriteRequestEvent", "MemoryWriteResponseEvent", "Monitor", "MonitorEvent", "Link_Decoherence_QuantumChannel"
+           "RemoteClassicChannel", "RemoteQuantumChannel"
+           ]

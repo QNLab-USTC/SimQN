@@ -76,6 +76,21 @@ class ClassicPacket(object):
     def __len__(self) -> int:
         return len(self.msg)
 
+    def __getstate__(self):
+        return {
+            'msg': self.msg,
+            'is_json': self.is_json,
+            'src_name': self.src.name if self.src is not None else None,
+            'dest_name': self.dest.name if self.dest is not None else None,
+        }
+
+    def __setstate__(self, state):
+        from qns.simulator.event import _EntityStub
+        self.msg = state['msg']
+        self.is_json = state['is_json']
+        self.src = _EntityStub(state['src_name']) if state['src_name'] else None
+        self.dest = _EntityStub(state['dest_name']) if state['dest_name'] else None
+
 
 class ClassicChannel(Entity):
     """
@@ -180,3 +195,26 @@ class RecvClassicPacket(Event):
 
     def invoke(self) -> None:
         self.dest.handle(self)
+
+    def __getstate__(self):
+        return {
+            't': self.t,
+            'name': self.name,
+            '_is_canceled': self._is_canceled,
+            'packet': self.packet,
+            'by_name': self.by.name if self.by is not None else None,
+            'cchannel_name': self.cchannel.name if self.cchannel is not None else None,
+            'dest_name': self.dest.name if self.dest is not None else None,
+            'dest_rank': getattr(self, 'dest_rank', None),
+        }
+
+    def __setstate__(self, state):
+        from qns.simulator.event import _EntityStub
+        self.t = state['t']
+        self.name = state['name']
+        self._is_canceled = state['_is_canceled']
+        self.packet = state['packet']
+        self.dest_rank = state.get('dest_rank')
+        self.by = _EntityStub(state['by_name']) if state['by_name'] else None
+        self.cchannel = _EntityStub(state['cchannel_name']) if state['cchannel_name'] else None
+        self.dest = _EntityStub(state['dest_name']) if state['dest_name'] else None

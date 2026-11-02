@@ -132,6 +132,13 @@ class DefaultEventPool(object):
         Get the current time
         '''
         return self.tc
+    
+
+    @property
+    def min_time(self) -> Time:
+        if self.event_list.size > 0:          
+            return self.event_list.heap[0].t  
+        return self.te
 
     def add_event(self, event: Event) -> bool:
         '''

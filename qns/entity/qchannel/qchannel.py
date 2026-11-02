@@ -142,3 +142,26 @@ class RecvQubitPacket(Event):
 
     def invoke(self) -> None:
         self.dest.handle(self)
+
+    def __getstate__(self):
+        return {
+            't': self.t,
+            'name': self.name,
+            '_is_canceled': self._is_canceled,
+            'qubit': self.qubit,
+            'by_name': self.by.name if self.by is not None else None,
+            'qchannel_name': self.qchannel.name if self.qchannel is not None else None,
+            'dest_name': self.dest.name if self.dest is not None else None,
+            'dest_rank': getattr(self, 'dest_rank', None),
+        }
+
+    def __setstate__(self, state):
+        from qns.simulator.event import _EntityStub
+        self.t = state['t']
+        self.name = state['name']
+        self._is_canceled = state['_is_canceled']
+        self.qubit = state['qubit']
+        self.dest_rank = state.get('dest_rank')
+        self.by = _EntityStub(state['by_name']) if state['by_name'] else None
+        self.qchannel = _EntityStub(state['qchannel_name']) if state['qchannel_name'] else None
+        self.dest = _EntityStub(state['dest_name']) if state['dest_name'] else None
