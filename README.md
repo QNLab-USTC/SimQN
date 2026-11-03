@@ -5,8 +5,8 @@
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/qns?style=flat&logo=pypi&label=PyPI)](https://pypi.org/project/qns/)&nbsp;
 ![GitHub Stars](https://img.shields.io/github/stars/QNLab-USTC/SimQN?style=flat&logo=github)&nbsp;
 [![Citations](https://img.shields.io/badge/Citations-79-blue?style=flat&logo=googlescholar)](https://scholar.google.com/scholar?cites=17361842933401893020)&nbsp;
-|[![Academic Usages](https://img.shields.io/badge/Academic_Usages-22-purple?style=flat)](https://github.com/QNLab-USTC/SimQN?tab=readme-ov-file#academic-paper-using-simqn-for-simulation)
-[![Extensions](https://img.shields.io/badge/Extensions-7-orange?style=flat)](https://github.com/QNLab-USTC/SimQN?tab=readme-ov-file#platform-extension)&nbsp;
+|[![Academic Usages](https://img.shields.io/badge/Academic_Usages-25-purple?style=flat)](https://github.com/QNLab-USTC/SimQN?tab=readme-ov-file#academic-paper-using-simqn-for-simulation)
+[![Extensions](https://img.shields.io/badge/Extensions-8-orange?style=flat)](https://github.com/QNLab-USTC/SimQN?tab=readme-ov-file#platform-extension)&nbsp;
 
 This Project is developed by [QNLab](https://qnlab-ustc.com/).
 
@@ -32,9 +32,9 @@ This Project is developed by [QNLab](https://qnlab-ustc.com/).
 
 * 🚀 **Version Update:** SimQN v0.2.3 has been released in June 2026.
 
-* 📚 **Academic Papers:** SimQN has been implemented as the simulation platform in **22 peer-reviewed academic papers** (79 citations in total on Google Scholar).
+* 📚 **Academic Papers:** SimQN has been implemented as the simulation platform in **25 peer-reviewed academic papers** (79 citations in total on Google Scholar).
 
-* 🧩 **Platform Extension:** **7 simulation platforms or system extensions** have been built on SimQN, with more in development.
+* 🧩 **Platform Extension:** **8 simulation platforms or system extensions** have been built on SimQN, with more in development.
 
 For more details, please refer to [Release History](#release-history), [Platform Extension](#platform-extension), and [Academic Paper Using SimQN for Simulation](#academic-paper-using-simqn-for-simulation).
 
@@ -190,6 +190,7 @@ Here is an example of using SimQN.
 - Josipa et al. enabled SimQN to accept structured data from upstream via the HTTP protocol by utilizing FastAPI, thereby developing a [Docker environment for QKD network simulations](https://repozitorij.fpz.unizg.hr/object/fpz:3666). [2025]
 - Majid K et al. integrated SimQN with the open-source OpenAirInterface (OAI) stack to deploy a 5G standalone network capable of supporting quantum operations, proposing the [quantum-inspired RAN (Q-RAN)](https://ieeexplore.ieee.org/abstract/document/11432359), a next-generation framework. [2025]
 - Abane et al. developed [MQNS](https://ieeexplore.ieee.org/abstract/document/11334170) based on SimQN v0.1.5, leveraging the simulator core, entities, and tools to enable simulation under dynamic, heterogeneous configurations. [2025]
+- Shi et al. developed [QUASAR](https://github.com/QuNets/quasar), a satellite quantum-network simulator based on SimQN.
 - [Fidelity-Guaranteed-Entanglement-Routing](https://github.com/infonetlijian/Fidelity-Guaranteed-Entanglement-Routing) ⭐11: Complete simulation code for fidelity-guaranteed entanglement routing in quantum networks. [2025]
 - [Load-Balancing-Quantum-Routing-SimQN](https://github.com/MLCL-SYSU/Load-balancing-quantum-routing-SimQN): Implementation of a load balancing quantum routing algorithm using SimQN. [2025]
 - [QKDsim](https://github.com/zp2333/QKDsim) ⭐2: A QKD network simulation system implemented based on SimQN. [2025]
@@ -260,5 +261,8 @@ Please cite this publication if you use SimQN in your research.
 20. Xiao Z, Li J, Xue K, et al. Purification scheduling control for throughput maximization in quantum networks[J]. Communications Physics, 2024, 7(1): 307.
 21. Xiao Z, Li J, Xue K, et al. A connectionless entanglement distribution protocol design in quantum networks[J]. IEEE Network, 2023, 38(1): 131-139.
 22. Chen L, Xue K, Li J, et al. Q-DDCA: Decentralized dynamic congestion avoid routing in large-scale quantum networks[J]. IEEE/ACM Transactions on Networking, 2023, 32(1): 368-381.
+23. Chen Z, Cai K, Zhang J, et al. Achieving Load-Balanced Entanglement Distribution in Quantum Networks[J]. IEEE Transactions on Communications, 2026.
+24. Li Z, Yang Y, Li J, et al. Tree-based Networking Scheme: Towards Future Large-scale Quantum Local Area Networks with High Entanglement Connectivity[J]. IEEE Journal on Selected Areas in Communications, 2026.
+25. Shi Y, Zhao Z, Min G, et al. Efficient Entanglement Routing for Enhancing Throughput in Quantum Networks[J]. IEEE Internet of Things Journal, 2026.
 
 
