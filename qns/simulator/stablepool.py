@@ -75,8 +75,8 @@ class StableEventPool(object):
         Get the minimum time in the pool
         """
         if self.event_list:
-            return self.event_list[0].event.t   # 堆顶 = 最小
-        return self.te                    # 空 → 返回结束时间（相当于 ∞）
+            return self.event_list[0].event.t   
+        return self.te                    
     
     def add_event(self, event: Event) -> bool:
         """
