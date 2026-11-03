@@ -90,7 +90,7 @@ class MixedStateEntanglement(BaseEntanglement, QuantumModel):
         ne.a = self.a*epr.a + self.b*epr.b + self.c*epr.c + self.d*epr.d
         ne.b = self.a*epr.b + self.b*epr.a + self.c*epr.d + self.d*epr.c
         ne.c = self.a*epr.c + self.b*epr.d + self.c*epr.a + self.d*epr.b
-        ne.d = self.a*epr.d + self.b*epr.c + self.c*epr.d + self.d*epr.a
+        ne.d = self.a*epr.d + self.b*epr.c + self.c*epr.b + self.d*epr.a
         ne.normalized()
         return ne
 
