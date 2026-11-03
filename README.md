@@ -32,7 +32,7 @@ This Project is developed by [QNLab](https://qnlab-ustc.com/).
 
 * 🚀 **Version Update:** SimQN v0.2.3 has been released in June 2026.
 
-* 📚 **Academic Papers:** SimQN has been implemented as the simulation platform in **22 peer-reviewed academic papers** (70 citations in total on Google Scholar).
+* 📚 **Academic Papers:** SimQN has been implemented as the simulation platform in **22 peer-reviewed academic papers** (79 citations in total on Google Scholar).
 
 * 🧩 **Platform Extension:** **7 simulation platforms or system extensions** have been built on SimQN, with more in development.
 
