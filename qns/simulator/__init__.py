@@ -22,3 +22,9 @@ from qns.simulator.pool import DefaultEventPool
 from qns.simulator.hashbucketpool import HashedBucketEventPool
 
 __all__ = ["Time", "set_default_accuracy", "Event", "func_to_event", "Simulator", "DefaultEventPool", "HashedBucketEventPool"]
+
+try:
+    from qns.simulator.MPIsimulator import MPISimulator
+    __all__.append("MPISimulator")
+except ImportError:
+    pass

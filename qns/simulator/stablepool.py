@@ -69,6 +69,15 @@ class StableEventPool(object):
         """
         return self.tc
 
+    @property
+    def min_time(self) -> Time:
+        """
+        Get the minimum time in the pool
+        """
+        if self.event_list:
+            return self.event_list[0].event.t   
+        return self.te                    
+    
     def add_event(self, event: Event) -> bool:
         """
         Insert an event into the pool

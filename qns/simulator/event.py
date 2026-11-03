@@ -25,21 +25,26 @@ class Event(object):
     Basic event class in simulator
     """
 
-    def __init__(self, t: Optional[Time] = None, name: Optional[str] = None, by: Optional[Any] = None):
+    def __init__(self, t: Optional[Time] = None,
+                 name: Optional[str] = None,
+                 by: Optional[Any] = None,
+                 dest_rank: Optional[int] = None):
         """
         Args:
             t (Time): the time slot of this event
             by: the entity or application that causes this event
             name (str): the name of this event
+            dest_rank (int):only used in MPIsimulator.the destination rank of this event if it is a message event.
         """
         self.t: Optional[Time] = t
         self.name: Optional[str] = name
         self.by = by
         self._is_canceled: bool = False
+        self.dest_rank = dest_rank
 
     def invoke(self) -> None:
         """
-        Invoke the event, should be implemented
+        好的，我已经改好了。
         """
         raise NotImplementedError
 
@@ -79,6 +84,16 @@ class Event(object):
         if self.name is not None:
             return f"Event({self.name})"
         return "Event()"
+
+
+class _EntityStub:
+    """
+    A minimal placeholder for entity references during MPI pickle/unpickle.
+    Only carries the entity name so that MPISimulator._remap_event can
+    reconnect it to the actual local entity via the registry.
+    """
+    def __init__(self, name):
+        self.name = name
 
 
 def func_to_event(t: Time, fn, name: Optional[str] = None, by: Optional[Any] = None, *args, **kwargs):
